@@ -30,6 +30,8 @@
 
 ## 🔥 News
 
+Fork testing: [Blender 5.2 bust evaluation and compatibility notes](docs/blender-5.2-evaluation.md).
+
 - **[2026-09-06]** The **training and inference code** is released. 🚀
 - **[2026-09-04]** Our paper is on [arXiv](https://arxiv.org/abs/2609.05415). 📄
 - **[2026-08-30]** The raw **UniML3D dataset** and its [data-processing pipeline](data_process/) are released. 🚀

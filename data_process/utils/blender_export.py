@@ -20,6 +20,7 @@ from pathlib import Path
 from loguru import logger
 from Animation import Animation, Quaternions, positions_global
 from data_process.utils.plotting import save_skeleton_motion, save_skeleton_tpose
+from data_process.utils.blender_actions import iter_fcurves, bind_action_slot
 from data_process.utils.export_markers import (  # noqa: F401  (re-exported)
     collect_joint_names_from_markers,
     is_asset_complete,
@@ -115,9 +116,7 @@ def list_gltf_files(input_dir: Path):
 
 def action_is_relevant_pose(action) -> bool:
     """Return True if the action has fcurves that animate pose bones."""
-    if action is None or len(action.fcurves) == 0:
-        return False
-    return any(fc.data_path.startswith("pose.bones[") for fc in action.fcurves)
+    return any(fc.data_path.startswith("pose.bones[") for fc in iter_fcurves(action))
 
 
 def discover_pose_actions(min_frames: int = 0, max_frames: int = float('inf')):
@@ -330,6 +329,8 @@ def bind_action(arm_obj: bpy.types.Object, action: bpy.types.Action):
     if arm_obj.animation_data is None:
         arm_obj.animation_data_create()
     arm_obj.animation_data.action = action
+    if action is not None:
+        bind_action_slot(arm_obj, action)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

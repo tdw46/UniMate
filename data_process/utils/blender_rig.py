@@ -23,6 +23,7 @@ import bmesh  # registered by ``import bpy`` when running on the pip bpy module
 import numpy as np
 from loguru import logger
 from mathutils import Matrix, Quaternion
+from data_process.utils.blender_actions import new_fcurves
 
 from data_process.utils.blender_export import (
     bind_action,
@@ -312,16 +313,17 @@ def compute_bone_keyframes(rest_local_mat, anim_local_mat, bone_names,
 # 3. Action reconstruction
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _add_fcurves(action, bone_name, attr, n_components, keyframes):
+def _add_fcurves(fcurves, bone_name, attr, n_components, keyframes):
     """Create per-channel fcurves for one pose-bone attribute."""
-    data_path = f'pose.bones["{bone_name}"].{attr}'
+    data_path = f'pose.bones["{bpy.utils.escape_identifier(bone_name)}"].{attr}'
     for i in range(n_components):
-        fc = action.fcurves.new(data_path=data_path, index=i)
+        fc = fcurves.new(data_path=data_path, index=i)
         fc.keyframe_points.add(len(keyframes))
         for idx, (frame, val) in enumerate(keyframes):
             kp = fc.keyframe_points[idx]
             kp.co = (frame, val[i])
             kp.interpolation = 'LINEAR'
+        fc.update()
 
 
 def rebuild_action_from_data(armature, anim_data_dict):
@@ -335,14 +337,16 @@ def rebuild_action_from_data(armature, anim_data_dict):
     clear_animation_state(armature)
     new_action = bpy.data.actions.new(name=RECONSTRUCTED_ACTION_NAME)
     bind_action(armature, new_action)
+    fcurves = new_fcurves(new_action, armature)
 
     valid_bones = {bone.name for bone in armature.data.bones}
     for bone_name, data in anim_data_dict.items():
         if bone_name not in valid_bones:
             logger.warning(f"Skipping keyframes for '{bone_name}': not in armature")
             continue
-        _add_fcurves(new_action, bone_name, 'location', 3, data['location'])
-        _add_fcurves(new_action, bone_name, 'rotation_quaternion', 4, data['rotation'])
+        armature.pose.bones[bone_name].rotation_mode = 'QUATERNION'
+        _add_fcurves(fcurves, bone_name, 'location', 3, data['location'])
+        _add_fcurves(fcurves, bone_name, 'rotation_quaternion', 4, data['rotation'])
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -675,5 +679,4 @@ def export_selected_to_file(filepath, char_anim_type='glb', custom_props=False):
     else:
         raise RuntimeError(f"Invalid char_anim_type: {char_anim_type}")
     logger.info(f"Saved animated character: {filepath}")
-
 
