@@ -1,0 +1,584 @@
+[
+  {
+    "id": "cleric",
+    "source": "https://quaternius.com/packs/rpgcharacters.html",
+    "original_bones_removed": 32,
+    "original_weight_assignments_removed": 3400,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.3523409366607666,
+    "removed_handheld_props": [
+      "Cleric_Staff",
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Cleric",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1387,
+        "vertices_after": 390
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Head": "Head",
+        "ShoulderPads": "Chest"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "monk",
+    "source": "https://quaternius.com/packs/rpgcharacters.html",
+    "original_bones_removed": 32,
+    "original_weight_assignments_removed": 6443,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.3523409366607666,
+    "removed_handheld_props": [
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Monk",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 2578,
+        "vertices_after": 484
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Monk.001": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "ranger",
+    "source": "https://quaternius.com/packs/rpgcharacters.html",
+    "original_bones_removed": 32,
+    "original_weight_assignments_removed": 5300,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.3523409366607666,
+    "removed_handheld_props": [
+      "Ranger_Bow",
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Ranger",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 2337,
+        "vertices_after": 541
+      },
+      {
+        "mesh": "Pouch",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 235,
+        "vertices_after": 89
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Cloak": "Head",
+        "ArmGuard.L": "Forearm.L",
+        "ArmGuard.R": "Forearm.R",
+        "Pouch": "Spine"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "rogue",
+    "source": "https://quaternius.com/packs/rpgcharacters.html",
+    "original_bones_removed": 32,
+    "original_weight_assignments_removed": 2227,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.3523409366607666,
+    "removed_handheld_props": [
+      "Rogue_Dagger",
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Rogue",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1037,
+        "vertices_after": 360
+      },
+      {
+        "mesh": "Shoelace.L",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 40,
+        "vertices_after": 0
+      },
+      {
+        "mesh": "Belt",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 73,
+        "vertices_after": 60
+      },
+      {
+        "mesh": "Pouch",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 137,
+        "vertices_after": 89
+      },
+      {
+        "mesh": "Shoelace.R",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 40,
+        "vertices_after": 0
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face": "Head",
+        "Guard": "Forearm.L",
+        "Belt": "Spine",
+        "Pouch": "Spine"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "warrior",
+    "source": "https://quaternius.com/packs/rpgcharacters.html",
+    "original_bones_removed": 32,
+    "original_weight_assignments_removed": 3869,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.3523409366607666,
+    "removed_handheld_props": [
+      "Warrior_Sword",
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Warrior_Body",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1560,
+        "vertices_after": 476
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 226,
+      "rigid_parts": {
+        "Face": "Head",
+        "ShoulderPad.L": "UpperArm.L",
+        "ShoulderPad.R": "UpperArm.R"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "wizard",
+    "source": "https://quaternius.com/packs/rpgcharacters.html",
+    "original_bones_removed": 32,
+    "original_weight_assignments_removed": 3007,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.3523409366607666,
+    "removed_handheld_props": [
+      "Wizard_Staff",
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Wizard.001",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1182,
+        "vertices_after": 445
+      },
+      {
+        "mesh": "Pouch",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 144,
+        "vertices_after": 45
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face": "Head",
+        "ShoulderPad.L": "UpperArm.L",
+        "ShoulderPad.R": "UpperArm.R",
+        "Pouch": "Spine"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "adventurer",
+    "source": "https://quaternius.com/packs/ultimatemodularwomen.html",
+    "original_bones_removed": 62,
+    "original_weight_assignments_removed": 25803,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.1562166213989258,
+    "removed_handheld_props": [
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Adventurer_Body",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 8173,
+        "vertices_after": 2055
+      },
+      {
+        "mesh": "Adventurer_Feet",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1568,
+        "vertices_after": 0
+      },
+      {
+        "mesh": "Adventurer_Legs",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 2672,
+        "vertices_after": 207
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 2055,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 1152,
+      "rigid_parts": {
+        "Adventurer_Head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "scifi",
+    "source": "https://quaternius.com/packs/ultimatemodularwomen.html",
+    "original_bones_removed": 62,
+    "original_weight_assignments_removed": 26694,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.1562166213989258,
+    "removed_handheld_props": [
+      "Pistol",
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "SciFi_Body",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 6506,
+        "vertices_after": 1682
+      },
+      {
+        "mesh": "SciFi_Feet",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1286,
+        "vertices_after": 0
+      },
+      {
+        "mesh": "SciFi_Legs",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1100,
+        "vertices_after": 0
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 1204,
+      "rigid_parts": {
+        "SciFi_Head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  },
+  {
+    "id": "witch",
+    "source": "https://quaternius.com/packs/ultimatemodularwomen.html",
+    "original_bones_removed": 62,
+    "original_weight_assignments_removed": 25732,
+    "preparation_pose": "20 degree A-pose, baked to mesh",
+    "cutoff_z_before_normalization": 1.1562166213989258,
+    "removed_handheld_props": [
+      "Icosphere"
+    ],
+    "booleans": [
+      {
+        "mesh": "Witch_Body",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 5602,
+        "vertices_after": 1422
+      },
+      {
+        "mesh": "Witch_Feet",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1188,
+        "vertices_after": 0
+      },
+      {
+        "mesh": "Witch_Legs",
+        "operation": "DIFFERENCE",
+        "solver": "EXACT",
+        "applied": true,
+        "vertices_before": 1128,
+        "vertices_after": 0
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 13,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 1100,
+      "rigid_parts": {
+        "Witch_Head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R"
+      ]
+    }
+  }
+]

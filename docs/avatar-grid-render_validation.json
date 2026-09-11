@@ -1,0 +1,110 @@
+[
+  {
+    "file": "avatar_grid_front.mp4",
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1920,
+    "r_frame_rate": "30/1",
+    "duration": "12.000000",
+    "nb_read_frames": "360"
+  },
+  {
+    "file": "avatar_grid_oblique.mp4",
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1920,
+    "r_frame_rate": "30/1",
+    "duration": "12.000000",
+    "nb_read_frames": "360"
+  },
+  {
+    "file": "nine_avatar_grid.mp4",
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1920,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "cleric_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "monk_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "ranger_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "rogue_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "warrior_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "wizard_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "adventurer_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "scifi_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "witch_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  }
+]

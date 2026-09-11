@@ -1,0 +1,137 @@
+[
+  {
+    "id": "cleric",
+    "name": "Cleric",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/rpgcharacters.html",
+    "model": "rpg/Cleric.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Akkuun/AreneDeMagiciens/13155fa18cb514b9c739fecf1614492de59840fc/jeu/arene-de-magicien/assets/Quaternius_RPG_Characters/RPG%20Characters%20-%20Nov%202020/glTF/Cleric.gltf",
+        "path": "rpg/Cleric.gltf",
+        "sha256": "6497456a3fa1c151d7a6ab4f7b4c343ee416c23d9454505b950c93ea558e4601"
+      }
+    ]
+  },
+  {
+    "id": "monk",
+    "name": "Monk",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/rpgcharacters.html",
+    "model": "rpg/Monk.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Akkuun/AreneDeMagiciens/13155fa18cb514b9c739fecf1614492de59840fc/jeu/arene-de-magicien/assets/Quaternius_RPG_Characters/RPG%20Characters%20-%20Nov%202020/glTF/Monk.gltf",
+        "path": "rpg/Monk.gltf",
+        "sha256": "085c049ebb593e0edbef9f0dd1f62fce70f668f6be7be99f3a1aa5378c83e8a2"
+      }
+    ]
+  },
+  {
+    "id": "ranger",
+    "name": "Ranger",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/rpgcharacters.html",
+    "model": "rpg/Ranger.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Akkuun/AreneDeMagiciens/13155fa18cb514b9c739fecf1614492de59840fc/jeu/arene-de-magicien/assets/Quaternius_RPG_Characters/RPG%20Characters%20-%20Nov%202020/glTF/Ranger.gltf",
+        "path": "rpg/Ranger.gltf",
+        "sha256": "2732741d5e21c20760d7f3dd9d71812d4b796f466be1a6cba212f45483dd56ed"
+      }
+    ]
+  },
+  {
+    "id": "rogue",
+    "name": "Rogue",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/rpgcharacters.html",
+    "model": "rpg/Rogue.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Akkuun/AreneDeMagiciens/13155fa18cb514b9c739fecf1614492de59840fc/jeu/arene-de-magicien/assets/Quaternius_RPG_Characters/RPG%20Characters%20-%20Nov%202020/glTF/Rogue.gltf",
+        "path": "rpg/Rogue.gltf",
+        "sha256": "5a9eaca0871cd69f554747a1d42870b3bca702ba721d941d909fc530cf18afb8"
+      }
+    ]
+  },
+  {
+    "id": "warrior",
+    "name": "Warrior",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/rpgcharacters.html",
+    "model": "rpg/Warrior.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Akkuun/AreneDeMagiciens/13155fa18cb514b9c739fecf1614492de59840fc/jeu/arene-de-magicien/assets/Quaternius_RPG_Characters/RPG%20Characters%20-%20Nov%202020/glTF/Warrior.gltf",
+        "path": "rpg/Warrior.gltf",
+        "sha256": "2bab905ce12d279e1d099c2a8de0b1ef31c9f5e8d1959b41d24470b4f4181add"
+      }
+    ]
+  },
+  {
+    "id": "wizard",
+    "name": "Wizard",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/rpgcharacters.html",
+    "model": "rpg/Wizard.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Akkuun/AreneDeMagiciens/13155fa18cb514b9c739fecf1614492de59840fc/jeu/arene-de-magicien/assets/Quaternius_RPG_Characters/RPG%20Characters%20-%20Nov%202020/glTF/Wizard.gltf",
+        "path": "rpg/Wizard.gltf",
+        "sha256": "320de17289857db6794e4eef55101ce3427e755319a4384fb6d9d9ca5206b41b"
+      }
+    ]
+  },
+  {
+    "id": "adventurer",
+    "name": "Adventurer",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/ultimatemodularwomen.html",
+    "model": "women/Adventurer.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/hukasu/bevy-modular-characters/b84c33822779c827fec2074edbfe98c4ddafb0e5/assets/Adventurer.gltf",
+        "path": "women/Adventurer.gltf",
+        "sha256": "538dac49a1f45cec94ed5052739bdbdfb6a0be7ac1319569574bef8ec9cb8eae"
+      }
+    ]
+  },
+  {
+    "id": "scifi",
+    "name": "SciFi",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/ultimatemodularwomen.html",
+    "model": "women/SciFi.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/hukasu/bevy-modular-characters/b84c33822779c827fec2074edbfe98c4ddafb0e5/assets/SciFi.gltf",
+        "path": "women/SciFi.gltf",
+        "sha256": "f9afa85864bb6362721add69a1db21c489aeb3f7621a5f3424ed080567c452a2"
+      }
+    ]
+  },
+  {
+    "id": "witch",
+    "name": "Witch",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source_page": "https://quaternius.com/packs/ultimatemodularwomen.html",
+    "model": "women/Witch.gltf",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/hukasu/bevy-modular-characters/b84c33822779c827fec2074edbfe98c4ddafb0e5/assets/Witch.gltf",
+        "path": "women/Witch.gltf",
+        "sha256": "23ca68b24e2ec00e2ad67b8358cc3a92666ccd49e83d41c75d0a890f318d86fd"
+      }
+    ]
+  }
+]
