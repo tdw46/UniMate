@@ -1,0 +1,151 @@
+{
+  "invariance": [
+    {
+      "id": "cleric",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "monk",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "ranger",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "rogue",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "warrior",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "wizard",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "adventurer",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "scifi",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    },
+    {
+      "id": "witch",
+      "renamed": true,
+      "object_order_reversed": true,
+      "triangulated_and_subdivided": true,
+      "scale": 2.3,
+      "origin_offset": [
+        3.0,
+        -2.0,
+        4.0
+      ],
+      "passed": true
+    }
+  ],
+  "procedural": [
+    {
+      "beads": 5,
+      "sphere_segments": 8,
+      "scale": 0.5,
+      "collar_and_jacket": true,
+      "explicit_ambiguous_pendant_role": true,
+      "elongated_hair_decoys": 2,
+      "passed": true
+    },
+    {
+      "beads": 8,
+      "sphere_segments": 12,
+      "scale": 1.0,
+      "collar_and_jacket": true,
+      "explicit_ambiguous_pendant_role": true,
+      "elongated_hair_decoys": 2,
+      "passed": true
+    },
+    {
+      "beads": 13,
+      "sphere_segments": 20,
+      "scale": 2.5,
+      "collar_and_jacket": true,
+      "explicit_ambiguous_pendant_role": true,
+      "elongated_hair_decoys": 2,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

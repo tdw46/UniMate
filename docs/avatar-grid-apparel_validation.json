@@ -1,0 +1,127 @@
+{
+  "baseline": false,
+  "avatars": [
+    {
+      "id": "cleric",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 276,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "monk",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 398,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "ranger",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 442,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "rogue",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 278,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "warrior",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 348,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "wizard",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 305,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "adventurer",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 1918,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "scifi",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 1497,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "witch",
+      "normalized_at_most_four_weights": true,
+      "body_vertices_below_collar": 1323,
+      "lower_body_head_or_neck_only_displacement": 0.0,
+      "passed": true
+    }
+  ],
+  "checks": [
+    {
+      "id": "monk",
+      "region": "neckwear",
+      "vertices": 1460,
+      "fully_neck": true,
+      "head_only_displacement": 0.0,
+      "rigid_neck_transform_error": 1.3328003749250113e-07,
+      "passed": true
+    },
+    {
+      "id": "rogue",
+      "region": "neckwear",
+      "vertices": 29,
+      "fully_neck": true,
+      "head_only_displacement": 0.0,
+      "rigid_neck_transform_error": 1.3328003749250113e-07,
+      "passed": true
+    },
+    {
+      "id": "adventurer",
+      "region": "torso_clothing",
+      "vertices": 647,
+      "head_only_displacement": 0.0,
+      "lower_torso_neck_only_displacement": 0.0,
+      "isolated_bone_displacements": {
+        "Spine": 0.8525106790193959,
+        "Chest": 0.7422068101562338,
+        "Neck": 0.1048986559716641,
+        "Clavicle.L": 0.5000254461120323,
+        "UpperArm.L": 0.20508834396174333,
+        "UpperArm.R": 0.2050739315574925
+      },
+      "passed": true
+    },
+    {
+      "id": "adventurer",
+      "region": "cut_base_fittings",
+      "arm_only_displacement": 0.0,
+      "passed": true
+    },
+    {
+      "id": "scifi",
+      "region": "torso_clothing",
+      "vertices": 378,
+      "head_only_displacement": 0.0,
+      "lower_torso_neck_only_displacement": 0.0,
+      "isolated_bone_displacements": {
+        "Spine": 0.7749711254339893,
+        "Chest": 0.7094892425817169,
+        "Neck": 0.04915858145537946,
+        "Clavicle.L": 0.47259377971137145,
+        "UpperArm.L": 0.4223285159097182,
+        "UpperArm.R": 0.4223284139187973
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

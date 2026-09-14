@@ -40,7 +40,12 @@ overwritten. Handheld weapons were excluded from the bust evaluation.
    required this fallback for 2,055 vertices. Lateral arm/sleeve vertices are
    weighted against the new arm chain to keep bulky clothing moving with arms.
    Limit to four influences and normalize every vertex.
-8. Author head, neck, and arm diagnostics and execute actual UniMate
+8. Correct clothing by region using `avatar_apparel_weights.py`: necklace beads
+   and scarf receive full Neck weights; jacket and backpack/clothing components
+   receive barycentric weights from the freshly bound body surface. Exclude Head
+   from torso garments and cap Neck influence to the collar region. Blend hood
+   bases toward Neck/Chest, and anchor remaining cut-base fittings to Root.
+9. Author head, neck, and arm diagnostics and execute actual UniMate
    `GLB → export NPZ → reconstructed GLB` processing.
 
 The destructive preparation applied **21 Boolean modifiers** and removed
@@ -75,11 +80,68 @@ of the combined video and each individual demo. The
 
 These measurements verify preservation through the reconstruction pipeline;
 they do not certify production-quality anatomical skinning. The stylized
-meshes retain their original faceted design. Some small detached garment
-fittings, particularly on Adventurer, remain candidates for manual cleanup.
+meshes retain their original faceted design. Garment collision and cloth
+simulation are outside this test.
 Facial expressions and finger animation are outside this 13-bone test.
 Motion is authored diagnostic animation, not model-generated animation:
 upstream still lists pretrained weights as unreleased on September 11, 2026.
+
+### Clothing regression checks — September 14, 2026
+
+The initial round-trip checks preserved incorrect weights as faithfully as
+correct ones. Monk's necklace beads shared a rigid Head assignment with facial
+hair, while SciFi's disconnected jacket torso had a failed heat-bind result
+dominated by Neck. Adventurer's detached clothing also contained stray Head
+and Neck weights. Object names and original bone-parent labels alone were
+insufficient to classify these mixed meshes.
+
+The correction retains fresh body weights as the transfer source; it never
+uses the avatars' original weights. `avatar_apparel_weights.py` uses no avatar
+identifiers, source object-name matches, component vertex counts, or fixed
+component indices. It identifies a connected torso/shoulder carrier by spatial
+coverage, then classifies connected regions relative to skeleton proportions.
+Repeated compact regions arranged around the neck form a jewelry assembly;
+area-weighted surface moments distinguish those regions from elongated hair.
+Circumferential collars and continuous head-to-neck shells receive neckwear
+and hood treatment respectively. Remaining body-adjacent clothing receives
+nearest-triangle barycentric weights from the new body carrier. Head influence
+is excluded from torso garments and Neck influence is limited anatomically.
+
+Hair and beards remain attached to Head; necklace beads and the scarf receive
+Neck weight 1.0. Torso garments receive local body, shoulder, arm, and collar
+influences. Old bone-parent labels may suggest a rigid attachment, but garment
+geometry takes precedence. Explicit `binding_role` metadata is supported for
+ambiguous geometry (`body`, `head`, `neckwear`, `torso`, `hood`, or `rigid`).
+The algorithm expects meshes baked into the new rig's local space, Z up and X
+lateral, and the semantic bone names used by this 13-bone flow. It is a general
+geometric heuristic, not guaranteed semantic recognition of arbitrary clothing;
+mixed or ambiguous assets may require explicit region information.
+
+`validate_avatar_apparel.py` clears animation and applies isolated bone motions
+to evaluated meshes. It verifies normalized weights with at most four
+influences across all nine avatars, no lower-body movement from Head/Neck,
+rigid Neck following for the 1,460 necklace vertices and 29 scarf vertices,
+and independent Spine/Chest/Neck/shoulder/arm responses for the 378 jacket and
+647 Adventurer garment vertices. Cut-base fittings must remain stationary
+under isolated arm motion.
+
+The [original-weight audit](avatar-grid-apparel_validation_before.json)
+reproduces the failures. The [corrected-weight audit](avatar-grid-apparel_validation.json)
+passes: Head-only displacement is zero for the tested neckwear and garments,
+and Neck-only displacement is zero below the collar on both torso garments.
+For SciFi, the latter displacement fell from 0.55825 scene units to zero.
+The full GLB → NPZ → GLB checks are rerun after correction before rendering.
+
+`test_avatar_apparel_generalization.py` tests the same algorithm with every
+mesh renamed, object order reversed, triangulation/subdivision changed, and
+geometry/skeleton scaled and translated together. Additional procedural bodies, necklaces,
+collars, jackets, and elongated hair decoys vary bead count, tessellation, and
+scale without using any downloaded avatar geometry. The fixture-specific
+selections in `validate_avatar_apparel.py` are test ground truth only and are
+not inputs to the binding algorithm.
+The [generalization audit](avatar-grid-apparel_generalization.json) records
+all nine invariance cases and three procedural cases, including an ambiguous
+pendant with an explicit role.
 
 ## Deliverables
 
@@ -87,6 +149,9 @@ Outputs are local under `outputs/avatar_grid/`:
 
 - `nine_avatar_grid.mp4`: 24 seconds, 1920×1920, 30 fps; front then oblique.
 - `avatar_grid_front.mp4` and `avatar_grid_oblique.mp4`: 12 seconds each.
+- `apparel_before_after.mp4`: 24-second Monk/SciFi close-up comparison, with
+  the original evaluation on the left and corrected weights on the right.
+  Generated when the preserved earlier videos exist in `before_apparel_fix/`.
 - Nine `{avatar}_demo.mp4` files: individual cropped cards from the grid.
 - `avatar_grid_front.blend` and `avatar_grid_oblique.blend`: self-contained
   scenes with packed textures and the actual reconstructed animations.
@@ -103,6 +168,8 @@ Blender processes; preparation and evaluation reset their own scenes.
 ```sh
 python3 tools/download_avatar_sources.py
 blender -b --factory-startup --python-exit-code 1 -P tools/prepare_avatar_grid.py
+blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_apparel.py
+blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_apparel_generalization.py
 blender -b --factory-startup --python-use-system-env --python-exit-code 1 -P tools/evaluate_avatar_grid.py
 blender -b --factory-startup --python-exit-code 1 -P tools/render_avatar_grid.py
 blender -b --factory-startup --python-exit-code 1 -P tools/render_avatar_grid.py -- --oblique

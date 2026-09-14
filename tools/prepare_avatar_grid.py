@@ -12,6 +12,8 @@ import bmesh
 from mathutils import Matrix, Quaternion, Vector
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'tools'))
+from avatar_apparel_weights import correct_apparel
 OUT = ROOT / 'outputs/avatar_grid'
 SOURCES = OUT / 'sources'
 FRAMES = 360
@@ -217,7 +219,7 @@ def prepare(entry):
         # Bulky sleeves can sit farther from their arm bone than from the chest.
         # For lateral sleeve/arm vertices, solve weights against the new arm
         # chain so a jacket cannot remain fixed while the arm exits its sleeve.
-        if not rigid and obj.name.lower().endswith('_body'):
+        if not rigid:
             for vertex in obj.data.vertices:
                 suffix = 'L' if vertex.co.x >= 0 else 'R'
                 upper = rig.data.bones['UpperArm.'+suffix]
@@ -241,6 +243,7 @@ def prepare(entry):
         bpy.ops.object.vertex_group_limit_total(limit=4)
         bpy.ops.object.vertex_group_normalize_all(lock_active=False)
         assert all(abs(sum(g.weight for g in v.groups)-1)<1e-4 for v in obj.data.vertices)
+    audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts)
     audit['fresh_rig'] = {'bones':len(rig.data.bones), 'unweighted_vertices_repaired_from_new_bones':repaired,
                           'lateral_sleeve_vertices_reweighted_from_new_bones':sleeve_vertices,
                           'rigid_parts':rigid_parts, 'bone_names':[b.name for b in rig.data.bones]}

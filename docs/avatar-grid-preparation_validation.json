@@ -28,10 +28,416 @@
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
     },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Cleric",
+      "regions": [
+        {
+          "mesh": "Cleric",
+          "vertices": 390,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.320385694503784,
+            -0.530278205871582,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            2.3066232204437256,
+            0.7889111638069153,
+            2.5839009284973145
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 79,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5551713705062866,
+            -0.6278601288795471,
+            1.1916749477386475
+          ],
+          "bounds_max": [
+            0.5551713705062866,
+            -0.16668207943439484,
+            2.6386308670043945
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.09380046278238297,
+            -0.33082592487335205,
+            2.2448482513427734
+          ],
+          "bounds_max": [
+            0.4103778600692749,
+            0.7956131100654602,
+            2.5566158294677734
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.04542273283004761,
+            -0.3244551718235016,
+            2.1536121368408203
+          ],
+          "bounds_max": [
+            0.5111648440361023,
+            0.7726902961730957,
+            2.4821462631225586
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.11274125427007675,
+            0.36468517780303955,
+            1.6574995517730713
+          ],
+          "bounds_max": [
+            0.4087689220905304,
+            0.7941477298736572,
+            2.3480992317199707
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.06763260811567307,
+            -0.2806617319583893,
+            2.0675649642944336
+          ],
+          "bounds_max": [
+            0.5816043615341187,
+            0.814380407333374,
+            2.388969898223877
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.07291695475578308,
+            -0.28892746567726135,
+            1.8713750839233398
+          ],
+          "bounds_max": [
+            0.6178117990493774,
+            0.7608992457389832,
+            2.193993091583252
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4103778302669525,
+            -0.33082592487335205,
+            2.2448482513427734
+          ],
+          "bounds_max": [
+            0.09380046278238297,
+            0.7956131100654602,
+            2.5566158294677734
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5111648440361023,
+            -0.3244551718235016,
+            2.1536121368408203
+          ],
+          "bounds_max": [
+            0.04542273283004761,
+            0.7726902961730957,
+            2.4821462631225586
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5816043615341187,
+            -0.2806617319583893,
+            2.0675649642944336
+          ],
+          "bounds_max": [
+            -0.06763260066509247,
+            0.814380407333374,
+            2.388969898223877
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.6178117990493774,
+            -0.28892746567726135,
+            1.8713750839233398
+          ],
+          "bounds_max": [
+            -0.07291695475578308,
+            0.7608992457389832,
+            2.193993091583252
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2208661288022995,
+            0.558400571346283,
+            2.1896309852600098
+          ],
+          "bounds_max": [
+            0.1652059406042099,
+            1.1180649995803833,
+            2.452503204345703
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.14714814722537994,
+            0.5221794843673706,
+            2.1215767860412598
+          ],
+          "bounds_max": [
+            0.15051835775375366,
+            1.090004324913025,
+            2.5111193656921387
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.033126261085271835,
+            0.5342733860015869,
+            2.0480360984802246
+          ],
+          "bounds_max": [
+            0.21999187767505646,
+            1.1047319173812866,
+            2.402721405029297
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.19502376019954681,
+            0.6430124640464783,
+            1.9912796020507812
+          ],
+          "bounds_max": [
+            0.027025878429412842,
+            1.0639188289642334,
+            2.379772186279297
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.08574282377958298,
+            -0.40435266494750977,
+            2.233218193054199
+          ],
+          "bounds_max": [
+            0.26943284273147583,
+            0.7433705925941467,
+            2.6500000953674316
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.05652722716331482,
+            0.34722697734832764,
+            1.5237126350402832
+          ],
+          "bounds_max": [
+            0.3083301782608032,
+            0.8910417556762695,
+            2.4581475257873535
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.07842808216810226,
+            0.3257524371147156,
+            1.485436201095581
+          ],
+          "bounds_max": [
+            0.20954889059066772,
+            0.8513227105140686,
+            2.34865140914917
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.26943284273147583,
+            -0.40435266494750977,
+            2.233218193054199
+          ],
+          "bounds_max": [
+            0.08574282377958298,
+            0.7433705925941467,
+            2.6500000953674316
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3083301782608032,
+            0.34722697734832764,
+            1.5237126350402832
+          ],
+          "bounds_max": [
+            0.05652723088860512,
+            0.8910417556762695,
+            2.4581475257873535
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.20954887568950653,
+            0.3257524371147156,
+            1.485436201095581
+          ],
+          "bounds_max": [
+            0.07842808216810226,
+            0.8513227105140686,
+            2.34865140914917
+          ]
+        },
+        {
+          "mesh": "Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4087688624858856,
+            0.36468517780303955,
+            1.6574995517730713
+          ],
+          "bounds_max": [
+            -0.11274123936891556,
+            0.7941477298736572,
+            2.3480992317199707
+          ]
+        },
+        {
+          "mesh": "ShoulderPads",
+          "vertices": 192,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -1.3449840545654297,
+            -0.48167505860328674,
+            0.7648093700408936
+          ],
+          "bounds_max": [
+            1.3449840545654297,
+            0.6597309708595276,
+            1.471388339996338
+          ]
+        },
+        {
+          "mesh": "ShoulderPads",
+          "vertices": 22,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            0.3713184595108032,
+            -0.2860081195831299,
+            0.9312512874603271
+          ],
+          "bounds_max": [
+            1.000976324081421,
+            0.5100576281547546,
+            1.40077543258667
+          ]
+        },
+        {
+          "mesh": "ShoulderPads",
+          "vertices": 22,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -1.000976324081421,
+            -0.2860081195831299,
+            0.9312512874603271
+          ],
+          "bounds_max": [
+            -0.3713184595108032,
+            0.5100576281547546,
+            1.40077543258667
+          ]
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 0,
-      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 152,
       "rigid_parts": {
         "Head": "Head",
         "ShoulderPads": "Chest"
@@ -81,10 +487,720 @@
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
     },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Monk",
+      "regions": [
+        {
+          "mesh": "Monk",
+          "vertices": 408,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.5502912998199463,
+            -0.5548468828201294,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            2.5500056743621826,
+            0.7932307124137878,
+            2.6500000953674316
+          ]
+        },
+        {
+          "mesh": "Monk",
+          "vertices": 38,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            1.8121569156646729,
+            -0.13620565831661224,
+            0.26735544204711914
+          ],
+          "bounds_max": [
+            2.409778594970703,
+            0.23860864341259003,
+            0.7653489112854004
+          ]
+        },
+        {
+          "mesh": "Monk",
+          "vertices": 38,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -2.410064935684204,
+            -0.13620559871196747,
+            0.26725172996520996
+          ],
+          "bounds_max": [
+            -1.8124431371688843,
+            0.2386086881160736,
+            0.7652444839477539
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            -0.14873111248016357,
+            -0.5977103114128113,
+            0.7267792224884033
+          ],
+          "bounds_max": [
+            0.1496303230524063,
+            -0.29973676800727844,
+            1.0247302055358887
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.3809206187725067,
+            -0.1395116150379181,
+            1.7949919700622559
+          ],
+          "bounds_max": [
+            0.5997627377510071,
+            0.05836654454469681,
+            2.1594696044921875
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.36862698197364807,
+            -0.16013097763061523,
+            1.5470268726348877
+          ],
+          "bounds_max": [
+            0.5688364505767822,
+            0.09332341700792313,
+            1.9165501594543457
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.28505682945251465,
+            -0.22077593207359314,
+            1.3208417892456055
+          ],
+          "bounds_max": [
+            0.5343093276023865,
+            0.0781240463256836,
+            1.7882003784179688
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.3614165484905243,
+            -0.260434091091156,
+            1.7252511978149414
+          ],
+          "bounds_max": [
+            0.5793091058731079,
+            -0.046043761074543,
+            2.223123073577881
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.34146955609321594,
+            -0.2887570858001709,
+            1.6674764156341553
+          ],
+          "bounds_max": [
+            0.5521445274353027,
+            -0.09942205995321274,
+            2.014437198638916
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.015311206690967083,
+            -0.5383366346359253,
+            1.9125313758850098
+          ],
+          "bounds_max": [
+            0.4871595799922943,
+            -0.3324268162250519,
+            2.059807300567627
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.3751987814903259,
+            -0.24055375158786774,
+            1.4227752685546875
+          ],
+          "bounds_max": [
+            0.5607414841651917,
+            -0.03894532099366188,
+            1.8230528831481934
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.29508769512176514,
+            -0.31784936785697937,
+            1.2013487815856934
+          ],
+          "bounds_max": [
+            0.47540101408958435,
+            -0.05430365353822708,
+            1.5833611488342285
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.016742601990699768,
+            -0.41105177998542786,
+            1.145665168762207
+          ],
+          "bounds_max": [
+            0.3735925257205963,
+            -0.1096387431025505,
+            1.5185658931732178
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.38728973269462585,
+            -0.34539663791656494,
+            1.3743016719818115
+          ],
+          "bounds_max": [
+            0.5434552431106567,
+            -0.1158515214920044,
+            1.9152607917785645
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.3089638352394104,
+            -0.41996338963508606,
+            1.3581857681274414
+          ],
+          "bounds_max": [
+            0.4818984866142273,
+            -0.20969487726688385,
+            1.7352359294891357
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 36,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.24839641153812408,
+            -0.4067808985710144,
+            1.147435188293457
+          ],
+          "bounds_max": [
+            0.44340410828590393,
+            -0.25320255756378174,
+            1.538865327835083
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.033587995916604996,
+            -0.5308552980422974,
+            1.03798246383667
+          ],
+          "bounds_max": [
+            0.33114010095596313,
+            -0.3336494266986847,
+            1.4525868892669678
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.08728083968162537,
+            -0.5501797199249268,
+            1.6526739597320557
+          ],
+          "bounds_max": [
+            0.08728083968162537,
+            -0.3898857831954956,
+            1.9643516540527344
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5997627377510071,
+            -0.1395116150379181,
+            1.7949919700622559
+          ],
+          "bounds_max": [
+            -0.3809206187725067,
+            0.05836654454469681,
+            2.1594696044921875
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5688364505767822,
+            -0.16013097763061523,
+            1.5470268726348877
+          ],
+          "bounds_max": [
+            -0.36862698197364807,
+            0.09332341700792313,
+            1.9165501594543457
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5343093276023865,
+            -0.22077593207359314,
+            1.3208417892456055
+          ],
+          "bounds_max": [
+            -0.28505682945251465,
+            0.0781240463256836,
+            1.7882003784179688
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5793091058731079,
+            -0.260434091091156,
+            1.7252511978149414
+          ],
+          "bounds_max": [
+            -0.3614165484905243,
+            -0.046043761074543,
+            2.223123073577881
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5521445274353027,
+            -0.2887570858001709,
+            1.6674764156341553
+          ],
+          "bounds_max": [
+            -0.34146955609321594,
+            -0.09942205995321274,
+            2.014437198638916
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4871595799922943,
+            -0.5383366346359253,
+            1.9125313758850098
+          ],
+          "bounds_max": [
+            -0.015311206690967083,
+            -0.3324268162250519,
+            2.059807300567627
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5607414841651917,
+            -0.24055375158786774,
+            1.4227752685546875
+          ],
+          "bounds_max": [
+            -0.3751987814903259,
+            -0.03894532099366188,
+            1.8230528831481934
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.47540101408958435,
+            -0.31784936785697937,
+            1.2013487815856934
+          ],
+          "bounds_max": [
+            -0.29508769512176514,
+            -0.05430365353822708,
+            1.5833611488342285
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3735925257205963,
+            -0.41105177998542786,
+            1.145665168762207
+          ],
+          "bounds_max": [
+            -0.016742601990699768,
+            -0.1096387431025505,
+            1.5185658931732178
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5434552431106567,
+            -0.34539663791656494,
+            1.3743016719818115
+          ],
+          "bounds_max": [
+            -0.38728973269462585,
+            -0.1158515214920044,
+            1.9152607917785645
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4818984866142273,
+            -0.41996338963508606,
+            1.3581857681274414
+          ],
+          "bounds_max": [
+            -0.3089638352394104,
+            -0.20969487726688385,
+            1.7352359294891357
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 36,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.44340410828590393,
+            -0.4067808985710144,
+            1.147435188293457
+          ],
+          "bounds_max": [
+            -0.24839641153812408,
+            -0.25320255756378174,
+            1.538865327835083
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.33114010095596313,
+            -0.5308552980422974,
+            1.03798246383667
+          ],
+          "bounds_max": [
+            -0.033587995916604996,
+            -0.3336494266986847,
+            1.4525868892669678
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.050723910331726074,
+            -0.580457866191864,
+            1.0421757698059082
+          ],
+          "bounds_max": [
+            0.19125717878341675,
+            -0.41506272554397583,
+            1.4122562408447266
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.032032422721385956,
+            -0.5350906848907471,
+            1.338047981262207
+          ],
+          "bounds_max": [
+            0.2727118134498596,
+            -0.37332794070243835,
+            1.6622262001037598
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.19125717878341675,
+            -0.580457866191864,
+            1.0421757698059082
+          ],
+          "bounds_max": [
+            0.050723910331726074,
+            -0.41506272554397583,
+            1.4122562408447266
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2727118134498596,
+            -0.5350906848907471,
+            1.338047981262207
+          ],
+          "bounds_max": [
+            0.032032422721385956,
+            -0.37332794070243835,
+            1.6622262001037598
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            0.1372378021478653,
+            -0.5085118412971497,
+            0.8514792919158936
+          ],
+          "bounds_max": [
+            0.43234458565711975,
+            -0.21497885882854462,
+            1.145406723022461
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            0.30150526762008667,
+            -0.25581276416778564,
+            1.0080716609954834
+          ],
+          "bounds_max": [
+            0.5944750308990479,
+            0.03887389972805977,
+            1.2998201847076416
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            0.31035536527633667,
+            0.042878229171037674,
+            1.0039136409759521
+          ],
+          "bounds_max": [
+            0.6036755442619324,
+            0.34008675813674927,
+            1.2973787784576416
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            0.17906376719474792,
+            0.30377382040023804,
+            0.8885097503662109
+          ],
+          "bounds_max": [
+            0.44832050800323486,
+            0.5715641975402832,
+            1.1543724536895752
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            -0.43234458565711975,
+            -0.5085118412971497,
+            0.8514792919158936
+          ],
+          "bounds_max": [
+            -0.1372378021478653,
+            -0.21497885882854462,
+            1.145406723022461
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            -0.5965445637702942,
+            -0.23453013598918915,
+            1.011730432510376
+          ],
+          "bounds_max": [
+            -0.3042304217815399,
+            0.05798321217298508,
+            1.3035144805908203
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            -0.5914549231529236,
+            0.0883074477314949,
+            0.9971933364868164
+          ],
+          "bounds_max": [
+            -0.29948028922080994,
+            0.38415268063545227,
+            1.2893123626708984
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            -0.4610210359096527,
+            0.29114243388175964,
+            0.875969648361206
+          ],
+          "bounds_max": [
+            -0.1663632094860077,
+            0.5841955542564392,
+            1.1669127941131592
+          ]
+        },
+        {
+          "mesh": "Monk.001",
+          "vertices": 146,
+          "role": "neckwear",
+          "reason": "repeated compact assembly around neck",
+          "bounds_min": [
+            -0.14304006099700928,
+            0.35689136385917664,
+            0.840364933013916
+          ],
+          "bounds_max": [
+            0.14726947247982025,
+            0.6479294896125793,
+            1.1360645294189453
+          ]
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 0,
-      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 266,
       "rigid_parts": {
         "Monk.001": "Head"
       },
@@ -142,10 +1258,208 @@
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
     },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Ranger",
+      "regions": [
+        {
+          "mesh": "Ranger",
+          "vertices": 541,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.334785223007202,
+            -0.5300717949867249,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            2.3343441486358643,
+            0.7269094586372375,
+            2.471428394317627
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 37,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.0773850828409195,
+            -0.4949263334274292,
+            1.3467795848846436
+          ],
+          "bounds_max": [
+            0.5686764121055603,
+            -0.11661190539598465,
+            2.4332714080810547
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.07100559771060944,
+            -0.3797350823879242,
+            1.1047375202178955
+          ],
+          "bounds_max": [
+            0.535495400428772,
+            -0.0448443666100502,
+            2.5116090774536133
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 37,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.12445925921201706,
+            -0.4982260763645172,
+            1.707045078277588
+          ],
+          "bounds_max": [
+            0.4696865975856781,
+            -0.23086951673030853,
+            2.421895980834961
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 37,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5686764121055603,
+            -0.4949263334274292,
+            1.3467795848846436
+          ],
+          "bounds_max": [
+            0.0773850828409195,
+            -0.11661190539598465,
+            2.4332714080810547
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.535495400428772,
+            -0.3797350823879242,
+            1.1047375202178955
+          ],
+          "bounds_max": [
+            0.07100559771060944,
+            -0.0448443666100502,
+            2.5116090774536133
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 37,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4696865975856781,
+            -0.4982260763645172,
+            1.707045078277588
+          ],
+          "bounds_max": [
+            0.12445925921201706,
+            -0.23086951673030853,
+            2.421895980834961
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 67,
+          "role": "hood",
+          "reason": "continuous shell spans head and neck base",
+          "bounds_min": [
+            -0.645025908946991,
+            -0.6346409916877747,
+            0.9872658252716064
+          ],
+          "bounds_max": [
+            0.645025908946991,
+            0.8365786671638489,
+            2.6499996185302734
+          ]
+        },
+        {
+          "mesh": "Cloak",
+          "vertices": 15,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.05357588827610016,
+            -0.5849050879478455,
+            1.5491626262664795
+          ],
+          "bounds_max": [
+            0.05357588827610016,
+            -0.36017751693725586,
+            1.8263001441955566
+          ]
+        },
+        {
+          "mesh": "ArmGuard.L",
+          "vertices": 40,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            1.2863428592681885,
+            -0.05636173114180565,
+            0.39519453048706055
+          ],
+          "bounds_max": [
+            1.8452363014221191,
+            0.23769254982471466,
+            0.7968344688415527
+          ]
+        },
+        {
+          "mesh": "ArmGuard.R",
+          "vertices": 40,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            -1.8473093509674072,
+            -0.060829296708106995,
+            0.3996708393096924
+          ],
+          "bounds_max": [
+            -1.2884374856948853,
+            0.23322665691375732,
+            0.8054013252258301
+          ]
+        },
+        {
+          "mesh": "Pouch",
+          "vertices": 89,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            0.2512627840042114,
+            -0.17612789571285248,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            0.5576040744781494,
+            0.3407207429409027,
+            0.12866592407226562
+          ]
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 0,
-      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 314,
       "rigid_parts": {
         "Cloak": "Head",
         "ArmGuard.L": "Forearm.L",
@@ -230,10 +1544,128 @@
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
     },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Rogue",
+      "regions": [
+        {
+          "mesh": "Rogue",
+          "vertices": 360,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.3207614421844482,
+            -0.5282323956489563,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            2.32076096534729,
+            0.7776585817337036,
+            2.5561187267303467
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.08159726858139038,
+            -0.5239024758338928,
+            1.5498309135437012
+          ],
+          "bounds_max": [
+            0.08159726858139038,
+            -0.35961106419563293,
+            1.8919260501861572
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 29,
+          "role": "neckwear",
+          "reason": "circumferential collar around neck",
+          "bounds_min": [
+            -0.5253744125366211,
+            -0.5598347783088684,
+            0.9917333126068115
+          ],
+          "bounds_max": [
+            0.5253744125366211,
+            0.6132206320762634,
+            1.7071266174316406
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 81,
+          "role": "hood",
+          "reason": "continuous shell spans head and neck base",
+          "bounds_min": [
+            -0.6886622309684753,
+            -0.7967216372489929,
+            0.8853797912597656
+          ],
+          "bounds_max": [
+            0.6886622309684753,
+            0.8144510388374329,
+            2.6499998569488525
+          ]
+        },
+        {
+          "mesh": "Guard",
+          "vertices": 24,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            1.2737149000167847,
+            -0.08893805742263794,
+            0.41223764419555664
+          ],
+          "bounds_max": [
+            1.6760917901992798,
+            0.2284136414527893,
+            0.6974921226501465
+          ]
+        },
+        {
+          "mesh": "Belt",
+          "vertices": 60,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.5174435973167419,
+            -0.30418291687965393,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            0.5217322707176208,
+            0.5645179152488708,
+            0.21616601943969727
+          ]
+        },
+        {
+          "mesh": "Pouch",
+          "vertices": 89,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            0.2914453148841858,
+            -0.4209711253643036,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            0.6904534101486206,
+            0.045934345573186874,
+            0.11629533767700195
+          ]
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 0,
-      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 208,
       "rigid_parts": {
         "Face": "Head",
         "Guard": "Forearm.L",
@@ -285,6 +1717,636 @@
       "weight_assignments": 0,
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
+    },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Warrior_Body",
+      "regions": [
+        {
+          "mesh": "Warrior_Body",
+          "vertices": 476,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.3773131370544434,
+            -0.5320289134979248,
+            -2.384185791015625e-07
+          ],
+          "bounds_max": [
+            2.3773131370544434,
+            0.7379556894302368,
+            2.565112352371216
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 15,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.06540066003799438,
+            -0.5852990746498108,
+            1.5982284545898438
+          ],
+          "bounds_max": [
+            0.06540066003799438,
+            -0.35944682359695435,
+            1.9354350566864014
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.012960103340446949,
+            0.5862133502960205,
+            2.094987154006958
+          ],
+          "bounds_max": [
+            0.2822701334953308,
+            1.196324348449707,
+            2.3167221546173096
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.061653878539800644,
+            0.5967451333999634,
+            2.215088129043579
+          ],
+          "bounds_max": [
+            0.21401311457157135,
+            1.3197059631347656,
+            2.450817823410034
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2822701334953308,
+            0.5862133502960205,
+            2.094987154006958
+          ],
+          "bounds_max": [
+            0.012960120104253292,
+            1.196324348449707,
+            2.3167221546173096
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.21401311457157135,
+            0.5967451333999634,
+            2.215088129043579
+          ],
+          "bounds_max": [
+            0.061653897166252136,
+            1.3197059631347656,
+            2.450817823410034
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.10315758734941483,
+            0.5870025157928467,
+            2.041058301925659
+          ],
+          "bounds_max": [
+            0.12475218623876572,
+            1.313860535621643,
+            2.289144277572632
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.11010364443063736,
+            -0.5333574414253235,
+            1.9309718608856201
+          ],
+          "bounds_max": [
+            0.3650522530078888,
+            -0.12389802187681198,
+            2.6098005771636963
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.04909910261631012,
+            -0.6015033721923828,
+            1.9830043315887451
+          ],
+          "bounds_max": [
+            0.228602796792984,
+            -0.18078108131885529,
+            2.6499998569488525
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.19367282092571259,
+            -0.4435376524925232,
+            1.8207447528839111
+          ],
+          "bounds_max": [
+            0.4992663562297821,
+            -0.09388110041618347,
+            2.4801361560821533
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.20068702101707458,
+            -0.23840558528900146,
+            1.494739294052124
+          ],
+          "bounds_max": [
+            0.5136038064956665,
+            -0.06077957898378372,
+            2.4044554233551025
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.11441386491060257,
+            -0.5079682469367981,
+            1.7995178699493408
+          ],
+          "bounds_max": [
+            0.39394718408584595,
+            -0.13060720264911652,
+            2.4918015003204346
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.14310817420482635,
+            -0.34638822078704834,
+            1.3313918113708496
+          ],
+          "bounds_max": [
+            0.48895788192749023,
+            -0.10297662019729614,
+            2.3743016719818115
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.07207131385803223,
+            -0.2156909704208374,
+            2.2843682765960693
+          ],
+          "bounds_max": [
+            0.36857059597969055,
+            0.7354325652122498,
+            2.5802276134490967
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.08024366199970245,
+            -0.3049751818180084,
+            2.3005588054656982
+          ],
+          "bounds_max": [
+            0.24606317281723022,
+            0.6907743811607361,
+            2.6475017070770264
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.04931959509849548,
+            -0.2065151482820511,
+            2.1381232738494873
+          ],
+          "bounds_max": [
+            0.43155810236930847,
+            0.7412424683570862,
+            2.4974191188812256
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.07605087757110596,
+            0.24677111208438873,
+            1.467405080795288
+          ],
+          "bounds_max": [
+            0.3135847747325897,
+            0.7937943935394287,
+            2.398693799972534
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.12292255461215973,
+            0.2478378415107727,
+            1.4074373245239258
+          ],
+          "bounds_max": [
+            0.19573956727981567,
+            0.7756087183952332,
+            2.288198232650757
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.06628973037004471,
+            0.2895725965499878,
+            1.584275722503662
+          ],
+          "bounds_max": [
+            0.3845842480659485,
+            0.718119204044342,
+            2.2865397930145264
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.021103570237755775,
+            -0.20289066433906555,
+            1.9694621562957764
+          ],
+          "bounds_max": [
+            0.5159677267074585,
+            0.7253413796424866,
+            2.3428966999053955
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.01816442608833313,
+            -0.21085640788078308,
+            1.7680623531341553
+          ],
+          "bounds_max": [
+            0.5283730626106262,
+            0.6723151206970215,
+            2.2130730152130127
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3650522530078888,
+            -0.5333574414253235,
+            1.9309718608856201
+          ],
+          "bounds_max": [
+            -0.11010364443063736,
+            -0.12389802187681198,
+            2.6098005771636963
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.228602796792984,
+            -0.6015033721923828,
+            1.9830043315887451
+          ],
+          "bounds_max": [
+            0.04909910261631012,
+            -0.18078108131885529,
+            2.6499998569488525
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4992663562297821,
+            -0.4435376524925232,
+            1.8207447528839111
+          ],
+          "bounds_max": [
+            -0.19367282092571259,
+            -0.09388110041618347,
+            2.4801361560821533
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5136038064956665,
+            -0.23840558528900146,
+            1.494739294052124
+          ],
+          "bounds_max": [
+            -0.20068702101707458,
+            -0.06077957898378372,
+            2.4044554233551025
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.39394718408584595,
+            -0.5079682469367981,
+            1.7995178699493408
+          ],
+          "bounds_max": [
+            -0.11441386491060257,
+            -0.13060720264911652,
+            2.4918015003204346
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.48895788192749023,
+            -0.34638822078704834,
+            1.3313918113708496
+          ],
+          "bounds_max": [
+            -0.14310817420482635,
+            -0.10297662019729614,
+            2.3743016719818115
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.36857059597969055,
+            -0.2156909704208374,
+            2.2843682765960693
+          ],
+          "bounds_max": [
+            0.07207131385803223,
+            0.7354325652122498,
+            2.5802276134490967
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.24606317281723022,
+            -0.3049751818180084,
+            2.3005588054656982
+          ],
+          "bounds_max": [
+            0.08024366199970245,
+            0.6907743811607361,
+            2.6475017070770264
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.43155810236930847,
+            -0.2065151482820511,
+            2.1381232738494873
+          ],
+          "bounds_max": [
+            0.04931959509849548,
+            0.7412424683570862,
+            2.4974191188812256
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3135847747325897,
+            0.24677111208438873,
+            1.467405080795288
+          ],
+          "bounds_max": [
+            0.07605087757110596,
+            0.7937943935394287,
+            2.398693799972534
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.19573956727981567,
+            0.2478378415107727,
+            1.4074373245239258
+          ],
+          "bounds_max": [
+            0.12292255461215973,
+            0.7756087183952332,
+            2.288198232650757
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3845842480659485,
+            0.2895725965499878,
+            1.584275722503662
+          ],
+          "bounds_max": [
+            -0.06628973037004471,
+            0.718119204044342,
+            2.2865397930145264
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5159677267074585,
+            -0.20289066433906555,
+            1.9694621562957764
+          ],
+          "bounds_max": [
+            -0.021103570237755775,
+            0.7253413796424866,
+            2.3428966999053955
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 48,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5283730626106262,
+            -0.21085640788078308,
+            1.7680623531341553
+          ],
+          "bounds_max": [
+            -0.01816442608833313,
+            0.6723151206970215,
+            2.2130730152130127
+          ]
+        },
+        {
+          "mesh": "ShoulderPad.L",
+          "vertices": 86,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            0.5507025122642517,
+            -0.3323500156402588,
+            0.8564913272857666
+          ],
+          "bounds_max": [
+            1.371950387954712,
+            0.43311643600463867,
+            1.3543312549591064
+          ]
+        },
+        {
+          "mesh": "ShoulderPad.L",
+          "vertices": 42,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            0.8663291931152344,
+            -0.2602587044239044,
+            0.6848649978637695
+          ],
+          "bounds_max": [
+            1.3054391145706177,
+            0.3610250949859619,
+            1.1393673419952393
+          ]
+        },
+        {
+          "mesh": "ShoulderPad.R",
+          "vertices": 86,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            -1.3719515800476074,
+            -0.3323502242565155,
+            0.8564913272857666
+          ],
+          "bounds_max": [
+            -0.550703227519989,
+            0.43311649560928345,
+            1.3543312549591064
+          ]
+        },
+        {
+          "mesh": "ShoulderPad.R",
+          "vertices": 42,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            -1.3054401874542236,
+            -0.26025888323783875,
+            0.6848647594451904
+          ],
+          "bounds_max": [
+            -0.8663299679756165,
+            0.3610251247882843,
+            1.1393673419952393
+          ]
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
@@ -349,10 +2411,640 @@
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
     },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Wizard.001",
+      "regions": [
+        {
+          "mesh": "Wizard.001",
+          "vertices": 289,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -1.0969141721725464,
+            -0.5018551349639893,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            1.0969133377075195,
+            0.7664982676506042,
+            2.5263102054595947
+          ]
+        },
+        {
+          "mesh": "Wizard.001",
+          "vertices": 78,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            0.782670259475708,
+            -0.17362433671951294,
+            0.03181719779968262
+          ],
+          "bounds_max": [
+            2.206001043319702,
+            0.3028007447719574,
+            0.7567436695098877
+          ]
+        },
+        {
+          "mesh": "Wizard.001",
+          "vertices": 78,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -2.206001043319702,
+            -0.1736242175102234,
+            0.03181791305541992
+          ],
+          "bounds_max": [
+            -0.7826703786849976,
+            0.3028008043766022,
+            0.7567439079284668
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 18,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.08996063470840454,
+            -0.5009899139404297,
+            1.4887456893920898
+          ],
+          "bounds_max": [
+            0.08996064215898514,
+            -0.34665000438690186,
+            1.8812100887298584
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.01798316463828087,
+            -0.509485125541687,
+            1.363440752029419
+          ],
+          "bounds_max": [
+            0.36418524384498596,
+            -0.37146177887916565,
+            1.5203359127044678
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.01938055455684662,
+            -0.46217674016952515,
+            1.049471378326416
+          ],
+          "bounds_max": [
+            0.27460792660713196,
+            -0.2933853566646576,
+            1.372978925704956
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.18544811010360718,
+            -0.3781377673149109,
+            1.1343417167663574
+          ],
+          "bounds_max": [
+            0.3987785279750824,
+            -0.25128424167633057,
+            1.450087070465088
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.29217976331710815,
+            -0.35996177792549133,
+            1.2898306846618652
+          ],
+          "bounds_max": [
+            0.43869611620903015,
+            -0.19563362002372742,
+            1.6421544551849365
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.3651522397994995,
+            -0.295842707157135,
+            1.3092410564422607
+          ],
+          "bounds_max": [
+            0.5007032155990601,
+            -0.10572705417871475,
+            1.8123981952667236
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.05193645879626274,
+            -0.3613460659980774,
+            1.0580315589904785
+          ],
+          "bounds_max": [
+            0.34383466839790344,
+            -0.1285492479801178,
+            1.4445440769195557
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.2529773414134979,
+            -0.26195311546325684,
+            1.1677849292755127
+          ],
+          "bounds_max": [
+            0.43031930923461914,
+            -0.051059022545814514,
+            1.499335765838623
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.35643330216407776,
+            -0.1880362331867218,
+            1.3780133724212646
+          ],
+          "bounds_max": [
+            0.519831120967865,
+            -0.03536722809076309,
+            1.725405216217041
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.36418524384498596,
+            -0.509485125541687,
+            1.363440752029419
+          ],
+          "bounds_max": [
+            0.01798316277563572,
+            -0.37146177887916565,
+            1.5203359127044678
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.27460792660713196,
+            -0.46217674016952515,
+            1.049471378326416
+          ],
+          "bounds_max": [
+            -0.01938055455684662,
+            -0.2933853566646576,
+            1.372978925704956
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3987785279750824,
+            -0.3781377673149109,
+            1.1343417167663574
+          ],
+          "bounds_max": [
+            -0.18544811010360718,
+            -0.25128424167633057,
+            1.450087070465088
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.43869611620903015,
+            -0.35996177792549133,
+            1.2898306846618652
+          ],
+          "bounds_max": [
+            -0.29217976331710815,
+            -0.19563362002372742,
+            1.6421544551849365
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5007032155990601,
+            -0.295842707157135,
+            1.3092410564422607
+          ],
+          "bounds_max": [
+            -0.3651522397994995,
+            -0.10572705417871475,
+            1.8123981952667236
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.34383466839790344,
+            -0.3613460659980774,
+            1.0580315589904785
+          ],
+          "bounds_max": [
+            -0.05193645879626274,
+            -0.1285492479801178,
+            1.4445440769195557
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.43031930923461914,
+            -0.26195311546325684,
+            1.1677849292755127
+          ],
+          "bounds_max": [
+            -0.2529773414134979,
+            -0.051059022545814514,
+            1.499335765838623
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.519831120967865,
+            -0.1880362331867218,
+            1.3780133724212646
+          ],
+          "bounds_max": [
+            -0.35643330216407776,
+            -0.03536722809076309,
+            1.725405216217041
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.0258908923715353,
+            -0.5277189016342163,
+            1.063326358795166
+          ],
+          "bounds_max": [
+            0.15811310708522797,
+            -0.3514121472835541,
+            1.3492791652679443
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 33,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.15811310708522797,
+            -0.5277189016342163,
+            1.063326358795166
+          ],
+          "bounds_max": [
+            0.0258908923715353,
+            -0.3514121472835541,
+            1.3492791652679443
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2123548686504364,
+            0.5682656764984131,
+            2.2012012004852295
+          ],
+          "bounds_max": [
+            0.158839613199234,
+            1.1063628196716309,
+            2.4539434909820557
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.14147765934467316,
+            0.5334402918815613,
+            2.1357686519622803
+          ],
+          "bounds_max": [
+            0.14471793174743652,
+            1.079383373260498,
+            2.510300874710083
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.03184973821043968,
+            0.545068085193634,
+            2.0650627613067627
+          ],
+          "bounds_max": [
+            0.21151426434516907,
+            1.093543291091919,
+            2.4060795307159424
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.18750837445259094,
+            0.6496170163154602,
+            2.010442018508911
+          ],
+          "bounds_max": [
+            0.02598448656499386,
+            1.0543032884597778,
+            2.3840153217315674
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.04666905850172043,
+            -0.5094990730285645,
+            1.5607340335845947
+          ],
+          "bounds_max": [
+            0.3126000463962555,
+            0.8028608560562134,
+            2.6499998569488525
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.10018794983625412,
+            -0.4304012656211853,
+            1.5296854972839355
+          ],
+          "bounds_max": [
+            0.5372542142868042,
+            0.7653714418411255,
+            2.5025599002838135
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.08054167032241821,
+            -0.4591493308544159,
+            1.830007553100586
+          ],
+          "bounds_max": [
+            0.46060195565223694,
+            -0.31751948595046997,
+            1.947742223739624
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.158839613199234,
+            0.5682656764984131,
+            2.2012012004852295
+          ],
+          "bounds_max": [
+            0.2123548686504364,
+            1.1063628196716309,
+            2.4539434909820557
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.14471793174743652,
+            0.5334402918815613,
+            2.1357686519622803
+          ],
+          "bounds_max": [
+            0.14147765934467316,
+            1.079383373260498,
+            2.510300874710083
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.21151426434516907,
+            0.545068085193634,
+            2.0650627613067627
+          ],
+          "bounds_max": [
+            0.031849734485149384,
+            1.093543291091919,
+            2.4060795307159424
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.02598448656499386,
+            0.6496170163154602,
+            2.010442018508911
+          ],
+          "bounds_max": [
+            0.18750837445259094,
+            1.0543032884597778,
+            2.3840153217315674
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3126000463962555,
+            -0.5094990730285645,
+            1.5607340335845947
+          ],
+          "bounds_max": [
+            0.04666905477643013,
+            0.8028608560562134,
+            2.6499998569488525
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.5372542142868042,
+            -0.4304012656211853,
+            1.5296854972839355
+          ],
+          "bounds_max": [
+            -0.10018792748451233,
+            0.7653714418411255,
+            2.5025599002838135
+          ]
+        },
+        {
+          "mesh": "Face",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.46060195565223694,
+            -0.4591493308544159,
+            1.830007553100586
+          ],
+          "bounds_max": [
+            -0.08054167032241821,
+            -0.31751948595046997,
+            1.947742223739624
+          ]
+        },
+        {
+          "mesh": "ShoulderPad.L",
+          "vertices": 20,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            0.512977123260498,
+            -0.1538798063993454,
+            0.7160749435424805
+          ],
+          "bounds_max": [
+            1.1098136901855469,
+            0.25077196955680847,
+            1.0968668460845947
+          ]
+        },
+        {
+          "mesh": "ShoulderPad.R",
+          "vertices": 20,
+          "role": "rigid",
+          "reason": "existing semantic limb attachment to new rig",
+          "bounds_min": [
+            -1.1098135709762573,
+            -0.15387992560863495,
+            0.7160751819610596
+          ],
+          "bounds_max": [
+            -0.5129767656326294,
+            0.2507718801498413,
+            1.0968668460845947
+          ]
+        },
+        {
+          "mesh": "Pouch",
+          "vertices": 45,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            0.3128191828727722,
+            -0.2529093027114868,
+            -4.76837158203125e-07
+          ],
+          "bounds_max": [
+            0.6247634291648865,
+            0.1177021712064743,
+            0.046976566314697266
+          ]
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 0,
-      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 204,
       "rigid_parts": {
         "Face": "Head",
         "ShoulderPad.L": "UpperArm.L",
@@ -419,6 +3111,492 @@
       "weight_assignments": 0,
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
+    },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Adventurer_Body",
+      "regions": [
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 1408,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -3.1076369285583496,
+            -0.7621147632598877,
+            0.0
+          ],
+          "bounds_max": [
+            3.1076371669769287,
+            0.06437093019485474,
+            1.5168538093566895
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 20,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.04263044521212578,
+            0.684374213218689,
+            0.3569679260253906
+          ],
+          "bounds_max": [
+            0.04214605316519737,
+            0.7940918207168579,
+            0.6924443244934082
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 20,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.046029191464185715,
+            0.5478220582008362,
+            0.17934608459472656
+          ],
+          "bounds_max": [
+            0.04129353538155556,
+            0.74101322889328,
+            0.47180652618408203
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 52,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.33313238620758057,
+            0.08097706735134125,
+            0.8612427711486816
+          ],
+          "bounds_max": [
+            -0.20219740271568298,
+            0.6617203950881958,
+            1.6286506652832031
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 8,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.2898172438144684,
+            0.5583199262619019,
+            0.6837520599365234
+          ],
+          "bounds_max": [
+            -0.20286482572555542,
+            0.5976571440696716,
+            0.9766135215759277
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 52,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            0.2021976262331009,
+            0.08097688853740692,
+            0.8612427711486816
+          ],
+          "bounds_max": [
+            0.33313238620758057,
+            0.6617202758789062,
+            1.6286506652832031
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 8,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            0.20286503434181213,
+            0.5583197474479675,
+            0.6837520599365234
+          ],
+          "bounds_max": [
+            0.2898174524307251,
+            0.5976570248603821,
+            0.9766135215759277
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 135,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.5922075510025024,
+            -0.05865943059325218,
+            0.10488128662109375
+          ],
+          "bounds_max": [
+            0.5985623598098755,
+            0.5977981090545654,
+            1.4401874542236328
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 34,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.42464423179626465,
+            0.4962891936302185,
+            0.1902012825012207
+          ],
+          "bounds_max": [
+            0.4309992790222168,
+            0.722791314125061,
+            0.7433662414550781
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 36,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.43424665927886963,
+            0.4951232075691223,
+            0.5014281272888184
+          ],
+          "bounds_max": [
+            0.4406017065048218,
+            0.7245707511901855,
+            0.7628660202026367
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 24,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.05305395647883415,
+            0.7242358326911926,
+            0.34221601486206055
+          ],
+          "bounds_max": [
+            0.05870097130537033,
+            0.7476658821105957,
+            0.47935962677001953
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 12,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.004956983029842377,
+            0.710430383682251,
+            0.41157007217407227
+          ],
+          "bounds_max": [
+            0.015755614265799522,
+            0.7603608965873718,
+            0.4727606773376465
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 12,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.00979622919112444,
+            0.7051204442977905,
+            0.6230239868164062
+          ],
+          "bounds_max": [
+            0.010172738693654537,
+            0.7307557463645935,
+            0.6548900604248047
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 24,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.30228620767593384,
+            0.577440083026886,
+            0.8458342552185059
+          ],
+          "bounds_max": [
+            -0.19247373938560486,
+            0.6273745894432068,
+            0.9841747283935547
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 12,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.25915345549583435,
+            0.5772758722305298,
+            0.9163775444030762
+          ],
+          "bounds_max": [
+            -0.22908379137516022,
+            0.6272451877593994,
+            0.977567195892334
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 24,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            0.19247397780418396,
+            0.5774399638175964,
+            0.8458342552185059
+          ],
+          "bounds_max": [
+            0.30228644609451294,
+            0.6273744702339172,
+            0.9841747283935547
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 12,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            0.22908399999141693,
+            0.5772756338119507,
+            0.9163775444030762
+          ],
+          "bounds_max": [
+            0.25915369391441345,
+            0.6272451281547546,
+            0.977567195892334
+          ]
+        },
+        {
+          "mesh": "Adventurer_Body",
+          "vertices": 162,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -0.8328158855438232,
+            -0.014063064008951187,
+            1.1957154273986816
+          ],
+          "bounds_max": [
+            0.8328158855438232,
+            0.47514471411705017,
+            1.6268248558044434
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 246,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.39859163761138916,
+            -0.6752124428749084,
+            1.5084986686706543
+          ],
+          "bounds_max": [
+            0.39859163761138916,
+            0.2146402895450592,
+            2.6499996185302734
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 35,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.06006217747926712,
+            -0.699985921382904,
+            1.8757243156433105
+          ],
+          "bounds_max": [
+            0.06006217747926712,
+            -0.6037152409553528,
+            2.192101001739502
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 18,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.27429595589637756,
+            -0.37399977445602417,
+            1.911491870880127
+          ],
+          "bounds_max": [
+            0.4332738220691681,
+            -0.2590409815311432,
+            2.1393966674804688
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 18,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4332738220691681,
+            -0.37399977445602417,
+            1.911491870880127
+          ],
+          "bounds_max": [
+            -0.27429595589637756,
+            -0.2590409815311432,
+            2.1393966674804688
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.07543060183525085,
+            -0.6736026406288147,
+            2.1345291137695312
+          ],
+          "bounds_max": [
+            0.2823038697242737,
+            -0.5652176141738892,
+            2.2025089263916016
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2823038697242737,
+            -0.6736026406288147,
+            2.1345291137695312
+          ],
+          "bounds_max": [
+            -0.07543060183525085,
+            -0.5652176141738892,
+            2.2025089263916016
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 8,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.12974578142166138,
+            -0.63322913646698,
+            2.0613269805908203
+          ],
+          "bounds_max": [
+            0.23505869507789612,
+            -0.5220453143119812,
+            2.160036087036133
+          ]
+        },
+        {
+          "mesh": "Adventurer_Head",
+          "vertices": 8,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.23505869507789612,
+            -0.63322913646698,
+            2.0613269805908203
+          ],
+          "bounds_max": [
+            -0.12974578142166138,
+            -0.5220453143119812,
+            2.160036087036133
+          ]
+        },
+        {
+          "mesh": "Adventurer_Legs",
+          "vertices": 91,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            0.30812108516693115,
+            -0.5942508578300476,
+            0.0
+          ],
+          "bounds_max": [
+            0.5995497703552246,
+            -0.16755411028862,
+            0.11686182022094727
+          ]
+        },
+        {
+          "mesh": "Adventurer_Legs",
+          "vertices": 92,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            -0.5995497703552246,
+            -0.5942508578300476,
+            0.0
+          ],
+          "bounds_max": [
+            -0.30812108516693115,
+            -0.16755411028862,
+            0.11686182022094727
+          ]
+        },
+        {
+          "mesh": "Adventurer_Legs",
+          "vertices": 12,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            0.5495169162750244,
+            -0.46009305119514465,
+            0.0
+          ],
+          "bounds_max": [
+            0.6262921094894409,
+            -0.37384214997291565,
+            0.10460519790649414
+          ]
+        },
+        {
+          "mesh": "Adventurer_Legs",
+          "vertices": 12,
+          "role": "base",
+          "reason": "short remnant touching bust cut plane",
+          "bounds_min": [
+            -0.6262921094894409,
+            -0.46009305119514465,
+            0.0
+          ],
+          "bounds_max": [
+            -0.5495169162750244,
+            -0.37384214997291565,
+            0.10460519790649414
+          ]
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
@@ -489,6 +3667,428 @@
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
     },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "SciFi_Body",
+      "regions": [
+        {
+          "mesh": "SciFi_Body",
+          "vertices": 1304,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.9896419048309326,
+            -0.7210652232170105,
+            0.0
+          ],
+          "bounds_max": [
+            2.9896419048309326,
+            0.06192679703235626,
+            1.4592599868774414
+          ]
+        },
+        {
+          "mesh": "SciFi_Body",
+          "vertices": 378,
+          "role": "torso",
+          "reason": "body-adjacent shell or disconnected garment",
+          "bounds_min": [
+            -1.2868635654449463,
+            -0.6965829133987427,
+            0.2970857620239258
+          ],
+          "bounds_max": [
+            1.2868636846542358,
+            0.11457590758800507,
+            1.475851058959961
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 230,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3690027594566345,
+            -0.6496323943138123,
+            1.4512219429016113
+          ],
+          "bounds_max": [
+            0.3690027594566345,
+            0.1961347460746765,
+            2.53248929977417
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 18,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.263881117105484,
+            -0.35979920625686646,
+            1.838913917541504
+          ],
+          "bounds_max": [
+            0.4168226420879364,
+            -0.2492053359746933,
+            2.0581650733947754
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 18,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4168226420879364,
+            -0.35979920625686646,
+            1.838913917541504
+          ],
+          "bounds_max": [
+            -0.263881117105484,
+            -0.2492053359746933,
+            2.0581650733947754
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 35,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.0577816516160965,
+            -0.6734078526496887,
+            1.8067708015441895
+          ],
+          "bounds_max": [
+            0.0577816516160965,
+            -0.5807924866676331,
+            2.1111350059509277
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 8,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.12481941282749176,
+            -0.6091857552528381,
+            1.9830598831176758
+          ],
+          "bounds_max": [
+            0.22613364458084106,
+            -0.502223551273346,
+            2.0780205726623535
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 8,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.22613364458084106,
+            -0.6091857552528381,
+            1.9830598831176758
+          ],
+          "bounds_max": [
+            -0.12481941282749176,
+            -0.502223551273346,
+            2.0780205726623535
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.23121057450771332,
+            -0.7303328514099121,
+            1.9847655296325684
+          ],
+          "bounds_max": [
+            0.3748410642147064,
+            -0.32618075609207153,
+            2.48045015335083
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.43429863452911377,
+            -0.5574980974197388,
+            1.7116079330444336
+          ],
+          "bounds_max": [
+            -0.03555198758840561,
+            -0.006501784548163414,
+            2.469607353210449
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.41523119807243347,
+            -0.43635308742523193,
+            1.70802640914917
+          ],
+          "bounds_max": [
+            -0.02814168483018875,
+            0.0953436940908432,
+            2.5067696571350098
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.262637734413147,
+            -0.535144031047821,
+            1.581434726715088
+          ],
+          "bounds_max": [
+            0.4131057858467102,
+            -0.23355919122695923,
+            2.618938446044922
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2582002580165863,
+            -0.41007184982299805,
+            1.6318960189819336
+          ],
+          "bounds_max": [
+            0.44263532757759094,
+            -0.13219302892684937,
+            2.6500000953674316
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.372921347618103,
+            -0.2505130469799042,
+            1.6247687339782715
+          ],
+          "bounds_max": [
+            0.04178272560238838,
+            0.22951234877109528,
+            2.5428037643432617
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.24402426183223724,
+            -0.2512814402580261,
+            1.622633934020996
+          ],
+          "bounds_max": [
+            0.39961373805999756,
+            0.03644111752510071,
+            2.6365842819213867
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2564697265625,
+            -0.17186081409454346,
+            1.6171417236328125
+          ],
+          "bounds_max": [
+            0.34091898798942566,
+            0.20049059391021729,
+            2.573070526123047
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.13881529867649078,
+            -0.2663175165653229,
+            1.7017202377319336
+          ],
+          "bounds_max": [
+            0.24056856334209442,
+            0.18242771923542023,
+            2.448009967803955
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.23407404124736786,
+            -0.3525523841381073,
+            1.6875543594360352
+          ],
+          "bounds_max": [
+            0.1115369200706482,
+            0.1638818234205246,
+            2.3937463760375977
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3850826621055603,
+            -0.5709349513053894,
+            1.7293848991394043
+          ],
+          "bounds_max": [
+            -0.1545688956975937,
+            -0.30515727400779724,
+            2.335970401763916
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.4002804458141327,
+            -0.5118005871772766,
+            1.7081069946289062
+          ],
+          "bounds_max": [
+            -0.1218213140964508,
+            -0.12411505728960037,
+            2.3306565284729004
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.24933943152427673,
+            -0.14306972920894623,
+            1.65234375
+          ],
+          "bounds_max": [
+            0.24492084980010986,
+            0.3090549111366272,
+            2.5411057472229004
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.252588152885437,
+            -0.18312208354473114,
+            1.6439027786254883
+          ],
+          "bounds_max": [
+            0.10325750708580017,
+            0.29959478974342346,
+            2.554765224456787
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.1853945553302765,
+            -0.13878804445266724,
+            1.7229118347167969
+          ],
+          "bounds_max": [
+            0.09283401072025299,
+            0.37551093101501465,
+            2.4986720085144043
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.07256654649972916,
+            -0.6480262875556946,
+            2.0588936805725098
+          ],
+          "bounds_max": [
+            0.2549588084220886,
+            -0.5504562854766846,
+            2.1188807487487793
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.2549588084220886,
+            -0.6480262875556946,
+            2.0588936805725098
+          ],
+          "bounds_max": [
+            -0.07256654649972916,
+            -0.5504562854766846,
+            2.1188807487487793
+          ]
+        },
+        {
+          "mesh": "SciFi_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.1708066612482071,
+            -0.6427121758460999,
+            1.673008918762207
+          ],
+          "bounds_max": [
+            0.3979205787181854,
+            -0.3471579849720001,
+            2.5571632385253906
+          ]
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 0,
@@ -556,6 +4156,412 @@
       "weight_assignments": 0,
       "remaining_boolean_modifiers": 0,
       "remaining_armature_modifiers": 0
+    },
+    "apparel_correction": {
+      "method": "geometry regions, anatomical constraints, fresh body surface transfer",
+      "carrier_mesh": "Witch_Body",
+      "regions": [
+        {
+          "mesh": "Witch_Body",
+          "vertices": 1422,
+          "role": "body",
+          "reason": "connected torso and bilateral shoulder coverage",
+          "bounds_min": [
+            -2.3472046852111816,
+            -0.5704230070114136,
+            0.0
+          ],
+          "bounds_max": [
+            2.3472049236297607,
+            0.04861680045723915,
+            1.1455204486846924
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 230,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.28966769576072693,
+            -0.5099623203277588,
+            1.1392109394073486
+          ],
+          "bounds_max": [
+            0.28966769576072693,
+            0.1539660543203354,
+            1.9880077838897705
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 35,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.04538259655237198,
+            -0.5286727547645569,
+            1.4187471866607666
+          ],
+          "bounds_max": [
+            0.04538259655237198,
+            -0.455963134765625,
+            1.6576941013336182
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 138,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.7683799266815186,
+            -0.9416120052337646,
+            1.5619256496429443
+          ],
+          "bounds_max": [
+            0.7981359362602234,
+            0.6923837065696716,
+            2.6499998569488525
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 8,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.09799192100763321,
+            -0.47825318574905396,
+            1.5571386814117432
+          ],
+          "bounds_max": [
+            0.17753064632415771,
+            -0.39428046345710754,
+            1.6316897869110107
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 8,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.17753063142299652,
+            -0.47825318574905396,
+            1.5571386814117432
+          ],
+          "bounds_max": [
+            -0.09799191355705261,
+            -0.39428046345710754,
+            1.6316897869110107
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.02791239693760872,
+            -0.43767476081848145,
+            1.1689531803131104
+          ],
+          "bounds_max": [
+            0.3442925214767456,
+            -0.004585437476634979,
+            1.9391124248504639
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.01706654578447342,
+            -0.3572799861431122,
+            1.1678669452667236
+          ],
+          "bounds_max": [
+            0.34258443117141724,
+            0.07304732501506805,
+            2.0021846294403076
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3314700722694397,
+            -0.4185329079627991,
+            1.1172821521759033
+          ],
+          "bounds_max": [
+            0.14949849247932434,
+            -0.18642213940620422,
+            2.0257790088653564
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.3521731495857239,
+            -0.32247471809387207,
+            1.1533524990081787
+          ],
+          "bounds_max": [
+            0.1463751643896103,
+            -0.10793375968933105,
+            2.047466516494751
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.04020193591713905,
+            -0.22188588976860046,
+            0.9853088855743408
+          ],
+          "bounds_max": [
+            0.2833974063396454,
+            0.1536760777235031,
+            2.0118658542633057
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.32091033458709717,
+            -0.20095506310462952,
+            1.1467316150665283
+          ],
+          "bounds_max": [
+            0.1364949345588684,
+            0.02254701778292656,
+            2.0389745235443115
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.27320677042007446,
+            -0.13860265910625458,
+            0.9629642963409424
+          ],
+          "bounds_max": [
+            0.20283618569374084,
+            0.15538188815116882,
+            2.029772996902466
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.18847030401229858,
+            -0.21286249160766602,
+            1.0403640270233154
+          ],
+          "bounds_max": [
+            0.11129914224147797,
+            0.14126242697238922,
+            1.917212724685669
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.08649769425392151,
+            -0.28075265884399414,
+            1.027400255203247
+          ],
+          "bounds_max": [
+            0.1866803765296936,
+            0.12682415544986725,
+            1.868830919265747
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 45,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.10151179879903793,
+            -0.41722992062568665,
+            1.152998685836792
+          ],
+          "bounds_max": [
+            0.32540225982666016,
+            -0.11233585327863693,
+            1.8171913623809814
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.19106611609458923,
+            -0.11595854163169861,
+            0.9951779842376709
+          ],
+          "bounds_max": [
+            0.19811396300792694,
+            0.24173812568187714,
+            1.9996964931488037
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.07897520810365677,
+            -0.16555830836296082,
+            0.9874536991119385
+          ],
+          "bounds_max": [
+            0.20070619881153107,
+            0.234329953789711,
+            2.012932062149048
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 69,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.07099632918834686,
+            -0.11255650222301483,
+            1.0597560405731201
+          ],
+          "bounds_max": [
+            0.14825767278671265,
+            0.29392510652542114,
+            1.9609906673431396
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 60,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.023371268063783646,
+            -0.5170338153839111,
+            1.295011281967163
+          ],
+          "bounds_max": [
+            0.3209218680858612,
+            -0.279966801404953,
+            1.9465973377227783
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 60,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.0534171499311924,
+            -0.528277575969696,
+            1.2878034114837646
+          ],
+          "bounds_max": [
+            0.2686491012573242,
+            -0.3458879888057709,
+            1.8755838871002197
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 60,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.32092180848121643,
+            -0.5168622732162476,
+            1.295011281967163
+          ],
+          "bounds_max": [
+            0.02619430422782898,
+            -0.279966801404953,
+            1.9453117847442627
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 60,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.26864904165267944,
+            -0.528277575969696,
+            1.2878034114837646
+          ],
+          "bounds_max": [
+            0.054983772337436676,
+            -0.3458879888057709,
+            1.8750579357147217
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            0.056969791650772095,
+            -0.5087457895278931,
+            1.6124255657196045
+          ],
+          "bounds_max": [
+            0.21321307122707367,
+            -0.42688682675361633,
+            1.6637675762176514
+          ]
+        },
+        {
+          "mesh": "Witch_Head",
+          "vertices": 12,
+          "role": "head",
+          "reason": "head attachment extending into cranial region",
+          "bounds_min": [
+            -0.21321307122707367,
+            -0.5087457895278931,
+            1.6124255657196045
+          ],
+          "bounds_max": [
+            -0.056969791650772095,
+            -0.42688682675361633,
+            1.6637675762176514
+          ]
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,

@@ -34,6 +34,21 @@ for index,entry in enumerate(json.loads((OUT/'sources/manifest.json').read_text(
     videos.append((video,720))
 ffmpeg('-i',movie,'-vf',"select='eq(n,35)'",'-frames:v','1',OUT/'nine_avatar_grid_poster.jpg')
 ffmpeg('-i',movie,'-vf',"select='eq(n,35)+eq(n,155)+eq(n,299)+eq(n,395)+eq(n,515)+eq(n,659)',scale=640:640,tile=3x2",'-frames:v','1',OUT/'contact_sheet.jpg')
+# When an earlier evaluation is present, retain a close-up regression comparison.
+before = OUT/'before_apparel_fix'
+if all((before/f'{name}_demo.mp4').exists() for name in ('monk','scifi')):
+    comparison = OUT/'apparel_before_after.mp4'
+    inputs = []
+    for name in ('monk','scifi'):
+        for folder in (before, OUT):
+            inputs += ['-i',folder/f'{name}_demo.mp4']
+    ffmpeg(*inputs,'-filter_complex',
+           '[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|584_0|0_496|584_496,'
+           'pad=1168:1056:0:64:color=0x101c28,'
+           "drawtext=text='BEFORE':fontcolor=white:fontsize=28:x=225:y=18,"
+           "drawtext=text='CORRECTED':fontcolor=white:fontsize=28:x=795:y=18",
+           '-c:v','libx264','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart',comparison)
+    videos.append((comparison,720))
 metadata = []
 for video,expected in videos:
     result = subprocess.check_output([FFPROBE,'-v','error','-count_frames','-select_streams','v:0','-show_entries','stream=codec_name,width,height,r_frame_rate,nb_read_frames,duration','-of','json',str(video)],text=True)
