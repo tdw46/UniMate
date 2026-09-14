@@ -34,6 +34,8 @@ Fork testing: [Blender 5.2 bust evaluation and compatibility notes](docs/blender
 
 Expanded test: [Nine freely sourced avatars, destructive Boolean bust cuts, fresh rigs, and a 3×3 animation grid](docs/nine-avatar-grid.md).
 
+Anime outfit test: [Nine additional VRoid characters with complex outfits, fresh rigs, and head/neck/arm evaluation](docs/complex-avatar-grid.md).
+
 - **[2026-09-06]** The **training and inference code** is released. 🚀
 - **[2026-09-04]** Our paper is on [arXiv](https://arxiv.org/abs/2609.05415). 📄
 - **[2026-08-30]** The raw **UniML3D dataset** and its [data-processing pipeline](data_process/) are released. 🚀

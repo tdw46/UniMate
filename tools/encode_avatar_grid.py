@@ -1,10 +1,11 @@
 """Encode and decode-verify the nine-avatar grid and individual card demos."""
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
 
-OUT = Path(__file__).resolve().parents[1]/'outputs/avatar_grid'
+OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', Path(__file__).resolve().parents[1]/'outputs/avatar_grid')).resolve()
 FFMPEG,FFPROBE = shutil.which('ffmpeg'),shutil.which('ffprobe')
 assert FFMPEG and FFPROBE
 

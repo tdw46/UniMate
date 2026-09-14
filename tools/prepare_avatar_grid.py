@@ -4,6 +4,7 @@ Run in a disposable Blender process only. Source files are never overwritten.
 """
 import json
 import math
+import os
 from pathlib import Path
 import sys
 
@@ -14,7 +15,8 @@ from mathutils import Matrix, Quaternion, Vector
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from avatar_apparel_weights import correct_apparel
-OUT = ROOT / 'outputs/avatar_grid'
+from avatar_source_import import adapt_humanoid, split_material_regions
+OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
 SOURCES = OUT / 'sources'
 FRAMES = 360
 
@@ -41,6 +43,7 @@ def prepare(entry):
     scene.render.fps = 30
     scene.frame_set(0)
     original_rig = next(o for o in scene.objects if o.type == 'ARMATURE')
+    source_adapter = adapt_humanoid(SOURCES / entry['model'], original_rig)
     original_rig.data.pose_position = 'POSE'
     for obj in list(scene.objects):
         obj.animation_data_clear()
@@ -90,6 +93,9 @@ def prepare(entry):
         mesh.transform(obj.matrix_world)
         obj.matrix_world = Matrix.Identity(4)
         meshes.append(obj)
+    semantic_regions = []
+    if source_adapter:
+        meshes, semantic_regions = split_material_regions(meshes, rigid_parts)
     for obj in list(bpy.data.objects):
         if obj not in meshes:
             bpy.data.objects.remove(obj, do_unlink=True)
@@ -100,6 +106,9 @@ def prepare(entry):
     audit = {'id':name, 'source':entry['source_page'], 'original_bones_removed':original_bone_count,
              'original_weight_assignments_removed':original_weight_count, 'preparation_pose':'20 degree A-pose, baked to mesh',
              'cutoff_z_before_normalization':cutoff, 'removed_handheld_props':removed_props, 'booleans':[]}
+    if source_adapter:
+        audit['source_adapter'] = source_adapter
+        audit['semantic_material_regions'] = semantic_regions
     bpy.ops.mesh.primitive_cube_add(size=2, location=(0,0,cutoff-10))
     cutter = bpy.context.object
     cutter.name = 'Bust Boolean cutter'

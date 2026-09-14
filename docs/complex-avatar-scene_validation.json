@@ -1,0 +1,42 @@
+[
+  {
+    "view": "front",
+    "file": "avatar_grid_front.blend",
+    "rigs": 9,
+    "bones": 117,
+    "packed_images": 136,
+    "file_images": 136,
+    "unapplied_booleans": 0,
+    "frames": [
+      0,
+      359
+    ],
+    "fps": 30,
+    "resolution": [
+      1920,
+      1920
+    ],
+    "engine": "BLENDER_EEVEE",
+    "passed": true
+  },
+  {
+    "view": "oblique",
+    "file": "avatar_grid_oblique.blend",
+    "rigs": 9,
+    "bones": 117,
+    "packed_images": 136,
+    "file_images": 136,
+    "unapplied_booleans": 0,
+    "frames": [
+      0,
+      359
+    ],
+    "fps": 30,
+    "resolution": [
+      1920,
+      1920
+    ],
+    "engine": "BLENDER_EEVEE",
+    "passed": true
+  }
+]

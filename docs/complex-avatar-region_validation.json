@@ -1,0 +1,827 @@
+{
+  "blender": "5.2.0 LTS",
+  "avatars": [
+    {
+      "id": "darkness_shibu",
+      "vertices": 15531,
+      "triangles": 30118,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1834,
+          "max_displacement": {
+            "Head": 0.41811268658782663,
+            "Neck": 0.5707743437088434,
+            "Spine": 1.1949653277145513,
+            "Chest": 1.084875331766757,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5288109106536417e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2627,
+          "max_displacement": {
+            "Head": 0.4433926210668076,
+            "Neck": 0.5960544144487121,
+            "Spine": 1.3977898158077668,
+            "Chest": 1.395020174821464,
+            "Clavicle.L": 1.4284300146614208,
+            "Clavicle.R": 1.4284304019436278,
+            "UpperArm.L": 1.2444582882439494,
+            "UpperArm.R": 1.2444585816072582
+          },
+          "below_collar_vertices": 2301,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__head",
+          "role": "head",
+          "vertices": 225,
+          "max_displacement": {
+            "Head": 0.4490811137109313,
+            "Neck": 0.6017427453095856,
+            "Spine": 1.2259336608993858,
+            "Chest": 1.1158435246880851,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.4755668231600746e-07
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 953,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.09501142290810578,
+            "Spine": 1.253290922638611,
+            "Chest": 1.236375877096977,
+            "Clavicle.L": 1.2233934586978945,
+            "Clavicle.R": 1.2233934816546923,
+            "UpperArm.L": 1.037387472967396,
+            "UpperArm.R": 1.0373872832880109
+          },
+          "below_collar_vertices": 833,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 152,
+          "sleeve_R_vertices": 152
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 9892,
+          "max_displacement": {
+            "Head": 0.48876121773066467,
+            "Neck": 0.6410485966424284,
+            "Spine": 1.2647450237138569,
+            "Chest": 1.1546658411949944,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5288109106536417e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "sakurada_fumiriya",
+      "vertices": 17758,
+      "triangles": 34462,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1842,
+          "max_displacement": {
+            "Head": 0.40180528821079026,
+            "Neck": 0.5929802953151503,
+            "Spine": 1.1641079810557495,
+            "Chest": 1.0881431156460561,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5463115409962923e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2378,
+          "max_displacement": {
+            "Head": 0.4260630812272367,
+            "Neck": 0.6172380245629937,
+            "Spine": 1.6010273295124395,
+            "Chest": 1.6040870726230663,
+            "Clavicle.L": 1.6363655200800515,
+            "Clavicle.R": 1.6363667744661545,
+            "UpperArm.L": 1.3698747002947382,
+            "UpperArm.R": 1.3698747676008478
+          },
+          "below_collar_vertices": 2017,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__head",
+          "role": "head",
+          "vertices": 232,
+          "max_displacement": {
+            "Head": 0.4418745868881927,
+            "Neck": 0.6330494613622873,
+            "Spine": 1.204177368327153,
+            "Chest": 1.1282124383754952,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.6656007498500226e-07
+        },
+        {
+          "mesh": "Body__neckwear",
+          "role": "neckwear",
+          "vertices": 64,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.252456520244226,
+            "Spine": 0.6654607021582298,
+            "Chest": 0.5904707355218638,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 1.2377834115800373e-07
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 886,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.13482158473466488,
+            "Spine": 0.7804499726046127,
+            "Chest": 0.7379365348367126,
+            "Clavicle.L": 0.5766925011332504,
+            "Clavicle.R": 0.5766851692685937,
+            "UpperArm.L": 0.31705771889419543,
+            "UpperArm.R": 0.31706195752146704
+          },
+          "below_collar_vertices": 562,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 40,
+          "sleeve_R_vertices": 40
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 12356,
+          "max_displacement": {
+            "Head": 0.5145664575056355,
+            "Neck": 0.7055120876219267,
+            "Spine": 1.2763640761975965,
+            "Chest": 1.2004207340415827,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.735489569706592e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "sendagaya_shino",
+      "vertices": 14255,
+      "triangles": 27501,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1834,
+          "max_displacement": {
+            "Head": 0.417760838509899,
+            "Neck": 0.5729151057453401,
+            "Spine": 1.1982912179480325,
+            "Chest": 1.0888269904547467,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.602375924076584e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2625,
+          "max_displacement": {
+            "Head": 0.44305651251996675,
+            "Neck": 0.5982108021049627,
+            "Spine": 1.3907078118258966,
+            "Chest": 1.3876013673663858,
+            "Clavicle.L": 1.4208965498135016,
+            "Clavicle.R": 1.4208984001395701,
+            "UpperArm.L": 1.2378950991057842,
+            "UpperArm.R": 1.2378968121912008
+          },
+          "below_collar_vertices": 2296,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__head",
+          "role": "head",
+          "vertices": 225,
+          "max_displacement": {
+            "Head": 0.4487403084025891,
+            "Neck": 0.6038946085223605,
+            "Spine": 1.2292706151290316,
+            "Chest": 1.1198066207715325,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.497889789080651e-07
+        },
+        {
+          "mesh": "Body__neckwear",
+          "role": "neckwear",
+          "vertices": 124,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.17010606451274266,
+            "Spine": 0.6352994378479859,
+            "Chest": 0.5285759917244242,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 4.032271840493324e-07
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 1067,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.10188986272081861,
+            "Spine": 0.75650309473238,
+            "Chest": 0.6866081478551623,
+            "Clavicle.L": 0.5124460468154095,
+            "Clavicle.R": 0.5124455065911666,
+            "UpperArm.L": 0.33503355623702163,
+            "UpperArm.R": 0.3350329974989745
+          },
+          "below_collar_vertices": 771,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 74,
+          "sleeve_R_vertices": 74
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 8380,
+          "max_displacement": {
+            "Head": 0.708094312711232,
+            "Neck": 0.640747517262017,
+            "Spine": 1.2654261815534336,
+            "Chest": 1.1560295690665081,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.602375924076584e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "victoria_rubin",
+      "vertices": 13208,
+      "triangles": 25288,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1834,
+          "max_displacement": {
+            "Head": 0.41954153601505667,
+            "Neck": 0.5753665630284334,
+            "Spine": 1.1902008086962188,
+            "Chest": 1.0839327653850808,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5288109106536417e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2626,
+          "max_displacement": {
+            "Head": 0.44484853416338455,
+            "Neck": 0.6006734799727695,
+            "Spine": 1.3532289914350866,
+            "Chest": 1.3496953244036751,
+            "Clavicle.L": 1.3821508904614754,
+            "Clavicle.R": 1.3821526380156632,
+            "UpperArm.L": 1.2041384775608772,
+            "UpperArm.R": 1.2041402139206978
+          },
+          "below_collar_vertices": 2291,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__head",
+          "role": "head",
+          "vertices": 225,
+          "max_displacement": {
+            "Head": 0.45042050743061224,
+            "Neck": 0.6062454533160708,
+            "Spine": 1.2210798857054976,
+            "Chest": 1.1148117955045291,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.4755668231600746e-07
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 953,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.09370665616181861,
+            "Spine": 1.2148530965856414,
+            "Chest": 1.1975828313750827,
+            "Clavicle.L": 1.183755315951986,
+            "Clavicle.R": 1.1837581522777743,
+            "UpperArm.L": 1.003774329991563,
+            "UpperArm.R": 1.0037774710075562
+          },
+          "below_collar_vertices": 829,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 149,
+          "sleeve_R_vertices": 149
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 7570,
+          "max_displacement": {
+            "Head": 0.554149487654606,
+            "Neck": 0.6930610552255083,
+            "Spine": 1.2850975324672798,
+            "Chest": 1.181105790594784,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5288109106536417e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "vita",
+      "vertices": 11731,
+      "triangles": 22490,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1834,
+          "max_displacement": {
+            "Head": 0.4062689630044092,
+            "Neck": 0.5584231179391586,
+            "Spine": 1.1672290928641726,
+            "Chest": 1.0612356327430132,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.9540401103495075e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2625,
+          "max_displacement": {
+            "Head": 0.4308867732870959,
+            "Neck": 0.583041035202387,
+            "Spine": 1.3495765494344631,
+            "Chest": 1.3464046886293901,
+            "Clavicle.L": 1.3787371610111185,
+            "Clavicle.R": 1.3787435518031737,
+            "UpperArm.L": 1.201164468881992,
+            "UpperArm.R": 1.2011709833529873
+          },
+          "below_collar_vertices": 2295,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__head",
+          "role": "head",
+          "vertices": 225,
+          "max_displacement": {
+            "Head": 0.43641421105751516,
+            "Neck": 0.5885684661685571,
+            "Spine": 1.1973742082652743,
+            "Chest": 1.0913807685078412,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.666641796853137e-07
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 953,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.09250183503160779,
+            "Spine": 1.2109430005348547,
+            "Chest": 1.1941034897111102,
+            "Clavicle.L": 1.1808326039259311,
+            "Clavicle.R": 1.180839683028699,
+            "UpperArm.L": 1.0012964249324183,
+            "UpperArm.R": 1.0013038803426768
+          },
+          "below_collar_vertices": 831,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 149,
+          "sleeve_R_vertices": 149
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 6094,
+          "max_displacement": {
+            "Head": 0.5579838791342169,
+            "Neck": 0.6985956181182844,
+            "Spine": 1.2879848821981146,
+            "Chest": 1.18395990626765,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.9540401103495075e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "vivi",
+      "vertices": 12690,
+      "triangles": 22188,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1834,
+          "max_displacement": {
+            "Head": 0.4334923264730187,
+            "Neck": 0.5787115681542144,
+            "Spine": 1.180524134646316,
+            "Chest": 1.0679330480784954,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.7314279645418166e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2630,
+          "max_displacement": {
+            "Head": 0.4596916937393657,
+            "Neck": 0.604911010486478,
+            "Spine": 1.3091403445922893,
+            "Chest": 1.305216116804637,
+            "Clavicle.L": 1.3356465697700095,
+            "Clavicle.R": 1.3356399173326488,
+            "UpperArm.L": 1.1605987603996584,
+            "UpperArm.R": 1.1605914163532622
+          },
+          "below_collar_vertices": 2302,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__head",
+          "role": "head",
+          "vertices": 225,
+          "max_displacement": {
+            "Head": 0.4654494074502985,
+            "Neck": 0.6106687210028303,
+            "Spine": 1.212481289896199,
+            "Chest": 1.09989009207854,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.6656007498500226e-07
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 952,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.08253117132196681,
+            "Spine": 1.1264166584227613,
+            "Chest": 1.106864446626598,
+            "Clavicle.L": 1.093520889809177,
+            "Clavicle.R": 1.0935350496914762,
+            "UpperArm.L": 0.9167479818575254,
+            "UpperArm.R": 0.9167634318238197
+          },
+          "below_collar_vertices": 830,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 151,
+          "sleeve_R_vertices": 151
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 7049,
+          "max_displacement": {
+            "Head": 0.5179630341797069,
+            "Neck": 0.6628159934232394,
+            "Spine": 1.2641471428936224,
+            "Chest": 1.151588567493074,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.7314279645418166e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_a",
+      "vertices": 11374,
+      "triangles": 19708,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1838,
+          "max_displacement": {
+            "Head": 0.43454594490226334,
+            "Neck": 0.5944032118898002,
+            "Spine": 1.2163499498170347,
+            "Chest": 1.0956026156968466,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5288109106536417e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2630,
+          "max_displacement": {
+            "Head": 0.46106440102508717,
+            "Neck": 0.620921856407635,
+            "Spine": 1.494426729821792,
+            "Chest": 1.496047076500779,
+            "Clavicle.L": 1.5392966116594415,
+            "Clavicle.R": 1.5392771228740294,
+            "UpperArm.L": 1.3952727283307347,
+            "UpperArm.R": 1.3952593024878797
+          },
+          "below_collar_vertices": 2286,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 1325,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.1008296445832619,
+            "Spine": 1.2631214415569947,
+            "Chest": 1.2528004271148805,
+            "Clavicle.L": 1.2693928687163594,
+            "Clavicle.R": 1.2690763487467704,
+            "UpperArm.L": 1.124674100825186,
+            "UpperArm.R": 1.1243710837831413
+          },
+          "below_collar_vertices": 983,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 256,
+          "sleeve_R_vertices": 255
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 5581,
+          "max_displacement": {
+            "Head": 0.4792918954262578,
+            "Neck": 0.6391492963644937,
+            "Spine": 1.2610954865202741,
+            "Chest": 1.140348391110514,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.5288109106536417e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_b",
+      "vertices": 12073,
+      "triangles": 21520,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1838,
+          "max_displacement": {
+            "Head": 0.3787898260858091,
+            "Neck": 0.5247234429952867,
+            "Spine": 1.0753281257500689,
+            "Chest": 0.9716581466817577,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 2.682209014892578e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2627,
+          "max_displacement": {
+            "Head": 0.40222263828099686,
+            "Neck": 0.5481562676558903,
+            "Spine": 1.3195340186451967,
+            "Chest": 1.3206967691869114,
+            "Clavicle.L": 1.358574291614209,
+            "Clavicle.R": 1.3585586741297455,
+            "UpperArm.L": 1.2301756010080396,
+            "UpperArm.R": 1.2301662648502203
+          },
+          "below_collar_vertices": 2282,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 1461,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.10512528300786306,
+            "Spine": 1.2228608127860106,
+            "Chest": 1.219213254012567,
+            "Clavicle.L": 1.256722635587837,
+            "Clavicle.R": 1.2567174984627982,
+            "UpperArm.L": 1.1295999553732758,
+            "UpperArm.R": 1.1295990698909228
+          },
+          "below_collar_vertices": 1293,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 346,
+          "sleeve_R_vertices": 346
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 6147,
+          "max_displacement": {
+            "Head": 0.9568446775474456,
+            "Neck": 0.8488681322089082,
+            "Spine": 1.2758004434126426,
+            "Chest": 1.177241625593418,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 4.856612827698071e-07
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_c",
+      "vertices": 12812,
+      "triangles": 19625,
+      "normalized_at_most_four_weights": true,
+      "regions": [
+        {
+          "mesh": "Face__head",
+          "role": "head",
+          "vertices": 1846,
+          "max_displacement": {
+            "Head": 0.40828355881965267,
+            "Neck": 0.6320115763592971,
+            "Spine": 1.2187043083624662,
+            "Chest": 1.1359002256771331,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 4.862895271802163e-07
+        },
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 2409,
+          "max_displacement": {
+            "Head": 0.35464738438317317,
+            "Neck": 0.638059617180729,
+            "Spine": 1.686551498594905,
+            "Chest": 1.6900661436799036,
+            "Clavicle.L": 1.719966856476368,
+            "Clavicle.R": 1.7199677287956667,
+            "UpperArm.L": 1.4832880156091661,
+            "UpperArm.R": 1.4832902828716565
+          },
+          "below_collar_vertices": 2031,
+          "below_collar_neck_displacement": 0.0
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 1479,
+          "max_displacement": {
+            "Head": 0.0,
+            "Neck": 0.16845515844438,
+            "Spine": 1.446110839990071,
+            "Chest": 1.4419886283515457,
+            "Clavicle.L": 1.4477570351989926,
+            "Clavicle.R": 1.447761729253057,
+            "UpperArm.L": 1.212518533584686,
+            "UpperArm.R": 1.2125236114128028
+          },
+          "below_collar_vertices": 1131,
+          "below_collar_neck_displacement": 0.0,
+          "sleeve_L_vertices": 331,
+          "sleeve_R_vertices": 331
+        },
+        {
+          "mesh": "Hair001__head",
+          "role": "head",
+          "vertices": 7078,
+          "max_displacement": {
+            "Head": 0.46448646165897434,
+            "Neck": 0.6877425833275835,
+            "Spine": 1.2740537199766264,
+            "Chest": 1.191280692942002,
+            "Clavicle.L": 0.0,
+            "Clavicle.R": 0.0,
+            "UpperArm.L": 0.0,
+            "UpperArm.R": 0.0
+          },
+          "rigid_transform_error": 4.862895271802163e-07
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

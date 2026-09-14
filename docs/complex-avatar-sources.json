@@ -1,0 +1,290 @@
+[
+  {
+    "id": "darkness_shibu",
+    "name": "Darkness Shibu",
+    "display_name": "Darkness Shibu",
+    "creator": "pixiv / VRoid Project",
+    "license": "CC0-1.0",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/360012381793",
+    "license_html_saved": false,
+    "model": "Darkness_Shibu.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "",
+      "contactInformation": "",
+      "reference": "",
+      "title": "Darkness Shibu",
+      "texture": 26,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "CC0",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/beta/Darkness_Shibu.vrm",
+        "path": "Darkness_Shibu.vrm",
+        "sha256": "0b50573d2d054d98c0a6fc5a5ce872e1b2c8bff8718476ff72a9a68c48674fd8"
+      }
+    ]
+  },
+  {
+    "id": "sakurada_fumiriya",
+    "name": "Sakurada Fumiriya",
+    "display_name": "Fumiriya",
+    "creator": "pixiv / VRoid Project",
+    "license": "CC0-1.0",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/360014788554",
+    "license_html_saved": false,
+    "model": "Sakurada_Fumiriya.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "",
+      "contactInformation": "",
+      "reference": "",
+      "title": "Sakurada Fumiriya",
+      "texture": 29,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "CC0",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/beta/Sakurada_Fumiriya.vrm",
+        "path": "Sakurada_Fumiriya.vrm",
+        "sha256": "d8fb05f33e377df028cb6b9d58c441ce68326c41fa23f6c735d40c65ae3dc710"
+      }
+    ]
+  },
+  {
+    "id": "sendagaya_shino",
+    "name": "Sendagaya Shino",
+    "display_name": "Shino",
+    "creator": "pixiv / VRoid Project",
+    "license": "CC0-1.0",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/360013482714",
+    "license_html_saved": false,
+    "model": "Sendagaya_Shino.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "",
+      "contactInformation": "",
+      "reference": "",
+      "title": "Sendagaya Shino",
+      "texture": 29,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "CC0",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/beta/Sendagaya_Shino.vrm",
+        "path": "Sendagaya_Shino.vrm",
+        "sha256": "1e177c1a7b14f783a9c48395831db8616260d3bddd4154cb2784b779adca49b5"
+      }
+    ]
+  },
+  {
+    "id": "victoria_rubin",
+    "name": "Victoria Rubin",
+    "display_name": "Victoria Rubin",
+    "creator": "pixiv / VRoid Project",
+    "license": "CC0-1.0",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/360014900233",
+    "license_html_saved": false,
+    "model": "Victoria_Rubin.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "",
+      "contactInformation": "",
+      "reference": "",
+      "title": "Victoria Rubin",
+      "texture": 27,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "CC0",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/beta/Victoria_Rubin.vrm",
+        "path": "Victoria_Rubin.vrm",
+        "sha256": "b1372131bdbf233f46320146d565f342a7e4f6f4b8f2aefb301f1a283ec07e1e"
+      }
+    ]
+  },
+  {
+    "id": "vita",
+    "name": "Vita",
+    "display_name": "Vita",
+    "creator": "pixiv / VRoid Project",
+    "license": "CC0-1.0",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/360014900113",
+    "license_html_saved": false,
+    "model": "Vita.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "",
+      "contactInformation": "",
+      "reference": "",
+      "title": "Vita",
+      "texture": 27,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "CC0",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/beta/Vita.vrm",
+        "path": "Vita.vrm",
+        "sha256": "f2bf78f28a24e2f75f5ca0b6c3b646654c394e4b03592dfaa0d0633ef0972b4d"
+      }
+    ]
+  },
+  {
+    "id": "vivi",
+    "name": "Vivi",
+    "display_name": "Vivi",
+    "creator": "pixiv / VRoid Project",
+    "license": "CC0-1.0",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/360014900273",
+    "license_html_saved": false,
+    "model": "Vivi.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "",
+      "contactInformation": "",
+      "reference": "",
+      "title": "Vivi",
+      "texture": 27,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "CC0",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/beta/Vivi.vrm",
+        "path": "Vivi.vrm",
+        "sha256": "eaf902e041a7a810f1423599ae75682f61184ab6ef0206da9a8ed9caa8ec3a9d"
+      }
+    ]
+  },
+  {
+    "id": "avatarsample_a",
+    "name": "AvatarSample A",
+    "display_name": "Sample A",
+    "creator": "pixiv / VRoid Project",
+    "license": "VRoidPreset terms (not CC0)",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089",
+    "license_html_saved": false,
+    "model": "AvatarSample_A.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "VRoid",
+      "contactInformation": "",
+      "reference": "",
+      "title": "AvatarSample_A",
+      "texture": 27,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "Other",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/stable/AvatarSample_A.vrm",
+        "path": "AvatarSample_A.vrm",
+        "sha256": "b86b0b8a66d48911431d6f920a5211a974226f83aa672eca3f3dfade58ac346e"
+      }
+    ]
+  },
+  {
+    "id": "avatarsample_b",
+    "name": "AvatarSample B",
+    "display_name": "Sample B",
+    "creator": "pixiv / VRoid Project",
+    "license": "VRoidPreset terms (not CC0)",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089",
+    "license_html_saved": false,
+    "model": "AvatarSample_B.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "VRoid",
+      "contactInformation": "",
+      "reference": "",
+      "title": "AvatarSample_B",
+      "texture": 29,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "Other",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/stable/AvatarSample_B.vrm",
+        "path": "AvatarSample_B.vrm",
+        "sha256": "4a271bd3b5a3d19e054fd113ee154635b72e7141f4a8ccbcdba3c7f9cea6ee8d"
+      }
+    ]
+  },
+  {
+    "id": "avatarsample_c",
+    "name": "AvatarSample C",
+    "display_name": "Sample C",
+    "creator": "pixiv / VRoid Project",
+    "license": "VRoidPreset terms (not CC0)",
+    "source_page": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089",
+    "license_html_saved": false,
+    "model": "AvatarSample_C.vrm",
+    "vrm_meta": {
+      "version": "",
+      "author": "VRoid",
+      "contactInformation": "",
+      "reference": "",
+      "title": "AvatarSample_C",
+      "texture": 24,
+      "allowedUserName": "Everyone",
+      "violentUssageName": "Allow",
+      "sexualUssageName": "Allow",
+      "commercialUssageName": "Allow",
+      "otherPermissionUrl": "",
+      "licenseName": "Other",
+      "otherLicenseUrl": ""
+    },
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/madjin/vrm-samples/e16eb187100149a315ad92c3c9968f1d5baa6c7d/vroid/stable/AvatarSample_C.vrm",
+        "path": "AvatarSample_C.vrm",
+        "sha256": "395d5b04696e888f07bc856ae01bf72a974b7e773132c7443dc59d1688045b8a"
+      }
+    ]
+  }
+]

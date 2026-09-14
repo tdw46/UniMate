@@ -1,0 +1,110 @@
+[
+  {
+    "file": "avatar_grid_front.mp4",
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1920,
+    "r_frame_rate": "30/1",
+    "duration": "12.000000",
+    "nb_read_frames": "360"
+  },
+  {
+    "file": "avatar_grid_oblique.mp4",
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1920,
+    "r_frame_rate": "30/1",
+    "duration": "12.000000",
+    "nb_read_frames": "360"
+  },
+  {
+    "file": "nine_avatar_grid.mp4",
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1920,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "darkness_shibu_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "sakurada_fumiriya_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "sendagaya_shino_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "victoria_rubin_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "vita_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "vivi_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "avatarsample_a_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "avatarsample_b_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  },
+  {
+    "file": "avatarsample_c_demo.mp4",
+    "codec_name": "h264",
+    "width": 584,
+    "height": 496,
+    "r_frame_rate": "30/1",
+    "duration": "24.000000",
+    "nb_read_frames": "720"
+  }
+]

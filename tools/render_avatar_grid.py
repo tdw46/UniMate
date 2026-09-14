@@ -1,6 +1,7 @@
 """Render a 3x3 grid of nine independently reconstructed avatars."""
 import json
 import math
+import os
 from pathlib import Path
 import sys
 
@@ -8,7 +9,8 @@ import bpy
 from mathutils import Quaternion, Vector
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT/'outputs/avatar_grid'
+OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT/'outputs/avatar_grid')).resolve()
+SETTINGS = json.loads((OUT/'dataset.json').read_text()) if (OUT/'dataset.json').exists() else {}
 PREVIEW = '--preview' in sys.argv
 PREPARED = '--prepared' in sys.argv
 VIEW = 'oblique' if '--oblique' in sys.argv else 'front'
@@ -18,6 +20,14 @@ FRAME = int(sys.argv[sys.argv.index('--frame')+1]) if '--frame' in sys.argv else
 def material(name,color):
     m = bpy.data.materials.new(name)
     m.diffuse_color = (*color,1)
+    if SETTINGS.get('renderer') == 'EEVEE':
+        m.use_nodes = True
+        nodes = m.node_tree.nodes
+        nodes.clear()
+        emission = nodes.new('ShaderNodeEmission')
+        emission.inputs['Color'].default_value = (*color,1)
+        output = nodes.new('ShaderNodeOutputMaterial')
+        m.node_tree.links.new(emission.outputs[0],output.inputs['Surface'])
     return m
 
 
@@ -36,6 +46,11 @@ def stage():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
     scene.render.engine = 'BLENDER_WORKBENCH'
+    if SETTINGS.get('renderer') == 'EEVEE':
+        engines = {e.identifier for e in scene.render.bl_rna.properties['engine'].enum_items}
+        scene.render.engine = 'BLENDER_EEVEE_NEXT' if 'BLENDER_EEVEE_NEXT' in engines else 'BLENDER_EEVEE'
+        if hasattr(scene, 'eevee') and hasattr(scene.eevee, 'taa_render_samples'):
+            scene.eevee.taa_render_samples = 16
     scene.render.resolution_x = scene.render.resolution_y = 1920
     scene.render.resolution_percentage = 100
     scene.render.fps = 30
@@ -54,6 +69,9 @@ def stage():
     shading.background_type = 'WORLD'
     scene.world = bpy.data.worlds.new('Gallery background')
     scene.world.color = (.013,.021,.035)
+    if SETTINGS.get('renderer') == 'EEVEE':
+        scene.world.use_nodes = True
+        scene.world.node_tree.nodes.get('Background').inputs['Color'].default_value = (.013,.021,.035,1)
     scene.view_settings.view_transform = 'Standard'
     scene.display.render_aa = '16'
     entries = json.loads((OUT/'sources/manifest.json').read_text())
@@ -109,7 +127,7 @@ def stage():
         card.data.materials.append(material('Card',(0.026,.038,.058)))
         bevel = card.modifiers.new('Rounded panel','BEVEL')
         bevel.width,bevel.segments = .06,4
-        text(f'{index+1:02d}  {entry["name"].upper()}',x,base-.13,.19,(.85,.9,.96))
+        text(f'{index+1:02d}  {entry.get("display_name",entry["name"]).upper()}',x,base-.13,.19,(.85,.9,.96))
         text('BOOLEAN BUST  /  FRESH 13-BONE RIG',x,base-.36,.085,(.45,.62,.72))
     camera = bpy.data.objects.new('Grid camera',bpy.data.cameras.new('Grid camera'))
     scene.collection.objects.link(camera)
@@ -118,14 +136,14 @@ def stage():
     camera.data.type = 'ORTHO'
     camera.data.ortho_scale = 12.9
     scene.camera = camera
-    text('AVATAR RIG STUDY  /  09',-5.9,11.0,.32,(.91,.95,.99),'LEFT')
+    text(SETTINGS.get('title','AVATAR RIG STUDY  /  09'),-5.9,11.0,.32,(.91,.95,.99),'LEFT')
     text('BLENDER 5.2  /  '+VIEW.upper(),5.9,11.09,.13,(.48,.70,.81),'RIGHT')
     for phase,label in enumerate(('01  HEAD TURNS + NODS','02  NECK BENDS + TILTS','03  ARM RAISES + ELBOW FLEXION')):
         obj = text(label,-5.9,10.54,.18,(.38,.77,.78),'LEFT')
         for f,hide in [(0,phase!=0),(120,phase!=1),(240,phase!=2),(359,phase!=2)]:
             obj.hide_render = hide
             obj.keyframe_insert('hide_render',frame=f)
-    text('9 CC0 avatars by Quaternius  |  Posed, baked, cut, stripped, freshly weighted',0,-.76,.135,(.62,.72,.82))
+    text(SETTINGS.get('credits','9 CC0 avatars by Quaternius  |  Posed, baked, cut, stripped, freshly weighted'),0,-.76,.135,(.62,.72,.82))
     text('Authored evaluation motion through UniMate GLB > NPZ > GLB. No model inference.',0,-1.02,.12,(.44,.56,.68))
     scene['pipeline_provenance'] = 'New rigs and new weights after destructive Boolean cuts; UniMate reconstruction of authored diagnostics.'
     scene['layout_audit'] = json.dumps(layout)

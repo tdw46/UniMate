@@ -1,6 +1,7 @@
 """Validate nine prepared avatars through the UniMate reconstruction path."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -12,7 +13,7 @@ from scipy.spatial import cKDTree
 from data_process.motion_export.export_general import export_asset
 from data_process.mesh_animation.animate_npz import animate_character
 
-OUT = ROOT / 'outputs/avatar_grid'
+OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
 SAMPLE_FRAMES = (0,30,59,90,119,150,179,210,239,270,299,330,359)
 
 
