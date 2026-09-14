@@ -104,7 +104,7 @@ if all(len(list(folder.glob('*.png'))) == 120 for folder in folders):
     ffmpeg(*inputs,'-filter_complex',';'.join(filters),'-frames:v','240',
            '-c:v','libx264','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart',comparison)
     videos.append((comparison,240))
-    ffmpeg('-ss','2.33','-i',comparison,'-frames:v','1',OUT/'shoulders_comparison.jpg')
+    ffmpeg('-ss','3.93','-i',comparison,'-frames:v','1',OUT/'shoulders_comparison.jpg')
 metadata = []
 for video,expected in videos:
     result = subprocess.check_output([FFPROBE,'-v','error','-count_frames','-select_streams','v:0','-show_entries','stream=codec_name,width,height,r_frame_rate,nb_read_frames,duration','-of','json',str(video)],text=True)

@@ -3,9 +3,11 @@
 No avatar identifiers, source vertex counts, or imported skin weights are used.
 Coordinates must be baked into the new rig local space, with Z up and X lateral.
 """
-from mathutils import Vector
+from mathutils import Vector, Quaternion
+import math
 from mathutils.bvhtree import BVHTree
 from mathutils.geometry import barycentric_transform
+import heapq
 import numpy as np
 
 
@@ -220,7 +222,124 @@ def classify_regions(meshes, rig, rigid_parts):
     return carrier, regions
 
 
-def correct_apparel(meshes, rig, rigid_parts):
+def garment_heat_solution(region, rig, garment_heat):
+    """Use a complete topology-based solve on a broad connected torso shell.
+
+    Small detached ties, bows and jewelry keep their attachment transfer.
+    An incomplete solve falls back as a whole region, avoiding new weight
+    discontinuities at the boundary of failed heat vertices.
+    """
+    if region['role'] != 'torso' or garment_heat is None:
+        return None
+    neck = rig.data.bones['Neck']
+    left = rig.data.bones['UpperArm.L'].head_local.x
+    right = rig.data.bones['UpperArm.R'].head_local.x
+    broad_shell = (region['low'].x < right and region['high'].x > left
+                   and region['low'].z < neck.head_local.z-neck.length*.35
+                   and region['high'].z > neck.head_local.z-neck.length)
+    if not broad_shell:
+        return None
+    values = garment_heat.get(region['object'].name, {})
+    # Blender's raw heat groups are not guaranteed to sum to one yet;
+    # constrain() normalizes them while applying the anatomical caps.
+    if not all(values.get(i) and sum(values[i].values()) > 1e-8
+               for i in region['indices']):
+        return None
+    return values
+
+
+def preserved_garment_vertices(region, rig, attachment_values=None):
+    """Keep complete top/underarm faces and the applied bust-cut boundary.
+
+    Face classification avoids changing a corner of an otherwise protected
+    triangle. Source coordinates are baked with Z up by the preparation flow.
+    """
+    obj, ids = region['object'], set(region['indices'])
+    neck = rig.data.bones['Neck']
+    protected = set()
+    protected.update(i for i in ids if obj.data.vertices[i].co.z < region['low'].z+neck.length*.05)
+    for face in obj.data.polygons:
+        if not all(i in ids for i in face.vertices):
+            continue
+        at_cut = all(abs(obj.data.vertices[i].co.z-region['low'].z) < neck.length*.001
+                     for i in face.vertices)
+        side = 'L' if face.center.x > neck.head_local.x else 'R'
+        arm = rig.data.bones['UpperArm.'+side]
+        axis = (arm.tail_local-arm.head_local).normalized()
+        up = Vector((0, 0, 1))
+        up = (up-axis*up.dot(axis)).normalized()
+        delta = face.center-arm.head_local
+        at_shoulder = (-.35 < delta.dot(axis)/arm.length < .9
+                       and delta.length < arm.length*.85)
+        at_collar = attachment_values is not None and any(
+            attachment_values[i].get('Head', 0.)+attachment_values[i].get('Neck', 0.) > 1e-8
+            for i in face.vertices)
+        if at_cut or at_collar or (at_shoulder and abs(face.normal.dot(up)) > .7):
+            protected.update(face.vertices)
+    return protected
+
+
+def garment_heat_blend(region, rig, protected):
+    """Fade the weight source by surface distance from protected boundaries."""
+    obj, ids = region['object'], set(region['indices'])
+    neighbors = {i: [] for i in ids}
+    for edge in obj.data.edges:
+        a, b = edge.vertices
+        if a in ids and b in ids:
+            length = (obj.data.vertices[a].co-obj.data.vertices[b].co).length
+            neighbors[a].append((b, length)); neighbors[b].append((a, length))
+    distance = {i: float('inf') for i in ids}
+    pending = [(0., i) for i in protected]
+    for i in protected: distance[i] = 0.
+    heapq.heapify(pending)
+    while pending:
+        d, i = heapq.heappop(pending)
+        if d != distance[i]: continue
+        for j, length in neighbors[i]:
+            candidate = d+length
+            if candidate < distance[j]:
+                distance[j] = candidate; heapq.heappush(pending, (candidate, j))
+    return {i: smooth(0., rig.data.bones['Neck'].length*.4, d) for i, d in distance.items()}
+
+
+def garment_strain_score(region, rig, values):
+    """Peak area-weighted strain in three anatomical arm/elbow probe poses.
+
+    Pure array evaluation leaves the Blender pose and animation untouched.
+    Rest coordinates use the preparation flow's canonical rig-local frame.
+    """
+    obj, ids = region['object'], set(region['indices'])
+    obj.data.calc_loop_triangles()
+    triangles = np.array([list(t.vertices) for t in obj.data.loop_triangles
+                          if all(i in ids for i in t.vertices)], dtype=int)
+    if not len(triangles): return float('inf')
+    points = np.array([v.co[:] for v in obj.data.vertices])
+    edges = points[triangles[:,1:]]-points[triangles[:,0,None]]
+    area = np.linalg.norm(np.cross(edges[:,0], edges[:,1]), axis=1)*.5
+    valid = area > rig.data.bones['Neck'].length**2*1e-8
+    triangles, edges, area = triangles[valid], edges[valid], area[valid]
+    if not len(triangles): return float('inf')
+    inverse = np.linalg.pinv(edges.transpose(0,2,1))
+    peak = 0.
+    for arm_angle, elbow_angle in ((25,0), (-15,35), (-50,65)):
+        posed = points.copy()
+        for side, sign in (('L',1), ('R',-1)):
+            arm = rig.data.bones['UpperArm.'+side]
+            shoulder, elbow = np.array(arm.head_local), np.array(arm.tail_local)
+            rotation = np.array(Quaternion((0,1,0), math.radians(sign*arm_angle)).to_matrix())
+            flex = np.array(Quaternion((0,0,1), math.radians(-sign*elbow_angle)).to_matrix())
+            upper = (points-shoulder) @ rotation.T+shoulder
+            fore = (((points-elbow) @ flex.T+elbow)-shoulder) @ rotation.T+shoulder
+            upper_weights = np.array([values.get(i,{}).get('UpperArm.'+side,0.) for i in range(len(points))])
+            fore_weights = np.array([sum(values.get(i,{}).get(n+side,0.) for n in ('Forearm.','Hand.')) for i in range(len(points))])
+            posed += (upper-points)*upper_weights[:,None]+(fore-points)*fore_weights[:,None]
+        gradient = (posed[triangles[:,1:]]-posed[triangles[:,0,None]]).transpose(0,2,1) @ inverse
+        stretch = np.linalg.svd(gradient, compute_uv=False)[:,:2]
+        peak = max(peak, float(np.sqrt(np.average(np.sum((stretch-1)**2, axis=1), weights=area))))
+    return peak
+
+
+def correct_apparel(meshes, rig, rigid_parts, garment_heat=None):
     carrier, regions = classify_regions(meshes, rig, rigid_parts)
     neck = rig.data.bones['Neck']
     obj = carrier['object']
@@ -232,6 +351,13 @@ def correct_apparel(meshes, rig, rigid_parts):
              'carrier_mesh': obj.name, 'regions': []}
     for r in regions:
         obj, indices, role = r['object'], r['indices'], r['role']
+        heat = garment_heat_solution(r, rig, garment_heat)
+        original_values = ({i: constrain(rig, obj.data.vertices[i].co,
+                                         surface.sample(obj.data.vertices[i].co, rig), clothing=True)
+                            for i in indices} if role == 'torso' else {})
+        protected = preserved_garment_vertices(r, rig, original_values) if heat is not None else set()
+        heat_blend = garment_heat_blend(r, rig, protected) if heat is not None else {}
+        strain_check = None
         if role == 'neckwear':
             assign(obj, indices, {'Neck': 1.})
         elif role == 'head':
@@ -245,14 +371,37 @@ def correct_apparel(meshes, rig, rigid_parts):
                 n = smooth(neck.head_local.z-neck.length, neck.tail_local.z, point.z)*(1-h)
                 assign(obj, [index], {'Head':h, 'Neck':n, 'Chest':1-h-n})
         elif role == 'torso':
+            candidate_values = {}
             for index in indices:
                 point = obj.data.vertices[index].co
-                assign(obj, [index], constrain(rig, point, surface.sample(point, rig), clothing=True))
+                values = original_values[index]
+                if heat is not None and heat_blend[index] > 0:
+                    original = original_values[index]
+                    fitted = constrain(rig, point, heat[index], clothing=True)
+                    blend = heat_blend[index]
+                    values = {bone: original.get(bone, 0.)*(1-blend)+fitted.get(bone, 0.)*blend
+                              for bone in original.keys() | fitted.keys()}
+                    values = constrain(rig, point, values, clothing=True)
+                candidate_values[index] = values
+            if heat is not None:
+                baseline_score = garment_strain_score(r, rig, original_values)
+                candidate_score = garment_strain_score(r, rig, candidate_values)
+                accepted = candidate_score < baseline_score*.999
+                strain_check = {'body_transfer': baseline_score, 'garment_heat_blend': candidate_score,
+                                'accepted': accepted}
+                if not accepted:
+                    candidate_values = original_values
+                    heat = None
+            for index in indices:
+                assign(obj, [index], candidate_values[index])
         elif role == 'body' and r is not carrier:
             for index in indices:
                 point = obj.data.vertices[index].co
                 assign(obj, [index], constrain(rig, point, weights(obj, index)))
         audit['regions'].append({'mesh': obj.name, 'vertices': len(indices),
                                  'role': role, 'reason': r['reason'],
+                                 'weight_source': 'fresh garment heat' if heat is not None else 'anatomical attachment or body transfer',
+                                 'preserved_top_underarm_cut_vertices': len(protected),
+                                 'strain_check': strain_check,
                                  'bounds_min': list(r['low']), 'bounds_max': list(r['high'])})
     return audit

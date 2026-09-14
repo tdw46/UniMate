@@ -1,0 +1,534 @@
+[
+  {
+    "id": "darkness_shibu",
+    "rejected": {
+      "triangles": 1818,
+      "frames": 23,
+      "max_principal_stretch": 2.440938021307716,
+      "peak_p99_stretch": 2.031360794262775,
+      "peak_area_weighted_rms_strain": 0.21792482431254595,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          696,
+          687,
+          685
+        ],
+        "frame": 299,
+        "rest_area": 0.007905382524490679,
+        "rest_center": [
+          0.5514209866523743,
+          -0.36613502105077106,
+          0.8053811391194662
+        ],
+        "posed_longest_edge": 0.39498707237396674
+      }
+    },
+    "protected_garment_vertices_unchanged": 339,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 1818,
+      "frames": 23,
+      "max_principal_stretch": 2.440938021307716,
+      "peak_p99_stretch": 2.031360794262775,
+      "peak_area_weighted_rms_strain": 0.21918982629301276,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          696,
+          687,
+          685
+        ],
+        "frame": 299,
+        "rest_area": 0.007905382524490679,
+        "rest_center": [
+          0.5514209866523743,
+          -0.36613502105077106,
+          0.8053811391194662
+        ],
+        "posed_longest_edge": 0.39498707237396674
+      }
+    },
+    "rms_strain_change_percent": 0.5804763107908117,
+    "passed": true
+  },
+  {
+    "id": "sakurada_fumiriya",
+    "rejected": {
+      "triangles": 1858,
+      "frames": 23,
+      "max_principal_stretch": 3.974995113717386,
+      "peak_p99_stretch": 2.4126066424458217,
+      "peak_area_weighted_rms_strain": 0.25987242775677183,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          252,
+          251,
+          253
+        ],
+        "frame": 299,
+        "rest_area": 0.003572710587936016,
+        "rest_center": [
+          -0.687379002571106,
+          -0.4269850452740987,
+          0.6126160621643066
+        ],
+        "posed_longest_edge": 0.2831026093465468
+      }
+    },
+    "protected_garment_vertices_unchanged": 584,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 1858,
+      "frames": 23,
+      "max_principal_stretch": 3.974995113717386,
+      "peak_p99_stretch": 2.4126066424458217,
+      "peak_area_weighted_rms_strain": 0.26050735953289,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          252,
+          251,
+          253
+        ],
+        "frame": 299,
+        "rest_area": 0.003572710587936016,
+        "rest_center": [
+          -0.687379002571106,
+          -0.4269850452740987,
+          0.6126160621643066
+        ],
+        "posed_longest_edge": 0.2831026093465468
+      }
+    },
+    "rms_strain_change_percent": 0.2443244100957198,
+    "passed": true
+  },
+  {
+    "id": "sendagaya_shino",
+    "rejected": {
+      "triangles": 2386,
+      "frames": 23,
+      "max_principal_stretch": 8.814568543500055,
+      "peak_p99_stretch": 4.983744950060397,
+      "peak_area_weighted_rms_strain": 0.37875440869115784,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          117,
+          131,
+          128
+        ],
+        "frame": 299,
+        "rest_area": 0.0006141829135962254,
+        "rest_center": [
+          0.5782044331232706,
+          -0.5380665262540182,
+          0.8598581949869791
+        ],
+        "posed_longest_edge": 0.2930608882053734
+      }
+    },
+    "protected_garment_vertices_unchanged": 688,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 2386,
+      "frames": 23,
+      "max_principal_stretch": 7.48366791741077,
+      "peak_p99_stretch": 2.783230647540219,
+      "peak_area_weighted_rms_strain": 0.3566155199272953,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          132,
+          55,
+          131
+        ],
+        "frame": 299,
+        "rest_area": 0.0014088647925508406,
+        "rest_center": [
+          0.5934608578681946,
+          -0.48587654034296673,
+          0.8337329228719076
+        ],
+        "posed_longest_edge": 0.26895258536315125
+      }
+    },
+    "rms_strain_change_percent": -5.845183120208885,
+    "passed": true
+  },
+  {
+    "id": "victoria_rubin",
+    "rejected": {
+      "triangles": 1818,
+      "frames": 23,
+      "max_principal_stretch": 2.4339654394149575,
+      "peak_p99_stretch": 2.032300133448882,
+      "peak_area_weighted_rms_strain": 0.21593282216245097,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          886,
+          895,
+          884
+        ],
+        "frame": 299,
+        "rest_area": 0.007367921153276401,
+        "rest_center": [
+          -0.5373493830362955,
+          -0.3830547233422597,
+          0.8017951647440592
+        ],
+        "posed_longest_edge": 0.3813707605169715
+      }
+    },
+    "protected_garment_vertices_unchanged": 358,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 1818,
+      "frames": 23,
+      "max_principal_stretch": 2.4339654394149575,
+      "peak_p99_stretch": 2.032300133448882,
+      "peak_area_weighted_rms_strain": 0.2171999009980025,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          886,
+          895,
+          884
+        ],
+        "frame": 299,
+        "rest_area": 0.007367921153276401,
+        "rest_center": [
+          -0.5373493830362955,
+          -0.3830547233422597,
+          0.8017951647440592
+        ],
+        "posed_longest_edge": 0.3813707605169715
+      }
+    },
+    "rms_strain_change_percent": 0.5867930696512147,
+    "passed": true
+  },
+  {
+    "id": "vita",
+    "rejected": {
+      "triangles": 1818,
+      "frames": 23,
+      "max_principal_stretch": 2.439988262526212,
+      "peak_p99_stretch": 2.0315151120615567,
+      "peak_area_weighted_rms_strain": 0.21884892346396556,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          696,
+          687,
+          685
+        ],
+        "frame": 299,
+        "rest_area": 0.007368505207384336,
+        "rest_center": [
+          0.5318980713685354,
+          -0.37055618564287823,
+          0.7906281153361002
+        ],
+        "posed_longest_edge": 0.38108757718827113
+      }
+    },
+    "protected_garment_vertices_unchanged": 334,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 1818,
+      "frames": 23,
+      "max_principal_stretch": 2.439988262526212,
+      "peak_p99_stretch": 2.0315151120615567,
+      "peak_area_weighted_rms_strain": 0.22011399532568696,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          696,
+          687,
+          685
+        ],
+        "frame": 299,
+        "rest_area": 0.007368505207384336,
+        "rest_center": [
+          0.5318980713685354,
+          -0.37055618564287823,
+          0.7906281153361002
+        ],
+        "posed_longest_edge": 0.38108757718827113
+      }
+    },
+    "rms_strain_change_percent": 0.5780571554557801,
+    "passed": true
+  },
+  {
+    "id": "vivi",
+    "rejected": {
+      "triangles": 1814,
+      "frames": 23,
+      "max_principal_stretch": 2.6403985869047437,
+      "peak_p99_stretch": 1.9433703581699369,
+      "peak_area_weighted_rms_strain": 0.22488064638384594,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          696,
+          687,
+          685
+        ],
+        "frame": 299,
+        "rest_area": 0.006208943435820692,
+        "rest_center": [
+          0.5459281305472056,
+          -0.35261380672454834,
+          0.7948381106058756
+        ],
+        "posed_longest_edge": 0.34969194932068315
+      }
+    },
+    "protected_garment_vertices_unchanged": 316,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 1814,
+      "frames": 23,
+      "max_principal_stretch": 2.6403985869047437,
+      "peak_p99_stretch": 1.9528545546965055,
+      "peak_area_weighted_rms_strain": 0.22599785599925112,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          696,
+          687,
+          685
+        ],
+        "frame": 299,
+        "rest_area": 0.006208943435820692,
+        "rest_center": [
+          0.5459281305472056,
+          -0.35261380672454834,
+          0.7948381106058756
+        ],
+        "posed_longest_edge": 0.34969194932068315
+      }
+    },
+    "rms_strain_change_percent": 0.49680114023606947,
+    "passed": true
+  },
+  {
+    "id": "avatarsample_a",
+    "rejected": {
+      "triangles": 2618,
+      "frames": 23,
+      "max_principal_stretch": 6.786565405982888,
+      "peak_p99_stretch": 4.068181816950784,
+      "peak_area_weighted_rms_strain": 0.5686840444317064,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          1136,
+          750,
+          749
+        ],
+        "frame": 299,
+        "rest_area": 0.0034985599469885397,
+        "rest_center": [
+          -0.7079045573870341,
+          -0.5659996271133423,
+          0.6724038124084473
+        ],
+        "posed_longest_edge": 0.5978462885761967
+      }
+    },
+    "rejected_printed_bow": {
+      "triangles": 34,
+      "frames": 120,
+      "max_principal_stretch": 5.309968987868558,
+      "peak_p99_stretch": 5.308628628532208,
+      "peak_area_weighted_rms_strain": 1.6874270596283425,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          750,
+          1135,
+          1139
+        ],
+        "frame": 299,
+        "rest_area": 0.004790357249871207,
+        "rest_center": [
+          -0.6781046390533447,
+          -0.602753758430481,
+          0.745420773824056
+        ],
+        "posed_longest_edge": 0.5431829337591453
+      }
+    },
+    "protected_garment_vertices_unchanged": 556,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 2618,
+      "frames": 23,
+      "max_principal_stretch": 3.477973494653856,
+      "peak_p99_stretch": 1.9974338563419154,
+      "peak_area_weighted_rms_strain": 0.3301415586654276,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          152,
+          154,
+          158
+        ],
+        "frame": 299,
+        "rest_area": 0.002043428577913178,
+        "rest_center": [
+          0.35539517800013226,
+          -0.2679080367088318,
+          1.6314144134521484
+        ],
+        "posed_longest_edge": 0.17569953360310023
+      }
+    },
+    "corrected_printed_bow": {
+      "triangles": 34,
+      "frames": 120,
+      "max_principal_stretch": 1.8732491753039975,
+      "peak_p99_stretch": 1.8703284713440662,
+      "peak_area_weighted_rms_strain": 0.4183033315439465,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          474,
+          1045,
+          1008
+        ],
+        "frame": 299,
+        "rest_area": 0.0064641705332634195,
+        "rest_center": [
+          0.6753829121589661,
+          -0.5938848853111267,
+          0.6903808911641439
+        ],
+        "posed_longest_edge": 0.2627675709189032
+      }
+    },
+    "rms_strain_change_percent": -41.946400308216404,
+    "passed": true
+  },
+  {
+    "id": "avatarsample_b",
+    "rejected": {
+      "triangles": 2962,
+      "frames": 23,
+      "max_principal_stretch": 12.808578893199835,
+      "peak_p99_stretch": 6.069161253112286,
+      "peak_area_weighted_rms_strain": 0.6375152083026207,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          172,
+          186,
+          187
+        ],
+        "frame": 299,
+        "rest_area": 0.0014246994173524646,
+        "rest_center": [
+          -0.5391884048779806,
+          -0.3543079098065694,
+          0.6394853591918945
+        ],
+        "posed_longest_edge": 0.35417267970533994
+      }
+    },
+    "protected_garment_vertices_unchanged": 474,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 2962,
+      "frames": 23,
+      "max_principal_stretch": 12.808578893199835,
+      "peak_p99_stretch": 5.128268548000217,
+      "peak_area_weighted_rms_strain": 0.606564355249017,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          172,
+          186,
+          187
+        ],
+        "frame": 299,
+        "rest_area": 0.0014246994173524646,
+        "rest_center": [
+          -0.5391884048779806,
+          -0.3543079098065694,
+          0.6394853591918945
+        ],
+        "posed_longest_edge": 0.35417267970533994
+      }
+    },
+    "rms_strain_change_percent": -4.85491995336238,
+    "passed": true
+  },
+  {
+    "id": "avatarsample_c",
+    "rejected": {
+      "triangles": 2956,
+      "frames": 23,
+      "max_principal_stretch": 5.027723837310662,
+      "peak_p99_stretch": 2.538582007078089,
+      "peak_area_weighted_rms_strain": 0.3351580630442902,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          474,
+          477,
+          476
+        ],
+        "frame": 299,
+        "rest_area": 0.003371597444715623,
+        "rest_center": [
+          0.7928929726282755,
+          -0.2938263813654582,
+          0.5688133239746094
+        ],
+        "posed_longest_edge": 0.29879980069680845
+      }
+    },
+    "protected_garment_vertices_unchanged": 654,
+    "geometry_uvs_unchanged": true,
+    "non_garment_weights_restored_exactly": true,
+    "corrected": {
+      "triangles": 2956,
+      "frames": 23,
+      "max_principal_stretch": 5.027723837310662,
+      "peak_p99_stretch": 1.84721696402035,
+      "peak_area_weighted_rms_strain": 0.2960872439965162,
+      "worst_triangle": {
+        "mesh": "Body__torso",
+        "vertices": [
+          474,
+          477,
+          476
+        ],
+        "frame": 299,
+        "rest_area": 0.003371597444715623,
+        "rest_center": [
+          0.7928929726282755,
+          -0.2938263813654582,
+          0.5688133239746094
+        ],
+        "posed_longest_edge": 0.29879980069680845
+      }
+    },
+    "rms_strain_change_percent": -11.65743073369262,
+    "passed": true
+  }
+]

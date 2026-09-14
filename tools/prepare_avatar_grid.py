@@ -14,10 +14,9 @@ from mathutils import Matrix, Quaternion, Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
-from avatar_apparel_weights import correct_apparel
+from avatar_apparel_weights import correct_apparel, weights
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
-from avatar_shoulder_weights import smooth_shoulders
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
 SOURCES = OUT / 'sources'
 FRAMES = 360
@@ -202,6 +201,10 @@ def prepare(entry):
     select_only(meshes+[rig], rig)
     binding_result = bpy.ops.object.parent_set(type='ARMATURE_AUTO')
     assert binding_result == {'FINISHED'}
+    # Preserve successful fresh garment heat solutions before the legacy
+    # lateral-sleeve repair and nearest-body transfer can overwrite them.
+    garment_heat = {obj.name: {v.index: weights(obj, v.index) for v in obj.data.vertices}
+                    for obj in meshes}
     repaired = 0
     sleeve_vertices = 0
     for obj in meshes:
@@ -254,9 +257,8 @@ def prepare(entry):
         bpy.ops.object.vertex_group_limit_total(limit=4)
         bpy.ops.object.vertex_group_normalize_all(lock_active=False)
         assert all(abs(sum(g.weight for g in v.groups)-1)<1e-4 for v in obj.data.vertices)
-    audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts)
+    audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts, garment_heat)
     audit['voxel_seam_correction'] = correct_skin_seams(meshes, rig,folder/'03_voxel_skin_proxy.blend')
-    audit['shoulder_smoothing'] = smooth_shoulders(meshes, rig, rigid_parts)
     audit['fresh_rig'] = {'bones':len(rig.data.bones), 'unweighted_vertices_repaired_from_new_bones':repaired,
                           'lateral_sleeve_vertices_reweighted_from_new_bones':sleeve_vertices,
                           'rigid_parts':rigid_parts, 'bone_names':[b.name for b in rig.data.bones]}

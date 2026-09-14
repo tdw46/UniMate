@@ -604,13 +604,13 @@
           "vertices": 1325,
           "max_displacement": {
             "Head": 0.0,
-            "Neck": 0.1008296445832619,
-            "Spine": 1.2631214415569947,
-            "Chest": 1.2528004271148805,
-            "Clavicle.L": 1.2693928687163594,
-            "Clavicle.R": 1.2690763487467704,
-            "UpperArm.L": 1.124674100825186,
-            "UpperArm.R": 1.1243710837831413
+            "Neck": 0.12845203406541028,
+            "Spine": 1.2631211112383458,
+            "Chest": 1.252800138678498,
+            "Clavicle.L": 1.2693927982834998,
+            "Clavicle.R": 1.2690763487467729,
+            "UpperArm.L": 1.124673915334764,
+            "UpperArm.R": 1.1243711049049274
           },
           "below_collar_vertices": 983,
           "below_collar_neck_displacement": 0.0,
@@ -682,12 +682,12 @@
           "max_displacement": {
             "Head": 0.0,
             "Neck": 0.10512528300786306,
-            "Spine": 1.2228608127860106,
-            "Chest": 1.219213254012567,
+            "Spine": 1.2228607153020672,
+            "Chest": 1.219213156236978,
             "Clavicle.L": 1.256722635587837,
-            "Clavicle.R": 1.2567174984627982,
-            "UpperArm.L": 1.1295999553732758,
-            "UpperArm.R": 1.1295990698909228
+            "Clavicle.R": 1.2567173561762903,
+            "UpperArm.L": 1.129599902607121,
+            "UpperArm.R": 1.1295989115923268
           },
           "below_collar_vertices": 1293,
           "below_collar_neck_displacement": 0.0,
@@ -759,12 +759,12 @@
           "max_displacement": {
             "Head": 0.0,
             "Neck": 0.16845515844438,
-            "Spine": 1.446110839990071,
+            "Spine": 1.4461107163384552,
             "Chest": 1.4419886283515457,
-            "Clavicle.L": 1.4477570351989926,
-            "Clavicle.R": 1.447761729253057,
-            "UpperArm.L": 1.212518533584686,
-            "UpperArm.R": 1.2125236114128028
+            "Clavicle.L": 1.4477569116879767,
+            "Clavicle.R": 1.4477618115934612,
+            "UpperArm.L": 1.2125186073212615,
+            "UpperArm.R": 1.2125236767001268
           },
           "below_collar_vertices": 1131,
           "below_collar_neck_displacement": 0.0,
