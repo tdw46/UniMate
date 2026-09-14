@@ -1469,6 +1469,21 @@
         }
       ]
     },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.01961744762957096,
+      "seam_tolerance": 0.001961744762957096,
+      "seam_clusters": 58,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 2,
+      "proxy_vertices": 40154,
+      "proxy_faces": 40152,
+      "vertices_reweighted": 1124,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 124,
+      "geometry_and_uvs_preserved": true
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 150,
@@ -3493,6 +3508,21 @@
         }
       ]
     },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.024645790457725525,
+      "seam_tolerance": 0.0024645790457725526,
+      "seam_clusters": 66,
+      "applied": true,
+      "head_boundary_clusters": 44,
+      "proxy_holes_filled": 4,
+      "proxy_vertices": 28846,
+      "proxy_faces": 28844,
+      "vertices_reweighted": 1710,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 134,
+      "geometry_and_uvs_preserved": true
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 108,
@@ -4972,6 +5002,21 @@
           ]
         }
       ]
+    },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.019930217415094376,
+      "seam_tolerance": 0.001993021741509438,
+      "seam_clusters": 60,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 3,
+      "proxy_vertices": 38658,
+      "proxy_faces": 38658,
+      "vertices_reweighted": 1104,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 122,
+      "geometry_and_uvs_preserved": true
     },
     "fresh_rig": {
       "bones": 13,
@@ -6693,6 +6738,21 @@
         }
       ]
     },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.020005661994218826,
+      "seam_tolerance": 0.0020005661994218827,
+      "seam_clusters": 61,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 2,
+      "proxy_vertices": 37428,
+      "proxy_faces": 37426,
+      "vertices_reweighted": 1120,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 124,
+      "geometry_and_uvs_preserved": true
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 150,
@@ -8316,6 +8376,21 @@
           ]
         }
       ]
+    },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.019541321322321892,
+      "seam_tolerance": 0.001954132132232189,
+      "seam_clusters": 60,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 2,
+      "proxy_vertices": 37798,
+      "proxy_faces": 37796,
+      "vertices_reweighted": 1139,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 122,
+      "geometry_and_uvs_preserved": true
     },
     "fresh_rig": {
       "bones": 13,
@@ -10229,6 +10304,21 @@
         }
       ]
     },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.01866479031741619,
+      "seam_tolerance": 0.0018664790317416192,
+      "seam_clusters": 63,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 4,
+      "proxy_vertices": 41376,
+      "proxy_faces": 41374,
+      "vertices_reweighted": 1108,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 130,
+      "geometry_and_uvs_preserved": true
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 1060,
@@ -12086,6 +12176,21 @@
           ]
         }
       ]
+    },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.02052965573966503,
+      "seam_tolerance": 0.002052965573966503,
+      "seam_clusters": 68,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 3,
+      "proxy_vertices": 38324,
+      "proxy_faces": 38322,
+      "vertices_reweighted": 1216,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 138,
+      "geometry_and_uvs_preserved": true
     },
     "fresh_rig": {
       "bones": 13,
@@ -13951,6 +14056,21 @@
           ]
         }
       ]
+    },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.018749499693512917,
+      "seam_tolerance": 0.0018749499693512918,
+      "seam_clusters": 62,
+      "applied": true,
+      "head_boundary_clusters": 38,
+      "proxy_holes_filled": 4,
+      "proxy_vertices": 35846,
+      "proxy_faces": 35844,
+      "vertices_reweighted": 1239,
+      "proxy_unweighted_fallback_vertices": 0,
+      "seam_vertices": 128,
+      "geometry_and_uvs_preserved": true
     },
     "fresh_rig": {
       "bones": 13,
@@ -16464,6 +16584,21 @@
           ]
         }
       ]
+    },
+    "voxel_seam_correction": {
+      "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
+      "voxel_size": 0.028832780197262764,
+      "seam_tolerance": 0.0028832780197262766,
+      "seam_clusters": 86,
+      "applied": true,
+      "head_boundary_clusters": 44,
+      "proxy_holes_filled": 7,
+      "proxy_vertices": 22908,
+      "proxy_faces": 22906,
+      "vertices_reweighted": 2297,
+      "proxy_unweighted_fallback_vertices": 22908,
+      "seam_vertices": 179,
+      "geometry_and_uvs_preserved": true
     },
     "fresh_rig": {
       "bones": 13,

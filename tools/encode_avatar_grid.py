@@ -52,11 +52,8 @@ if all((before/f'{name}_demo.mp4').exists() for name in ('monk','scifi')):
     videos.append((comparison,720))
 # A preserved subset of cards provides a focused neckline comparison without
 # embedding avatar identities into preparation or weighting rules.
-before = OUT/'before_neck_cloth_fix'
-entries = json.loads((OUT/'sources/manifest.json').read_text())
-cards = [(i,e['id']) for i,e in enumerate(entries) if (before/(e['id']+'_demo.mp4')).exists()]
-if cards:
-    comparison = OUT/'neck_cloth_before_after.mp4'
+def compare_cards(before,cards,filename):
+    comparison = OUT/filename
     inputs, filters, layout, labels = [], [], [], []
     for row,(index,name) in enumerate(cards):
         for col,folder in enumerate((before,OUT)):
@@ -74,6 +71,22 @@ if cards:
     ffmpeg(*inputs,'-filter_complex',';'.join(filters),'-c:v','libx264','-crf','18',
            '-pix_fmt','yuv420p','-movflags','+faststart',comparison)
     videos.append((comparison,720))
+
+before = OUT/'before_neck_cloth_fix'
+entries = json.loads((OUT/'sources/manifest.json').read_text())
+cards = [(i,e['id']) for i,e in enumerate(entries) if (before/(e['id']+'_demo.mp4')).exists()]
+if cards:
+    compare_cards(before,cards,'neck_cloth_before_after.mp4')
+before = OUT/'before_voxel_seam_fix'
+audit = OUT/'seam_validation_before.json'
+if audit.exists():
+    worst = sorted(json.loads(audit.read_text())['avatars'],
+                   key=lambda c:c['max_gap_growth_360_frames'],reverse=True)[:2]
+    names = {c['id'] for c in worst}
+    cards = [(i,e['id']) for i,e in enumerate(entries)
+             if e['id'] in names and (before/(e['id']+'_demo.mp4')).exists()]
+    if cards:
+        compare_cards(before,cards,'voxel_seams_before_after.mp4')
 metadata = []
 for video,expected in videos:
     result = subprocess.check_output([FFPROBE,'-v','error','-count_frames','-select_streams','v:0','-show_entries','stream=codec_name,width,height,r_frame_rate,nb_read_frames,duration','-of','json',str(video)],text=True)

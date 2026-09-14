@@ -1,0 +1,105 @@
+{
+  "baseline": true,
+  "avatars": [
+    {
+      "id": "darkness_shibu",
+      "paired_skin_vertices": 40,
+      "max_rest_gap": 2.390881945757428e-06,
+      "max_animated_gap": 0.09321935062512623,
+      "max_gap_growth_360_frames": 0.09321791887241873,
+      "max_gap_growth_12_stress_poses": 0.14333692819504537,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "sakurada_fumiriya",
+      "paired_skin_vertices": 44,
+      "max_rest_gap": 0.0002782180963549763,
+      "max_animated_gap": 0.1071572132908405,
+      "max_gap_growth_360_frames": 0.10710855308330071,
+      "max_gap_growth_12_stress_poses": 0.17705604824731827,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "sendagaya_shino",
+      "paired_skin_vertices": 38,
+      "max_rest_gap": 2.3932952899485826e-06,
+      "max_animated_gap": 0.09183694687995489,
+      "max_gap_growth_360_frames": 0.09183551512724739,
+      "max_gap_growth_12_stress_poses": 0.14122693893909744,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "victoria_rubin",
+      "paired_skin_vertices": 38,
+      "max_rest_gap": 0.00010377688886364922,
+      "max_animated_gap": 0.09578865717224602,
+      "max_gap_growth_360_frames": 0.0957872155282152,
+      "max_gap_growth_12_stress_poses": 0.1473289323034588,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "vita",
+      "paired_skin_vertices": 38,
+      "max_rest_gap": 2.3932952899485826e-06,
+      "max_animated_gap": 0.08872978677033332,
+      "max_gap_growth_360_frames": 0.08872835130040728,
+      "max_gap_growth_12_stress_poses": 0.13645613337671775,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "vivi",
+      "paired_skin_vertices": 40,
+      "max_rest_gap": 0.00010760778241092339,
+      "max_animated_gap": 0.08703002964299075,
+      "max_gap_growth_360_frames": 0.08702812020001902,
+      "max_gap_growth_12_stress_poses": 0.13387743157471596,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "avatarsample_a",
+      "paired_skin_vertices": 38,
+      "max_rest_gap": 0.0005426036659628153,
+      "max_animated_gap": 0.09926524501698368,
+      "max_gap_growth_360_frames": 0.09926381326427618,
+      "max_gap_growth_12_stress_poses": 0.15243018416009554,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "avatarsample_b",
+      "paired_skin_vertices": 40,
+      "max_rest_gap": 0.00047145705320872366,
+      "max_animated_gap": 0.08481693059259286,
+      "max_gap_growth_360_frames": 0.08481549512266683,
+      "max_gap_growth_12_stress_poses": 0.13036534814561782,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    },
+    {
+      "id": "avatarsample_c",
+      "paired_skin_vertices": 44,
+      "max_rest_gap": 0.0002629490045364946,
+      "max_animated_gap": 0.0829538008934747,
+      "max_gap_growth_360_frames": 0.0829538008934747,
+      "max_gap_growth_12_stress_poses": 0.13710519211656777,
+      "geometry_uv_material_fingerprint_preserved": true,
+      "head_neck_boundary_fully_head": false,
+      "passed": false
+    }
+  ],
+  "passed": false
+}

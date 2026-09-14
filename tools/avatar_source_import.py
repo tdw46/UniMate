@@ -90,6 +90,9 @@ def split_material_regions(meshes, rigid_parts):
     """Split mixed meshes by semantic material role after baking and stripping."""
     result, audit = [], []
     for obj in meshes:
+        for material in obj.data.materials:
+            if material and not material.get('binding_surface') and 'skin' in material.name.lower().split('_'):
+                material['binding_surface'] = 'skin'
         roles = {i: material_role(m) for i,m in enumerate(obj.data.materials)}
         used = {roles.get(p.material_index) for p in obj.data.polygons}
         if used == {None}:

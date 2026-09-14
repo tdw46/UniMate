@@ -64,6 +64,13 @@ non-cloth neck accessories are rigid to Neck; torso clothing excludes Head and r
 local body/shoulder/arm/collar influences. No avatar identities, source vertex
 counts, or old weight values are inputs to the apparel algorithm.
 
+After apparel binding, `avatar_voxel_seams.py` makes a temporary joined skin
+proxy. Skin surfaces use explicit `binding_surface=skin` metadata; the VRoid
+adapter derives that tag from the source `SKIN` material convention. This
+excludes hair, clothing, eyes, and separate accessories from the voxel union.
+Other source formats can supply the same metadata directly on objects or
+materials, together with `binding_role=body` or `head` for the head boundary.
+
 Across the batch, preparation removed **1,202 original bones** and **329,370
 original weight assignments**, and destructively applied **19 Boolean
 modifiers**. Individual cut busts contain 11,374–17,758 welded vertices and
@@ -137,6 +144,50 @@ reproduces both failures; the [new audit](complex-avatar-neck_cloth_validation.j
 passes. All nine general region checks and full reconstruction checks were
 rerun, along with the original nine-avatar apparel regression checks.
 
+### Voxel skin seams and the top-of-neck anchor
+
+The original independently bound face and body opened along their shared skin
+boundary during Head rotation. The face was rigid to Head while coincident
+body vertices used different Head/Neck weights. Welding UV vertices within
+each mesh did not address that cross-object mismatch.
+
+The new stage joins only skin into a temporary proxy, virtually welds nearby
+boundary vertices, closes proxy-only eye/mouth openings, and applies Blender's
+Voxel Remesh at one sixteenth of the new Neck bone length. The original render
+meshes are never remeshed. Fresh heat weights are generated on the solid proxy
+and transferred locally by nearest-triangle barycentric interpolation, fading
+into existing weights away from seams. Eight proxies obtained a heat solution;
+Sample C used the recorded fallback based on distance to the new skeleton.
+All nine proxies were actually voxelized, with 22,908–41,376 vertices.
+
+**The head/neck boundary itself is exactly 100% Head on both sides.** Head
+influence blends downward into Neck below that boundary. Nearby UV duplicates
+also receive identical weights, while existing rest-position offsets are
+preserved. Facial geometry and other head features retain rigid Head weights.
+The neck-cloth correction remains in effect; garments and accessories do not
+participate in this skin pass.
+
+`validate_avatar_seams.py` independently finds 360 matching skin-vertex pairs
+across the nine characters, checks every animated frame, and adds twelve
+isolated Head/Neck stress poses about all three axes at ±0.8 radians. It asserts
+100% Head at every matching head/neck boundary pair. Maximum additional gap
+growth fell from **0.107109** to **0.000000597** scene units during the animation;
+the stress-pose maximum fell from **0.177057** to below **0.0000004**.
+Tiny gaps already present in the source remain (up to 0.000543 scene units);
+the pass changes weights, not source vertex positions.
+
+Geometry, material assignments, and per-corner UV fingerprints match the
+previously prepared meshes. Fingerprints canonicalize polygon order because
+rerunning Exact Boolean can reorder its cap faces. Three procedural tests use
+different tessellations, duplicated UV vertices, scales, and translations;
+their seams stay closed and nearby clothing/hair weights remain unchanged.
+All nine region checks, neck-cloth checks, original-avatar apparel regressions,
+and complete UniMate reconstruction checks pass after the change.
+
+Evidence: [old seam gaps](complex-avatar-seam_validation_before.json),
+[corrected seam gaps](complex-avatar-seam_validation.json), and
+[procedural seam tests](complex-avatar-seam_generalization.json).
+
 ## Deliverables and reproduction
 
 Local outputs are in `outputs/complex_avatar_grid/`:
@@ -145,10 +196,14 @@ Local outputs are in `outputs/complex_avatar_grid/`:
 - Nine individual `{id}_demo.mp4` clips and two 12-second view clips.
 - `neck_cloth_before_after.mp4`: close-ups of 02 and 03, before on the left
   and corrected on the right, including both camera views and all motion phases.
+- `voxel_seams_before_after.mp4`: the two largest original seam failures
+  (02 and 07), selected from the measured baseline, before and after correction.
 - `avatar_grid_front.blend` and `avatar_grid_oblique.blend`, with packed
   textures and nine reconstructed rigs, totaling 117 bones.
 - Poster, six-panel contact sheet, image sequences, source manifest, audits,
   and each avatar's unrigged checkpoint, fresh rig, NPZ, and reconstructed GLB.
+- Per-avatar `03_voxel_skin_proxy.blend` libraries contain the actual generated
+  proxy and its fresh weights; append their objects to inspect the voxel surface.
 
 The scripts run in disposable background Blender processes. The open, dirty
 user scene was not changed or saved. Large source/model/media files remain
@@ -162,6 +217,8 @@ blender -b --factory-startup --python-exit-code 1 -P tools/prepare_avatar_grid.p
 blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_source_import.py
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_regions.py
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_neck_cloth.py
+blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_voxel_seams.py
+blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_seams.py
 # Use the isolated dependencies documented in blender-5.2-evaluation.md.
 blender -b --factory-startup --python-use-system-env --python-exit-code 1 -P tools/evaluate_avatar_grid.py
 blender -b --factory-startup --python-exit-code 1 -P tools/render_avatar_grid.py
