@@ -404,4 +404,49 @@ def correct_apparel(meshes, rig, rigid_parts, garment_heat=None):
                                  'preserved_top_underarm_cut_vertices': len(protected),
                                  'strain_check': strain_check,
                                  'bounds_min': list(r['low']), 'bounds_max': list(r['high'])})
+    # Fit the body and overlying cloth with the same continuous anatomical
+    # field. Smoothing only cloth leaves the underlying rigid arm protruding.
+    from avatar_garment_transition import front_torso_transition, loose_front_strength
+    strengths = [loose_front_strength(r, rig, surface) for r in regions]
+    body_strength = max((s[0] for s in strengths), default=0.)
+    # The front attachment objective alone can displace strain into sleeves.
+    # Bound its shared strength against each broad garment's whole-surface
+    # deformation, keeping body and every clothing layer synchronized.
+    strain_bounds = []
+    for r in regions:
+        if r['role'] != 'torso' or body_strength <= 0.: continue
+        obj = r['object']; source = {i: weights(obj, i) for i in r['indices']}
+        fitted, changed = front_torso_transition(r, rig, source, body_strength)
+        if not changed: continue
+        baseline = garment_strain_score(r, rig, source)
+        limit = baseline*1.05+1e-8
+        score = garment_strain_score(r, rig, fitted)
+        if score > limit:
+            low, high = 0., body_strength
+            for _ in range(8):
+                middle = (low+high)*.5
+                trial, _ = front_torso_transition(r, rig, source, middle)
+                if garment_strain_score(r, rig, trial) <= limit: low = middle
+                else: high = middle
+            body_strength = low
+        strain_bounds.append({'mesh':obj.name, 'baseline_strain':baseline,
+                              'maximum_strain':limit, 'allowed_strength':body_strength})
+    audit['front_torso_strain_bounds'] = strain_bounds
+    audit['front_torso_transition'] = []
+    for r, (strength, clearance) in zip(regions, strengths):
+        if r['role'] not in ('body', 'torso'):
+            continue
+        obj = r['object']
+        source = {i: weights(obj, i) for i in r['indices']}
+        # Nested broad clothing layers need the body's same field strength;
+        # otherwise a fitted inner layer can pierce a slower outer panel.
+        strength = body_strength
+        fitted, changed = front_torso_transition(r, rig, source, strength)
+        for i in changed:
+            assign(obj, [i], fitted[i])
+        if changed:
+            audit['front_torso_transition'].append({
+                'mesh': obj.name, 'role': r['role'], 'vertices': len(changed),
+                'strength': strength, 'front_clearance_neck_lengths_p90': clearance,
+                'method': 'clearance-adaptive front torso-to-sleeve field, shared with underlying body'})
     return audit

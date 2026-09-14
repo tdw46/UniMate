@@ -8,7 +8,7 @@ OUT=Path(os.environ.get('AVATAR_EVAL_ROOT',ROOT/'outputs/complex_avatar_grid'))
 # Presentation selection only; binding has no character-specific rules.
 entry=json.loads((OUT/'sources/manifest.json').read_text())[6]
 preview='--preview' in sys.argv
-for state,folder in [('before','before_shoulder_strain_fix'),('after','avatars')]:
+for state,folder in [('before','before_front_torso_fix'),('after','avatars')]:
  for view,sign in [('front',-1),('back',1)]:
   bpy.ops.wm.open_mainfile(filepath=str(OUT/folder/entry['id']/'02_fresh_rig.blend'))
   scene=bpy.context.scene
@@ -31,7 +31,7 @@ for state,folder in [('before','before_shoulder_strain_fix'),('after','avatars')
    light.rotation_euler=(Vector((0,0,1.3))-light.location).to_track_quat('-Z','Y').to_euler()
    light.data.energy=300;light.data.shape='DISK';light.data.size=5
   target=OUT/'shoulder_comparison_frames'/f'{state}_{view}';target.mkdir(parents=True,exist_ok=True)
-  for frame in ([275] if preview else range(240,360)):
+  for frame in ([240,260,275,299] if preview else range(240,360)):
    scene.frame_set(frame);scene.render.filepath=str(target/f'{frame-240:04d}.png')
    bpy.ops.render.render(write_still=True)
 print('SHOULDER_COMPARISON_RENDERED',flush=True)

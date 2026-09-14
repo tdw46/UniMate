@@ -1717,6 +1717,32 @@
             2.573192596435547
           ]
         }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.22016876180619427,
+          "maximum_strain": 0.23117720989650398,
+          "allowed_strength": 0.058007632450943626
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 578,
+          "strength": 0.058007632450943626,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 306,
+          "strength": 0.058007632450943626,
+          "front_clearance_neck_lengths_p90": 0.3085516363073924,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        }
       ]
     },
     "voxel_seam_correction": {
@@ -4105,6 +4131,32 @@
             2.552959442138672
           ]
         }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.26285975315218435,
+          "maximum_strain": 0.2760027508097936,
+          "allowed_strength": 0.020294094254448475
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 284,
+          "strength": 0.020294094254448475,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 266,
+          "strength": 0.020294094254448475,
+          "front_clearance_neck_lengths_p90": 0.283868918275088,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        }
       ]
     },
     "voxel_seam_correction": {
@@ -5846,6 +5898,32 @@
             -0.38686421513557434,
             1.966484546661377
           ]
+        }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.3633282325585596,
+          "maximum_strain": 0.3814946541864876,
+          "allowed_strength": 0.18983422988243534
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 580,
+          "strength": 0.18983422988243534,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 405,
+          "strength": 0.18983422988243534,
+          "front_clearance_neck_lengths_p90": 0.3615159700686564,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
         }
       ]
     },
@@ -7874,6 +7952,32 @@
             2.613534450531006
           ]
         }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.2181529550820355,
+          "maximum_strain": 0.22906061283613727,
+          "allowed_strength": 0.01779837522210031
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 574,
+          "strength": 0.01779837522210031,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 302,
+          "strength": 0.01779837522210031,
+          "front_clearance_neck_lengths_p90": 0.28165626177207714,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        }
       ]
     },
     "voxel_seam_correction": {
@@ -9786,6 +9890,32 @@
             -0.17378222942352295,
             2.646036148071289
           ]
+        }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.22109719948030818,
+          "maximum_strain": 0.2321520694543236,
+          "allowed_strength": 0.04130220105970885
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 580,
+          "strength": 0.04130220105970885,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 306,
+          "strength": 0.04130220105970885,
+          "front_clearance_neck_lengths_p90": 0.2989751759742267,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
         }
       ]
     },
@@ -12038,7 +12168,9 @@
             2.549586296081543
           ]
         }
-      ]
+      ],
+      "front_torso_strain_bounds": [],
+      "front_torso_transition": []
     },
     "voxel_seam_correction": {
       "method": "joined voxel skin proxy, fresh heat weights, local surface transfer",
@@ -14230,6 +14362,32 @@
             2.6354928016662598
           ]
         }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.3312057550045797,
+          "maximum_strain": 0.3477660527548087,
+          "allowed_strength": 0.59765625
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 663,
+          "strength": 0.59765625,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 390,
+          "strength": 0.59765625,
+          "front_clearance_neck_lengths_p90": 0.7821650324017683,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        }
       ]
     },
     "voxel_seam_correction": {
@@ -14990,7 +15148,7 @@
           "preserved_top_underarm_cut_vertices": 474,
           "strain_check": {
             "body_transfer": 0.6425778944223652,
-            "garment_heat_blend": 0.606711660296106,
+            "garment_heat_blend": 0.6067116607390575,
             "accepted": true
           },
           "bounds_min": [
@@ -16428,6 +16586,32 @@
             0.5379026532173157,
             2.0500779151916504
           ]
+        }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.6067116623965236,
+          "maximum_strain": 0.6370472555163499,
+          "allowed_strength": 0.8588302207752909
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 663,
+          "strength": 0.8588302207752909,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 462,
+          "strength": 0.8588302207752909,
+          "front_clearance_neck_lengths_p90": 0.5554631548527273,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
         }
       ]
     },
@@ -19398,6 +19582,32 @@
             0.1931457221508026,
             2.489551067352295
           ]
+        }
+      ],
+      "front_torso_strain_bounds": [
+        {
+          "mesh": "Body__torso",
+          "baseline_strain": 0.2961505469691605,
+          "maximum_strain": 0.3109580843176185,
+          "allowed_strength": 0.16401893861058015
+        }
+      ],
+      "front_torso_transition": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "vertices": 300,
+          "strength": 0.16401893861058015,
+          "front_clearance_neck_lengths_p90": 0.0,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "vertices": 356,
+          "strength": 0.16401893861058015,
+          "front_clearance_neck_lengths_p90": 0.3527375368721988,
+          "method": "clearance-adaptive front torso-to-sleeve field, shared with underlying body"
         }
       ]
     },

@@ -188,72 +188,62 @@ Evidence: [old seam gaps](complex-avatar-seam_validation_before.json),
 [corrected seam gaps](complex-avatar-seam_validation.json), and
 [procedural seam tests](complex-avatar-seam_generalization.json).
 
-### Garment topology and the stretched printed bow
+### Front torso attachment and sleeve transitions
 
-The shoulder smoothing pass was rejected after visual review: it reduced
-weight variation without fixing the stretched printed bow on 07, and softened
-the underarm area. That pass and its misleading smoothness acceptance test
-have been removed. Geometry and UVs were never the source of that failure.
+The previous heat-preservation correction still stretched 07's printed bow
+with raised arms and pinched its arm-bound corners with lowered arms. Its
+whole-face protection rule also locked some front-panel corners merely because
+their triangle touched a shoulder or underarm surface. A lower average strain
+score did not establish that this local visual defect was fixed.
 
-The nearest-body transfer could place adjacent vertices of a loose chest
-panel on different body surfaces, making one nearly rigid to the arm and its
-neighbor follow the chest. The pipeline had already generated a usable fresh
-heat solution on the connected garment, but subsequently overwrote it.
-`garment_heat_solution()` now preserves that solution for broad connected
-torso shells with complete heat coverage. Incomplete shells fall back as a
-whole to body transfer, avoiding a new discontinuity around missing weights.
-Small detached details, including the resolved neck cloth, retain attachment
-transfer. Every retained heat solution still passes the same anatomical caps
-and four-influence normalization. Raw Blender heat weights need not already
-sum to one; normalization occurs after selection.
+Fresh garment heat remains a candidate for broad, completely solved connected
+shells; incomplete solves and detached neckline details retain body transfer.
+The new `avatar_garment_transition.py` stage then constructs a continuous front
+torso-to-arm field from the new skeleton. Lateral distance and height below the
+humerus keep low front panels supported by the torso, with a gradual transition
+into the sleeve. The radial mask excludes the back and actual top/underside,
+without extending those exclusions to every vertex of an incident triangle.
+The cut plane and neck/head seam remain protected. Geometry, UVs and diagnostic
+motion are unchanged.
 
-Complete top-facing and underside-facing shoulder triangles retain their
-previous body-transfer weights, including all their corner vertices. The
-applied Boolean cut faces retain those weights too: changing weights on their
-thin cap triangles otherwise produced extreme local strain. This is a
-geometry-and-skeleton boundary rule, not a texture or character exception.
-Faces touching an existing Head/Neck attachment also retain body transfer,
-keeping the established collar response instead of introducing arm-driven
-ripples along its edge.
-The nearby cut band is protected as well. A transition measured along mesh
-edges blends from body transfer at protected vertices to the garment heat
-solution away from them, avoiding a new discontinuity beside a fixed face.
-The candidate must also reduce area-weighted surface strain in three
-anatomical arm/elbow probe poses. Otherwise the entire component retains body
-transfer. This decision uses geometry and fresh weights only, and its scores
-are recorded per component in the preparation audit.
+The correction strength comes from the area-weighted 90th percentile of
+front-panel clearance from the body, measured in Neck bone lengths. Fitted
+outfits receive little or no change; loose panels receive more torso support.
+The body and broad clothing layers share that strength so the underlying arm
+does not pierce a slower-moving sleeve. Small detached neck cloth and rigid
+accessories keep their existing attachment flow. No texture, avatar name,
+source vertex count, or original skin weights enter this calculation.
 
-This uses component geometry, the new skeleton and newly generated weights.
-It does not detect bows, inspect texture colors, reuse imported skin weights,
-or branch on character identities. There is no added shoulder diffusion or
-mesh smoothing. Non-garment weights return to the pre-smoothing result,
-including the established 100% Head skin boundary.
+A second bound limits strength using the full garment's strain in three
+arm/elbow stress poses. Bisection reduces the proposed correction if it would
+increase whole-surface area-weighted strain by more than 5%. This prevents a
+front-panel improvement from simply shifting excessive deformation into the
+sleeve. It is a measured compromise within linear skinning, not cloth simulation.
 
-`validate_garment_strain.py` measures principal surface stretch during actual
-arm animation. Its separate 07 regression measures triangles bearing the
-printed blue bow using fixture-specific UV/color selection, confined to the
-test. This checks the reported defect directly instead of treating smoother
-weights as evidence of acceptable fabric deformation. The comparison video
-uses the rejected smoothing result on the left and the garment correction
-on the right. Existing folds, finite skinning distortion and collision
-limitations remain; these tests are not a cloth-simulation guarantee.
+`validate_garment_strain.py` checks evaluated geometry across the arm phase.
+The fixture-only printed-bow selection measures both maximum extension and
+minimum principal scale through all 120 frames, including lowered arms;
+compression is no longer omitted. Geometry/UV fingerprints, protected weights,
+neck seams, neckline cloth, and the UniMate round trip are checked separately.
+The comparison's left side is the rejected `3f37ef8` result, preserved in
+`before_front_torso_fix/`; the right side is the current result.
 
-On 07, 34 triangles bearing the printed bow were measured through all 120 arm
-frames. Peak principal stretch falls from **5.310× to 1.873×**, and peak
-area-weighted RMS strain falls by **75.2%**. Some deformation remains in the
-strongest arm pose. The selected garment solution passes the shared strain
-check on 03, 07, 08 and 09; four other complete candidates retain body transfer
-because their scores are worse, and 06 retains it because heat coverage is
-incomplete. Protected garment vertices and all non-garment weights match the
-pre-smoothing baseline exactly. Geometry/UVs, neckline cloth, head/neck seams,
-and full UniMate reconstruction checks pass across all nine.
+Across the 120 arm frames, the printed bow's maximum principal stretch falls
+from **1.873 to 1.319**, its minimum scale rises from **0.494 to 0.790**, and
+area-weighted strain falls **61.5%**. This measures less extension and less
+pinching, not an undeformed or perfectly rigid print. Maximum arm-chain
+influence in the measured bow region falls from **91.8% to 40.8%**. Whole-garment strain on
+07 increases **4.86%**, within the explicit tradeoff bound. Six other outfits
+improve, one is unchanged, and 08 increases **0.61%**. Local sleeve creases and
+other pre-existing deformation still remain; these checks do not certify every
+triangle or outfit as production ready.
 
-Evidence: [evaluated fabric strain](complex-avatar-garment_strain_validation.json)
+Evidence: [evaluated fabric strain](complex-avatar-garment_strain_validation.json),
+[transition invariance tests](complex-avatar-garment_transition_generalization.json),
 and [heat selection tests](complex-avatar-garment_heat_generalization.json).
-Comparisons require the preserved `before_shoulder_smoothing/` and
-`before_shoulder_strain_fix/` baselines, containing per-avatar pre-change
-`02_fresh_rig.blend` files. Their corresponding code revisions are `01549e2`
-and `bcaf934`, respectively.
+The procedural transition checks cover front/back exclusion, bilateral
+symmetry, scale/translation, vertex ordering, continuous weight transitions,
+coincident body/cloth coherence, and fitted-versus-loose clearance.
 
 ## Deliverables and reproduction
 
@@ -289,7 +279,8 @@ blender -b --factory-startup --python-exit-code 1 -P tools/validate_neck_cloth.p
 blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_voxel_seams.py
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_seams.py
 blender -b --factory-startup --python-exit-code 1 -P tools/test_garment_heat.py
-# These two comparisons require the preserved pre-smoothing baseline.
+blender -b --factory-startup --python-exit-code 1 -P tools/test_garment_transition.py
+# These comparisons require the preserved before_front_torso_fix baseline.
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_garment_strain.py
 blender -b --factory-startup --python-exit-code 1 -P tools/render_shoulder_comparison.py
 # Use the isolated dependencies documented in blender-5.2-evaluation.md.

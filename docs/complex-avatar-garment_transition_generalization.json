@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "body_cloth_coherence": true,
+  "top_underside_cut_neck_exact": true,
+  "front_only_and_bilateral_symmetry": true,
+  "scale_translation_invariance": true,
+  "continuous_arm_transition": true,
+  "vertex_order_invariance": true,
+  "fitted_vs_loose_clearance_and_scale": true
+}

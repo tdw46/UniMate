@@ -8,7 +8,7 @@ from pathlib import Path
 import bpy
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
-from avatar_apparel_weights import weights, classify_regions, preserved_garment_vertices
+from avatar_apparel_weights import weights, classify_regions
 OUT=Path(os.environ.get('AVATAR_EVAL_ROOT',ROOT/'outputs/complex_avatar_grid'))
 
 def snapshot():
@@ -49,7 +49,13 @@ def strain(bow=False):
         valid=areas>1e-10;tr,edges,areas=tr[valid],edges[valid],areas[valid]
         subjects.append((obj,tr,np.linalg.pinv(edges.transpose(0,2,1)),areas))
     assert subjects
-    maximum=peak_rms=peak_p99=0.;worst_triangle={}
+    arm_weights=[]
+    if bow:
+        for obj,tr,_,_ in subjects:
+            for i in np.unique(tr):
+                arm_weights.append(sum(w for n,w in weights(obj,int(i)).items()
+                                       if n.startswith(('UpperArm.','Forearm.','Hand.'))))
+    maximum=peak_rms=peak_p99=0.;minimum=1.;worst_triangle={};pose_extremes={}
     frames=list(range(240,360)) if bow else sorted(set(range(240,360,6))|{275,299,359})
     for frame in frames:
         bpy.context.scene.frame_set(frame);deps=bpy.context.evaluated_depsgraph_get();all_sv=[];all_area=[]
@@ -64,40 +70,73 @@ def strain(bow=False):
                 worst_triangle={'mesh':obj.name,'vertices':tr[k].tolist(),'frame':frame,'rest_area':float(areas[k]),'rest_center':rest.mean(axis=0).tolist(),'posed_longest_edge':float(max(np.linalg.norm(p[tr[k,i]]-p[tr[k,j]]) for i,j in [(0,1),(1,2),(2,0)]))}
         sv=np.concatenate(all_sv);area=np.concatenate(all_area)
         maximum=max(maximum,float(sv.max()))
+        minimum=min(minimum,float(sv[:,1].min()))
+        if frame in (240,275,299,359):
+            pose_extremes[str(frame)]={'max_stretch':float(sv[:,0].max()),
+                                      'min_scale':float(sv[:,1].min())}
         peak_p99=max(peak_p99,float(np.quantile(sv[:,0],.99)))
         peak_rms=max(peak_rms,float(np.sqrt(np.average(np.sum((sv-1)**2,axis=1),weights=area))))
     return {'triangles':sum(len(s[1]) for s in subjects),'frames':len(frames),'max_principal_stretch':maximum,
+            'printed_bow_max_arm_weight':max(arm_weights,default=0.) if bow else None,
+            'printed_bow_arm_rigid_vertices':sum(w>.99 for w in arm_weights) if bow else None,
+            'min_principal_scale':minimum,'pose_extremes':pose_extremes,
             'peak_p99_stretch':peak_p99,'peak_area_weighted_rms_strain':peak_rms,'worst_triangle':worst_triangle}
 
 report=[]
 for entry in json.loads((OUT/'sources/manifest.json').read_text()):
     name=entry['id'];case={'id':name}
-    bpy.ops.wm.open_mainfile(filepath=str(OUT/'before_shoulder_smoothing'/name/'02_fresh_rig.blend'))
+    bpy.ops.wm.open_mainfile(filepath=str(OUT/'before_front_torso_fix'/name/'02_fresh_rig.blend'))
     baseline=snapshot()
-    for state,folder in [('rejected','before_shoulder_strain_fix'),('corrected','avatars')]:
+    for state,folder in [('rejected','before_front_torso_fix'),('corrected','avatars')]:
         bpy.ops.wm.open_mainfile(filepath=str(OUT/folder/name/'02_fresh_rig.blend'))
         if state=='corrected':
             current=snapshot()
             assert all(current[n]['geometry']==baseline[n]['geometry'] for n in baseline)
             for obj in bpy.context.scene.objects:
-                if obj.type=='MESH' and obj.get('binding_role')!='torso':
+                if obj.type=='MESH' and obj.get('binding_role') not in ('torso','body'):
                     assert current[obj.name]['weights']==baseline[obj.name]['weights'],obj.name
             rig=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
             meshes=[o for o in bpy.context.scene.objects if o.type=='MESH']
-            protected_count=0
+            protected_count=0;max_protected_drift=0.
             for region in classify_regions(meshes,rig,{})[1]:
-                if region['role']!='torso':continue
+                if region['role'] not in ('body','torso'):continue
                 name_obj=region['object'].name
-                for i in preserved_garment_vertices(region,rig,dict(enumerate(baseline[name_obj]['weights']))):
-                    assert current[name_obj]['weights'][i]==baseline[name_obj]['weights'][i],(name,name_obj,i)
-                    protected_count+=1
-            case['protected_garment_vertices_unchanged']=protected_count
-            case['geometry_uvs_unchanged']=True;case['non_garment_weights_restored_exactly']=True
+                neck=rig.data.bones['Neck']
+                for i in region['indices']:
+                    p=region['object'].data.vertices[i].co
+                    side='L' if p.x>=neck.head_local.x else 'R'
+                    arm=rig.data.bones['UpperArm.'+side]
+                    axis=(arm.tail_local-arm.head_local).normalized()
+                    delta=p-arm.head_local;radial=delta-axis*delta.dot(axis)
+                    # Independent exclusion audit: actual radial top/underside,
+                    # cut plane, and neck seam, not whole incident triangles.
+                    protected=(radial.y>=0 or abs(radial.y)<=radial.length*.15 or
+                               p.z<=region['low'].z or
+                               p.z>=neck.head_local.z+neck.length*.2)
+                    if protected:
+                        old=baseline[name_obj]['weights'][i];new=current[name_obj]['weights'][i]
+                        drift=max((abs(old.get(n,0)-new.get(n,0)) for n in old.keys()|new.keys()),default=0)
+                        # Rebuilding Blender heat can vary at float precision.
+                        assert drift<1e-5,(name,name_obj,i,drift)
+                        max_protected_drift=max(max_protected_drift,drift)
+                        protected_count+=1
+            case['protected_top_underarm_cut_neck_vertices_unchanged']=protected_count
+            case['max_protected_weight_rebuild_drift']=max_protected_drift
+            case['geometry_uvs_unchanged']=True;case['head_accessory_weights_unchanged']=True
         case[state]=strain()
         if name=='avatarsample_a':case[state+'_printed_bow']=strain(bow=True)
     case['rms_strain_change_percent']=100*(case['corrected']['peak_area_weighted_rms_strain']/case['rejected']['peak_area_weighted_rms_strain']-1)
+    # Include poses beyond the binder's three probes. Allow one percentage
+    # point beyond its 5% bound for the independently sampled animation peak.
+    assert case['rms_strain_change_percent']<=6., (name,case['rms_strain_change_percent'])
     if name=='avatarsample_a':
         before=case['rejected_printed_bow'];after=case['corrected_printed_bow']
-        assert after['max_principal_stretch']<2 and after['peak_area_weighted_rms_strain']<before['peak_area_weighted_rms_strain']*.35
+        print('PRINTED_BOW_METRICS',json.dumps(after),flush=True)
+        assert after['max_principal_stretch']<1.35
+        assert after['min_principal_scale']>.75
+        assert after['printed_bow_arm_rigid_vertices']==0
+        # Halve this local defect while honoring the whole-garment bound;
+        # the extension/compression limits above remain independent guards.
+        assert after['peak_area_weighted_rms_strain']<before['peak_area_weighted_rms_strain']*.5
     case['passed']=True;report.append(case);print('GARMENT_STRAIN',json.dumps(case),flush=True)
 (OUT/'garment_strain_validation.json').write_text(json.dumps(report,indent=2))
