@@ -188,6 +188,37 @@ Evidence: [old seam gaps](complex-avatar-seam_validation_before.json),
 [corrected seam gaps](complex-avatar-seam_validation.json), and
 [procedural seam tests](complex-avatar-seam_generalization.json).
 
+### Front and back shoulder smoothing
+
+`avatar_shoulder_weights.py` adds a modest weight-smoothing stage after apparel
+and seam binding. Each fresh upper-arm axis defines a shoulder cross-section;
+the bilateral shoulder landmarks and chest/neck axis distinguish front/back
+from top/underside. A smooth angular mask excludes the top and armpit sectors,
+with additional distance falloffs around each shoulder and away from the collar.
+The radii scale with bone length, with no character or topology exceptions.
+
+Three local averaging steps at 0.45 strength blend only eligible body and torso
+weights. Surface-area weighting reduces sensitivity to vertex density. Samples
+stay within a connected component and compatible surface-facing directions,
+so separate garment layers do not exchange weights. Vertices with any existing
+Head or Neck influence are excluded from both editing and sampling, preserving
+the head boundary and neckline cloth behavior. Geometry and UVs stay unchanged.
+
+All nine avatars have reduced shoulder edge-weight variation: **7.5–19.3%**,
+including **12.1% on 07**. This measures the summed squared weight differences
+across shoulder-region edges; it is a smoothness diagnostic, not a percentage
+improvement in visual quality. Protected weights and geometry/UVs match the
+preserved baseline. Synthetic mirrored shoulder cylinders at three densities,
+scales, and origins also pass, including explicit top/underside and Head/Neck
+protection. The nine seam, region, neckline-cloth, and reconstruction checks
+pass after smoothing. Existing modeled folds and extreme-pose creases remain.
+
+Evidence: [shoulder comparison checks](complex-avatar-shoulder_validation.json)
+and [procedural shoulder tests](complex-avatar-shoulder_generalization.json).
+The numerical comparison requires the preserved `before_shoulder_smoothing/`
+baseline; save each avatar's pre-change `02_fresh_rig.blend` there before
+rebuilding. The close-up renderer uses that same baseline for the before views.
+
 ## Deliverables and reproduction
 
 Local outputs are in `outputs/complex_avatar_grid/`:
@@ -198,6 +229,8 @@ Local outputs are in `outputs/complex_avatar_grid/`:
   and corrected on the right, including both camera views and all motion phases.
 - `voxel_seams_before_after.mp4`: the two largest original seam failures
   (02 and 07), selected from the measured baseline, before and after correction.
+- `shoulders_before_after.mp4`: 07 front and back, before/after side by side,
+  through the arm phase at half speed (8 seconds), plus a comparison still.
 - `avatar_grid_front.blend` and `avatar_grid_oblique.blend`, with packed
   textures and nine reconstructed rigs, totaling 117 bones.
 - Poster, six-panel contact sheet, image sequences, source manifest, audits,
@@ -219,6 +252,10 @@ blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_regio
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_neck_cloth.py
 blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_voxel_seams.py
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_seams.py
+blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_shoulder_weights.py
+# These two comparisons require the preserved pre-smoothing baseline.
+blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_shoulders.py
+blender -b --factory-startup --python-exit-code 1 -P tools/render_shoulder_comparison.py
 # Use the isolated dependencies documented in blender-5.2-evaluation.md.
 blender -b --factory-startup --python-use-system-env --python-exit-code 1 -P tools/evaluate_avatar_grid.py
 blender -b --factory-startup --python-exit-code 1 -P tools/render_avatar_grid.py

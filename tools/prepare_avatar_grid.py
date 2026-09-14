@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 from avatar_apparel_weights import correct_apparel
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
+from avatar_shoulder_weights import smooth_shoulders
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
 SOURCES = OUT / 'sources'
 FRAMES = 360
@@ -255,6 +256,7 @@ def prepare(entry):
         assert all(abs(sum(g.weight for g in v.groups)-1)<1e-4 for v in obj.data.vertices)
     audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts)
     audit['voxel_seam_correction'] = correct_skin_seams(meshes, rig,folder/'03_voxel_skin_proxy.blend')
+    audit['shoulder_smoothing'] = smooth_shoulders(meshes, rig, rigid_parts)
     audit['fresh_rig'] = {'bones':len(rig.data.bones), 'unweighted_vertices_repaired_from_new_bones':repaired,
                           'lateral_sleeve_vertices_reweighted_from_new_bones':sleeve_vertices,
                           'rigid_parts':rigid_parts, 'bone_names':[b.name for b in rig.data.bones]}

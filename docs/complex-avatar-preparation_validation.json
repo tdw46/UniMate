@@ -1484,6 +1484,29 @@
       "seam_vertices": 124,
       "geometry_and_uvs_preserved": true
     },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 144,
+          "changed_vertices": 144,
+          "max_weight_change": 0.09424639741843299,
+          "mean_weight_change": 0.030037732934411462
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 102,
+          "changed_vertices": 102,
+          "max_weight_change": 0.11319594235886488,
+          "mean_weight_change": 0.027951132139453553
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 150,
@@ -3523,6 +3546,29 @@
       "seam_vertices": 134,
       "geometry_and_uvs_preserved": true
     },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 138,
+          "changed_vertices": 136,
+          "max_weight_change": 0.06704933583513084,
+          "mean_weight_change": 0.02356773692989317
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 194,
+          "changed_vertices": 194,
+          "max_weight_change": 0.11247235159643676,
+          "mean_weight_change": 0.029637812608346196
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 108,
@@ -5017,6 +5063,29 @@
       "proxy_unweighted_fallback_vertices": 0,
       "seam_vertices": 122,
       "geometry_and_uvs_preserved": true
+    },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 144,
+          "changed_vertices": 144,
+          "max_weight_change": 0.09428000809495984,
+          "mean_weight_change": 0.03003730144229198
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 202,
+          "changed_vertices": 196,
+          "max_weight_change": 0.13551554964169155,
+          "mean_weight_change": 0.030977369203900977
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
@@ -6753,6 +6822,29 @@
       "seam_vertices": 124,
       "geometry_and_uvs_preserved": true
     },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 180,
+          "changed_vertices": 174,
+          "max_weight_change": 0.09427871507811403,
+          "mean_weight_change": 0.024753656278021764
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 110,
+          "changed_vertices": 110,
+          "max_weight_change": 0.11314229376865781,
+          "mean_weight_change": 0.027898421536006187
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 150,
@@ -8391,6 +8483,29 @@
       "proxy_unweighted_fallback_vertices": 0,
       "seam_vertices": 122,
       "geometry_and_uvs_preserved": true
+    },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 144,
+          "changed_vertices": 144,
+          "max_weight_change": 0.0942963710116157,
+          "mean_weight_change": 0.03003805627554593
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 98,
+          "changed_vertices": 98,
+          "max_weight_change": 0.11319242338782753,
+          "mean_weight_change": 0.029015683694850344
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
@@ -10319,6 +10434,29 @@
       "seam_vertices": 130,
       "geometry_and_uvs_preserved": true
     },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 140,
+          "changed_vertices": 140,
+          "max_weight_change": 0.08487794350422018,
+          "mean_weight_change": 0.029262937768029046
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 96,
+          "changed_vertices": 96,
+          "max_weight_change": 0.09890682407375717,
+          "mean_weight_change": 0.028402015992106414
+        }
+      ]
+    },
     "fresh_rig": {
       "bones": 13,
       "unweighted_vertices_repaired_from_new_bones": 1060,
@@ -12191,6 +12329,29 @@
       "proxy_unweighted_fallback_vertices": 0,
       "seam_vertices": 138,
       "geometry_and_uvs_preserved": true
+    },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 148,
+          "changed_vertices": 148,
+          "max_weight_change": 0.15802977345388658,
+          "mean_weight_change": 0.043340379929986655
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 154,
+          "changed_vertices": 152,
+          "max_weight_change": 0.1451518299566762,
+          "mean_weight_change": 0.03629944873225893
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
@@ -14071,6 +14232,29 @@
       "proxy_unweighted_fallback_vertices": 0,
       "seam_vertices": 128,
       "geometry_and_uvs_preserved": true
+    },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 146,
+          "changed_vertices": 146,
+          "max_weight_change": 0.1553803173655386,
+          "mean_weight_change": 0.04324198838420221
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 185,
+          "changed_vertices": 183,
+          "max_weight_change": 0.20906813179545247,
+          "mean_weight_change": 0.04012667280207585
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
@@ -16599,6 +16783,29 @@
       "proxy_unweighted_fallback_vertices": 22908,
       "seam_vertices": 179,
       "geometry_and_uvs_preserved": true
+    },
+    "shoulder_smoothing": {
+      "method": "area-weighted shoulder front/back fairing",
+      "strength": 0.45,
+      "iterations": 3,
+      "regions": [
+        {
+          "mesh": "Body__body",
+          "role": "body",
+          "selected_vertices": 148,
+          "changed_vertices": 144,
+          "max_weight_change": 0.12078962202009724,
+          "mean_weight_change": 0.017245627456036344
+        },
+        {
+          "mesh": "Body__torso",
+          "role": "torso",
+          "selected_vertices": 170,
+          "changed_vertices": 167,
+          "max_weight_change": 0.11837397896214186,
+          "mean_weight_change": 0.020744685568955798
+        }
+      ]
     },
     "fresh_rig": {
       "bones": 13,
