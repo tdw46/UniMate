@@ -150,25 +150,9 @@
           "rigid_transform_error": 2.6656007498500226e-07
         },
         {
-          "mesh": "Body__neckwear",
-          "role": "neckwear",
-          "vertices": 64,
-          "max_displacement": {
-            "Head": 0.0,
-            "Neck": 0.252456520244226,
-            "Spine": 0.6654607021582298,
-            "Chest": 0.5904707355218638,
-            "Clavicle.L": 0.0,
-            "Clavicle.R": 0.0,
-            "UpperArm.L": 0.0,
-            "UpperArm.R": 0.0
-          },
-          "rigid_transform_error": 1.2377834115800373e-07
-        },
-        {
           "mesh": "Body__torso",
           "role": "torso",
-          "vertices": 886,
+          "vertices": 950,
           "max_displacement": {
             "Head": 0.0,
             "Neck": 0.13482158473466488,
@@ -179,7 +163,7 @@
             "UpperArm.L": 0.31705771889419543,
             "UpperArm.R": 0.31706195752146704
           },
-          "below_collar_vertices": 562,
+          "below_collar_vertices": 585,
           "below_collar_neck_displacement": 0.0,
           "sleeve_L_vertices": 40,
           "sleeve_R_vertices": 40
@@ -259,25 +243,9 @@
           "rigid_transform_error": 2.497889789080651e-07
         },
         {
-          "mesh": "Body__neckwear",
-          "role": "neckwear",
-          "vertices": 124,
-          "max_displacement": {
-            "Head": 0.0,
-            "Neck": 0.17010606451274266,
-            "Spine": 0.6352994378479859,
-            "Chest": 0.5285759917244242,
-            "Clavicle.L": 0.0,
-            "Clavicle.R": 0.0,
-            "UpperArm.L": 0.0,
-            "UpperArm.R": 0.0
-          },
-          "rigid_transform_error": 4.032271840493324e-07
-        },
-        {
           "mesh": "Body__torso",
           "role": "torso",
-          "vertices": 1067,
+          "vertices": 1191,
           "max_displacement": {
             "Head": 0.0,
             "Neck": 0.10188986272081861,
@@ -288,7 +256,7 @@
             "UpperArm.L": 0.33503355623702163,
             "UpperArm.R": 0.3350329974989745
           },
-          "below_collar_vertices": 771,
+          "below_collar_vertices": 842,
           "below_collar_neck_displacement": 0.0,
           "sleeve_L_vertices": 74,
           "sleeve_R_vertices": 74

@@ -50,6 +50,30 @@ if all((before/f'{name}_demo.mp4').exists() for name in ('monk','scifi')):
            "drawtext=text='CORRECTED':fontcolor=white:fontsize=28:x=795:y=18",
            '-c:v','libx264','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart',comparison)
     videos.append((comparison,720))
+# A preserved subset of cards provides a focused neckline comparison without
+# embedding avatar identities into preparation or weighting rules.
+before = OUT/'before_neck_cloth_fix'
+entries = json.loads((OUT/'sources/manifest.json').read_text())
+cards = [(i,e['id']) for i,e in enumerate(entries) if (before/(e['id']+'_demo.mp4')).exists()]
+if cards:
+    comparison = OUT/'neck_cloth_before_after.mp4'
+    inputs, filters, layout, labels = [], [], [], []
+    for row,(index,name) in enumerate(cards):
+        for col,folder in enumerate((before,OUT)):
+            stream = row*2+col
+            inputs += ['-i',folder/f'{name}_demo.mp4']
+            filters.append(f'[{stream}:v]crop=340:340:122:40[v{stream}]')
+            labels.append(f'[v{stream}]')
+            layout.append(f'{col*340}_{row*340}')
+    filters.append(''.join(labels)+f'xstack=inputs={len(labels)}:layout='+ '|'.join(layout)+
+                   f',pad=680:{len(cards)*340+64}:0:64:color=0x101c28,'+
+                   "drawtext=text='BEFORE':fontcolor=white:fontsize=24:x=120:y=20,"+
+                   "drawtext=text='AFTER':fontcolor=white:fontsize=24:x=465:y=20"+
+                   ''.join(f",drawtext=text='{index+1:02d}':fontcolor=white:fontsize=22:x=12:y={row*340+76}"
+                           for row,(index,_) in enumerate(cards)))
+    ffmpeg(*inputs,'-filter_complex',';'.join(filters),'-c:v','libx264','-crf','18',
+           '-pix_fmt','yuv420p','-movflags','+faststart',comparison)
+    videos.append((comparison,720))
 metadata = []
 for video,expected in videos:
     result = subprocess.check_output([FFPROBE,'-v','error','-count_frames','-select_streams','v:0','-show_entries','stream=codec_name,width,height,r_frame_rate,nb_read_frames,duration','-of','json',str(video)],text=True)

@@ -1,0 +1,36 @@
+{
+  "baseline": true,
+  "checks": [
+    {
+      "id": "sakurada_fumiriya",
+      "vertices": 64,
+      "neck_weight_min": 1.0,
+      "neck_weight_max": 1.0,
+      "neck_weight_mean": 1.0,
+      "torso_weight_mean": 0.0,
+      "head_only_displacement": 0.0,
+      "neck_only_displacement": 0.252456520244226,
+      "chest_only_displacement": 0.5904707355218638,
+      "below_collar_vertices": 23,
+      "below_collar_neck_displacement": 0.252456520244226,
+      "vertices_above_neck_base": 20,
+      "passed": false
+    },
+    {
+      "id": "sendagaya_shino",
+      "vertices": 124,
+      "neck_weight_min": 1.0,
+      "neck_weight_max": 1.0,
+      "neck_weight_mean": 1.0,
+      "torso_weight_mean": 0.0,
+      "head_only_displacement": 0.0,
+      "neck_only_displacement": 0.17010606451274266,
+      "chest_only_displacement": 0.5285759917244242,
+      "below_collar_vertices": 71,
+      "below_collar_neck_displacement": 0.17010606451274266,
+      "vertices_above_neck_base": 0,
+      "passed": false
+    }
+  ],
+  "passed": false
+}

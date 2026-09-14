@@ -58,10 +58,11 @@ with tempfile.TemporaryDirectory() as folder:
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 mesh=bpy.data.meshes.new('Mixed geometry')
-mesh.from_pydata([(x,y,0) for x in range(3) for y in range(3)],[],[(0,1,3),(3,4,6),(6,7,8)])
+mesh.from_pydata([(x*2+dx,dy,0) for x in range(4) for dx,dy in [(0,0),(1,0),(0,1)]],
+                 [],[(3*i,3*i+1,3*i+2) for i in range(4)])
 obj=bpy.data.objects.new('Anonymous mixed mesh',mesh)
 bpy.context.scene.collection.objects.link(obj)
-for name in ('F00_Body_SKIN','F00_Tops_CLOTH','F00_AccessoryNeck_CLOTH'):
+for name in ('F00_Body_SKIN','F00_Tops_CLOTH','F00_AccessoryNeck_CLOTH','F00_AccessoryNeck_METAL'):
     mesh.materials.append(bpy.data.materials.new(name))
 uv=mesh.uv_layers.new()
 for p in mesh.polygons:
@@ -72,7 +73,9 @@ expected=sorted(tuple(v.uv) for v in uv.data)
 parts,audit=split_material_regions([obj],{})
 assert sorted(p['binding_role'] for p in parts)==['body','neckwear','torso']
 assert sorted(tuple(v.uv) for p in parts for v in p.data.uv_layers.active.data)==expected
-assert sum(len(p.data.polygons) for p in parts)==3
+assert sum(len(p.data.polygons) for p in parts)==4
+torso=next(p for p in parts if p['binding_role']=='torso')
+assert {torso.data.materials[p.material_index].name for p in torso.data.polygons}=={'F00_Tops_CLOTH','F00_AccessoryNeck_CLOTH'}
 assert not any(p.vertex_groups for p in parts)
 print('SEMANTIC_SPLIT_UV_PASSED')
 print('SOURCE_ADAPTER_TESTS_PASSED')

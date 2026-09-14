@@ -73,7 +73,10 @@ def material_role(material):
         return material['binding_role']
     words = set(re.sub(r'([a-z])([A-Z])', r'\1_\2', material.name).lower().split('_'))
     if 'accessoryneck' in words or ('accessory' in words and 'neck' in words):
-        return 'neckwear'
+        # Cloth at the neckline (ties, bows, ribbon tails) drapes onto the
+        # chest. Use the shared body-surface transfer and anatomical Neck cap;
+        # the accessory's location alone does not imply a rigid Neck binding.
+        return 'torso' if 'cloth' in words else 'neckwear'
     if words & {'hair','hairback','face','eye'}:
         return 'head'
     if 'body' in words and 'skin' in words:

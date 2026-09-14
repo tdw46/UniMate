@@ -50,7 +50,9 @@ Each saved `01_cut_unrigged.blend` was reopened to verify zero rigs, groups,
 weights, Boolean modifiers, and Armature modifiers.
 
 VRoid semantic material tokens split mixed meshes into body, head/hair,
-neck accessory, and clothing regions while retaining UVs. This is explicit
+rigid neck accessory, and clothing regions while retaining UVs. Neck accessories
+marked as cloth join the garment regions so ties and bows can follow the chest.
+This is explicit
 source-format information, not a per-character allowlist. Unknown materials
 retain the existing geometric classification path. Arbitrary assets without
 those conventions may require explicit `binding_role` metadata.
@@ -58,7 +60,7 @@ those conventions may require explicit `binding_role` metadata.
 The same new 13-bone skeleton, heat binding, anatomical influence constraints,
 new-body surface transfer, and unweighted-vertex fallback used in the original
 batch then create entirely new weights. Head/hair is rigid to Head; explicit
-neck accessories are rigid to Neck; torso clothing excludes Head and receives
+non-cloth neck accessories are rigid to Neck; torso clothing excludes Head and receives
 local body/shoulder/arm/collar influences. No avatar identities, source vertex
 counts, or old weight values are inputs to the apparel algorithm.
 
@@ -78,6 +80,8 @@ summing repeated glTF accessors across material primitives.
 - `test_avatar_source_import.py` uses synthetic, arbitrarily named skeletons
   with both VRM 0 and VRM 1 metadata and three different source rotations. It
   verifies canonical landmark recovery and UV-preserving semantic splits.
+  Cloth and metal neck-accessory materials are tested separately: cloth uses
+  body-surface transfer while rigid neckwear retains its Neck attachment.
   The nine downloaded files themselves are VRM 0.
 - The original nine-avatar apparel regression checks were rerun and passed.
 - All nine new avatars passed the actual UniMate GLB → NPZ → GLB path, checking
@@ -109,12 +113,38 @@ Evidence: [preparation](complex-avatar-preparation_validation.json),
 [decoded videos](complex-avatar-render_validation.json), and
 [saved scenes](complex-avatar-scene_validation.json).
 
+### Neckline cloth correction
+
+The first render attached both 02's tie and 03's bow entirely to Neck. The
+source material convention identified their location, but its `CLOTH` suffix
+had been ignored. The importer now routes neck cloth through the existing
+garment transfer and anatomical constraints. There are no character-specific
+binding overrides or new fixed blend percentages.
+
+The tie's mean vertex influence is now approximately 20% Neck and 80% upper
+torso, with Neck influence falling to zero down its length. The bow lies entirely
+below the neck base and follows its shirt: approximately 98.5% upper torso,
+0.025% Neck, and the remainder other nearby body influences. Those percentages
+are measured outcomes, not hard-coded targets. Neck weighting is not artificially
+introduced where the freshly bound body surface supplies almost none.
+
+`validate_neck_cloth.py` checks the material regions independently of their
+containing objects. Both have zero Head-only movement and zero Neck-only
+movement below the collar. It also verifies Chest response, mixed influences,
+and retained Neck response wherever cloth extends above the neck base.
+The [old-weight audit](complex-avatar-neck_cloth_validation_before.json)
+reproduces both failures; the [new audit](complex-avatar-neck_cloth_validation.json)
+passes. All nine general region checks and full reconstruction checks were
+rerun, along with the original nine-avatar apparel regression checks.
+
 ## Deliverables and reproduction
 
 Local outputs are in `outputs/complex_avatar_grid/`:
 
 - `nine_avatar_grid.mp4`: 1920×1920, 30 fps, 24 seconds; front then oblique.
 - Nine individual `{id}_demo.mp4` clips and two 12-second view clips.
+- `neck_cloth_before_after.mp4`: close-ups of 02 and 03, before on the left
+  and corrected on the right, including both camera views and all motion phases.
 - `avatar_grid_front.blend` and `avatar_grid_oblique.blend`, with packed
   textures and nine reconstructed rigs, totaling 117 bones.
 - Poster, six-panel contact sheet, image sequences, source manifest, audits,
@@ -131,6 +161,7 @@ export AVATAR_EVAL_ROOT="$PWD/outputs/complex_avatar_grid"
 blender -b --factory-startup --python-exit-code 1 -P tools/prepare_avatar_grid.py
 blender -b --factory-startup --python-exit-code 1 -P tools/test_avatar_source_import.py
 blender -b --factory-startup --python-exit-code 1 -P tools/validate_avatar_regions.py
+blender -b --factory-startup --python-exit-code 1 -P tools/validate_neck_cloth.py
 # Use the isolated dependencies documented in blender-5.2-evaluation.md.
 blender -b --factory-startup --python-use-system-env --python-exit-code 1 -P tools/evaluate_avatar_grid.py
 blender -b --factory-startup --python-exit-code 1 -P tools/render_avatar_grid.py
