@@ -14,7 +14,7 @@ from mathutils.kdtree import KDTree
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from avatar_apparel_weights import weights, assign
 from avatar_voxel_seams import correct_skin_seams
-from avatar_arm_boundary import separate_arm_weights
+from avatar_atlas_landmark import center_atlas
 
 
 def repaired_heat(meshes, rig):
@@ -60,7 +60,7 @@ def repaired_heat(meshes, rig):
     return audit
 
 
-def fit_landmarks(points):
+def fit_landmarks(points,atlas_audit=None):
     low,high=points.min(axis=0),points.max(axis=0);height=high[2]-low[2];cx=(low[0]+high[0])*.5
     def band(z):return points[abs(points[:,2]-z)<height*.004]
     profiles=[]
@@ -76,6 +76,8 @@ def fit_landmarks(points):
         return Vector((cx,float((np.quantile(p[:,1],.05)+np.quantile(p[:,1],.95))*.5),z))
     root=central(low[2]+height*.015);chest=central(low[2]+(neck_z-low[2])*.63)
     neck,head=central(neck_z),central(head_z)
+    head,correction=center_atlas(points,neck,head)
+    if atlas_audit is not None:atlas_audit.update(correction)
     specs=[('Root',root,root.lerp(chest,.3),None),('Spine',root.lerp(chest,.3),chest,'Root'),
            ('Chest',chest,neck,'Spine'),('Neck',neck,head,'Chest'),
            ('Head',head,central(high[2]-height*.045),'Neck')]
@@ -137,7 +139,7 @@ def main():
         o['binding_role']='body';o['binding_surface']='skin'
     for o in list(bpy.context.scene.objects):
         if o.type=='ARMATURE':bpy.data.objects.remove(o,do_unlink=True)
-    points=np.array([v.co[:] for o in meshes for v in o.data.vertices]);specs=fit_landmarks(points)
+    points=np.array([v.co[:] for o in meshes for v in o.data.vertices]);atlas_audit={};specs=fit_landmarks(points,atlas_audit)
     rig=bpy.data.objects.new('Bust_Rig',bpy.data.armatures.new('Bust_Rig'));bpy.context.scene.collection.objects.link(rig)
     bpy.ops.object.select_all(action='DESELECT');rig.select_set(True);bpy.context.view_layer.objects.active=rig;bpy.ops.object.mode_set(mode='EDIT')
     for name,a,b,parent in specs:
@@ -158,11 +160,11 @@ def main():
         bpy.ops.object.vertex_group_limit_total(limit=4);bpy.ops.object.vertex_group_normalize_all(lock_active=False)
     report={'source':str(source),'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
             'blender':bpy.app.version_string,'method':'geometric bust landmarks and ordinary Blender heat; no model inference',
-            'vertices':len(points),'triangles':sum(len(o.data.polygons) for o in meshes),'bones':len(specs),
+            'atlas_correction':atlas_audit,'vertices':len(points),'triangles':sum(len(o.data.polygons) for o in meshes),'bones':len(specs),
             'unweighted_vertices':missing,'direct_heat_unweighted_vertices':initial_missing,'heat_retry':retry,
             'landmarks':{n:{'head':list(a),'tail':list(b),'parent':p} for n,a,b,p in specs}}
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'ordinary_heat.blend'))
-    report['arm_boundary']=separate_arm_weights(meshes,rig)
+    report['arm_boundary']={'applied':False,'method':'ordinary normalized heat; crease constraint disabled'}
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'heat_baseline.blend'))
     report['seams']=correct_skin_seams(meshes,rig,out/'local_seam_proxy.blend')
     scene=bpy.context.scene;scene.render.fps=30;scene.frame_start=0;scene.frame_end=239

@@ -78,21 +78,26 @@ weights are left intact; ambiguous atlas seams use a tighter coincidence
 tolerance so neighboring dense vertices are not merged into one seam group.
 Skin metadata excludes clothing, hair and accessories from this operation.
 
-## Torso and armpit separation
+## Heat restoration and atlas placement
 
-`avatar_arm_boundary.py` uses a temporary welded body surface to find each
-arm attachment. A surface graph cut favors concave armpit creases, with central
-torso and distal arm seeds defined by the fresh skeleton. It does not use a
-position-only shoulder mask. A narrow geodesic band controls the transition:
-body-side crease vertices have at most 10% arm weight, and torso vertices
-beyond that band have zero arm weight. Distal arm heat ratios remain intact.
-Removed influence goes to Root/Spine/Chest, preserving their existing ratios.
+The experimental crease-based arm/torso cut is disabled in the preparation
+flow. It created a hard shoulder-top transition on the fused, lowered-arm bust.
+Fresh heat weights now control the shoulders and arms, with the existing
+clothing Head exclusion and detached attachment semantics retained.
+`avatar_arm_boundary.py` remains an experimental tool, not a default stage.
 
-The field is sampled onto adjacent garments from the body surface. This is a
-separate weight constraint and does not enlarge voxel coverage. No character
-names, source vertex IDs, texture coordinates or old rigs are used. Source
-creases with tightly folded geometry can still stretch visibly under large
-rotations; weight ownership checks do not prove production-quality deformation.
+`avatar_atlas_landmark.py` corrects the shared Neck tail / Head head using neck
+shaft cross-sections below the jaw. Its depth is 60% from the shaft's front to
+back: the center plus a 10%-of-depth posterior bias. The joint's height and
+lateral position are preserved. UV duplicate positions are deduplicated before
+sampling, and insufficient section coverage leaves the input joint unchanged.
+The helper postprocesses inferred joints in the geometric bust fitter.
+The grid preserves its authoritative source-skeleton landmarks.
+
+Future generated inputs should use an A or T pose with visible space between
+the upper arms and torso. Preserve the anatomical axillary recess at the
+shoulder; posing a fused lowered-arm mesh afterward cannot recover geometry
+that the generator merged away.
 
 ## Validation and artifacts
 
@@ -101,9 +106,8 @@ rotations; weight ownership checks do not prove production-quality deformation.
   changed vertices outside an independently reconstructed two-loop boundary.
 - Procedural seam tests cover zero/one/two loops, different tessellations,
   scales and origins, nearby disconnected skin, and already matching UV splits.
-- Arm-boundary tests cover concave attachment geometry at different
-  tessellations, scales and origins, both sides, zero torso-interior arm
-  influence, the 90% torso crease requirement, and unchanged distal heat.
+- Atlas tests vary jaw projection, neck tessellation, scale, origin and UV
+  duplication; the result stays inside the posterior half of the neck.
 - `validate_avatar_seams.py` evaluates the head/neck boundaries through all
   360 authored diagnostic frames.
 - `evaluate_avatar_grid.py` checks actual GLB → UniMate NPZ → GLB motion and
@@ -113,7 +117,7 @@ Outputs are local under `outputs/complex_avatar_grid/`: the packed Blender
 stages, per-avatar rig files, 3×3 front/oblique animation, individual card clips,
 and machine-readable validation reports. The current acceptance reports are
 `complex-avatar-locality_validation.json`, `complex-avatar-seam_validation.json`,
-`complex-avatar-arm_boundary_generalization.json`, and
+`stitched-atlas_generalization.json`, and
 `complex-avatar-pipeline_validation.json`. Older region/strain reports describe
 their historical revisions. Historical shoulder comparison
 renders represent rejected revisions and are no longer generated or advertised

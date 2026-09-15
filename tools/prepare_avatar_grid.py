@@ -15,7 +15,6 @@ from mathutils import Matrix, Quaternion, Vector
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from avatar_apparel_weights import correct_apparel, weights
-from avatar_arm_boundary import separate_arm_weights
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
@@ -232,7 +231,7 @@ def prepare(entry):
         bpy.ops.object.vertex_group_normalize_all(lock_active=False)
         assert all(abs(sum(g.weight for g in v.groups)-1)<1e-4 for v in obj.data.vertices)
     audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts)
-    audit['arm_boundary'] = separate_arm_weights(meshes, rig)
+    audit['arm_boundary'] = {'applied':False,'method':'ordinary normalized heat; crease constraint disabled'}
     audit['heat_vertices_before_arm_boundary'] = sum(
         r['vertices'] for r in audit['apparel_correction']['regions']
         if r['weight_source'] == 'ordinary normalized heat')

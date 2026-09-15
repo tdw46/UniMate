@@ -17,30 +17,40 @@ welded, normals recalculated, and a numerical scale adjustment solved all
 Every original vertex matched its heat-copy position exactly. Original geometry
 and UVs remain unchanged, including the imported atlas splits.
 
-The same crease-based torso/arm boundary used by the nine-avatar flow is applied
-to the fresh heat weights. A concavity-weighted surface cut locates each arm
-attachment; the torso side of the narrow crease band retains at least 90%
-Root/Spine/Chest influence, and the torso interior has zero arm influence.
-Distal arm heat ratios remain intact. The head/neck seam pass made no changes:
-the welded heat solve had already assigned matching weights to its atlas splits.
-It must not treat facial UV seams as rigid anatomical head boundaries.
+The experimental crease-based arm/torso constraint is disabled. It introduced
+an unwanted notch at the shoulder top. Ordinary normalized heat now supplies
+the final weights, including the smooth shoulder transition. The local seam
+pass remains limited to two edge loops; this fixture already has continuous
+weights across its atlas UV splits, so it requires no additional seam changes.
+
+The anatomical atlas pivot (shared Neck tail / Head head) is estimated from
+neck-shaft sections below the jaw rather than the jaw-contaminated head-base
+slice. Its depth is 60% from front to back, slightly behind the neck center.
+Height and lateral placement stay unchanged. This is a geometric postprocess
+on the fitted skeleton, not a change to any pretrained model.
+
+Future source generations should use an A or T pose with space between arms
+and torso, preserving a high axillary recess. The current mesh has merged
+surfaces in its lowered-arm source pose; changing weights cannot reconstruct
+that missing geometry. The current cross-section arm fitter remains scoped
+to lowered, cropped arms; the grid flow uses its source skeleton landmarks.
 
 ## Saved-artifact checks
 
 - 11 bones; 240 frames at 30 fps: head turn/nod, neck tilt/bend, arm raise/elbow bend.
 - Original geometry and every UV loop unchanged; all vertices weighted,
   normalized and limited to four influences.
-- Maximum torso-interior arm weight: **0**.
-- Maximum torso-side crease arm weight: **0.100000006** (float storage).
-- Minimum torso-side crease Root/Spine/Chest weight: **0.899999969**.
-- Torso displacement during the isolated arm raise: **0**.
-- Coincident atlas-vertex gap across sampled head, neck and arm poses: **0**.
+- Final weights exactly match the normalized ordinary heat checkpoint.
+- The atlas joint is inside the posterior half of the measured neck shaft.
+- Neck tail and Head head coincide exactly.
+- Coincident atlas-UV vertices stay closed through sampled diagnostic poses.
 - Actual GLB → UniMate NPZ → GLB reconstruction passes all 11 bones over
   240 frames and evaluated surface comparisons on nine sampled frames.
 
-The extreme raised-arm render still exposes stretched folds and texture in the
-source's tightly compressed underarm geometry. The ownership checks above do
-not establish production-quality deformation. This is a reviewable rig test.
+The raised-arm render is a reviewable deformation test. The fused source
+underarm still limits the result; the rejected sharp shoulder weight boundary
+is removed. The previous constrained rig/video is preserved locally under
+`before_atlas_heat_restore/`.
 
 Local outputs: `outputs/stitched_autorig/rigged.blend`, `rigged.glb`,
 `evaluation.mp4`, `evaluation_stage.blend`, `saved_rig_validation.json`,

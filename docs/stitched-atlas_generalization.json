@@ -1,0 +1,26 @@
+[
+  {
+    "segments": 16,
+    "scale": 0.5,
+    "jaw_projection": 0.5,
+    "jaw_overlap_from": 0.6,
+    "posterior_fraction": 0.6,
+    "passed": true
+  },
+  {
+    "segments": 32,
+    "scale": 1.0,
+    "jaw_projection": 1.0,
+    "jaw_overlap_from": 0.6,
+    "posterior_fraction": 0.6,
+    "passed": true
+  },
+  {
+    "segments": 64,
+    "scale": 2.3,
+    "jaw_projection": 2.0,
+    "jaw_overlap_from": 0.6,
+    "posterior_fraction": 0.6,
+    "passed": true
+  }
+]

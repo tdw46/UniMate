@@ -1552,48 +1552,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1580,
-      "torso_interior_vertices_checked": 1123,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 96,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 752,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            0.4398927092552185,
-            -0.5055602192878723,
-            0.9239425659179688
-          ],
-          "boundary_max": [
-            0.8666438460350037,
-            -0.15218017995357513,
-            1.132096767425537
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 752,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            -0.8695566654205322,
-            -0.505560576915741,
-            0.923943042755127
-          ],
-          "boundary_max": [
-            -0.4428064823150635,
-            -0.15218015015125275,
-            1.132096290588379
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 3580,
     "voxel_seam_correction": {
@@ -3756,48 +3716,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1740,
-      "torso_interior_vertices_checked": 1223,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 136,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 769,
-          "crease_boundary_vertices": 28,
-          "concave_cut_edges": 15,
-          "boundary_min": [
-            0.6018273234367371,
-            -0.5318605303764343,
-            0.7393426895141602
-          ],
-          "boundary_max": [
-            0.9755539298057556,
-            -0.10228623449802399,
-            1.0337328910827637
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 769,
-          "crease_boundary_vertices": 28,
-          "concave_cut_edges": 15,
-          "boundary_min": [
-            -0.9822095036506653,
-            -0.5318609476089478,
-            0.7393431663513184
-          ],
-          "boundary_max": [
-            -0.6084830164909363,
-            -0.10228623449802399,
-            1.0337324142456055
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 2378,
     "voxel_seam_correction": {
@@ -5382,48 +5302,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1959,
-      "torso_interior_vertices_checked": 1440,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 150,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 752,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            0.43776005506515503,
-            -0.5057841539382935,
-            0.9281797409057617
-          ],
-          "boundary_max": [
-            0.8621946573257446,
-            -0.15436583757400513,
-            1.1352367401123047
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 752,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            -0.8648460507392883,
-            -0.5057846903800964,
-            0.9281806945800781
-          ],
-          "boundary_max": [
-            -0.44041141867637634,
-            -0.15436609089374542,
-            1.1352405548095703
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 2625,
     "voxel_seam_correction": {
@@ -7263,48 +7143,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1629,
-      "torso_interior_vertices_checked": 1130,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 90,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 750,
-          "crease_boundary_vertices": 26,
-          "concave_cut_edges": 8,
-          "boundary_min": [
-            0.4733639061450958,
-            -0.4834395945072174,
-            0.9186768531799316
-          ],
-          "boundary_max": [
-            0.8379790782928467,
-            -0.17646607756614685,
-            1.1178245544433594
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 750,
-          "crease_boundary_vertices": 26,
-          "concave_cut_edges": 8,
-          "boundary_min": [
-            -0.8419633507728577,
-            -0.48343953490257263,
-            0.9186820983886719
-          ],
-          "boundary_max": [
-            -0.47734853625297546,
-            -0.1764659881591797,
-            1.1178297996520996
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 3579,
     "voxel_seam_correction": {
@@ -9042,48 +8882,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1612,
-      "torso_interior_vertices_checked": 1115,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 96,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 752,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            0.42433807253837585,
-            -0.5050873756408691,
-            0.9050884246826172
-          ],
-          "boundary_max": [
-            0.836148202419281,
-            -0.1641440987586975,
-            1.106001853942871
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 752,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            -0.8396478295326233,
-            -0.5050870180130005,
-            0.9050936698913574
-          ],
-          "boundary_max": [
-            -0.42783811688423157,
-            -0.16414444148540497,
-            1.1060185432434082
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 3578,
     "voxel_seam_correction": {
@@ -11127,48 +10927,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1625,
-      "torso_interior_vertices_checked": 1055,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 100,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 753,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            0.4187160134315491,
-            -0.4867662191390991,
-            0.8965773582458496
-          ],
-          "boundary_max": [
-            0.8088240027427673,
-            -0.14584007859230042,
-            1.1065607070922852
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 753,
-          "crease_boundary_vertices": 29,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            -0.8111284375190735,
-            -0.4867267906665802,
-            0.8965868949890137
-          ],
-          "boundary_max": [
-            -0.4210081994533539,
-            -0.1458907127380371,
-            1.106611728668213
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 2690,
     "voxel_seam_correction": {
@@ -13155,48 +12915,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1901,
-      "torso_interior_vertices_checked": 1394,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 122,
-      "maximum_crease_torso_arm_weight": 0.1,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 774,
-          "crease_boundary_vertices": 32,
-          "concave_cut_edges": 15,
-          "boundary_min": [
-            0.3994795083999634,
-            -0.4957883954048157,
-            0.9330711364746094
-          ],
-          "boundary_max": [
-            0.8443461060523987,
-            -0.13579733669757843,
-            1.129293441772461
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 774,
-          "crease_boundary_vertices": 32,
-          "concave_cut_edges": 15,
-          "boundary_min": [
-            -0.8445978164672852,
-            -0.4957687556743622,
-            0.933077335357666
-          ],
-          "boundary_max": [
-            -0.3996717035770416,
-            -0.13579049706459045,
-            1.1293096542358398
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 2630,
     "voxel_seam_correction": {
@@ -15190,48 +14910,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 1959,
-      "torso_interior_vertices_checked": 1276,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 135,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 774,
-          "crease_boundary_vertices": 32,
-          "concave_cut_edges": 15,
-          "boundary_min": [
-            0.3554598093032837,
-            -0.4486194849014282,
-            0.8231744766235352
-          ],
-          "boundary_max": [
-            0.745631992816925,
-            -0.12846823036670685,
-            1.0010161399841309
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 774,
-          "crease_boundary_vertices": 32,
-          "concave_cut_edges": 15,
-          "boundary_min": [
-            -0.7460301518440247,
-            -0.4485987424850464,
-            0.8231806755065918
-          ],
-          "boundary_max": [
-            -0.35580793023109436,
-            -0.12846063077449799,
-            1.001035213470459
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 4088,
     "voxel_seam_correction": {
@@ -17914,48 +17594,8 @@
       ]
     },
     "arm_boundary": {
-      "method": "concavity-weighted surface cut and geodesic crease band",
-      "vertices_changed": 2123,
-      "torso_interior_vertices_checked": 1070,
-      "maximum_torso_interior_arm_weight": 0.0,
-      "crease_torso_vertices_checked": 121,
-      "maximum_crease_torso_arm_weight": 0.10000000000000002,
-      "crease_arm_cap": 0.1,
-      "render_geometry_changed": false,
-      "sides": [
-        {
-          "side": "L",
-          "arm_vertices": 782,
-          "crease_boundary_vertices": 26,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            0.5968559384346008,
-            -0.5134251713752747,
-            0.7525076866149902
-          ],
-          "boundary_max": [
-            0.9631408452987671,
-            -0.06272579729557037,
-            1.0670413970947266
-          ]
-        },
-        {
-          "side": "R",
-          "arm_vertices": 784,
-          "crease_boundary_vertices": 26,
-          "concave_cut_edges": 12,
-          "boundary_min": [
-            -0.9678065776824951,
-            -0.5134325623512268,
-            0.7525086402893066
-          ],
-          "boundary_max": [
-            -0.6015810966491699,
-            -0.06273170560598373,
-            1.067065715789795
-          ]
-        }
-      ]
+      "applied": false,
+      "method": "ordinary normalized heat; crease constraint disabled"
     },
     "heat_vertices_before_arm_boundary": 3888,
     "voxel_seam_correction": {
