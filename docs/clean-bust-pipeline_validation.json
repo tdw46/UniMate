@@ -1,0 +1,20 @@
+{
+  "frames": 240,
+  "bones": 11,
+  "max_rotation_error_degrees": 3.670233784562505e-05,
+  "max_joint_position_error": 2.5854267837293094e-07,
+  "max_surface_error": 3.855810430831841e-07,
+  "sample_frames": [
+    0,
+    26,
+    53,
+    106,
+    133,
+    180,
+    200,
+    220,
+    239
+  ],
+  "motion_source": "Authored diagnostic motion; no pretrained inference",
+  "passed": true
+}

@@ -1,7 +1,8 @@
 """Encode the 240-frame bust diagnostic and verify the delivered video."""
-import hashlib,json,shutil,subprocess
+import argparse,hashlib,json,shutil,subprocess
 from pathlib import Path
-p=Path(__file__).resolve().parents[1]/'outputs/stitched_autorig'
+parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[1]/'outputs/stitched_autorig')
+p=parser.parse_args().root.resolve()
 ffmpeg=shutil.which('ffmpeg');ffprobe=shutil.which('ffprobe');assert ffmpeg and ffprobe
 assert len(list((p/'frames').glob('*.png')))==240
 font=Path('/System/Library/Fonts/Supplemental/Arial.ttf')

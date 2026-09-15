@@ -1,10 +1,11 @@
 """Read back geometry, heat preservation, atlas placement, and evaluated motion."""
-import json,sys
+import argparse,json,sys
 from pathlib import Path
 import bpy,numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from avatar_apparel_weights import weights
-p=Path(__file__).resolve().parents[1]/'outputs/stitched_autorig'
+parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[1]/'outputs/stitched_autorig')
+args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []);p=args.root.resolve()
 bpy.ops.wm.open_mainfile(filepath=str(p/'00_imported.blend'))
 o=next(o for o in bpy.context.scene.objects if o.type=='MESH')
 geometry=([tuple(v.co) for v in o.data.vertices],[tuple(f.vertices) for f in o.data.polygons],[[tuple(v.uv) for v in uv.data] for uv in o.data.uv_layers])

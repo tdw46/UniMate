@@ -13,13 +13,13 @@ def smoothstep(low, high, value):
     return t*t*(3-2*t)
 
 
-def head_ownership(points, neck_base, atlas):
+def head_ownership(points, neck_base, atlas, surface_samples=None):
     points=np.asarray(points,dtype=float)
     base=np.asarray(neck_base,dtype=float);top=np.asarray(atlas,dtype=float)
     height=top[2]-base[2]
     audit={'applied':False}
     if height<=1e-8:return np.zeros(len(points)),audit
-    unique=np.unique(points,axis=0)
+    unique=np.unique(points if surface_samples is None else surface_samples,axis=0)
     sections=[]
     # Lower shaft avoids jaw contamination. Use section medians so duplicate
     # UV vertices and denser tessellation in one slice cannot dominate the fit.
@@ -51,13 +51,13 @@ def head_ownership(points, neck_base, atlas):
     return amount,audit
 
 
-def correct_head_weights(meshes,rig):
+def correct_head_weights(meshes,rig,surface_samples=None):
     # Deliberately scoped to skin, never infer semantic ownership for garments
     # or hair using this envelope. Explicit separated heads have their own rule.
     meshes=[o for o in meshes if o.get('binding_surface')=='skin' and o.get('binding_role')=='body']
     points=np.array([v.co[:] for o in meshes for v in o.data.vertices]).reshape((-1,3))
     neck=rig.data.bones['Neck']
-    amount,audit=head_ownership(points,neck.head_local,neck.tail_local)
+    amount,audit=head_ownership(points,neck.head_local,neck.tail_local,surface_samples=surface_samples)
     if not audit['applied']:return audit
     cursor=changed=0
     for obj in meshes:

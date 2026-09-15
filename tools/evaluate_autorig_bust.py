@@ -1,4 +1,5 @@
 """Validate the auto-rigged bust through the UniMate reconstruction path."""
+import argparse
 import hashlib
 import json
 import os
@@ -13,7 +14,8 @@ from scipy.spatial import cKDTree
 from data_process.motion_export.export_general import export_asset
 from data_process.mesh_animation.animate_npz import animate_character
 
-OUT = ROOT/'outputs/stitched_autorig'
+parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,default=ROOT/'outputs/stitched_autorig')
+args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []);OUT=args.root.resolve()
 SAMPLE_FRAMES = (0,26,53,106,133,180,200,220,239)
 
 
@@ -42,12 +44,12 @@ def snapshot(path):
 
 
 source=OUT/'rigged.glb'
-export_dir=OUT/'export'/hashlib.sha256(source.read_bytes()).hexdigest()[:12]
-export_asset(str(source),str(export_dir),save_name='stitched',prune=False,remove_tpose=False,save_vis=False)
+export_dir=OUT/'export'/hashlib.sha256(source.read_bytes()).hexdigest()[:12]/OUT.name
+export_asset(str(source),str(export_dir),save_name=OUT.name,prune=False,remove_tpose=False,save_vis=False)
 motions=list((export_dir/'motions').glob('*.npz'));assert len(motions)==1
 n0,r0,a,va=snapshot(source)
 animate_character(str(source),str(motions[0]),str(OUT/'reconstructed'),extra_bones_strategy='keep')
-files=list((OUT/'reconstructed').glob('*.glb'));assert len(files)==1
+files=list((OUT/'reconstructed').glob(motions[0].stem+'*.glb'));assert len(files)==1,files
 n1,r1,b,vb=snapshot(files[0]);assert n0==n1
 u,_,vt=np.linalg.svd((b[...,:3,:3]@np.linalg.inv(r1[...,:3,:3]))@np.linalg.inv(a[...,:3,:3]@np.linalg.inv(r0[...,:3,:3])))
 angle=np.degrees(np.arccos(np.clip((np.trace(u@vt,axis1=-2,axis2=-1)-1)/2,-1,1)))

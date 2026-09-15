@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {
+      "id": "clean_bust_autorig",
+      "vertices": 8969,
+      "changed_vertices": 0,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

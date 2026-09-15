@@ -16,6 +16,7 @@ from avatar_apparel_weights import weights, assign
 from avatar_voxel_seams import correct_skin_seams
 from avatar_atlas_landmark import center_atlas
 from avatar_head_weights import correct_head_weights
+from avatar_surface_samples import sample_surface
 
 
 def repaired_heat(meshes, rig):
@@ -140,7 +141,11 @@ def main():
         o['binding_role']='body';o['binding_surface']='skin'
     for o in list(bpy.context.scene.objects):
         if o.type=='ARMATURE':bpy.data.objects.remove(o,do_unlink=True)
-    points=np.array([v.co[:] for o in meshes for v in o.data.vertices]);atlas_audit={};specs=fit_landmarks(points,atlas_audit)
+    bpy.ops.wm.save_as_mainfile(filepath=str(out/'00_imported.blend'))
+    points=np.array([v.co[:] for o in meshes for v in o.data.vertices])
+    surface=sample_surface(meshes) if len(points)<100000 else None
+    landmark_points=np.concatenate((points,surface)) if surface is not None else points
+    atlas_audit={};specs=fit_landmarks(landmark_points,atlas_audit)
     rig=bpy.data.objects.new('Bust_Rig',bpy.data.armatures.new('Bust_Rig'));bpy.context.scene.collection.objects.link(rig)
     bpy.ops.object.select_all(action='DESELECT');rig.select_set(True);bpy.context.view_layer.objects.active=rig;bpy.ops.object.mode_set(mode='EDIT')
     for name,a,b,parent in specs:
@@ -161,12 +166,12 @@ def main():
         bpy.ops.object.vertex_group_limit_total(limit=4);bpy.ops.object.vertex_group_normalize_all(lock_active=False)
     report={'source':str(source),'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
             'blender':bpy.app.version_string,'method':'geometric bust landmarks and ordinary Blender heat; no model inference',
-            'atlas_correction':atlas_audit,'vertices':len(points),'triangles':sum(len(o.data.polygons) for o in meshes),'bones':len(specs),
+            'atlas_correction':atlas_audit,'landmark_surface_samples':len(surface) if surface is not None else 0,'vertices':len(points),'triangles':sum(len(o.data.polygons) for o in meshes),'bones':len(specs),
             'unweighted_vertices':missing,'direct_heat_unweighted_vertices':initial_missing,'heat_retry':retry,
             'landmarks':{n:{'head':list(a),'tail':list(b),'parent':p} for n,a,b,p in specs}}
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'ordinary_heat.blend'))
     report['arm_boundary']={'applied':False,'method':'ordinary normalized heat; crease constraint disabled'}
-    report['head_ownership']=correct_head_weights(meshes,rig)
+    report['head_ownership']=correct_head_weights(meshes,rig,surface_samples=surface)
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'heat_baseline.blend'))
     report['seams']=correct_skin_seams(meshes,rig,out/'local_seam_proxy.blend')
     scene=bpy.context.scene;scene.render.fps=30;scene.frame_start=0;scene.frame_end=239
@@ -184,7 +189,7 @@ def main():
                 rig.pose.bones['UpperArm.'+side].rotation_quaternion=turn('UpperArm.'+side,(0,1,0),-sign*65*amount)
                 rig.pose.bones['Forearm.'+side].rotation_quaternion=turn('Forearm.'+side,(1,0,0),-30*amount)
         for pb in rig.pose.bones:pb.keyframe_insert('rotation_quaternion',frame=frame)
-    rig.animation_data.action.name='stitched-evaluation';scene.frame_set(0)
+    rig.animation_data.action.name=source.stem+'-evaluation';scene.frame_set(0)
     bpy.ops.file.pack_all();scene['autorig_audit']=json.dumps(report)
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'rigged.blend'))
     bpy.ops.export_scene.gltf(filepath=str(out/'rigged.glb'),export_format='GLB',export_animations=True,export_frame_range=True,export_force_sampling=True,export_skins=True)
