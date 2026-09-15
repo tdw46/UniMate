@@ -87,24 +87,6 @@ if audit.exists():
              if e['id'] in names and (before/(e['id']+'_demo.mp4')).exists()]
     if cards:
         compare_cards(before,cards,'voxel_seams_before_after.mp4')
-# A front/back close-up of the requested shoulder case, slowed to show folds.
-shoulder_frames = OUT/'shoulder_comparison_frames'
-folders = [shoulder_frames/f'{state}_{view}' for view in ('front','back')
-           for state in ('before','after')]
-if all(len(list(folder.glob('*.png'))) == 120 for folder in folders):
-    inputs, filters = [], []
-    for i,folder in enumerate(folders):
-        inputs += ['-framerate','30','-i',folder/'%04d.png']
-        title = folder.name.replace('_',' / ').upper()
-        filters.append(f'[{i}:v]pad=768:832:0:64:color=0x101c28,'
-                       f"drawtext=text='{title}':fontcolor=white:fontsize=28:x=24:y=18[v{i}]")
-    filters.append('[v0][v1][v2][v3]xstack=inputs=4:layout=0_0|768_0|0_832|768_832,'
-                   'setpts=2*PTS,fps=30,tpad=stop_mode=clone:stop_duration=0.1')
-    comparison = OUT/'shoulders_before_after.mp4'
-    ffmpeg(*inputs,'-filter_complex',';'.join(filters),'-frames:v','240',
-           '-c:v','libx264','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart',comparison)
-    videos.append((comparison,240))
-    ffmpeg('-ss','3.93','-i',comparison,'-frames:v','1',OUT/'shoulders_comparison.jpg')
 metadata = []
 for video,expected in videos:
     result = subprocess.check_output([FFPROBE,'-v','error','-count_frames','-select_streams','v:0','-show_entries','stream=codec_name,width,height,r_frame_rate,nb_read_frames,duration','-of','json',str(video)],text=True)
@@ -112,6 +94,7 @@ for video,expected in videos:
     assert int(stream['nb_read_frames']) == expected
     assert stream['r_frame_rate'] == '30/1'
     assert abs(float(stream['duration'])-expected/30)<.01
-    metadata.append({'file':video.name,**stream})
+    ffmpeg('-xerror','-i',video,'-f','null','-')
+    metadata.append({'file':video.name,**stream,'decode_passed':True})
 (OUT/'render_validation.json').write_text(json.dumps(metadata,indent=2))
 print(json.dumps(metadata,indent=2))

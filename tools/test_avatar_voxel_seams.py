@@ -58,7 +58,7 @@ def evaluated(obj):
 
 
 report=[]
-for segments,scale,offset in [(12,.6,(0,0,0)),(24,1.,(3,-2,4)),(32,2.3,(-1,4,2))]:
+for segments,scale,offset,rings in [(12,.6,(0,0,0),0),(12,.6,(0,0,0),1),(12,.6,(0,0,0),2),(24,1.,(3,-2,4),2),(32,2.3,(-1,4,2),2)]:
     bpy.ops.wm.read_factory_settings(use_empty=True)
     rig=skeleton()
     body=tube('Anonymous A',segments,[.6,.8,1.,1.1,1.2],'bottom','body',rig)
@@ -69,17 +69,22 @@ for segments,scale,offset in [(12,.6,(0,0,0)),(24,1.,(3,-2,4)),(32,2.3,(-1,4,2))
     assign(clothing,list(range(len(clothing.data.vertices))),{'Chest':1.})
     hair=head.copy();hair.data=head.data.copy();hair.name='Nearby hair'
     bpy.context.scene.collection.objects.link(hair);hair['binding_surface']='hair'
-    meshes=[body,head,clothing,hair]
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=12,ring_count=8,radius=.03,location=(.27,0,1.2))
+    island=bpy.context.object;island.data.transform(island.matrix_world);island.matrix_world=Matrix.Identity(4)
+    island['binding_surface']='skin';island['binding_role']='body'
+    assign(island,list(range(len(island.data.vertices))),{'Chest':1.})
+    meshes=[body,head,clothing,hair,island]
     transform=Matrix.Translation(offset) @ Matrix.Scale(scale,4)
     rig.data.transform(transform)
     for o in meshes:o.data.transform(transform)
     geometry={o:([tuple(v.co) for v in o.data.vertices],[tuple(v.uv) for v in o.data.uv_layers.active.data]) for o in meshes}
-    untouched={o:[weights(o,i) for i in range(len(o.data.vertices))] for o in (clothing,hair)}
-    audit=correct_skin_seams(list(reversed(meshes)),rig)
+    untouched={o:[weights(o,i) for i in range(len(o.data.vertices))] for o in (clothing,hair,island)}
+    audit=correct_skin_seams(list(reversed(meshes)),rig,max_rings=rings)
+    assert audit['max_changed_loop'] <= rings and audit['outside_patch_weight_changes'] == 0
     assert audit['applied'] and audit['head_boundary_clusters']>=segments
     for o in meshes:
         assert geometry[o]==([tuple(v.co) for v in o.data.vertices],[tuple(v.uv) for v in o.data.uv_layers.active.data])
-    for o in (clothing,hair):assert untouched[o]==[weights(o,i) for i in range(len(o.data.vertices))]
+    for o in (clothing,hair,island):assert untouched[o]==[weights(o,i) for i in range(len(o.data.vertices))]
     stride=segments+1
     assert all(weights(body,4*stride+i)=={'Head':1.} for i in range(stride))
     assert all(weights(head,i)=={'Head':1.} for i in range(stride))
@@ -95,8 +100,19 @@ for segments,scale,offset in [(12,.6,(0,0,0)),(24,1.,(3,-2,4)),(32,2.3,(-1,4,2))
             for o,points in [(body,a),(head,b)]:
                 max_gap=max(max_gap,max((points[i]-points[i+segments]).length for i in range(0,len(points),stride)))
     assert max_gap<scale*1e-5
-    report.append({'segments':segments,'scale':scale,'offset':offset,'uv_duplicates':True,
+    report.append({'segments':segments,'max_rings':rings,'nearby_disconnected_skin_unchanged':True,'scale':scale,'offset':offset,'uv_duplicates':True,
                    'head_boundary_weight':1.,'garments_and_hair_unchanged':True,
                    'max_seam_gap':max_gap,'proxy':audit,'passed':True})
 (ROOT/'outputs/complex_avatar_grid/seam_generalization.json').write_text(json.dumps(report,indent=2))
 print('PROCEDURAL_SEAMS_PASSED',json.dumps(report),flush=True)
+# Atlas splits with equal heat weights are already continuous. They must not
+# be mistaken for the semantic head/body boundary or rigidly pinned to Head.
+bpy.ops.wm.read_factory_settings(use_empty=True)
+rig=skeleton()
+a=tube('Atlas A',24,[.6,.8,1.,1.1,1.2],'bottom','body',rig)
+b=tube('Atlas B',24,[1.2,1.35,1.6,1.85],'top','body',rig)
+before={o:[weights(o,i) for i in range(len(o.data.vertices))] for o in (a,b)}
+audit=correct_skin_seams([a,b],rig)
+assert not audit['applied'] and audit['vertices_reweighted']==0
+assert before=={o:[weights(o,i) for i in range(len(o.data.vertices))] for o in (a,b)}
+print('MATCHING_UV_HEAT_UNCHANGED',flush=True)

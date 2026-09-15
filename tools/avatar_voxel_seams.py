@@ -4,14 +4,15 @@ Original geometry/UVs stay intact. Inputs are baked in rig-local coordinates
 and carry binding_surface=skin on objects or materials. Hair and garments are
 excluded; no asset names or source weights participate.
 """
-from collections import Counter
+from collections import Counter, deque
+from statistics import median
 
 import bpy
 import bmesh
 from mathutils import Vector
 from mathutils.kdtree import KDTree
 
-from avatar_apparel_weights import BodySurface, assign, constrain, smooth, weights
+from avatar_apparel_weights import BodySurface, assign, constrain, weights
 
 
 def skin_faces(obj):
@@ -61,44 +62,93 @@ def seam_clusters(parts, tolerance):
     return [g for g in groups.values() if len(g)>1]
 
 
-def correct_skin_seams(meshes,rig,proxy_path=None):
+def seam_patch(parts, clusters, seeds, max_rings):
+    """Edge-loop distance, crossing coincident UV splits at zero cost."""
+    neighbors={}
+    for obj,faces in parts:
+        for p in faces:
+            for a,b in p.edge_keys:
+                neighbors.setdefault((obj,a),set()).add((obj,b))
+                neighbors.setdefault((obj,b),set()).add((obj,a))
+    duplicates={}
+    for cluster in clusters:
+        members=[(o,i) for o,i,_ in cluster]
+        for key in members:duplicates[key]=members
+    distance={key:0 for g in seeds for o,i,_ in g for key in [(o,i)]}
+    queue=deque(distance)
+    while queue:
+        key=queue.popleft(); d=distance[key]
+        for other in duplicates.get(key,()):
+            if distance.get(other,max_rings+1)>d:
+                distance[other]=d;queue.appendleft(other)
+        if d==max_rings:continue
+        for other in neighbors.get(key,()):
+            if distance.get(other,max_rings+1)>d+1:
+                distance[other]=d+1;queue.append(other)
+    return distance
+
+
+def correct_skin_seams(meshes,rig,proxy_path=None,max_rings=2):
+    if not isinstance(max_rings,int) or not 0<=max_rings<=2:
+        raise ValueError('Seam expansion must be zero, one, or two edge loops')
     neck=rig.data.bones['Neck']
     voxel_size=neck.length/16
     parts=[(obj,skin_faces(obj)) for obj in meshes]
     parts=[(obj,faces) for obj,faces in parts if faces]
-    clusters=seam_clusters(parts,voxel_size*.1)
-    audit={'method':'joined voxel skin proxy, fresh heat weights, local surface transfer',
-           'voxel_size':voxel_size,'seam_tolerance':voxel_size*.1,
-           'seam_clusters':len(clusters),'applied':False}
-    if not clusters:
+    explicit_boundary={o.get('binding_role') for o,_ in parts}>={'head','body'}
+    tolerance=voxel_size*.1 if explicit_boundary else neck.length*1e-5
+    clusters=seam_clusters(parts,tolerance)
+    neck_top=neck.tail_local.z
+    radius=abs(rig.data.bones['UpperArm.L'].head_local.x-neck.head_local.x)*.85
+    def at_neck(g):
+        center=sum((p for _,_,p in g),Vector())/len(g)
+        return (neck.head_local.z<=center.z<=neck_top+neck.length*.25
+                and abs(center.x-neck.head_local.x)<radius)
+    head_clusters=[g for g in clusters if {o.get('binding_role') for o,_,_ in g}>={'head','body'}]
+    # A UV split is not evidence of a head/body attachment. Only an explicit
+    # head/body boundary gets rigid Head weights. Already matching UV weights
+    # need no correction, especially after heat on a virtually welded mesh.
+    def discontinuous(g):
+        values=[weights(o,i) for o,i,_ in g]
+        names=set().union(*(v.keys() for v in values))
+        return any(max(v.get(n,0.) for v in values)-min(v.get(n,0.) for v in values)>1e-5 for n in names)
+    seeds=head_clusters or [g for g in clusters if at_neck(g) and discontinuous(g)]
+    patch=seam_patch(parts,clusters,seeds,max_rings)
+    head_patch=seam_patch(parts,clusters,head_clusters,max_rings)
+    audit={'method':'neck seam patch voxel proxy, edge-loop-limited transfer',
+           'voxel_size':voxel_size,'seam_tolerance':tolerance,
+           'seam_clusters':len(seeds),'max_expansion_loops':max_rings,'applied':False}
+    if not seeds:
+        audit.update(reason='No head/body boundary or discontinuous neck UV weights',
+                     max_changed_loop=0,outside_patch_weight_changes=0,vertices_reweighted=0)
         return audit
-    centers=[sum((p for _,_,p in g),Vector())/len(g) for g in clusters]
-    head_seams=[center for center,g in zip(centers,clusters)
-                if {obj.get('binding_role') for obj,_,_ in g} >= {'head','body'}]
-    head_tree=KDTree(len(head_seams)) if head_seams else None
-    if head_tree:
-        for i,p in enumerate(head_seams):head_tree.insert(p,i)
-        head_tree.balance()
-    audit['head_boundary_clusters']=len(head_seams)
-    def anchored(point,values):
-        if not head_tree:return values
-        distance=head_tree.find(point)[2]
-        floor=(1-smooth(0,neck.length*.8,distance))*smooth(
-            neck.head_local.z-neck.length*.35,neck.head_local.z,point.z)
-        h=max(values.get('Head',0),floor)
-        others={n:w for n,w in values.items() if n!='Head'}
-        total=sum(others.values())
-        if h>=1-1e-8 or total<1e-8:return {'Head':1.}
-        return normalized({'Head':h,**{n:w/total*(1-h) for n,w in others.items()}})
-    seed_tree=KDTree(len(centers))
-    for i,p in enumerate(centers):seed_tree.insert(p,i)
-    seed_tree.balance()
+    audit['head_boundary_clusters']=len(head_clusters)
+    original={(o,v.index):weights(o,v.index) for o in meshes for v in o.data.vertices}
+    patch_parts=[(o,[p for p in faces if all((o,i) in patch for i in p.vertices)]) for o,faces in parts]
+    lengths=[(o.data.vertices[a].co-o.data.vertices[b].co).length
+             for o,faces in patch_parts for p in faces for a,b in p.edge_keys]
+    lengths=[d for d in lengths if d>1e-10]
+    if lengths:voxel_size=min(voxel_size,median(lengths)*.5)
+    audit['voxel_size']=voxel_size
     points,polygons=[],[]
-    for obj,faces in parts:
+    for obj,faces in patch_parts:
         indices=sorted({i for p in faces for i in p.vertices})
         mapping={i:len(points)+j for j,i in enumerate(indices)}
         points.extend(obj.data.vertices[i].co.copy() for i in indices)
         polygons.extend(tuple(mapping[i] for i in p.vertices) for p in faces)
+    if not polygons:
+        # A seam with zero surrounding faces has no volume to voxelize.
+        # Reconcile its duplicate weights directly, without extending it.
+        for cluster in seeds:
+            total={}
+            for o,i,_ in cluster:
+                for n,w in original[o,i].items():total[n]=total.get(n,0)+w
+            values={'Head':1.} if cluster in head_clusters else normalized(total)
+            for o,i,_ in cluster:assign(o,[i],values)
+        audit.update(applied=True,proxy_source_vertices=0,proxy_source_faces=0,
+                     max_changed_loop=0,outside_patch_weight_changes=0,
+                     method='seam-only virtual weld; no surrounding faces to voxelize')
+        return audit
     data=bpy.data.meshes.new('Temporary joined skin')
     data.from_pydata(points,[],polygons)
     bm=bmesh.new()
@@ -148,33 +198,41 @@ def correct_skin_seams(meshes,rig,proxy_path=None):
                     a,b=bone.head_local,bone.tail_local
                     t=max(0.,min(1.,(v.co-a).dot(b-a)/(b-a).length_squared))
                     values[bone.name]=1/max((v.co-a-(b-a)*t).length,neck.length*.07)**4
-            assign(proxy,[v.index],anchored(v.co,constrain(rig,v.co,normalized(values))))
+            assign(proxy,[v.index],constrain(rig,v.co,normalized(values)))
         surface=BodySurface(proxy,range(len(data.vertices)))
         changes={}
         for obj,faces in parts:
-            for i in {i for p in faces for i in p.vertices}:
+            for i in {i for p in faces for i in p.vertices if (obj,i) in patch}:
                 point=obj.data.vertices[i].co
-                distance=seed_tree.find(point)[2]
-                factor=1-smooth(0,neck.length,distance)
+                factor=1-patch[obj,i]/(max_rings+1)
                 if factor<=1e-8:
                     continue
                 if obj.get('binding_role')=='head':
                     changes[obj,i]={'Head':1.}
                     continue
                 old=weights(obj,i)
-                new=anchored(point,constrain(rig,point,surface.sample(point,rig)))
+                new=constrain(rig,point,surface.sample(point,rig))
+                if (obj,i) in head_patch:new={'Head':1.}
                 values={n:(1-factor)*old.get(n,0)+factor*new.get(n,0) for n in old.keys()|new.keys()}
                 changes[obj,i]=normalized(values)
         # Virtual welding makes UV duplicates and small pre-existing boundary
         # offsets use exactly the same weights, without moving any vertex.
-        for center,cluster in zip(centers,clusters):
-            values=({'Head':1.} if any(obj.get('binding_role')=='head' for obj,_,_ in cluster)
-                    else anchored(center,constrain(rig,center,surface.sample(center,rig))))
+        for cluster in clusters:
+            if not all((o,i) in patch for o,i,_ in cluster):continue
+            total={}
+            for o,i,_ in cluster:
+                for n,w in changes[o,i].items():total[n]=total.get(n,0)+w
+            values=({'Head':1.} if cluster in head_clusters else normalized(total))
             for obj,index,_ in cluster:changes[obj,index]=values
         for (obj,index),values in changes.items():assign(obj,[index],values)
+        outside=[key for key,old in original.items() if key not in patch and weights(key[0],key[1])!=old]
+        assert not outside, 'Seam correction changed weights beyond the loop limit'
         audit.update(applied=True,vertices_reweighted=len(changes),
+                     max_changed_loop=max((patch[key] for key in changes),default=0),
+                     outside_patch_weight_changes=len(outside),
+                     proxy_source_vertices=len(points),proxy_source_faces=len(polygons),
                      proxy_unweighted_fallback_vertices=repaired,
-                     seam_vertices=sum(len(g) for g in clusters),
+                     seam_vertices=sum(len(g) for g in seeds),
                      geometry_and_uvs_preserved=True)
         if proxy_path:
             bpy.data.libraries.write(str(proxy_path),{proxy},fake_user=True)

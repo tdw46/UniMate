@@ -1,0 +1,17 @@
+{
+  "blender": "5.2.0 LTS",
+  "vertices": 262768,
+  "triangles": 500000,
+  "bones": 11,
+  "geometry_and_uvs_unchanged": true,
+  "weights_normalized_max_four": true,
+  "torso_vertices_checked": 197657,
+  "crease_vertices_checked": 8898,
+  "maximum_torso_arm_weight": 0.0,
+  "maximum_crease_arm_weight": 0.10000000521540642,
+  "minimum_crease_torso_weight": 0.8999999687075615,
+  "maximum_torso_motion_during_arm_raise": 0.0,
+  "maximum_arm_motion": 0.5916933667074404,
+  "maximum_coincident_uv_vertex_gap": 0.0,
+  "passed": true
+}

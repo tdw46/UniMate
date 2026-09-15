@@ -27,6 +27,7 @@ setuptools<81                   # keeps pkg_resources available (Motion build)
 
 # ── Core / training ──────────────────────────────────────────────────────────
 numpy==2.2.6
+scipy>=1.11,<2                # sparse crease cuts and motion/surface validation
 torch==2.5.1+cu124
 # Pulled in by the CLIP text encoder (clip/clip.py imports torchvision.transforms
 # at module load). Pinned to the matching +cu124 build so pip cannot resolve a

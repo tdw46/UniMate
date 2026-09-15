@@ -1,0 +1,11 @@
+{
+  "file": "evaluation.mp4",
+  "codec_name": "h264",
+  "width": 1100,
+  "height": 1000,
+  "r_frame_rate": "30/1",
+  "duration": "8.000000",
+  "nb_read_frames": "240",
+  "decode_passed": true,
+  "rigged_glb_sha256": "fd246ce401de123574171b0a60625c576b77d8894e3158bd58fa05d35e94baf3"
+}

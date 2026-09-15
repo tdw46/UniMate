@@ -1,0 +1,164 @@
+[
+  {
+    "segments": 12,
+    "scale": 0.5,
+    "offset": [
+      0,
+      0,
+      0
+    ],
+    "crease_cut": {
+      "method": "concavity-weighted surface cut and geodesic crease band",
+      "vertices_changed": 105,
+      "torso_interior_vertices_checked": 53,
+      "maximum_torso_interior_arm_weight": 0.0,
+      "crease_torso_vertices_checked": 52,
+      "maximum_crease_torso_arm_weight": 0.1,
+      "crease_arm_cap": 0.1,
+      "render_geometry_changed": false,
+      "sides": [
+        {
+          "side": "L",
+          "arm_vertices": 63,
+          "crease_boundary_vertices": 27,
+          "concave_cut_edges": 6,
+          "boundary_min": [
+            0.22499999403953552,
+            -0.07000000029802322,
+            0.3400000035762787
+          ],
+          "boundary_max": [
+            0.2750000059604645,
+            0.060621779412031174,
+            0.46062177419662476
+          ]
+        },
+        {
+          "side": "R",
+          "arm_vertices": 61,
+          "crease_boundary_vertices": 25,
+          "concave_cut_edges": 2,
+          "boundary_min": [
+            -0.2750000059604645,
+            -0.05999999865889549,
+            0.3400000035762787
+          ],
+          "boundary_max": [
+            -0.22499999403953552,
+            0.060621779412031174,
+            0.46062177419662476
+          ]
+        }
+      ]
+    },
+    "passed": true
+  },
+  {
+    "segments": 24,
+    "scale": 1.0,
+    "offset": [
+      3,
+      -2,
+      4
+    ],
+    "crease_cut": {
+      "method": "concavity-weighted surface cut and geodesic crease band",
+      "vertices_changed": 216,
+      "torso_interior_vertices_checked": 84,
+      "maximum_torso_interior_arm_weight": 0.0,
+      "crease_torso_vertices_checked": 124,
+      "maximum_crease_torso_arm_weight": 0.1,
+      "crease_arm_cap": 0.1,
+      "render_geometry_changed": false,
+      "sides": [
+        {
+          "side": "L",
+          "arm_vertices": 126,
+          "crease_boundary_vertices": 53,
+          "concave_cut_edges": 12,
+          "boundary_min": [
+            3.450000047683716,
+            -2.119999885559082,
+            4.659999847412109
+          ],
+          "boundary_max": [
+            3.549999952316284,
+            -1.8600000143051147,
+            4.940000057220459
+          ]
+        },
+        {
+          "side": "R",
+          "arm_vertices": 126,
+          "crease_boundary_vertices": 52,
+          "concave_cut_edges": 12,
+          "boundary_min": [
+            2.450000047683716,
+            -2.1352295875549316,
+            4.678756237030029
+          ],
+          "boundary_max": [
+            2.549999952316284,
+            -1.8787564039230347,
+            4.921243667602539
+          ]
+        }
+      ]
+    },
+    "passed": true
+  },
+  {
+    "segments": 32,
+    "scale": 2.3,
+    "offset": [
+      -1,
+      4,
+      2
+    ],
+    "crease_cut": {
+      "method": "concavity-weighted surface cut and geodesic crease band",
+      "vertices_changed": 288,
+      "torso_interior_vertices_checked": 107,
+      "maximum_torso_interior_arm_weight": 0.0,
+      "crease_torso_vertices_checked": 163,
+      "maximum_crease_torso_arm_weight": 0.1,
+      "crease_arm_cap": 0.1,
+      "render_geometry_changed": false,
+      "sides": [
+        {
+          "side": "L",
+          "arm_vertices": 169,
+          "crease_boundary_vertices": 70,
+          "concave_cut_edges": 16,
+          "boundary_min": [
+            0.034999966621398926,
+            3.7025108337402344,
+            3.5241870880126953
+          ],
+          "boundary_max": [
+            0.26499998569488525,
+            4.322000026702881,
+            4.161999702453613
+          ]
+        },
+        {
+          "side": "R",
+          "arm_vertices": 172,
+          "crease_boundary_vertices": 70,
+          "concave_cut_edges": 20,
+          "boundary_min": [
+            -2.2649998664855957,
+            3.677999973297119,
+            3.5180001258850098
+          ],
+          "boundary_max": [
+            -2.0349998474121094,
+            4.322000026702881,
+            4.161999702453613
+          ]
+        }
+      ]
+    },
+    "passed": true
+  }
+]

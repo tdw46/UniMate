@@ -15,6 +15,7 @@ from mathutils import Matrix, Quaternion, Vector
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from avatar_apparel_weights import correct_apparel, weights
+from avatar_arm_boundary import separate_arm_weights
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
@@ -201,10 +202,6 @@ def prepare(entry):
     select_only(meshes+[rig], rig)
     binding_result = bpy.ops.object.parent_set(type='ARMATURE_AUTO')
     assert binding_result == {'FINISHED'}
-    # Preserve successful fresh garment heat solutions before the legacy
-    # lateral-sleeve repair and nearest-body transfer can overwrite them.
-    garment_heat = {obj.name: {v.index: weights(obj, v.index) for v in obj.data.vertices}
-                    for obj in meshes}
     repaired = 0
     sleeve_vertices = 0
     for obj in meshes:
@@ -230,34 +227,16 @@ def prepare(entry):
             total = sum(w for w,n in values)
             for w,n in values: groups[n].add([vertex.index],w/total,'REPLACE')
             repaired += 1
-        # Bulky sleeves can sit farther from their arm bone than from the chest.
-        # For lateral sleeve/arm vertices, solve weights against the new arm
-        # chain so a jacket cannot remain fixed while the arm exits its sleeve.
-        if not rigid:
-            for vertex in obj.data.vertices:
-                suffix = 'L' if vertex.co.x >= 0 else 'R'
-                upper = rig.data.bones['UpperArm.'+suffix]
-                if abs(vertex.co.x) < abs(upper.head_local.x) + upper.length*.18:
-                    continue
-                distances = []
-                for prefix in ('UpperArm.','Forearm.','Hand.'):
-                    bone = rig.data.bones[prefix+suffix]
-                    a,b = bone.head_local,bone.tail_local
-                    t = max(0,min(1,(vertex.co-a).dot(b-a)/(b-a).length_squared))
-                    distances.append(((vertex.co-(a+(b-a)*t)).length,bone.name))
-                if min(d for d,n in distances) > upper.length*.65:
-                    continue
-                for group in obj.vertex_groups:
-                    group.remove([vertex.index])
-                values = [(1/max(d,.015)**4,n) for d,n in distances]
-                total = sum(w for w,n in values)
-                for w,n in values: groups[n].add([vertex.index],w/total,'REPLACE')
-                sleeve_vertices += 1
         select_only([obj])
         bpy.ops.object.vertex_group_limit_total(limit=4)
         bpy.ops.object.vertex_group_normalize_all(lock_active=False)
         assert all(abs(sum(g.weight for g in v.groups)-1)<1e-4 for v in obj.data.vertices)
-    audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts, garment_heat)
+    audit['apparel_correction'] = correct_apparel(meshes, rig, rigid_parts)
+    audit['arm_boundary'] = separate_arm_weights(meshes, rig)
+    audit['heat_vertices_before_arm_boundary'] = sum(
+        r['vertices'] for r in audit['apparel_correction']['regions']
+        if r['weight_source'] == 'ordinary normalized heat')
+    bpy.ops.wm.save_as_mainfile(filepath=str(folder/'02_heat_baseline.blend'))
     audit['voxel_seam_correction'] = correct_skin_seams(meshes, rig,folder/'03_voxel_skin_proxy.blend')
     audit['fresh_rig'] = {'bones':len(rig.data.bones), 'unweighted_vertices_repaired_from_new_bones':repaired,
                           'lateral_sleeve_vertices_reweighted_from_new_bones':sleeve_vertices,

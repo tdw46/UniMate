@@ -26,6 +26,8 @@ def verify_role_weights(regions):
             assert all(abs(weights(r['object'], i).get('Neck', 0)-1) < 1e-6 for i in r['indices'])
         if r['role'] == 'torso':
             assert all(weights(r['object'], i).get('Head', 0) == 0 for i in r['indices'])
+        if r['role'] == 'head':
+            assert all(weights(r['object'], i) == {'Head': 1.} for i in r['indices'])
 
 
 report = {'invariance': [], 'procedural': []}
@@ -90,6 +92,7 @@ def synthetic_rig():
 
 
 def bake_object(obj):
+    bpy.context.view_layer.update()
     obj.data.transform(obj.matrix_world)
     obj.matrix_world = Matrix.Identity(4)
     assign(obj, list(range(len(obj.data.vertices))), {'Head': 1.})
@@ -147,7 +150,10 @@ for count, segments, scale in [(5,8,.5), (8,12,1.), (13,20,2.5)]:
     assert all(roles[o] == 'neckwear' for o in beads+[collar,pendant]), roles
     assert all(roles[o] == 'head' for o in hair), roles
     assert roles[jacket] == 'torso', roles
+    assign(jacket,list(range(len(jacket.data.vertices))),{'Chest':.65,'UpperArm.L':.35})
+    before = [weights(jacket,i) for i in range(len(jacket.data.vertices))]
     correct_apparel(meshes, rig, rigid)
+    assert before == [weights(jacket,i) for i in range(len(jacket.data.vertices))]
     verify_role_weights(regions)
     report['procedural'].append({'beads': count, 'sphere_segments': segments,
                                   'scale': scale, 'collar_and_jacket': True,

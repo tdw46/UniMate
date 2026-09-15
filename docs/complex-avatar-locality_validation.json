@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "id": "avatarsample_a",
+      "vertices": 11374,
+      "changed_vertices": 55,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "avatarsample_b",
+      "vertices": 12073,
+      "changed_vertices": 57,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "avatarsample_c",
+      "vertices": 12812,
+      "changed_vertices": 116,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "darkness_shibu",
+      "vertices": 15531,
+      "changed_vertices": 59,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "sakurada_fumiriya",
+      "vertices": 17758,
+      "changed_vertices": 77,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "sendagaya_shino",
+      "vertices": 14255,
+      "changed_vertices": 63,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "victoria_rubin",
+      "vertices": 13208,
+      "changed_vertices": 59,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "vita",
+      "vertices": 11731,
+      "changed_vertices": 63,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    },
+    {
+      "id": "vivi",
+      "vertices": 12690,
+      "changed_vertices": 59,
+      "outside_two_loops_changed": 0,
+      "geometry_and_uvs_unchanged": true,
+      "normalized_max_four_influences": true,
+      "passed": true
+    }
+  ],
+  "passed": true
+}
