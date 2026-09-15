@@ -15,6 +15,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 from avatar_apparel_weights import weights, assign
 from avatar_voxel_seams import correct_skin_seams
 from avatar_atlas_landmark import center_atlas
+from avatar_head_weights import correct_head_weights
 
 
 def repaired_heat(meshes, rig):
@@ -165,6 +166,7 @@ def main():
             'landmarks':{n:{'head':list(a),'tail':list(b),'parent':p} for n,a,b,p in specs}}
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'ordinary_heat.blend'))
     report['arm_boundary']={'applied':False,'method':'ordinary normalized heat; crease constraint disabled'}
+    report['head_ownership']=correct_head_weights(meshes,rig)
     bpy.ops.wm.save_as_mainfile(filepath=str(out/'heat_baseline.blend'))
     report['seams']=correct_skin_seams(meshes,rig,out/'local_seam_proxy.blend')
     scene=bpy.context.scene;scene.render.fps=30;scene.frame_start=0;scene.frame_end=239

@@ -18,8 +18,8 @@ Every original vertex matched its heat-copy position exactly. Original geometry
 and UVs remain unchanged, including the imported atlas splits.
 
 The experimental crease-based arm/torso constraint is disabled. It introduced
-an unwanted notch at the shoulder top. Ordinary normalized heat now supplies
-the final weights, including the smooth shoulder transition. The local seam
+an unwanted notch at the shoulder top. Ordinary normalized heat supplies
+the body weights, including the smooth shoulder transition. The local seam
 pass remains limited to two edge loops; this fixture already has continuous
 weights across its atlas UV splits, so it requires no additional seam changes.
 
@@ -28,6 +28,15 @@ neck-shaft sections below the jaw rather than the jaw-contaminated head-base
 slice. Its depth is 60% from front to back, slightly behind the neck center.
 Height and lateral placement stay unchanged. This is a geometric postprocess
 on the fitted skeleton, not a change to any pretrained model.
+
+The head ownership pass measures an elliptical envelope from lower neck-shaft
+sections. Skull surfaces above the atlas become 100% Head. Projecting jaw
+surfaces acquire Head ownership below the atlas, while the upper neck shaft
+blends smoothly into the head. This uses rig-relative geometry, no character
+identifiers or source vertex lists. It is scoped to the upright skin bust fitter;
+the grid's explicitly separated heads already receive full Head weight.
+Garments and hair do not use this geometric rule. It is separate from the
+unchanged two-loop voxel seam pass.
 
 Future source generations should use an A or T pose with space between arms
 and torso, preserving a high axillary recess. The current mesh has merged
@@ -40,7 +49,12 @@ to lowered, cropped arms; the grid flow uses its source skeleton landmarks.
 - 11 bones; 240 frames at 30 fps: head turn/nod, neck tilt/bend, arm raise/elbow bend.
 - Original geometry and every UV loop unchanged; all vertices weighted,
   normalized and limited to four influences.
-- Final weights exactly match the normalized ordinary heat checkpoint.
+- 197,868 lower-neck, torso, shoulder and arm vertices exactly retain ordinary
+  heat weights; the atlas position is unchanged by the head ownership pass.
+- 55,784 independently selected skull/jaw vertices have 100% Head weight;
+  evaluated head motion matches rigid Head motion within 5.8e-8 scene units.
+- Procedural neck/jaw cases pass at three scales and tessellations, including
+  duplicate UV vertices and a continuous upper-neck transition.
 - The atlas joint is inside the posterior half of the measured neck shaft.
 - Neck tail and Head head coincide exactly.
 - Coincident atlas-UV vertices stay closed through sampled diagnostic poses.
@@ -50,7 +64,8 @@ to lowered, cropped arms; the grid flow uses its source skeleton landmarks.
 The raised-arm render is a reviewable deformation test. The fused source
 underarm still limits the result; the rejected sharp shoulder weight boundary
 is removed. The previous constrained rig/video is preserved locally under
-`before_atlas_heat_restore/`.
+`before_atlas_heat_restore/`. The preceding smooth rig with excess Neck weight
+on the face is preserved under `before_head_neck_fix/`.
 
 Local outputs: `outputs/stitched_autorig/rigged.blend`, `rigged.glb`,
 `evaluation.mp4`, `evaluation_stage.blend`, `saved_rig_validation.json`,

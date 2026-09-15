@@ -1,0 +1,26 @@
+[
+  {
+    "segments": 16,
+    "scale": 0.25,
+    "jaw_and_skull_rigid": true,
+    "lower_neck_and_shoulders_unchanged": true,
+    "uv_duplication_invariant": true,
+    "continuous_shaft_transition": true
+  },
+  {
+    "segments": 32,
+    "scale": 1.0,
+    "jaw_and_skull_rigid": true,
+    "lower_neck_and_shoulders_unchanged": true,
+    "uv_duplication_invariant": true,
+    "continuous_shaft_transition": true
+  },
+  {
+    "segments": 64,
+    "scale": 3.0,
+    "jaw_and_skull_rigid": true,
+    "lower_neck_and_shoulders_unchanged": true,
+    "uv_duplication_invariant": true,
+    "continuous_shaft_transition": true
+  }
+]

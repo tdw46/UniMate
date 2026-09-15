@@ -5,7 +5,26 @@
   "bones": 11,
   "geometry_and_uvs_unchanged": true,
   "weights_normalized_max_four": true,
-  "all_weights_match_ordinary_heat": true,
+  "head_ownership": {
+    "applied": true,
+    "neck_center_xy": [
+      -0.0012024212628602982,
+      0.06654796557268128
+    ],
+    "neck_radii_xy": [
+      0.05680510634556413,
+      0.05552547803381458
+    ],
+    "correction_min_z": 0.14449999816715717,
+    "rigid_head_min_z": 0.2224999964237213,
+    "transition": "shaft upper 45%; projecting jaw outside measured shaft",
+    "fully_head_vertices": 58330,
+    "affected_region_vertices": 63585,
+    "changed_vertices": 38802
+  },
+  "unchanged_lower_neck_torso_and_arm_vertices": 197868,
+  "rigid_head_and_jaw_vertices": 55784,
+  "maximum_head_rigidity_error": 5.7875610383134776e-08,
   "atlas_correction": {
     "applied": true,
     "before": [
