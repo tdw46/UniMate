@@ -17,10 +17,11 @@ sys.path.insert(0, str(ROOT / 'tools'))
 from avatar_apparel_weights import correct_apparel, weights
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
-OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
-SOURCES = Path(os.environ.get('AVATAR_SOURCE_ROOT', OUT / 'sources')).resolve()
-HANDS = '--hands' in sys.argv
-FRAMES = 360
+FULLBODY = '--full-body' in sys.argv
+OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / ('outputs/fullbody_avatar_grid' if FULLBODY else 'outputs/avatar_grid'))).resolve()
+SOURCES = Path(os.environ.get('AVATAR_SOURCE_ROOT', ROOT / 'outputs/complex_avatar_grid/sources' if FULLBODY else OUT / 'sources')).resolve()
+HANDS = '--hands' in sys.argv or FULLBODY
+FRAMES = 720 if FULLBODY else 360
 
 
 def select_only(objects, active=None):
@@ -45,7 +46,7 @@ def prepare(entry):
     scene.render.fps = 30
     scene.frame_set(0)
     original_rig = next(o for o in scene.objects if o.type == 'ARMATURE')
-    source_adapter = adapt_humanoid(SOURCES / entry['model'], original_rig, include_fingers=HANDS)
+    source_adapter = adapt_humanoid(SOURCES / entry['model'], original_rig, include_fingers=HANDS, include_legs=FULLBODY)
     original_rig.data.pose_position = 'POSE'
     for obj in list(scene.objects):
         obj.animation_data_clear()
@@ -63,6 +64,9 @@ def prepare(entry):
     original_bone_count = len(original_rig.data.bones)
     landmarks = {pb.name:{'head':original_rig.matrix_world @ pb.head, 'tail':original_rig.matrix_world @ pb.tail} for pb in original_rig.pose.bones}
     if HANDS:capture_finger_tips(original_rig,landmarks)
+    if FULLBODY:
+        from avatar_fullbody import capture_toe_tips,body_specs,animate_fullbody
+        capture_toe_tips(original_rig,landmarks)
     cutoff = landmarks['Abdomen']['head'].lerp(landmarks['Torso']['head'], .35).z
     meshes = []
     rigid_parts = {}
@@ -79,7 +83,7 @@ def prepare(entry):
         # Semantic attachment labels locate fresh rigid weights, never old values.
         if obj.parent_type == 'BONE':
             old_bone = obj.parent_bone
-            rigid_map = {'Head':'Head','Torso':'Chest','Chest':'Chest','Abdomen':'Spine','Hips':'Root'}
+            rigid_map = {'Head':'Head','Torso':'Chest','Chest':'Chest','Abdomen':'Spine','Hips':('Hips' if FULLBODY else 'Root')}
             for suffix in ('L','R'):
                 rigid_map.update({'Shoulder.'+suffix:'Clavicle.'+suffix,
                                   'UpperArm.'+suffix:'UpperArm.'+suffix,
@@ -117,37 +121,42 @@ def prepare(entry):
     if source_adapter:
         audit['source_adapter'] = source_adapter
         audit['semantic_material_regions'] = semantic_regions
-    bpy.ops.mesh.primitive_cube_add(size=2, location=(0,0,cutoff-10))
-    cutter = bpy.context.object
-    cutter.name = 'Bust Boolean cutter'
-    cutter.scale = (10,10,10)
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    for obj in list(meshes):
-        before = len(obj.data.vertices)
-        zs = [v.co.z for v in obj.data.vertices]
-        if min(zs) >= cutoff - 1e-5:
-            continue
-        select_only([obj])
-        modifier = obj.modifiers.new('Destructive bust cut', 'BOOLEAN')
-        modifier.operation = 'DIFFERENCE'
-        modifier.solver = 'EXACT'
-        modifier.object = cutter
-        if hasattr(modifier, 'use_hole_tolerant'):
-            modifier.use_hole_tolerant = True
-        result = bpy.ops.object.modifier_apply(modifier=modifier.name)
-        assert result == {'FINISHED'}
-        remaining = len(obj.data.vertices)
-        audit['booleans'].append({'mesh':obj.name, 'operation':'DIFFERENCE', 'solver':'EXACT', 'applied':True, 'vertices_before':before, 'vertices_after':remaining})
-        if not obj.data.polygons:
-            meshes.remove(obj)
-            bpy.data.objects.remove(obj, do_unlink=True)
-        else:
-            assert min(v.co.z for v in obj.data.vertices) >= cutoff - 1e-4, obj.name
-    bpy.data.objects.remove(cutter, do_unlink=True)
-    assert audit['booleans'], 'Expected an actual destructive Boolean operation'
+    if not FULLBODY:
+        bpy.ops.mesh.primitive_cube_add(size=2, location=(0,0,cutoff-10))
+        cutter = bpy.context.object
+        cutter.name = 'Bust Boolean cutter'
+        cutter.scale = (10,10,10)
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        for obj in list(meshes):
+            before = len(obj.data.vertices)
+            zs = [v.co.z for v in obj.data.vertices]
+            if min(zs) >= cutoff - 1e-5:
+                continue
+            select_only([obj])
+            modifier = obj.modifiers.new('Destructive bust cut', 'BOOLEAN')
+            modifier.operation = 'DIFFERENCE'
+            modifier.solver = 'EXACT'
+            modifier.object = cutter
+            if hasattr(modifier, 'use_hole_tolerant'):
+                modifier.use_hole_tolerant = True
+            result = bpy.ops.object.modifier_apply(modifier=modifier.name)
+            assert result == {'FINISHED'}
+            remaining = len(obj.data.vertices)
+            audit['booleans'].append({'mesh':obj.name, 'operation':'DIFFERENCE', 'solver':'EXACT', 'applied':True, 'vertices_before':before, 'vertices_after':remaining})
+            if not obj.data.polygons:
+                meshes.remove(obj)
+                bpy.data.objects.remove(obj, do_unlink=True)
+            else:
+                assert min(v.co.z for v in obj.data.vertices) >= cutoff - 1e-4, obj.name
+        bpy.data.objects.remove(cutter, do_unlink=True)
+        assert audit['booleans'], 'Expected an actual destructive Boolean operation'
     assert meshes
-    # Normalize each cut bust independently without retaining any old rig data.
+    # Normalize each character independently without retaining any old rig data.
     top = max(v.co.z for obj in meshes for v in obj.data.vertices)
+    if FULLBODY:cutoff=min(v.co.z for obj in meshes for v in obj.data.vertices)
+    audit['full_body']=FULLBODY
+    audit['normalization_floor_z']=cutoff
+    if FULLBODY:audit['cutoff_z_before_normalization']=None
     factor = 2.65 / (top - cutoff)
     transform = Matrix.Scale(factor,4) @ Matrix.Translation((0,0,-cutoff))
     for obj in meshes:
@@ -188,6 +197,7 @@ def prepare(entry):
     spine = root.lerp(torso,.25)
     specs = [('Root',root,spine,None), ('Spine',spine,torso,'Root'), ('Chest',torso,neck,'Spine'),
              ('Neck',neck,head,'Chest'), ('Head',head,landmarks['Head']['tail'],'Neck')]
+    if FULLBODY:specs=body_specs(landmarks)
     for suffix in ('L','R'):
         upper = landmarks['UpperArm.'+suffix]['head']
         elbow = landmarks['LowerArm.'+suffix]['head']
@@ -202,6 +212,7 @@ def prepare(entry):
     for bone_name, start, end, parent in specs:
         bone = rig.data.edit_bones.new(bone_name)
         bone.head, bone.tail = start, end
+        if FULLBODY and bone_name=='Root':bone.use_deform=False
         if parent:
             bone.parent = rig.data.edit_bones[parent]
     bpy.ops.object.mode_set(mode='OBJECT')
@@ -218,13 +229,14 @@ def prepare(entry):
             obj.vertex_groups.new(name=rigid).add(list(range(len(obj.data.vertices))),1,'REPLACE')
         # Disconnected clothing can have no heat solution. Assign such vertices
         # using distances to the NEW skeleton only; old weights no longer exist.
-        groups = {b.name:obj.vertex_groups.get(b.name) or obj.vertex_groups.new(name=b.name) for b in rig.data.bones}
+        groups = {b.name:obj.vertex_groups.get(b.name) or obj.vertex_groups.new(name=b.name) for b in rig.data.bones if b.use_deform}
         for vertex in obj.data.vertices:
             total = sum(g.weight for g in vertex.groups)
             if total > 1e-6:
                 continue
             distances = []
             for bone in rig.data.bones:
+                if not bone.use_deform:continue
                 a,b = bone.head_local,bone.tail_local
                 length = (b-a).length_squared
                 t = max(0,min(1,(vertex.co-a).dot(b-a)/length))
@@ -254,7 +266,9 @@ def prepare(entry):
         scene['preparation_audit']=json.dumps(audit)
         bpy.ops.wm.save_as_mainfile(filepath=str(folder/'04_aligned_rest.blend'))
     rig.animation_data_create()
-    if HANDS:
+    if FULLBODY:
+        audit['full_body_motion']=animate_fullbody(rig,FRAMES)
+    elif HANDS:
         animate_hands(rig,FRAMES)
     else:
         for frame in range(FRAMES):

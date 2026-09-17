@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "id": "darkness_shibu",
+      "archive_path": "darkness_shibu.glb",
+      "sha256": "444bccec665eaeac4cf7ef86e83ac3aa58a5eee95ce5b111aee203d3d9c9e63a",
+      "bytes": 12472268
+    },
+    {
+      "id": "sakurada_fumiriya",
+      "archive_path": "sakurada_fumiriya.glb",
+      "sha256": "2435ac7c261a12e8e9abb71b484102e96794f45f92b80b7021cc00e0c1c03e56",
+      "bytes": 9870628
+    },
+    {
+      "id": "sendagaya_shino",
+      "archive_path": "sendagaya_shino.glb",
+      "sha256": "4addf4153b7d044d529ebe5c7208f73f0e6d56d38342084f8d479722d474f880",
+      "bytes": 7398752
+    },
+    {
+      "id": "victoria_rubin",
+      "archive_path": "victoria_rubin.glb",
+      "sha256": "370b4b56f1d5f59b4d38dae37f3d2c4496eb6696547fc11550525ee4e9bfcb2e",
+      "bytes": 8345932
+    },
+    {
+      "id": "vita",
+      "archive_path": "vita.glb",
+      "sha256": "267388105adcd6ab9616e228ab4351f50107174530eca7638a1c6668c7f3e1aa",
+      "bytes": 7339988
+    },
+    {
+      "id": "vivi",
+      "archive_path": "vivi.glb",
+      "sha256": "3bbfc0863f8e98e2c1bf3099bc417744307140d9e3d23a53438f6b928702f3c9",
+      "bytes": 10408828
+    },
+    {
+      "id": "avatarsample_a",
+      "archive_path": "avatarsample_a.glb",
+      "sha256": "6e30cfa89c94439361b3843368c8d89ca27b23b8901132e4f46ab4242eb72dbf",
+      "bytes": 8295248
+    },
+    {
+      "id": "avatarsample_b",
+      "archive_path": "avatarsample_b.glb",
+      "sha256": "19a51864d856020f2c80c94cddf11e0b61d996da710676f556afb75fe917ef21",
+      "bytes": 8153928
+    },
+    {
+      "id": "avatarsample_c",
+      "archive_path": "avatarsample_c.glb",
+      "sha256": "375e827ea66d71340da1db57ad45145bc3755f8afa9bc8f3a6f61265e718e26a",
+      "bytes": 5918800
+    }
+  ],
+  "archive_bytes": 66558519,
+  "passed": true
+}

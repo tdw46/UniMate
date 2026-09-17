@@ -16,7 +16,7 @@ def read_gltf(path):
     return json.loads(data)
 
 
-def adapt_humanoid(path, rig, include_fingers=False):
+def adapt_humanoid(path, rig, include_fingers=False, include_legs=False):
     gltf = read_gltf(path)
     extensions = gltf.get('extensions', {})
     if 'VRM' in extensions:
@@ -34,6 +34,9 @@ def adapt_humanoid(path, rig, include_fingers=False):
     if include_fingers:
         from avatar_fingers import source_finger_aliases
         aliases.update(source_finger_aliases(bones))
+    if include_legs:
+        from avatar_fullbody import lower_aliases
+        aliases.update(lower_aliases())
     renamed = {}
     for role, alias in aliases.items():
         if role not in bones:

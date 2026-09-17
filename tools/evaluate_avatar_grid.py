@@ -13,9 +13,13 @@ from scipy.spatial import cKDTree
 from data_process.motion_export.export_general import export_asset
 from data_process.mesh_animation.animate_npz import animate_character
 
-OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
-HANDS='--hands' in sys.argv
+FULLBODY='--full-body' in sys.argv
+OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / ('outputs/fullbody_avatar_grid' if FULLBODY else 'outputs/avatar_grid'))).resolve()
+HANDS='--hands' in sys.argv or FULLBODY
+FRAMES=720 if FULLBODY else 360
 SAMPLE_FRAMES = (0,30,59,90,119,132,156,180,204,228,239,270,299,330,359) if HANDS else (0,30,59,90,119,150,179,210,239,270,299,330,359)
+
+if FULLBODY:SAMPLE_FRAMES=tuple(range(0,720,30))+(719,)
 
 
 def snapshot(path):
@@ -27,7 +31,7 @@ def snapshot(path):
     rest = np.array([rig.matrix_world @ rig.data.bones[n].matrix_local for n in names],dtype=np.float64)
     transforms, vertices = [], []
     meshes = [o for o in bpy.context.scene.objects if o.type=='MESH' and any(m.type=='ARMATURE' for m in o.modifiers)]
-    for frame in range(360):
+    for frame in range(FRAMES):
         bpy.context.scene.frame_set(frame)
         transforms.append(np.array([rig.matrix_world @ rig.pose.bones[n].matrix for n in names],dtype=np.float64))
         if frame in SAMPLE_FRAMES:
@@ -74,18 +78,26 @@ for entry in json.loads((OUT/'sources/manifest.json').read_text()):
     # Check that every requested phase genuinely changes the intended joints.
     motion_amplitudes = {}
     phase_bones = [(0,'Hand.L'),(0,'Hand.R')] + [(1,f'{d}{i}.{s}') for s in ('L','R') for d in ('Thumb','Index','Middle','Ring','Little') for i in range(1,4)] if HANDS else list(enumerate(('Head','Neck','UpperArm.L')))
-    if HANDS:assert len(names)==43
+    if FULLBODY:
+        phase_bones=[(0,'Head'),(0,'Neck'),(1,'Spine'),(1,'Chest'),(5,'Hips')]+[(2,b+'.'+s) for s in ('L','R') for b in ('Thigh','Shin','Foot','Toe')]+[(0,b+'.'+s) for s in ('L','R') for b in ('UpperArm','Forearm')]+[(4,b+'.'+s) for s in ('L','R') for b in ('Hand',)]+[(4,f'{d}{i}.{s}') for s in ('L','R') for d in ('Thumb','Index','Middle','Ring','Little') for i in range(1,4)]
+    if HANDS:assert len(names)==(52 if FULLBODY else 43)
     for phase,bone in phase_bones:
         matrices = result[phase*120:(phase+1)*120,names.index(bone),:3,:3]
+        if FULLBODY:
+            # Prove motion at this joint, excluding movement inherited from ancestors.
+            rig=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
+            parent=rig.data.bones[bone].parent
+            if parent:matrices=np.linalg.inv(result[phase*120:(phase+1)*120,names.index(parent.name),:3,:3])@matrices
         u,_,vt = np.linalg.svd(matrices @ np.linalg.inv(matrices[0]))
         variation = np.degrees(np.arccos(np.clip((np.trace(u@vt,axis1=-2,axis2=-1)-1)/2,-1,1)))
         motion_amplitudes[bone] = float(variation.max())
-    case = {'id':name,'frames':360,'bones':len(names),'saved_unrigged_checkpoint_verified':True,
+    case = {'id':name,'frames':FRAMES,'bones':len(names),'saved_unrigged_checkpoint_verified':True,
             'source_glb_sha256':digest,'max_rotation_error_degrees':float(angle.max()),
             'max_joint_position_error':float(positions.max()),'max_surface_error':float(surface),
             'surface_sample_frames':SAMPLE_FRAMES,'evaluated_motion_degrees':motion_amplitudes,
+            'motion_amplitudes_relative_to_parent':FULLBODY,
             'per_bone_rotation_error_degrees':dict(zip(names,map(float,angle.max(axis=0))))}
-    case['passed'] = bool(angle.max()<.1 and positions.max()<1e-4 and surface<1e-4 and min(motion_amplitudes.values())>5)
+    case['passed'] = bool(angle.max()<.1 and positions.max()<1e-4 and surface<1e-4 and min(motion_amplitudes.values())>(1 if FULLBODY else 5))
     report['avatars'].append(case)
     (OUT/'pipeline_validation.json').write_text(json.dumps(report,indent=2))
     print('AVATAR_VALIDATED',json.dumps(case),flush=True)

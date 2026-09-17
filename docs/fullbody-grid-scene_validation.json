@@ -1,0 +1,137 @@
+{
+  "scenes": [
+    {
+      "view": "overview",
+      "rigs": 9,
+      "bones_per_rig": 52,
+      "frames": 720,
+      "fps": 30,
+      "packed_images": 147,
+      "all_images_packed": true,
+      "camera_samples": [
+        {
+          "frame": 0,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        },
+        {
+          "frame": 180,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        },
+        {
+          "frame": 300,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        },
+        {
+          "frame": 420,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        },
+        {
+          "frame": 555,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        },
+        {
+          "frame": 719,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        }
+      ],
+      "passed": true
+    },
+    {
+      "view": "tour",
+      "rigs": 9,
+      "bones_per_rig": 52,
+      "frames": 720,
+      "fps": 30,
+      "packed_images": 147,
+      "all_images_packed": true,
+      "camera_samples": [
+        {
+          "frame": 0,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        },
+        {
+          "frame": 180,
+          "camera_location": [
+            -0.04998970031738281,
+            -24.12918472290039,
+            12.86579704284668
+          ],
+          "ortho_scale": 1.350000023841858
+        },
+        {
+          "frame": 300,
+          "camera_location": [
+            4.061654090881348,
+            -24.0874080657959,
+            7.561615467071533
+          ],
+          "ortho_scale": 1.600000023841858
+        },
+        {
+          "frame": 420,
+          "camera_location": [
+            9.949995040893555,
+            -22.08548927307129,
+            6.751336097717285
+          ],
+          "ortho_scale": 3.0
+        },
+        {
+          "frame": 555,
+          "camera_location": [
+            3.4759645462036133,
+            -24.68297004699707,
+            17.691909790039062
+          ],
+          "ortho_scale": 0.7200000286102295
+        },
+        {
+          "frame": 719,
+          "camera_location": [
+            0.0,
+            -25.0,
+            5.300000190734863
+          ],
+          "ortho_scale": 12.899999618530273
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

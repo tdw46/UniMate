@@ -1,5 +1,5 @@
 """Read saved spread/aligned rigs and independently verify the skin rest bake."""
-import json,sys
+import json,sys,os
 from pathlib import Path
 import bpy,numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
@@ -7,7 +7,8 @@ from avatar_apparel_weights import weights
 from avatar_source_import import material_role
 from avatar_fingers import DIGITS
 from validate_seam_locality import validate as validate_seam_patch
-out=ROOT/'outputs/finger_avatar_grid';entries=json.loads((out/'sources/manifest.json').read_text());report=[]
+FULLBODY='--full-body' in sys.argv
+out=Path(os.environ.get('AVATAR_EVAL_ROOT',ROOT/('outputs/fullbody_avatar_grid' if FULLBODY else 'outputs/finger_avatar_grid')));entries=json.loads((out/'sources/manifest.json').read_text());report=[]
 
 def read(path):
  bpy.ops.wm.open_mainfile(filepath=str(path));r=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
@@ -22,7 +23,7 @@ for entry in entries:
  folder=out/'avatars'/entry['id']
  seam=validate_seam_patch(folder/'02_heat_baseline.blend',folder/'03_spread_bound.blend')
  spread,old,old_lengths=read(folder/'03_spread_bound.blend');aligned,new,new_lengths=read(folder/'04_aligned_rest.blend')
- assert spread.keys()==aligned.keys() and old.keys()==new.keys() and len(new)==43
+ assert spread.keys()==aligned.keys() and old.keys()==new.keys() and len(new)==(52 if FULLBODY else 43)
  length_error=max(abs(new_lengths[n]-old_lengths[n]) for n in old)
  thumb_error=max(float(np.abs(np.linalg.inv(new['Hand.'+s])@new[f'Thumb{i}.{s}']-np.linalg.inv(old['Hand.'+s])@old[f'Thumb{i}.{s}']).max()) for s in ('L','R') for i in (1,2,3))
  alignment=min(new[f'{d}{i}.{s}'][0,1]*sign for s,sign in [('L',1),('R',-1)] for d in DIGITS[1:] for i in (1,2,3))
@@ -55,9 +56,14 @@ for entry in entries:
     own.append(sum(w.get(f'{digit}{j}.{side}',0) for j in (1,2,3)))
     other.append(sum(w.get(f'{d}{j}.{side}',0) for d in DIGITS if d!=digit for j in (1,2,3)))
    # Independent surface-motion check on those fingertip samples.
-   frame=120+12+24*DIGITS.index(digit);bpy.context.scene.frame_set(frame);deps=bpy.context.evaluated_depsgraph_get();cloud={}
+   frame=555 if FULLBODY else 120+12+24*DIGITS.index(digit);bpy.context.scene.frame_set(frame);deps=bpy.context.evaluated_depsgraph_get();cloud={}
    for o in skin:
     ev=o.evaluated_get(deps);mesh=ev.to_mesh();cloud[o.name]=np.array([v.co[:] for v in mesh.vertices]);ev.to_mesh_clear()
+   if FULLBODY:
+    # Remove wrist/arm motion so this proves actual finger deformation.
+    hand=rig.pose.bones['Hand.'+side]
+    unpose=np.array(rig.data.bones[hand.name].matrix_local@hand.matrix.inverted())
+    for name,points in cloud.items():cloud[name]=(unpose@np.column_stack((points,np.ones(len(points)))).T).T[:,:3]
    motion=float(np.mean([np.linalg.norm(cloud[refs[k][0].name][refs[k][1]]-coordinates[k]) for k in nearest]))
    length=sum(rig.data.bones[f'{digit}{j}.{side}'].length for j in (1,2,3))
    check={'side':side,'digit':digit,'tip_own_chain_mean_weight':float(np.mean(own)),'tip_other_digits_mean_weight':float(np.mean(other)),'tip_motion_in_finger_lengths':motion/length}

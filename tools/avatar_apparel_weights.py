@@ -197,7 +197,7 @@ def classify_regions(meshes, rig, rigid_parts):
             role, reason = 'body', 'connected torso and bilateral shoulder coverage'
         elif id(r) in jewelry:
             role, reason = 'neckwear', 'repeated compact assembly around neck'
-        elif r['low'].z <= base_z+neck.length*.001 and r['high'].z < base_z+torso_height*.2:
+        elif 'Thigh.L' not in rig.data.bones and r['low'].z <= base_z+neck.length*.001 and r['high'].z < base_z+torso_height*.2:
             role, reason = 'base', 'short remnant touching bust cut plane'
         else:
             wraps_neck = (r['low'].x < neck.head_local.x-shoulder*.6

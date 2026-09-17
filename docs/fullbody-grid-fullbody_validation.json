@@ -1,0 +1,230 @@
+{
+  "cases": [
+    {
+      "id": "darkness_shibu",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.434236764907837e-07,
+      "maximum_squat_ankle_drift": 6.337922120831002e-07,
+      "squat_hips_vertical_range": 0.2458733320236206,
+      "march_ankle_lifts": {
+        "L": 0.1389096975326538,
+        "R": 0.13890975713729858
+      },
+      "lower_body_surface_motion": 0.22607016214615894,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 0.9999999821186065
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 1.0000000149011612
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "sakurada_fumiriya",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.4039687812328339e-07,
+      "maximum_squat_ankle_drift": 1.4939575301793447e-06,
+      "squat_hips_vertical_range": 0.2469041347503662,
+      "march_ankle_lifts": {
+        "L": 0.13949239253997803,
+        "R": 0.13949209451675415
+      },
+      "lower_body_surface_motion": 0.21622268143432904,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 0.9999163520231378
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 0.9999163488217164
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "sendagaya_shino",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.4156103134155273e-07,
+      "maximum_squat_ankle_drift": 4.370807079867546e-06,
+      "squat_hips_vertical_range": 0.24378621578216553,
+      "march_ankle_lifts": {
+        "L": 0.13773208856582642,
+        "R": 0.13773113489151
+      },
+      "lower_body_surface_motion": 0.20869732605361516,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 1.0000000145693775
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 0.9999999981897417
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "victoria_rubin",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.4901161193847656e-07,
+      "maximum_squat_ankle_drift": 3.3778524130226598e-06,
+      "squat_hips_vertical_range": 0.2453995943069458,
+      "march_ankle_lifts": {
+        "L": 0.13864123821258545,
+        "R": 0.1386430263519287
+      },
+      "lower_body_surface_motion": 0.20869674564219787,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 1.0
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 0.9999999880790711
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "vita",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.564621925354004e-07,
+      "maximum_squat_ankle_drift": 2.0497087524296024e-06,
+      "squat_hips_vertical_range": 0.24428188800811768,
+      "march_ankle_lifts": {
+        "L": 0.13801050186157227,
+        "R": 0.13801145553588867
+      },
+      "lower_body_surface_motion": 0.21555030258268434,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 1.0000000074505806
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 1.0000000149011612
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "vivi",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.4435499906539917e-07,
+      "maximum_squat_ankle_drift": 2.1736837456234402e-06,
+      "squat_hips_vertical_range": 0.24293160438537598,
+      "march_ankle_lifts": {
+        "L": 0.13724708557128906,
+        "R": 0.1372472643852234
+      },
+      "lower_body_surface_motion": 0.20885256428358834,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 1.000000035762787
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 1.0000000208616258
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_a",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.4156103134155273e-07,
+      "maximum_squat_ankle_drift": 2.285510380089738e-06,
+      "squat_hips_vertical_range": 0.242431640625,
+      "march_ankle_lifts": {
+        "L": 0.13696593046188354,
+        "R": 0.13696473836898804
+      },
+      "lower_body_surface_motion": 0.21038815064432745,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 1.0000000078231097
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 0.999999987706542
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_b",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.6763806343078613e-07,
+      "maximum_squat_ankle_drift": 1.035878579317104e-06,
+      "squat_hips_vertical_range": 0.230840802192688,
+      "march_ankle_lifts": {
+        "L": 0.13041669130325317,
+        "R": 0.13041716814041138
+      },
+      "lower_body_surface_motion": 0.20410354295898664,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 0.9999999984633178
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 1.0000000046566129
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_c",
+      "bones": 52,
+      "source_full_body_preserved_without_boolean_cut": true,
+      "nondeforming_root_has_no_skin_weights": true,
+      "maximum_weight_sum_error": 1.341104507446289e-07,
+      "maximum_squat_ankle_drift": 6.900138724043875e-07,
+      "squat_hips_vertical_range": 0.24403655529022217,
+      "march_ankle_lifts": {
+        "L": 0.13787204027175903,
+        "R": 0.13787227869033813
+      },
+      "lower_body_surface_motion": 0.20821503350076903,
+      "foot_samples": [
+        {
+          "side": "L",
+          "toe_sample_own_leg_mean_weight": 1.0
+        },
+        {
+          "side": "R",
+          "toe_sample_own_leg_mean_weight": 1.0
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true
+}
