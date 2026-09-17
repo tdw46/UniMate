@@ -14,7 +14,8 @@ from data_process.motion_export.export_general import export_asset
 from data_process.mesh_animation.animate_npz import animate_character
 
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
-SAMPLE_FRAMES = (0,30,59,90,119,150,179,210,239,270,299,330,359)
+HANDS='--hands' in sys.argv
+SAMPLE_FRAMES = (0,30,59,90,119,132,156,180,204,228,239,270,299,330,359) if HANDS else (0,30,59,90,119,150,179,210,239,270,299,330,359)
 
 
 def snapshot(path):
@@ -72,7 +73,9 @@ for entry in json.loads((OUT/'sources/manifest.json').read_text()):
     surface = max(max(cKDTree(a).query(b)[0].max(),cKDTree(b).query(a)[0].max()) for a,b in zip(input_vertices,result_vertices))
     # Check that every requested phase genuinely changes the intended joints.
     motion_amplitudes = {}
-    for phase,bone in enumerate(('Head','Neck','UpperArm.L')):
+    phase_bones = [(0,'Hand.L'),(0,'Hand.R')] + [(1,f'{d}{i}.{s}') for s in ('L','R') for d in ('Thumb','Index','Middle','Ring','Little') for i in range(1,4)] if HANDS else list(enumerate(('Head','Neck','UpperArm.L')))
+    if HANDS:assert len(names)==43
+    for phase,bone in phase_bones:
         matrices = result[phase*120:(phase+1)*120,names.index(bone),:3,:3]
         u,_,vt = np.linalg.svd(matrices @ np.linalg.inv(matrices[0]))
         variation = np.degrees(np.arccos(np.clip((np.trace(u@vt,axis1=-2,axis2=-1)-1)/2,-1,1)))

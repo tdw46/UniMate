@@ -1,0 +1,953 @@
+[
+  {
+    "id": "darkness_shibu",
+    "original_bones_removed": 149,
+    "original_weight_assignments_removed": 39611,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.019612901150644572,
+        "distal_joint_gap_after": 0.02964567575070176,
+        "palm_width": 0.04830177265558098
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.019612002538399724,
+        "distal_joint_gap_after": 0.029645694357407444,
+        "palm_width": 0.048301749247949666
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 42,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Body__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.8763193894888783,
+      "maximum_evaluated_surface_jump": 4.951133646320149e-07,
+      "maximum_rest_matrix_error": 7.748603820800781e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 7.748603820800781e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "sakurada_fumiriya",
+    "original_bones_removed": 107,
+    "original_weight_assignments_removed": 46002,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.021573212543507463,
+        "distal_joint_gap_after": 0.03263191431675565,
+        "palm_width": 0.05313193520428023
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.021572536721314477,
+        "distal_joint_gap_after": 0.0326318326536701,
+        "palm_width": 0.05313192991706099
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Body__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.9641459686925642,
+      "maximum_evaluated_surface_jump": 4.915124923727108e-07,
+      "maximum_rest_matrix_error": 7.748603820800781e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 5.960464477539062e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "sendagaya_shino",
+    "original_bones_removed": 148,
+    "original_weight_assignments_removed": 40418,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.01961290287366407,
+        "distal_joint_gap_after": 0.02964568019913205,
+        "palm_width": 0.04830175838699215
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.01961207847632029,
+        "distal_joint_gap_after": 0.02964569721053688,
+        "palm_width": 0.048301771614960916
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 98,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Body__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.8717622123151969,
+      "maximum_evaluated_surface_jump": 5.230286352272107e-07,
+      "maximum_rest_matrix_error": 8.940696716308594e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 8.940696716308594e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "victoria_rubin",
+    "original_bones_removed": 162,
+    "original_weight_assignments_removed": 35991,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.01961279636787849,
+        "distal_joint_gap_after": 0.029645603946808832,
+        "palm_width": 0.048301754342782915
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.019612100509855793,
+        "distal_joint_gap_after": 0.029645733948388677,
+        "palm_width": 0.04830176831157313
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 42,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Body__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.8480840773521213,
+      "maximum_evaluated_surface_jump": 5.364418029785156e-07,
+      "maximum_rest_matrix_error": 9.5367431640625e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 8.344650268554688e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "vita",
+    "original_bones_removed": 155,
+    "original_weight_assignments_removed": 31460,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.01961279605776229,
+        "distal_joint_gap_after": 0.02964565820240474,
+        "palm_width": 0.048301765029368234
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.019612037206125813,
+        "distal_joint_gap_after": 0.029645735712417996,
+        "palm_width": 0.04830173549686936
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 42,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Body__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.8459415304942672,
+      "maximum_evaluated_surface_jump": 5.748063779469106e-07,
+      "maximum_rest_matrix_error": 7.152557373046875e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 6.556510925292969e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "vivi",
+    "original_bones_removed": 152,
+    "original_weight_assignments_removed": 30426,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.01660429068632408,
+        "distal_joint_gap_after": 0.024700923331775537,
+        "palm_width": 0.0413825119844262
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.0166034837637952,
+        "distal_joint_gap_after": 0.02470092827489648,
+        "palm_width": 0.04138252000656348
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 952,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Body__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.8163167135678095,
+      "maximum_evaluated_surface_jump": 5.136039239053156e-07,
+      "maximum_rest_matrix_error": 7.748603820800781e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 5.960464477539062e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "avatarsample_a",
+    "original_bones_removed": 103,
+    "original_weight_assignments_removed": 33077,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.017162230020378474,
+        "distal_joint_gap_after": 0.025650193423344674,
+        "palm_width": 0.04263004815556157
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.01716159552509611,
+        "distal_joint_gap_after": 0.025650068124689056,
+        "palm_width": 0.042630032137779925
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 58,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.9918629789496693,
+      "maximum_evaluated_surface_jump": 5.136039239053156e-07,
+      "maximum_rest_matrix_error": 1.2516975402832031e-06,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 9.5367431640625e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "avatarsample_b",
+    "original_bones_removed": 125,
+    "original_weight_assignments_removed": 38194,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.017056515273742245,
+        "distal_joint_gap_after": 0.025457662132995156,
+        "palm_width": 0.042408959910710226
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.017055750506423835,
+        "distal_joint_gap_after": 0.025457693116154412,
+        "palm_width": 0.042408955159959336
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 0.8738947169679441,
+      "maximum_evaluated_surface_jump": 5.405651672845201e-07,
+      "maximum_rest_matrix_error": 7.413327693939209e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 5.364418029785156e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  },
+  {
+    "id": "avatarsample_c",
+    "original_bones_removed": 101,
+    "original_weight_assignments_removed": 34191,
+    "finger_spread": [
+      {
+        "side": "L",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.021573347920676094,
+        "distal_joint_gap_after": 0.03263191618413439,
+        "palm_width": 0.05313191812201733
+      },
+      {
+        "side": "R",
+        "angles_degrees": {
+          "Thumb": 55,
+          "Index": 21,
+          "Middle": 7,
+          "Ring": -7,
+          "Little": -21
+        },
+        "distal_joint_gap_before": 0.021572446960192868,
+        "distal_joint_gap_after": 0.03263192404384676,
+        "palm_width": 0.0531319251893416
+      }
+    ],
+    "unrigged_checkpoint": {
+      "armature_objects": 0,
+      "armature_datablocks": 0,
+      "vertex_groups": 0,
+      "weight_assignments": 0,
+      "remaining_boolean_modifiers": 0,
+      "remaining_armature_modifiers": 0
+    },
+    "fresh_rig": {
+      "bones": 43,
+      "unweighted_vertices_repaired_from_new_bones": 0,
+      "lateral_sleeve_vertices_reweighted_from_new_bones": 0,
+      "rigid_parts": {
+        "Face__head": "Head",
+        "Hair001__head": "Head"
+      },
+      "bone_names": [
+        "Root",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Clavicle.L",
+        "UpperArm.L",
+        "Forearm.L",
+        "Hand.L",
+        "Thumb1.L",
+        "Thumb2.L",
+        "Thumb3.L",
+        "Index1.L",
+        "Index2.L",
+        "Index3.L",
+        "Middle1.L",
+        "Middle2.L",
+        "Middle3.L",
+        "Ring1.L",
+        "Ring2.L",
+        "Ring3.L",
+        "Little1.L",
+        "Little2.L",
+        "Little3.L",
+        "Clavicle.R",
+        "UpperArm.R",
+        "Forearm.R",
+        "Hand.R",
+        "Thumb1.R",
+        "Thumb2.R",
+        "Thumb3.R",
+        "Index1.R",
+        "Index2.R",
+        "Index3.R",
+        "Middle1.R",
+        "Middle2.R",
+        "Middle3.R",
+        "Ring1.R",
+        "Ring2.R",
+        "Ring3.R",
+        "Little1.R",
+        "Little2.R",
+        "Little3.R"
+      ]
+    },
+    "aligned_rest": {
+      "mesh_rest_vertices_updated": true,
+      "maximum_rest_vertex_change": 1.0612973165418136,
+      "maximum_evaluated_surface_jump": 7.257339752844525e-07,
+      "maximum_rest_matrix_error": 8.940696716308594e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "thumb_relative_hand_rest_error": 6.258487701416016e-07,
+      "thumb_alignment_changed": false,
+      "passed": true
+    }
+  }
+]

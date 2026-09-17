@@ -1,0 +1,27 @@
+{
+  "videos": [
+    {
+      "view": "dorsal",
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1920,
+      "r_frame_rate": "30/1",
+      "duration": "12.000000",
+      "nb_read_frames": "360",
+      "decode_passed": true,
+      "sha256": "8a389bebea731d0d891dba12e0892cac059957ff1f16c24984d47a04fcce271b"
+    },
+    {
+      "view": "palm",
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1920,
+      "r_frame_rate": "30/1",
+      "duration": "12.000000",
+      "nb_read_frames": "360",
+      "decode_passed": true,
+      "sha256": "bb697cff7bc60eea2e2d3808fdb1ef3d6d281806d51f560afe58a63e05ed9c6f"
+    }
+  ],
+  "passed": true
+}

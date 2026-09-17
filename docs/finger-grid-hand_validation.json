@@ -1,0 +1,842 @@
+{
+  "cases": [
+    {
+      "id": "darkness_shibu",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 9.074456990661548e-07,
+      "maximum_rest_vertex_change": 0.8763193894888783,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 4.76837158203125e-07,
+      "maximum_thumb_relative_hand_rest_error": 7.748603820800781e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "local_seam_validation": {
+        "id": "darkness_shibu",
+        "vertices": 15531,
+        "changed_vertices": 59,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888046119293072
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3148374196098565
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238150357677432
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116208927659472
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3010934242413175
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888732339528715
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3148353384630262
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238198570068584
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116330722806178
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3010955456897646
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "sakurada_fumiriya",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 1.1278630529044502e-06,
+      "maximum_rest_vertex_change": 0.9641459686925642,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 4.76837158203125e-07,
+      "maximum_thumb_relative_hand_rest_error": 5.960464477539062e-07,
+      "minimum_finger_alignment_dot": 1.0,
+      "local_seam_validation": {
+        "id": "sakurada_fumiriya",
+        "vertices": 17738,
+        "changed_vertices": 77,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7892851352984203
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3149711795456474
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.323853680210128
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.311599708895364
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.301060035344848
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7893606303821794
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3149672820159506
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238543194521177
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116057942196213
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.301052434790516
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "sendagaya_shino",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 1.1037992931631091e-06,
+      "maximum_rest_vertex_change": 0.8717622123151969,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 4.172325134277344e-07,
+      "maximum_thumb_relative_hand_rest_error": 8.344650268554688e-07,
+      "minimum_finger_alignment_dot": 0.9999998211860657,
+      "local_seam_validation": {
+        "id": "sendagaya_shino",
+        "vertices": 14255,
+        "changed_vertices": 63,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888052474919066
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3148339476787814
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.323814520245742
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.311627645077734
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3010910714044788
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888785757582069
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314836660617663
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238259603876978
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116423790130598
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3011000418922436
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "victoria_rubin",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 1.062213094229795e-06,
+      "maximum_rest_vertex_change": 0.8480840773521213,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 2.980232238769531e-07,
+      "maximum_thumb_relative_hand_rest_error": 8.344650268554688e-07,
+      "minimum_finger_alignment_dot": 0.9999999403953552,
+      "local_seam_validation": {
+        "id": "victoria_rubin",
+        "vertices": 13208,
+        "changed_vertices": 59,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888078845648189
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3148419690370687
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.323815901341728
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116218752460278
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.301086384466938
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888808379643816
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3148370580330995
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238112562711726
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116285047231782
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3010905718724688
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "vita",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 8.857504411560086e-07,
+      "maximum_rest_vertex_change": 0.8459415304942672,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 1.7881393432617188e-07,
+      "maximum_thumb_relative_hand_rest_error": 5.960464477539062e-07,
+      "minimum_finger_alignment_dot": 0.9999997615814209,
+      "local_seam_validation": {
+        "id": "vita",
+        "vertices": 11731,
+        "changed_vertices": 63,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888101143070267
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314845266930325
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238197303922414
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.311628381975153
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3010981354318378
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7888748506694488
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314843314420577
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.323818255916461
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116307552802535
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.301096034269977
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "vivi",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 9.337047207814076e-07,
+      "maximum_rest_vertex_change": 0.8163167135678095,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 3.5762786865234375e-07,
+      "maximum_thumb_relative_hand_rest_error": 5.960464477539062e-07,
+      "minimum_finger_alignment_dot": 0.9999998211860657,
+      "local_seam_validation": {
+        "id": "vivi",
+        "vertices": 12690,
+        "changed_vertices": 59,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7889958750801925
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314709918179543
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3240450981853236
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3120784643783783
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3014026053640277
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7890679595303871
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314716564188157
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3240376734583446
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3120699706397487
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3013890016473102
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_a",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 9.355295275984326e-07,
+      "maximum_rest_vertex_change": 0.9918629789496693,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 3.5762786865234375e-07,
+      "maximum_thumb_relative_hand_rest_error": 1.0132789611816406e-06,
+      "minimum_finger_alignment_dot": 0.9999998807907104,
+      "local_seam_validation": {
+        "id": "avatarsample_a",
+        "vertices": 11374,
+        "changed_vertices": 55,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7889317633485776
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3147154350183303
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3239649183612014
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3119464498441802
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3013051268071327
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7889842773032334
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314730320668805
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3239623433684626
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3119505805621092
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3013037643444905
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_b",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 8.890505541529019e-07,
+      "maximum_rest_vertex_change": 0.8738947169679441,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 1.341104507446289e-07,
+      "maximum_thumb_relative_hand_rest_error": 5.960464477539062e-07,
+      "minimum_finger_alignment_dot": 0.9999998807907104,
+      "local_seam_validation": {
+        "id": "avatarsample_b",
+        "vertices": 12073,
+        "changed_vertices": 57,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7889395947115745
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3147270974325376
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3239904122315664
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3119937068099528
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3013233656608558
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.789027165483452
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.314739598301747
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3239934316956647
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3119994847702448
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3013368758061141
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "avatarsample_c",
+      "bones": 43,
+      "mesh_uv_topology_and_weights_preserved_during_rest_bake": true,
+      "maximum_independent_skinning_rest_error": 1.157106841674604e-06,
+      "maximum_rest_vertex_change": 1.0612973165418136,
+      "zero_pose_after_bake": true,
+      "maximum_bone_length_change": 1.0728836059570312e-06,
+      "maximum_thumb_relative_hand_rest_error": 7.152557373046875e-07,
+      "minimum_finger_alignment_dot": 0.9999997615814209,
+      "local_seam_validation": {
+        "id": "avatarsample_c",
+        "vertices": 12818,
+        "changed_vertices": 83,
+        "outside_two_loops_changed": 0,
+        "geometry_and_uvs_unchanged": true,
+        "normalized_max_four_influences": true,
+        "passed": true
+      },
+      "tip_checks": [
+        {
+          "side": "L",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7681633564580538
+        },
+        {
+          "side": "L",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3149790013492983
+        },
+        {
+          "side": "L",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238564284766514
+        },
+        {
+          "side": "L",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116106881154175
+        },
+        {
+          "side": "L",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.301064845981044
+        },
+        {
+          "side": "R",
+          "digit": "Thumb",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 0.7682227060563318
+        },
+        {
+          "side": "R",
+          "digit": "Index",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3149615237012617
+        },
+        {
+          "side": "R",
+          "digit": "Middle",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3238564166142803
+        },
+        {
+          "side": "R",
+          "digit": "Ring",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.3116190355576733
+        },
+        {
+          "side": "R",
+          "digit": "Little",
+          "tip_own_chain_mean_weight": 1.0,
+          "tip_other_digits_mean_weight": 0.0,
+          "tip_motion_in_finger_lengths": 1.301052615211669
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

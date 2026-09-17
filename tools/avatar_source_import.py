@@ -16,7 +16,7 @@ def read_gltf(path):
     return json.loads(data)
 
 
-def adapt_humanoid(path, rig):
+def adapt_humanoid(path, rig, include_fingers=False):
     gltf = read_gltf(path)
     extensions = gltf.get('extensions', {})
     if 'VRM' in extensions:
@@ -31,6 +31,9 @@ def adapt_humanoid(path, rig):
                         side+'UpperArm':'UpperArm.'+suffix,
                         side+'LowerArm':'LowerArm.'+suffix,
                         side+'Hand':'Wrist.'+suffix})
+    if include_fingers:
+        from avatar_fingers import source_finger_aliases
+        aliases.update(source_finger_aliases(bones))
     renamed = {}
     for role, alias in aliases.items():
         if role not in bones:
@@ -71,7 +74,7 @@ def material_role(material):
     # Authoring metadata, not an avatar allowlist. Preserve explicit overrides.
     if material.get('binding_role'):
         return material['binding_role']
-    words = set(re.sub(r'([a-z])([A-Z])', r'\1_\2', material.name).lower().split('_'))
+    words = set(re.sub(r'([a-z])([A-Z])', r'\1_\2', re.sub(r'\.\d{3}$', '', material.name)).lower().split('_'))
     if 'accessoryneck' in words or ('accessory' in words and 'neck' in words):
         # Cloth at the neckline (ties, bows, ribbon tails) drapes onto the
         # chest. Use the shared body-surface transfer and anatomical Neck cap;

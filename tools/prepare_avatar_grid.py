@@ -18,7 +18,8 @@ from avatar_apparel_weights import correct_apparel, weights
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / 'outputs/avatar_grid')).resolve()
-SOURCES = OUT / 'sources'
+SOURCES = Path(os.environ.get('AVATAR_SOURCE_ROOT', OUT / 'sources')).resolve()
+HANDS = '--hands' in sys.argv
 FRAMES = 360
 
 
@@ -44,7 +45,7 @@ def prepare(entry):
     scene.render.fps = 30
     scene.frame_set(0)
     original_rig = next(o for o in scene.objects if o.type == 'ARMATURE')
-    source_adapter = adapt_humanoid(SOURCES / entry['model'], original_rig)
+    source_adapter = adapt_humanoid(SOURCES / entry['model'], original_rig, include_fingers=HANDS)
     original_rig.data.pose_position = 'POSE'
     for obj in list(scene.objects):
         obj.animation_data_clear()
@@ -55,8 +56,13 @@ def prepare(entry):
         bone = 'UpperArm.' + suffix
         original_rig.pose.bones[bone].rotation_quaternion = world_turn(original_rig, bone, (0,1,0), sign*20)
     bpy.context.view_layer.update()
+    if HANDS:
+        from avatar_fingers import spread_source_fingers,capture_finger_tips,finger_specs,apply_aligned_rest,animate_hands
+        spread_audit=spread_source_fingers(original_rig)
+        bpy.ops.wm.save_as_mainfile(filepath=str(folder/'00_source_spread.blend'))
     original_bone_count = len(original_rig.data.bones)
     landmarks = {pb.name:{'head':original_rig.matrix_world @ pb.head, 'tail':original_rig.matrix_world @ pb.tail} for pb in original_rig.pose.bones}
+    if HANDS:capture_finger_tips(original_rig,landmarks)
     cutoff = landmarks['Abdomen']['head'].lerp(landmarks['Torso']['head'], .35).z
     meshes = []
     rigid_parts = {}
@@ -107,6 +113,7 @@ def prepare(entry):
     audit = {'id':name, 'source':entry['source_page'], 'original_bones_removed':original_bone_count,
              'original_weight_assignments_removed':original_weight_count, 'preparation_pose':'20 degree A-pose, baked to mesh',
              'cutoff_z_before_normalization':cutoff, 'removed_handheld_props':removed_props, 'booleans':[]}
+    if HANDS:audit['finger_spread']=spread_audit
     if source_adapter:
         audit['source_adapter'] = source_adapter
         audit['semantic_material_regions'] = semantic_regions
@@ -171,7 +178,7 @@ def prepare(entry):
 
     rig = bpy.data.objects.new(name+'_FreshRig', bpy.data.armatures.new(name+'_FreshSkeleton'))
     scene.collection.objects.link(rig)
-    rig['rig_source'] = 'New 13-bone rig; source rigs and all old weights deleted before binding'
+    rig['rig_source'] = 'New skeleton from source joint landmarks; source rigs and all old weights deleted before binding'
     select_only([rig])
     bpy.ops.object.mode_set(mode='EDIT')
     torso = landmarks['Torso']['head']
@@ -186,11 +193,12 @@ def prepare(entry):
         elbow = landmarks['LowerArm.'+suffix]['head']
         hand_key = ('Wrist.' if 'Wrist.'+suffix in landmarks else 'Fist.')+suffix
         wrist = landmarks[hand_key]['head']
-        hand_tail = wrist + (wrist-elbow).normalized() * (wrist-elbow).length*.45
+        hand_tail = landmarks['Middle1.'+suffix]['head'] if HANDS else wrist + (wrist-elbow).normalized() * (wrist-elbow).length*.45
         specs += [('Clavicle.'+suffix,landmarks['Shoulder.'+suffix]['head'],upper,'Chest'),
                   ('UpperArm.'+suffix,upper,elbow,'Clavicle.'+suffix),
                   ('Forearm.'+suffix,elbow,wrist,'UpperArm.'+suffix),
                   ('Hand.'+suffix,wrist,hand_tail,'Forearm.'+suffix)]
+    if HANDS:specs+=finger_specs(landmarks)
     for bone_name, start, end, parent in specs:
         bone = rig.data.edit_bones.new(bone_name)
         bone.head, bone.tail = start, end
@@ -240,25 +248,33 @@ def prepare(entry):
     audit['fresh_rig'] = {'bones':len(rig.data.bones), 'unweighted_vertices_repaired_from_new_bones':repaired,
                           'lateral_sleeve_vertices_reweighted_from_new_bones':sleeve_vertices,
                           'rigid_parts':rigid_parts, 'bone_names':[b.name for b in rig.data.bones]}
+    if HANDS:
+        bpy.ops.wm.save_as_mainfile(filepath=str(folder/'03_spread_bound.blend'))
+        audit['aligned_rest']=apply_aligned_rest(meshes,rig)
+        scene['preparation_audit']=json.dumps(audit)
+        bpy.ops.wm.save_as_mainfile(filepath=str(folder/'04_aligned_rest.blend'))
     rig.animation_data_create()
-    for frame in range(FRAMES):
-        phase = frame // 120
-        t = (frame % 120) / 119
-        pulse = math.sin(2*math.pi*t)*math.sin(math.pi*t)
-        for pb in rig.pose.bones:
-            pb.rotation_mode = 'QUATERNION'
-            pb.matrix_basis = Matrix.Identity(4)
-        for suffix,sign in [('L',1),('R',-1)]:
-            angle = 25 if phase != 2 else 25 - 75*math.sin(math.pi*t)**2
-            rig.pose.bones['UpperArm.'+suffix].rotation_quaternion = world_turn(rig,'UpperArm.'+suffix,(0,1,0),sign*angle)
-            if phase == 2:
-                rig.pose.bones['Forearm.'+suffix].rotation_quaternion = world_turn(rig,'Forearm.'+suffix,(0,0,1),-sign*65*math.sin(math.pi*t)**2)
-        if phase == 0:
-            rig.pose.bones['Head'].rotation_quaternion = world_turn(rig,'Head',(0,0,1),40*pulse) @ world_turn(rig,'Head',(1,0,0),16*math.sin(4*math.pi*t)*math.sin(math.pi*t))
-        elif phase == 1:
-            rig.pose.bones['Neck'].rotation_quaternion = world_turn(rig,'Neck',(0,1,0),20*pulse) @ world_turn(rig,'Neck',(1,0,0),15*math.sin(4*math.pi*t)*math.sin(math.pi*t))
-        for pb in rig.pose.bones:
-            pb.keyframe_insert('rotation_quaternion',frame=frame)
+    if HANDS:
+        animate_hands(rig,FRAMES)
+    else:
+        for frame in range(FRAMES):
+            phase = frame // 120
+            t = (frame % 120) / 119
+            pulse = math.sin(2*math.pi*t)*math.sin(math.pi*t)
+            for pb in rig.pose.bones:
+                pb.rotation_mode = 'QUATERNION'
+                pb.matrix_basis = Matrix.Identity(4)
+            for suffix,sign in [('L',1),('R',-1)]:
+                angle = 25 if phase != 2 else 25 - 75*math.sin(math.pi*t)**2
+                rig.pose.bones['UpperArm.'+suffix].rotation_quaternion = world_turn(rig,'UpperArm.'+suffix,(0,1,0),sign*angle)
+                if phase == 2:
+                    rig.pose.bones['Forearm.'+suffix].rotation_quaternion = world_turn(rig,'Forearm.'+suffix,(0,0,1),-sign*65*math.sin(math.pi*t)**2)
+            if phase == 0:
+                rig.pose.bones['Head'].rotation_quaternion = world_turn(rig,'Head',(0,0,1),40*pulse) @ world_turn(rig,'Head',(1,0,0),16*math.sin(4*math.pi*t)*math.sin(math.pi*t))
+            elif phase == 1:
+                rig.pose.bones['Neck'].rotation_quaternion = world_turn(rig,'Neck',(0,1,0),20*pulse) @ world_turn(rig,'Neck',(1,0,0),15*math.sin(4*math.pi*t)*math.sin(math.pi*t))
+            for pb in rig.pose.bones:
+                pb.keyframe_insert('rotation_quaternion',frame=frame)
     rig.animation_data.action.name = 'evaluation'
     scene.frame_start, scene.frame_end = 0, FRAMES-1
     scene.frame_set(0)
@@ -272,6 +288,8 @@ def prepare(entry):
 
 
 entries = json.loads((SOURCES/'manifest.json').read_text())
+(OUT/'sources').mkdir(parents=True,exist_ok=True)
+(OUT/'sources/manifest.json').write_text(json.dumps(entries,indent=2))
 if '--first-only' in sys.argv:
     entries = entries[:1]
 audits = [prepare(entry) for entry in entries]

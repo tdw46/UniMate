@@ -1,0 +1,47 @@
+[
+  {
+    "id": "darkness_shibu",
+    "sha256": "0b50573d2d054d98c0a6fc5a5ce872e1b2c8bff8718476ff72a9a68c48674fd8",
+    "source_unchanged": true
+  },
+  {
+    "id": "sakurada_fumiriya",
+    "sha256": "d8fb05f33e377df028cb6b9d58c441ce68326c41fa23f6c735d40c65ae3dc710",
+    "source_unchanged": true
+  },
+  {
+    "id": "sendagaya_shino",
+    "sha256": "1e177c1a7b14f783a9c48395831db8616260d3bddd4154cb2784b779adca49b5",
+    "source_unchanged": true
+  },
+  {
+    "id": "victoria_rubin",
+    "sha256": "b1372131bdbf233f46320146d565f342a7e4f6f4b8f2aefb301f1a283ec07e1e",
+    "source_unchanged": true
+  },
+  {
+    "id": "vita",
+    "sha256": "f2bf78f28a24e2f75f5ca0b6c3b646654c394e4b03592dfaa0d0633ef0972b4d",
+    "source_unchanged": true
+  },
+  {
+    "id": "vivi",
+    "sha256": "eaf902e041a7a810f1423599ae75682f61184ab6ef0206da9a8ed9caa8ec3a9d",
+    "source_unchanged": true
+  },
+  {
+    "id": "avatarsample_a",
+    "sha256": "b86b0b8a66d48911431d6f920a5211a974226f83aa672eca3f3dfade58ac346e",
+    "source_unchanged": true
+  },
+  {
+    "id": "avatarsample_b",
+    "sha256": "4a271bd3b5a3d19e054fd113ee154635b72e7141f4a8ccbcdba3c7f9cea6ee8d",
+    "source_unchanged": true
+  },
+  {
+    "id": "avatarsample_c",
+    "sha256": "395d5b04696e888f07bc856ae01bf72a974b7e773132c7443dc59d1688045b8a",
+    "source_unchanged": true
+  }
+]
