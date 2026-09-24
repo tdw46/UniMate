@@ -93,7 +93,8 @@ def plan_colliders(rig, meshes, material_roles=None):
 def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
     """Replace owned VRM collider groups, preserving pose and artist groups."""
     from avatar_physics_preview import suspended
-    from avatar_vrm_colliders import add_capsule, add_group, call_operator
+    from avatar_vrm_colliders import (add_capsule, add_group, call_operator,
+                                     organize_colliders, cleanup_orphan_displays)
     if rig.data.vrm_addon_extension.spec_version != '1.0':
         raise ValueError('Generated capsule fitting requires VRM 1')
     plan=plan_colliders(rig,meshes,material_roles)
@@ -118,6 +119,13 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
     with suspended():
         try:
             rig.data.pose_position='REST';bpy.context.view_layer.update()
+            organize_colliders(rig)
+            cleanup_orphan_displays(rig)
+            # Recover generated records left ungrouped by an interrupted build.
+            referenced={r.collider_uuid for g in sb.collider_groups for r in g.colliders}
+            owned_colliders.update(c.uuid for c in sb.colliders
+                if c.uuid not in referenced and c.bpy_object
+                and c.bpy_object.get('hallway_collider_owner')==rig)
             for i in reversed(range(len(sb.collider_groups))):
                 if sb.collider_groups[i].uuid in owned_groups:
                     call_operator('remove_spring_bone1_collider_group',rig,collider_group_index=i)
@@ -133,6 +141,7 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
                 for role,group in groups.items():
                     if spring.vrm_name.startswith(PREFIX+role.title()+'_'):
                         ref=spring.collider_groups.add();ref.collider_group_uuid=group.uuid
+            cleanup_orphan_displays(rig)
             rig.data.pose_position=previous;bpy.context.view_layer.update()
         finally:
             rig.data.pose_position=previous

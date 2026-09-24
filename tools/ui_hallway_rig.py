@@ -23,7 +23,7 @@ class HALLWAY_OT_ConfigureRig(bpy.types.Operator):
 
 class HALLWAY_OT_ApplyRigSettings(bpy.types.Operator):
     bl_idname = 'hallway.apply_rig_settings'
-    bl_label = 'Apply Rig Settings'
+    bl_label = 'Reapply Rig Settings'
     bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod
@@ -114,8 +114,8 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
             col.prop(settings, 'skirt_thickness', text='Skirt Thickness')
             col.label(text='Limited by rest clearance', icon='INFO')
             col.operator('hallway.refit_skirt_colliders')
-        from avatar_vrm_colliders import display_objects
-        visible = any(obj.visible_get() for obj in display_objects(rig)) if hasattr(rig.data, 'vrm_addon_extension') else False
+        from avatar_vrm_colliders import colliders_visible
+        visible = colliders_visible(rig) if hasattr(rig.data, 'vrm_addon_extension') else False
         op = col.operator('hallway.show_colliders', text='Hide VRM Colliders' if visible else 'Show VRM Colliders')
         op.visible = not visible
         for group in settings.spring_groups:
@@ -125,13 +125,23 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
             box.prop(group, 'stiffness')
             box.prop(group, 'gravity')
         col.operator('hallway.apply_rig_settings')
-        layout.label(text='Settings saved with the .blend')
+        layout.label(text='Live updates · saved with the .blend')
         box = layout.box()
         box.label(text='Bone Collections')
         if hasattr(rig.data, 'collections'):
             for collection in rig.data.collections:
                 if collection.get('hallway_role'):
-                    box.prop(collection, 'is_visible', text=collection.name)
+                    row = box.row(align=True)
+                    row.prop(collection, 'is_visible', text='', emboss=False,
+                             icon='HIDE_OFF' if collection.is_visible else 'HIDE_ON')
+                    row.label(text=collection.name)
+        elif hasattr(rig.data, 'layers'):
+            from avatar_bone_collections import NAMES
+            for index, name in enumerate(NAMES):
+                row = box.row(align=True)
+                row.prop(rig.data, 'layers', index=index, text='', emboss=False,
+                         icon='HIDE_OFF' if rig.data.layers[index] else 'HIDE_ON')
+                row.label(text=name)
         box.operator('hallway.configure_rig', text='Refresh Bone Organization')
 
 

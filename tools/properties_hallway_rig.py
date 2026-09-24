@@ -1,6 +1,64 @@
-"""Persistent per-rig configuration; updates are applied by an undoable operator."""
+"""Persistent per-rig configuration with immediate, owner-scoped RNA updates."""
+from contextlib import contextmanager
 import bpy
 from mathutils import Vector
+
+_updating = set()
+
+
+@contextmanager
+def suppress_updates(rig):
+    pointer = rig.as_pointer()
+    previous = pointer in _updating
+    _updating.add(pointer)
+    try:
+        yield
+    finally:
+        if not previous:
+            _updating.discard(pointer)
+
+
+def _update(property_group, context, field):
+    # Nested PropertyGroups retain their owning Object in id_data. Never use
+    # the active selection: scripts may edit a different rig's settings.
+    rig = property_group.id_data
+    if not isinstance(rig, bpy.types.Object) or rig.type != 'ARMATURE':
+        return
+    if rig.as_pointer() in _updating or not rig.hallway_rig.initialized:
+        return
+    with suppress_updates(rig):
+        if field == 'influence':
+            apply_follow(rig, property_group)
+        elif field == 'skirt_thickness':
+            apply_thickness(rig, context)
+        else:
+            apply_spring(rig, property_group, field)
+    # RNA writes already tag dependencies; BVT reads joint values/radii live.
+    # In particular, do not reset its accumulated spring motion on every drag.
+    if context and context.screen:
+        for area in context.screen.areas:
+            if area.type == 'VIEW_3D':
+                area.tag_redraw()
+
+
+def update_follow(self, context):
+    _update(self, context, 'influence')
+
+
+def update_thickness(self, context):
+    _update(self, context, 'skirt_thickness')
+
+
+def update_drag(self, context):
+    _update(self, context, 'drag')
+
+
+def update_stiffness(self, context):
+    _update(self, context, 'stiffness')
+
+
+def update_gravity(self, context):
+    _update(self, context, 'gravity')
 
 
 def active_rig(context):
@@ -68,16 +126,16 @@ def capture_collider_baselines(rig, refresh_limits=False):
 
 class HALLWAY_PG_Follow(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty()
-    influence: bpy.props.FloatProperty(name='Follow', default=1., min=0., max=1., subtype='FACTOR')
+    influence: bpy.props.FloatProperty(name='Follow', default=1., min=0., max=1., subtype='FACTOR', update=update_follow)
 
 
 class HALLWAY_PG_Spring(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty()
     prefix: bpy.props.StringProperty()
-    drag: bpy.props.FloatProperty(name='Drag', min=0., max=1., default=.6)
+    drag: bpy.props.FloatProperty(name='Drag', min=0., max=1., default=.6, update=update_drag)
     stiffness: bpy.props.FloatProperty(name='Root Stiffness', min=0., soft_max=4., default=1.6,
-        description='Stiffness of the first simulated joint; preserves the generated taper down each chain')
-    gravity: bpy.props.FloatProperty(name='Gravity', min=0., soft_max=.2, default=.025)
+        description='Stiffness of the first simulated joint; preserves the generated taper down each chain', update=update_stiffness)
+    gravity: bpy.props.FloatProperty(name='Gravity', min=0., soft_max=.2, default=.025, update=update_gravity)
 
 
 class HALLWAY_PG_Rig(bpy.types.PropertyGroup):
@@ -85,11 +143,16 @@ class HALLWAY_PG_Rig(bpy.types.PropertyGroup):
     follow_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Follow)
     spring_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Spring)
     skirt_thickness: bpy.props.FloatProperty(name='Skirt Collider Thickness', default=1., min=.05, max=3.,
-        description='Multiplier of fitted skirt collider radii, capped at rest clearance; hair colliders are unchanged')
+        description='Multiplier of fitted skirt collider radii, capped at rest clearance; hair colliders are unchanged', update=update_thickness)
 
 
 def initialize(rig):
     register()
+    with suppress_updates(rig):
+        return _initialize(rig)
+
+
+def _initialize(rig):
     rig['hallway_generated_rig'] = True
     settings = rig.hallway_rig
     for pb in rig.pose.bones:
@@ -128,25 +191,65 @@ def apply_settings(rig):
 def _apply_settings(rig):
     settings = rig.hallway_rig
     capture_collider_baselines(rig, refresh_limits=True)
-    count = 0
     for group in settings.follow_groups:
-        for constraint in follow_constraints(rig, group.name):
-            constraint.influence = group.influence  # Preserve all VRM export flags.
+        apply_follow(rig, group)
     for group in settings.spring_groups:
-        for spring in springs(rig, group.prefix):
-            root = spring.joints[0].stiffness
-            for index, joint in enumerate(spring.joints):
-                ratio = joint.stiffness / root if root > 1e-8 else max(0., 1. - .1 * index)
-                joint['hallway_stiffness_ratio'] = joint.get('hallway_stiffness_ratio', ratio)
-                joint.stiffness = group.stiffness * joint['hallway_stiffness_ratio']
-                joint.drag_force, joint.gravity_power = group.drag, group.gravity
-    for collider in skirt_colliders(rig):
-        obj = collider.bpy_object
-        requested = obj['hallway_base_radius'] * settings.skirt_thickness
-        radius = min(requested, obj['hallway_radius_limit'])
-        collider.shape.capsule.radius = radius
-        count += radius < requested - 1e-7
+        apply_spring(rig, group)
+    count = apply_thickness(rig, bpy.context)
     bpy.context.view_layer.update()
+    return count
+
+
+def apply_follow(rig, group):
+    for constraint in follow_constraints(rig, group.name):
+        if constraint.influence != group.influence:
+            constraint.influence = group.influence  # Preserve VRM export flags.
+
+
+def apply_spring(rig, group, field=None):
+    if not group.prefix:
+        return
+    for spring in springs(rig, group.prefix):
+        if not spring.joints:
+            continue
+        root = spring.joints[0].stiffness
+        for index, joint in enumerate(spring.joints):
+            if field in (None, 'stiffness'):
+                if 'hallway_stiffness_ratio' not in joint:
+                    joint['hallway_stiffness_ratio'] = joint.stiffness / root if root > 1e-8 else max(0., 1. - .1 * index)
+                value = group.stiffness * joint['hallway_stiffness_ratio']
+                if joint.stiffness != value:
+                    joint.stiffness = value
+            if field in (None, 'drag') and joint.drag_force != group.drag:
+                joint.drag_force = group.drag
+            if field in (None, 'gravity') and joint.gravity_power != group.gravity:
+                joint.gravity_power = group.gravity
+
+
+def apply_thickness(rig, context=None):
+    context = context or bpy.context
+    capture_collider_baselines(rig)  # No geometry scan when baselines exist.
+    colliders = skirt_colliders(rig)
+    layer = context.view_layer
+    # Official radius setters select their head/end displays. Preserve those
+    # flags so changing a slider never changes the user's selection.
+    selection = {obj: obj.select_get(view_layer=layer) for c in colliders
+                 for obj in (c.bpy_object, *c.bpy_object.children) if obj.name in layer.objects}
+    count = 0
+    try:
+        for collider in colliders:
+            obj = collider.bpy_object
+            requested = obj['hallway_base_radius'] * rig.hallway_rig.skirt_thickness
+            radius = min(requested, obj['hallway_radius_limit'])
+            # VRM's RNA setter handles scale normalization and both capsule
+            # display sizes; editing object scale directly would bypass it.
+            if abs(collider.shape.capsule.radius - radius) > 1e-8:
+                collider.shape.capsule.radius = radius
+            count += radius < requested - 1e-7
+    finally:
+        for obj, selected in selection.items():
+            if obj.select_get(view_layer=layer) != selected:
+                obj.select_set(selected, view_layer=layer)
     return count
 
 

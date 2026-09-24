@@ -81,18 +81,23 @@ def install(directory):
         if layer.collection==archive:layer.exclude=True
         for child in layer.children:exclude(child)
     for layer in bpy.context.scene.view_layers:exclude(layer.layer_collection)
-    # Imported MMD rigid bodies are comparison data; our VRM capsules are the
-    # new physics setup. Preserve every old object and its prior visibility.
+    # Archive source physics without accumulating object-level hide flags.
+    # Ambiguous bodies in scenes with multiple source rigs are left alone.
+    from avatar_vrm_colliders import archive_colliders, show_colliders
     legacy=[]
+    legacy_objects=[]
+    other_sources=[o for o in bpy.context.scene.objects if o.type=='ARMATURE'
+                   and o!=source and o!=rig and not o.get('unimate_secondary_generator')]
     for obj in bpy.context.scene.objects:
         if getattr(obj,'mmd_type',None)=='RIGID_BODY':
+            bone=getattr(getattr(obj,'mmd_rigid',None),'bone','')
+            if bone not in source.data.bones or any(bone in o.data.bones for o in other_sources):
+                continue
             legacy.append(dict(name=obj.name,hide_render=obj.hide_render,hide_viewport=obj.hide_viewport,hide_set=obj.hide_get()))
-            obj.hide_set(True);obj.hide_viewport=True;obj.hide_render=True
+            legacy_objects.append(obj)
+    archive_colliders(source,archive,legacy_objects)
     if bpy.context.scene.rigidbody_world:bpy.context.scene.rigidbody_world.enabled=False
-    for collider in rig.data.vrm_addon_extension.spring_bone1.colliders:
-        if collider.bpy_object:
-            collider.bpy_object.hide_set(True)
-            for child in collider.bpy_object.children:child.hide_set(True)
+    show_colliders(rig,False)
     bpy.ops.object.select_all(action='DESELECT')
     rig.hide_set(False);rig.select_set(True);bpy.context.view_layer.objects.active=rig
     bpy.context.view_layer.update()
