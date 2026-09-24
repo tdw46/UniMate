@@ -14,8 +14,10 @@ def lower_aliases():
 def capture_toe_tips(rig,landmarks):
  for side in ('L','R'):
   pb=rig.pose.bones['Toe.'+side]
-  if len(pb.children)!=1:raise ValueError('Expected a terminal toe node: '+side)
-  landmarks['Toe.'+side]['tail']=rig.matrix_world@pb.children[0].head
+  if len(pb.children)>1:raise ValueError('Ambiguous terminal toe node: '+side)
+  from avatar_fingers import terminal_tip_from_surface
+  landmarks['Toe.'+side]['tail']=(rig.matrix_world@pb.children[0].head if pb.children else
+                                 terminal_tip_from_surface(rig,'Toe.'+side,'Foot.'+side))
 
 
 def body_specs(landmarks):

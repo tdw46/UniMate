@@ -1,0 +1,554 @@
+{
+  "simulation": {
+    "height": 2.6499998551356194,
+    "chains": 26,
+    "deform_bones": 104,
+    "terminal_bones": 26,
+    "rejected": [],
+    "regions": [
+      {
+        "object": "Body__torso",
+        "role": "skirt",
+        "vertices": 381
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 300
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 300
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 304
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 316
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 252
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 292
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 280
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 292
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 300
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 304
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 316
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 252
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 284
+      },
+      {
+        "object": "Hair001__head",
+        "role": "hair",
+        "vertices": 276
+      }
+    ],
+    "colliders": 11,
+    "collider_groups": 2,
+    "spring_names": [
+      "Secondary_Skirt_00_00",
+      "Secondary_Skirt_00_01",
+      "Secondary_Skirt_00_02",
+      "Secondary_Skirt_00_03",
+      "Secondary_Skirt_00_04",
+      "Secondary_Skirt_00_05",
+      "Secondary_Skirt_00_06",
+      "Secondary_Skirt_00_07",
+      "Secondary_Skirt_00_08",
+      "Secondary_Skirt_00_09",
+      "Secondary_Skirt_00_10",
+      "Secondary_Skirt_00_11",
+      "Secondary_Hair_00",
+      "Secondary_Hair_01",
+      "Secondary_Hair_02",
+      "Secondary_Hair_03",
+      "Secondary_Hair_04",
+      "Secondary_Hair_05",
+      "Secondary_Hair_06",
+      "Secondary_Hair_07",
+      "Secondary_Hair_08",
+      "Secondary_Hair_09",
+      "Secondary_Hair_10",
+      "Secondary_Hair_11",
+      "Secondary_Hair_12",
+      "Secondary_Hair_13"
+    ],
+    "generator_without_bvt": true,
+    "geometry_uv_materials_unchanged": true,
+    "unrelated_weights_unchanged": true,
+    "maximum_weight_sum_error": 3.812311888395925e-08,
+    "duplicate_generation_rejected": true,
+    "vrm_references_and_terminal_nodes_valid": true,
+    "maximum_ankle_target_error": 1.4708623650552119e-06,
+    "simulation_operator": "bpy.ops.bvt.set_spring_simulation(enabled=True)",
+    "recorded_frames": 300,
+    "maximum_spring_angle_degrees": {
+      "Hair": 30.997273340445034,
+      "Skirt": 25.716010564745677
+    }
+  },
+  "saved_scenes": {
+    "frames": 300,
+    "baked_rotation_component_error": 0,
+    "maximum_surface_motion_from_springs": {
+      "hair": 0.5321874951976786,
+      "skirt": 0.12407748432060668
+    },
+    "bvt_disabled_during_bake_validation": true,
+    "editable_simulation_enabled": true,
+    "baked_simulation_disabled": true
+  },
+  "all_nine_generation": [
+    {
+      "height": 2.6499998552622004,
+      "chains": 12,
+      "deform_bones": 48,
+      "terminal_bones": 12,
+      "rejected": [],
+      "regions": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "vertices": 830
+        }
+      ],
+      "colliders": 5,
+      "collider_groups": 1,
+      "spring_names": [
+        "Secondary_Skirt_00_00",
+        "Secondary_Skirt_00_01",
+        "Secondary_Skirt_00_02",
+        "Secondary_Skirt_00_03",
+        "Secondary_Skirt_00_04",
+        "Secondary_Skirt_00_05",
+        "Secondary_Skirt_00_06",
+        "Secondary_Skirt_00_07",
+        "Secondary_Skirt_00_08",
+        "Secondary_Skirt_00_09",
+        "Secondary_Skirt_00_10",
+        "Secondary_Skirt_00_11"
+      ],
+      "avatar": "avatarsample_a",
+      "rest_surface_error": 5.399615209016045e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "height": 2.6499998551356194,
+      "chains": 26,
+      "deform_bones": 104,
+      "terminal_bones": 26,
+      "rejected": [],
+      "regions": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "vertices": 381
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 300
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 300
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 304
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 316
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 252
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 292
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 280
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 292
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 300
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 304
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 316
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 252
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 284
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 276
+        }
+      ],
+      "colliders": 11,
+      "collider_groups": 2,
+      "spring_names": [
+        "Secondary_Skirt_00_00",
+        "Secondary_Skirt_00_01",
+        "Secondary_Skirt_00_02",
+        "Secondary_Skirt_00_03",
+        "Secondary_Skirt_00_04",
+        "Secondary_Skirt_00_05",
+        "Secondary_Skirt_00_06",
+        "Secondary_Skirt_00_07",
+        "Secondary_Skirt_00_08",
+        "Secondary_Skirt_00_09",
+        "Secondary_Skirt_00_10",
+        "Secondary_Skirt_00_11",
+        "Secondary_Hair_00",
+        "Secondary_Hair_01",
+        "Secondary_Hair_02",
+        "Secondary_Hair_03",
+        "Secondary_Hair_04",
+        "Secondary_Hair_05",
+        "Secondary_Hair_06",
+        "Secondary_Hair_07",
+        "Secondary_Hair_08",
+        "Secondary_Hair_09",
+        "Secondary_Hair_10",
+        "Secondary_Hair_11",
+        "Secondary_Hair_12",
+        "Secondary_Hair_13"
+      ],
+      "avatar": "avatarsample_b",
+      "rest_surface_error": 5.051032083236663e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "reason": "Not a continuous circumferential skirt",
+          "coverage": [
+            8,
+            8,
+            6
+          ]
+        }
+      ],
+      "avatar": "avatarsample_c",
+      "rest_surface_error": 4.946787163555678e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "darkness_shibu",
+      "rest_surface_error": 4.917383193969727e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "reason": "Not a continuous circumferential skirt",
+          "coverage": [
+            8,
+            8,
+            6
+          ]
+        }
+      ],
+      "avatar": "sakurada_fumiriya",
+      "rest_surface_error": 5.331722099427833e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "height": 2.6499996236289185,
+      "chains": 37,
+      "deform_bones": 148,
+      "terminal_bones": 37,
+      "rejected": [],
+      "regions": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "vertices": 381
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 352
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 168
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 176
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 184
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 192
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 196
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 196
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 192
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 184
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 176
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 168
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 160
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 168
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 176
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 212
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 204
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 204
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 204
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 192
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 180
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 172
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 160
+        }
+      ],
+      "colliders": 11,
+      "collider_groups": 2,
+      "spring_names": [
+        "Secondary_Skirt_00_00",
+        "Secondary_Skirt_00_01",
+        "Secondary_Skirt_00_02",
+        "Secondary_Skirt_00_03",
+        "Secondary_Skirt_00_04",
+        "Secondary_Skirt_00_05",
+        "Secondary_Skirt_00_06",
+        "Secondary_Skirt_00_07",
+        "Secondary_Skirt_00_08",
+        "Secondary_Skirt_00_09",
+        "Secondary_Skirt_00_10",
+        "Secondary_Skirt_00_11",
+        "Secondary_Hair_00",
+        "Secondary_Hair_01",
+        "Secondary_Hair_02",
+        "Secondary_Hair_03",
+        "Secondary_Hair_04",
+        "Secondary_Hair_05",
+        "Secondary_Hair_06",
+        "Secondary_Hair_07",
+        "Secondary_Hair_08",
+        "Secondary_Hair_09",
+        "Secondary_Hair_10",
+        "Secondary_Hair_11",
+        "Secondary_Hair_12",
+        "Secondary_Hair_13",
+        "Secondary_Hair_14",
+        "Secondary_Hair_15",
+        "Secondary_Hair_16",
+        "Secondary_Hair_17",
+        "Secondary_Hair_18",
+        "Secondary_Hair_19",
+        "Secondary_Hair_20",
+        "Secondary_Hair_21",
+        "Secondary_Hair_22",
+        "Secondary_Hair_23",
+        "Secondary_Hair_24"
+      ],
+      "avatar": "sendagaya_shino",
+      "rest_surface_error": 7.166513595826059e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "victoria_rubin",
+      "rest_surface_error": 5.344201278814464e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "vita",
+      "rest_surface_error": 4.814712530792806e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "vivi",
+      "rest_surface_error": 4.971273934129559e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    }
+  ],
+  "pipeline_from_source": {
+    "avatar": "avatarsample_b",
+    "secondary_chains": 26,
+    "total_bones": 182,
+    "source_rebuilt": true
+  },
+  "video": {
+    "file": "sample_b_springs.mp4",
+    "width": 1080,
+    "height": 1080,
+    "fps": 30,
+    "frames": 300,
+    "duration_seconds": 10,
+    "full_decode_passed": true
+  }
+}

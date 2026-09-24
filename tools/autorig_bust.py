@@ -19,7 +19,7 @@ from avatar_head_weights import correct_head_weights
 from avatar_surface_samples import sample_surface
 
 
-def repaired_heat(meshes, rig):
+def repaired_heat(meshes, rig, allow_unweighted=False):
     """Heat-only retry on a welded/capped copy; never voxelize the body."""
     height=max(v.co.z for o in meshes for v in o.data.vertices)-min(v.co.z for o in meshes for v in o.data.vertices)
     scale=10/height
@@ -40,7 +40,7 @@ def repaired_heat(meshes, rig):
                 assert bpy.ops.object.parent_set(type='ARMATURE_AUTO')=={'FINISHED'}
                 missing=sum(not weights(temp,v.index) for v in data.vertices)
                 print('REPAIRED_HEAT',len(data.vertices),filled,missing,flush=True)
-                assert missing==0,'Heat also failed on the welded/capped copy'
+                assert missing==0 or allow_unweighted,'Heat also failed on the welded/capped copy'
                 lookup=KDTree(len(data.vertices))
                 for v in data.vertices:lookup.insert(v.co,v.index)
                 lookup.balance();obj.vertex_groups.clear()
@@ -152,6 +152,9 @@ def main():
         bone=rig.data.edit_bones.new(name);bone.head=a;bone.tail=b
         if parent:bone.parent=rig.data.edit_bones[parent]
     bpy.ops.object.mode_set(mode='OBJECT');rig.show_in_front=True
+    from avatar_bone_collections import organize_bones
+    organize_bones(rig)
+    rig['hallway_generated_rig'] = True
     for o in meshes:o.select_set(True)
     assert bpy.ops.object.parent_set(type='ARMATURE_AUTO')=={'FINISHED'}
     missing=sum(not weights(o,v.index) for o in meshes for v in o.data.vertices)

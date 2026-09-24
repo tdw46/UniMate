@@ -69,11 +69,32 @@ def capture_finger_tips(rig,landmarks):
     for side in ('L','R'):
         for digit in DIGITS:
             name=f'{digit}3.{side}';pb=rig.pose.bones[name]
-            # VRoid includes one terminal node for each distal joint. Refuse
-            # ambiguous/missing nodes rather than using glTF's display tail.
+            # Some VRM 1 exporters omit non-humanoid terminal nodes. Recover
+            # their landmark from the posed source surface, never display tails.
             children=list(pb.children)
-            if len(children)!=1:raise ValueError('Expected one terminal fingertip node: '+name)
-            landmarks[name]['tail']=rig.matrix_world@children[0].head
+            if len(children)>1:raise ValueError('Ambiguous terminal fingertip node: '+name)
+            landmarks[name]['tail']=(rig.matrix_world@children[0].head if children else
+                                     terminal_tip_from_surface(rig,name,f'{digit}2.{side}'))
+
+
+def terminal_tip_from_surface(rig,name,previous):
+    """Measure an omitted endpoint before the source rig/weights are removed."""
+    head=world_head(rig,name);axis=(head-world_head(rig,previous)).normalized()
+    distances=[]
+    deps=bpy.context.evaluated_depsgraph_get()
+    for obj in bpy.context.scene.objects:
+        if obj.type!='MESH' or not any(m.type=='ARMATURE' and m.object==rig for m in obj.modifiers):continue
+        group=obj.vertex_groups.get(name)
+        if group is None:continue
+        evaluated=obj.evaluated_get(deps);mesh=evaluated.to_mesh()
+        try:
+            for vertex in obj.data.vertices:
+                if any(g.group==group.index and g.weight>.5 for g in vertex.groups):
+                    distance=(obj.matrix_world@mesh.vertices[vertex.index].co-head).dot(axis)
+                    if distance>0:distances.append(distance)
+        finally:evaluated.to_mesh_clear()
+    if not distances:raise ValueError('No source surface for terminal landmark: '+name)
+    return head+axis*float(np.quantile(distances,.98))
 
 
 def finger_specs(landmarks):

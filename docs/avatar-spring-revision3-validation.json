@@ -1,0 +1,4839 @@
+{
+  "generator_revision": 3,
+  "blender": "5.2.2",
+  "settings": {
+    "leg_follow_multiplier": 0.5,
+    "skirt_drag_before": 0.55,
+    "skirt_drag_after": 0.6,
+    "hair_physics_first_bone_index": 1
+  },
+  "demos": {
+    "walk": {
+      "simulation": {
+        "height": 2.6500000982194614,
+        "chains": 36,
+        "deform_bones": 144,
+        "terminal_bones": 36,
+        "rejected": [],
+        "fixed_hair_roots": [
+          "Secondary_Hair_00_00",
+          "Secondary_Hair_01_00",
+          "Secondary_Hair_02_00",
+          "Secondary_Hair_03_00",
+          "Secondary_Hair_04_00",
+          "Secondary_Hair_05_00",
+          "Secondary_Hair_06_00",
+          "Secondary_Hair_07_00",
+          "Secondary_Hair_08_00",
+          "Secondary_Hair_09_00",
+          "Secondary_Hair_10_00",
+          "Secondary_Hair_11_00",
+          "Secondary_Hair_12_00",
+          "Secondary_Hair_13_00",
+          "Secondary_Hair_14_00",
+          "Secondary_Hair_15_00",
+          "Secondary_Hair_16_00",
+          "Secondary_Hair_17_00",
+          "Secondary_Hair_18_00",
+          "Secondary_Hair_19_00",
+          "Secondary_Hair_20_00",
+          "Secondary_Hair_21_00",
+          "Secondary_Hair_22_00",
+          "Secondary_Hair_23_00"
+        ],
+        "hair_attachments": [
+          {
+            "root": "Secondary_Hair_00_00",
+            "physics_start": "Secondary_Hair_00_01",
+            "cap_position": [
+              0.13540023565292358,
+              -0.11250418424606323,
+              2.6056878566741943
+            ],
+            "fixed_end": [
+              0.14589717984199524,
+              -0.10108090192079544,
+              2.552687883377075
+            ]
+          },
+          {
+            "root": "Secondary_Hair_01_00",
+            "physics_start": "Secondary_Hair_01_01",
+            "cap_position": [
+              0.12987647950649261,
+              -0.1119442731142044,
+              2.628666639328003
+            ],
+            "fixed_end": [
+              0.13827937841415405,
+              -0.09826897084712982,
+              2.575666666030884
+            ]
+          },
+          {
+            "root": "Secondary_Hair_02_00",
+            "physics_start": "Secondary_Hair_02_01",
+            "cap_position": [
+              0.14702469110488892,
+              -0.12427929043769836,
+              2.6312029361724854
+            ],
+            "fixed_end": [
+              0.15591511130332947,
+              -0.11742866039276123,
+              2.578202962875366
+            ]
+          },
+          {
+            "root": "Secondary_Hair_03_00",
+            "physics_start": "Secondary_Hair_03_01",
+            "cap_position": [
+              0.1355101317167282,
+              -0.11294553428888321,
+              2.649117946624756
+            ],
+            "fixed_end": [
+              0.14996245503425598,
+              -0.10662049055099487,
+              2.5961179733276367
+            ]
+          },
+          {
+            "root": "Secondary_Hair_04_00",
+            "physics_start": "Secondary_Hair_04_01",
+            "cap_position": [
+              0.13798896968364716,
+              -0.1356259435415268,
+              2.6086368560791016
+            ],
+            "fixed_end": [
+              0.1464170515537262,
+              -0.13473282754421234,
+              2.5556368827819824
+            ]
+          },
+          {
+            "root": "Secondary_Hair_05_00",
+            "physics_start": "Secondary_Hair_05_01",
+            "cap_position": [
+              0.12863832712173462,
+              -0.12206828594207764,
+              2.6223185062408447
+            ],
+            "fixed_end": [
+              0.13939239084720612,
+              -0.11636503785848618,
+              2.5693185329437256
+            ]
+          },
+          {
+            "root": "Secondary_Hair_06_00",
+            "physics_start": "Secondary_Hair_06_01",
+            "cap_position": [
+              0.13564471900463104,
+              -0.10066791623830795,
+              2.6161818504333496
+            ],
+            "fixed_end": [
+              0.1448107659816742,
+              -0.08581976592540741,
+              2.5631818771362305
+            ]
+          },
+          {
+            "root": "Secondary_Hair_07_00",
+            "physics_start": "Secondary_Hair_07_01",
+            "cap_position": [
+              0.13070833683013916,
+              -0.11474919319152832,
+              2.6061930656433105
+            ],
+            "fixed_end": [
+              0.13963252305984497,
+              -0.10892235487699509,
+              2.5531930923461914
+            ]
+          },
+          {
+            "root": "Secondary_Hair_08_00",
+            "physics_start": "Secondary_Hair_08_01",
+            "cap_position": [
+              0.13310372829437256,
+              -0.12714783847332,
+              2.6139402389526367
+            ],
+            "fixed_end": [
+              0.14738228917121887,
+              -0.1248323917388916,
+              2.5609402656555176
+            ]
+          },
+          {
+            "root": "Secondary_Hair_09_00",
+            "physics_start": "Secondary_Hair_09_01",
+            "cap_position": [
+              0.13469401001930237,
+              -0.12125380337238312,
+              2.6213362216949463
+            ],
+            "fixed_end": [
+              0.14890895783901215,
+              -0.11557148396968842,
+              2.568336248397827
+            ]
+          },
+          {
+            "root": "Secondary_Hair_10_00",
+            "physics_start": "Secondary_Hair_10_01",
+            "cap_position": [
+              0.1491854190826416,
+              -0.1294395476579666,
+              2.626405715942383
+            ],
+            "fixed_end": [
+              0.15860703587532043,
+              -0.12710435688495636,
+              2.5734057426452637
+            ]
+          },
+          {
+            "root": "Secondary_Hair_11_00",
+            "physics_start": "Secondary_Hair_11_01",
+            "cap_position": [
+              0.14823681116104126,
+              -0.11781137436628342,
+              2.629840135574341
+            ],
+            "fixed_end": [
+              0.15736792981624603,
+              -0.11401227116584778,
+              2.5768401622772217
+            ]
+          },
+          {
+            "root": "Secondary_Hair_12_00",
+            "physics_start": "Secondary_Hair_12_01",
+            "cap_position": [
+              -0.13540035486221313,
+              -0.11250429600477219,
+              2.6056878566741943
+            ],
+            "fixed_end": [
+              -0.14589732885360718,
+              -0.10108105838298798,
+              2.552687883377075
+            ]
+          },
+          {
+            "root": "Secondary_Hair_13_00",
+            "physics_start": "Secondary_Hair_13_01",
+            "cap_position": [
+              -0.12987658381462097,
+              -0.11194437742233276,
+              2.628666639328003
+            ],
+            "fixed_end": [
+              -0.1382794827222824,
+              -0.09826909750699997,
+              2.575666666030884
+            ]
+          },
+          {
+            "root": "Secondary_Hair_14_00",
+            "physics_start": "Secondary_Hair_14_01",
+            "cap_position": [
+              -0.14702478051185608,
+              -0.12427941709756851,
+              2.6312029361724854
+            ],
+            "fixed_end": [
+              -0.15591523051261902,
+              -0.11742880940437317,
+              2.578202962875366
+            ]
+          },
+          {
+            "root": "Secondary_Hair_15_00",
+            "physics_start": "Secondary_Hair_15_01",
+            "cap_position": [
+              -0.13551023602485657,
+              -0.11294563114643097,
+              2.649117946624756
+            ],
+            "fixed_end": [
+              -0.14996258914470673,
+              -0.10662057995796204,
+              2.5961179733276367
+            ]
+          },
+          {
+            "root": "Secondary_Hair_16_00",
+            "physics_start": "Secondary_Hair_16_01",
+            "cap_position": [
+              -0.13798905909061432,
+              -0.13562610745429993,
+              2.6086368560791016
+            ],
+            "fixed_end": [
+              -0.14641714096069336,
+              -0.1347329318523407,
+              2.5556368827819824
+            ]
+          },
+          {
+            "root": "Secondary_Hair_17_00",
+            "physics_start": "Secondary_Hair_17_01",
+            "cap_position": [
+              -0.12863841652870178,
+              -0.12206840515136719,
+              2.6223185062408447
+            ],
+            "fixed_end": [
+              -0.13939249515533447,
+              -0.11636512726545334,
+              2.5693185329437256
+            ]
+          },
+          {
+            "root": "Secondary_Hair_18_00",
+            "physics_start": "Secondary_Hair_18_01",
+            "cap_position": [
+              -0.1356448531150818,
+              -0.1006680279970169,
+              2.6161818504333496
+            ],
+            "fixed_end": [
+              -0.14481091499328613,
+              -0.08581986278295517,
+              2.5631818771362305
+            ]
+          },
+          {
+            "root": "Secondary_Hair_19_00",
+            "physics_start": "Secondary_Hair_19_01",
+            "cap_position": [
+              -0.1307084560394287,
+              -0.11474931240081787,
+              2.6061930656433105
+            ],
+            "fixed_end": [
+              -0.13963264226913452,
+              -0.10892247408628464,
+              2.5531930923461914
+            ]
+          },
+          {
+            "root": "Secondary_Hair_20_00",
+            "physics_start": "Secondary_Hair_20_01",
+            "cap_position": [
+              -0.13310381770133972,
+              -0.12714797258377075,
+              2.6139402389526367
+            ],
+            "fixed_end": [
+              -0.14738236367702484,
+              -0.12483249604701996,
+              2.5609402656555176
+            ]
+          },
+          {
+            "root": "Secondary_Hair_21_00",
+            "physics_start": "Secondary_Hair_21_01",
+            "cap_position": [
+              -0.13469409942626953,
+              -0.12125392258167267,
+              2.621335983276367
+            ],
+            "fixed_end": [
+              -0.1489090919494629,
+              -0.11557161808013916,
+              2.568336009979248
+            ]
+          },
+          {
+            "root": "Secondary_Hair_22_00",
+            "physics_start": "Secondary_Hair_22_01",
+            "cap_position": [
+              -0.14918550848960876,
+              -0.12943965196609497,
+              2.626405715942383
+            ],
+            "fixed_end": [
+              -0.15860715508460999,
+              -0.1271045207977295,
+              2.5734057426452637
+            ]
+          },
+          {
+            "root": "Secondary_Hair_23_00",
+            "physics_start": "Secondary_Hair_23_01",
+            "cap_position": [
+              -0.1482369303703308,
+              -0.11781148612499237,
+              2.6298398971557617
+            ],
+            "fixed_end": [
+              -0.1573680341243744,
+              -0.11401243507862091,
+              2.5768399238586426
+            ]
+          }
+        ],
+        "leg_follow": [
+          {
+            "bone": "Secondary_SkirtFollow_00_00",
+            "target": "Thigh.L",
+            "influence": 0.0
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_01",
+            "target": "Thigh.L",
+            "influence": 0.12499999999999997
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_02",
+            "target": "Thigh.L",
+            "influence": 0.37499999999999994
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_03",
+            "target": "Thigh.L",
+            "influence": 0.5
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_04",
+            "target": "Thigh.R",
+            "influence": 0.37500000000000006
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_05",
+            "target": "Thigh.R",
+            "influence": 0.12499999999999997
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_06",
+            "target": "Thigh.R",
+            "influence": 7.498798913309288e-33
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_07",
+            "target": "Thigh.R",
+            "influence": 0.12500000000000006
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_08",
+            "target": "Thigh.R",
+            "influence": 0.3749999999999998
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_09",
+            "target": "Thigh.R",
+            "influence": 0.5
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_10",
+            "target": "Thigh.L",
+            "influence": 0.37499999999999994
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_11",
+            "target": "Thigh.L",
+            "influence": 0.12500000000000022
+          }
+        ],
+        "regions": [
+          {
+            "object": "Body__torso",
+            "role": "skirt",
+            "vertices": 351
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Face__head",
+            "role": "head_cap",
+            "vertices": 2016
+          },
+          {
+            "object": "Body__unclassified",
+            "role": "head_cap",
+            "vertices": 499
+          },
+          {
+            "object": "Body__head",
+            "role": "head_cap",
+            "vertices": 659
+          },
+          {
+            "object": "Hair__head",
+            "role": "head_cap",
+            "vertices": 6146
+          }
+        ],
+        "colliders": 19,
+        "collider_details": [
+          {
+            "bone": "Head",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.11461468040943146,
+              0
+            ],
+            "radius": 0.04384011525660753
+          },
+          {
+            "bone": "Neck",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.12508271634578705,
+              0
+            ],
+            "radius": 0.04784413900226355
+          },
+          {
+            "bone": "Chest",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.4223427176475525,
+              0
+            ],
+            "radius": 0.06991436465303592
+          },
+          {
+            "bone": "Spine",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.1919660121202469,
+              0
+            ],
+            "radius": 0.07342699963599443
+          },
+          {
+            "bone": "Hips",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.09138575941324234,
+              0
+            ],
+            "radius": 0.03495505297556519
+          },
+          {
+            "bone": "UpperArm.L",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.3737209737300873,
+              0
+            ],
+            "radius": 0.03636294657828729
+          },
+          {
+            "bone": "UpperArm.R",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.3737209141254425,
+              0
+            ],
+            "radius": 0.036362936965259524
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.05145808681845665,
+              0.0,
+              0.002673820126801729
+            ],
+            "tail": [
+              -0.05145808681845665,
+              0.19143627087275186,
+              0.002673820126801729
+            ],
+            "radius": 0.18060536972241012
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.004638235084712505,
+              0.19143627087275186,
+              0.002627147128805518
+            ],
+            "tail": [
+              -0.004638235084712505,
+              0.3828725417455037,
+              0.002627147128805518
+            ],
+            "radius": 0.12713867210054944
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.004398965742439032,
+              0.3828725417455037,
+              0.0019485772354528308
+            ],
+            "tail": [
+              -0.004398965742439032,
+              0.5743088126182556,
+              0.0019485772354528308
+            ],
+            "radius": 0.09642800703504349
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.05145808681845665,
+              0.0,
+              0.002673820126801729
+            ],
+            "tail": [
+              0.05145808681845665,
+              0.19143627087275186,
+              0.002673820126801729
+            ],
+            "radius": 0.18060536972241012
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.004638235084712505,
+              0.19143627087275186,
+              0.002627147128805518
+            ],
+            "tail": [
+              0.004638235084712505,
+              0.3828725417455037,
+              0.002627147128805518
+            ],
+            "radius": 0.12713867210054944
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.004398965742439032,
+              0.3828725417455037,
+              0.0019485735101625323
+            ],
+            "tail": [
+              0.004398965742439032,
+              0.5743088126182556,
+              0.0019485735101625323
+            ],
+            "radius": 0.09642800373590994
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.003827899694442749,
+              0.0,
+              0.025439726188778877
+            ],
+            "tail": [
+              -0.003827899694442749,
+              0.22396504878997803,
+              0.025439726188778877
+            ],
+            "radius": 0.10963469650170089
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.003567364066839218,
+              0.22396504878997803,
+              0.036807915195822716
+            ],
+            "tail": [
+              -0.003567364066839218,
+              0.44793009757995605,
+              0.036807915195822716
+            ],
+            "radius": 0.0977271884581771
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.011141717433929443,
+              0.44793009757995605,
+              0.016888650134205818
+            ],
+            "tail": [
+              -0.011141717433929443,
+              0.6718951463699341,
+              0.016888650134205818
+            ],
+            "radius": 0.06897212950324771
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.003827899694442749,
+              0.0,
+              0.025439729914069176
+            ],
+            "tail": [
+              0.003827899694442749,
+              0.22396504878997803,
+              0.025439729914069176
+            ],
+            "radius": 0.10963469282315792
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.003567364066839218,
+              0.22396504878997803,
+              0.036807917058467865
+            ],
+            "tail": [
+              0.003567364066839218,
+              0.44793009757995605,
+              0.036807917058467865
+            ],
+            "radius": 0.09772718665457429
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.011141717433929443,
+              0.44793009757995605,
+              0.016888650134205818
+            ],
+            "tail": [
+              0.011141717433929443,
+              0.6718951463699341,
+              0.016888650134205818
+            ],
+            "radius": 0.06897212877260628
+          }
+        ],
+        "collider_groups": 2,
+        "spring_names": [
+          "Secondary_Skirt_00_00",
+          "Secondary_Skirt_00_01",
+          "Secondary_Skirt_00_02",
+          "Secondary_Skirt_00_03",
+          "Secondary_Skirt_00_04",
+          "Secondary_Skirt_00_05",
+          "Secondary_Skirt_00_06",
+          "Secondary_Skirt_00_07",
+          "Secondary_Skirt_00_08",
+          "Secondary_Skirt_00_09",
+          "Secondary_Skirt_00_10",
+          "Secondary_Skirt_00_11",
+          "Secondary_Hair_00",
+          "Secondary_Hair_01",
+          "Secondary_Hair_02",
+          "Secondary_Hair_03",
+          "Secondary_Hair_04",
+          "Secondary_Hair_05",
+          "Secondary_Hair_06",
+          "Secondary_Hair_07",
+          "Secondary_Hair_08",
+          "Secondary_Hair_09",
+          "Secondary_Hair_10",
+          "Secondary_Hair_11",
+          "Secondary_Hair_12",
+          "Secondary_Hair_13",
+          "Secondary_Hair_14",
+          "Secondary_Hair_15",
+          "Secondary_Hair_16",
+          "Secondary_Hair_17",
+          "Secondary_Hair_18",
+          "Secondary_Hair_19",
+          "Secondary_Hair_20",
+          "Secondary_Hair_21",
+          "Secondary_Hair_22",
+          "Secondary_Hair_23"
+        ],
+        "generator_without_bvt": true,
+        "geometry_uv_materials_unchanged": true,
+        "unrelated_weights_unchanged": true,
+        "maximum_weight_sum_error": 4.470348358154297e-08,
+        "duplicate_generation_rejected": true,
+        "vrm_references_and_terminal_nodes_valid": true,
+        "bundled_animation": {
+          "operator": "bpy.ops.bvt.apply_bundled_animation",
+          "item_id": "bundled_8f26b2b3938f58d32519",
+          "action": "Walk01",
+          "source_frame_range": [
+            1,
+            42
+          ],
+          "loop_period": 41,
+          "recorded_frames": 246,
+          "fps": 30.0,
+          "endpoint_translation": {
+            "Root": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "Hips": [
+              -4.677684046328068e-05,
+              0.6708288192749023,
+              1.957139492034912
+            ]
+          }
+        },
+        "simulation_operator": "bpy.ops.bvt.set_spring_simulation(enabled=True)",
+        "simulation_preroll_frames": 60,
+        "recorded_frames": 246,
+        "maximum_spring_angle_degrees": {
+          "Hair": 14.6893514611298,
+          "Skirt": 24.650851101418652
+        },
+        "spring_rotation_variation_degrees": {
+          "Hair": 26.09683459210891,
+          "Skirt": 41.463441998127784
+        }
+      },
+      "export_and_bake": {
+        "exported_rotation_constraints": 12,
+        "imported_rotation_constraints": 12,
+        "fixed_hair_roots_excluded_from_physics": 24,
+        "head_only_cap_vertices": 9320,
+        "exporter_accepted": true,
+        "circular_dependencies": [],
+        "upper_leg_colliders": 6,
+        "max_leg_follow_quaternion_error": 2.086162567138672e-07,
+        "saved_bake_rotation_error": 0.0,
+        "saved_bake_head_error": 9.541398640621973e-07,
+        "recorded_frames": 246,
+        "export": "/Users/tylerwalker/dev/Hallway/unimate-web/outputs/spring_revision3/walk/sample_o_walk.vrm"
+      },
+      "contacts": {
+        "frames": 246,
+        "frames_with_contacts": 0,
+        "maximum_skirt_leg_triangle_intersections": 0
+      },
+      "video": {
+        "path": "outputs/spring_revision3/walk/sample_o_walk.mp4",
+        "width": 1080,
+        "height": 1080,
+        "fps": 30,
+        "decoded_frames": 246,
+        "full_decode_passed": true
+      }
+    },
+    "library": {
+      "simulation": {
+        "height": 2.6500000982194614,
+        "chains": 36,
+        "deform_bones": 144,
+        "terminal_bones": 36,
+        "rejected": [],
+        "fixed_hair_roots": [
+          "Secondary_Hair_00_00",
+          "Secondary_Hair_01_00",
+          "Secondary_Hair_02_00",
+          "Secondary_Hair_03_00",
+          "Secondary_Hair_04_00",
+          "Secondary_Hair_05_00",
+          "Secondary_Hair_06_00",
+          "Secondary_Hair_07_00",
+          "Secondary_Hair_08_00",
+          "Secondary_Hair_09_00",
+          "Secondary_Hair_10_00",
+          "Secondary_Hair_11_00",
+          "Secondary_Hair_12_00",
+          "Secondary_Hair_13_00",
+          "Secondary_Hair_14_00",
+          "Secondary_Hair_15_00",
+          "Secondary_Hair_16_00",
+          "Secondary_Hair_17_00",
+          "Secondary_Hair_18_00",
+          "Secondary_Hair_19_00",
+          "Secondary_Hair_20_00",
+          "Secondary_Hair_21_00",
+          "Secondary_Hair_22_00",
+          "Secondary_Hair_23_00"
+        ],
+        "hair_attachments": [
+          {
+            "root": "Secondary_Hair_00_00",
+            "physics_start": "Secondary_Hair_00_01",
+            "cap_position": [
+              0.13540023565292358,
+              -0.11250418424606323,
+              2.6056878566741943
+            ],
+            "fixed_end": [
+              0.14589717984199524,
+              -0.10108090192079544,
+              2.552687883377075
+            ]
+          },
+          {
+            "root": "Secondary_Hair_01_00",
+            "physics_start": "Secondary_Hair_01_01",
+            "cap_position": [
+              0.12987647950649261,
+              -0.1119442731142044,
+              2.628666639328003
+            ],
+            "fixed_end": [
+              0.13827937841415405,
+              -0.09826897084712982,
+              2.575666666030884
+            ]
+          },
+          {
+            "root": "Secondary_Hair_02_00",
+            "physics_start": "Secondary_Hair_02_01",
+            "cap_position": [
+              0.14702469110488892,
+              -0.12427929043769836,
+              2.6312029361724854
+            ],
+            "fixed_end": [
+              0.15591511130332947,
+              -0.11742866039276123,
+              2.578202962875366
+            ]
+          },
+          {
+            "root": "Secondary_Hair_03_00",
+            "physics_start": "Secondary_Hair_03_01",
+            "cap_position": [
+              0.1355101317167282,
+              -0.11294553428888321,
+              2.649117946624756
+            ],
+            "fixed_end": [
+              0.14996245503425598,
+              -0.10662049055099487,
+              2.5961179733276367
+            ]
+          },
+          {
+            "root": "Secondary_Hair_04_00",
+            "physics_start": "Secondary_Hair_04_01",
+            "cap_position": [
+              0.13798896968364716,
+              -0.1356259435415268,
+              2.6086368560791016
+            ],
+            "fixed_end": [
+              0.1464170515537262,
+              -0.13473282754421234,
+              2.5556368827819824
+            ]
+          },
+          {
+            "root": "Secondary_Hair_05_00",
+            "physics_start": "Secondary_Hair_05_01",
+            "cap_position": [
+              0.12863832712173462,
+              -0.12206828594207764,
+              2.6223185062408447
+            ],
+            "fixed_end": [
+              0.13939239084720612,
+              -0.11636503785848618,
+              2.5693185329437256
+            ]
+          },
+          {
+            "root": "Secondary_Hair_06_00",
+            "physics_start": "Secondary_Hair_06_01",
+            "cap_position": [
+              0.13564471900463104,
+              -0.10066791623830795,
+              2.6161818504333496
+            ],
+            "fixed_end": [
+              0.1448107659816742,
+              -0.08581976592540741,
+              2.5631818771362305
+            ]
+          },
+          {
+            "root": "Secondary_Hair_07_00",
+            "physics_start": "Secondary_Hair_07_01",
+            "cap_position": [
+              0.13070833683013916,
+              -0.11474919319152832,
+              2.6061930656433105
+            ],
+            "fixed_end": [
+              0.13963252305984497,
+              -0.10892235487699509,
+              2.5531930923461914
+            ]
+          },
+          {
+            "root": "Secondary_Hair_08_00",
+            "physics_start": "Secondary_Hair_08_01",
+            "cap_position": [
+              0.13310372829437256,
+              -0.12714783847332,
+              2.6139402389526367
+            ],
+            "fixed_end": [
+              0.14738228917121887,
+              -0.1248323917388916,
+              2.5609402656555176
+            ]
+          },
+          {
+            "root": "Secondary_Hair_09_00",
+            "physics_start": "Secondary_Hair_09_01",
+            "cap_position": [
+              0.13469401001930237,
+              -0.12125380337238312,
+              2.6213362216949463
+            ],
+            "fixed_end": [
+              0.14890895783901215,
+              -0.11557148396968842,
+              2.568336248397827
+            ]
+          },
+          {
+            "root": "Secondary_Hair_10_00",
+            "physics_start": "Secondary_Hair_10_01",
+            "cap_position": [
+              0.1491854190826416,
+              -0.1294395476579666,
+              2.626405715942383
+            ],
+            "fixed_end": [
+              0.15860703587532043,
+              -0.12710435688495636,
+              2.5734057426452637
+            ]
+          },
+          {
+            "root": "Secondary_Hair_11_00",
+            "physics_start": "Secondary_Hair_11_01",
+            "cap_position": [
+              0.14823681116104126,
+              -0.11781137436628342,
+              2.629840135574341
+            ],
+            "fixed_end": [
+              0.15736792981624603,
+              -0.11401227116584778,
+              2.5768401622772217
+            ]
+          },
+          {
+            "root": "Secondary_Hair_12_00",
+            "physics_start": "Secondary_Hair_12_01",
+            "cap_position": [
+              -0.13540035486221313,
+              -0.11250429600477219,
+              2.6056878566741943
+            ],
+            "fixed_end": [
+              -0.14589732885360718,
+              -0.10108105838298798,
+              2.552687883377075
+            ]
+          },
+          {
+            "root": "Secondary_Hair_13_00",
+            "physics_start": "Secondary_Hair_13_01",
+            "cap_position": [
+              -0.12987658381462097,
+              -0.11194437742233276,
+              2.628666639328003
+            ],
+            "fixed_end": [
+              -0.1382794827222824,
+              -0.09826909750699997,
+              2.575666666030884
+            ]
+          },
+          {
+            "root": "Secondary_Hair_14_00",
+            "physics_start": "Secondary_Hair_14_01",
+            "cap_position": [
+              -0.14702478051185608,
+              -0.12427941709756851,
+              2.6312029361724854
+            ],
+            "fixed_end": [
+              -0.15591523051261902,
+              -0.11742880940437317,
+              2.578202962875366
+            ]
+          },
+          {
+            "root": "Secondary_Hair_15_00",
+            "physics_start": "Secondary_Hair_15_01",
+            "cap_position": [
+              -0.13551023602485657,
+              -0.11294563114643097,
+              2.649117946624756
+            ],
+            "fixed_end": [
+              -0.14996258914470673,
+              -0.10662057995796204,
+              2.5961179733276367
+            ]
+          },
+          {
+            "root": "Secondary_Hair_16_00",
+            "physics_start": "Secondary_Hair_16_01",
+            "cap_position": [
+              -0.13798905909061432,
+              -0.13562610745429993,
+              2.6086368560791016
+            ],
+            "fixed_end": [
+              -0.14641714096069336,
+              -0.1347329318523407,
+              2.5556368827819824
+            ]
+          },
+          {
+            "root": "Secondary_Hair_17_00",
+            "physics_start": "Secondary_Hair_17_01",
+            "cap_position": [
+              -0.12863841652870178,
+              -0.12206840515136719,
+              2.6223185062408447
+            ],
+            "fixed_end": [
+              -0.13939249515533447,
+              -0.11636512726545334,
+              2.5693185329437256
+            ]
+          },
+          {
+            "root": "Secondary_Hair_18_00",
+            "physics_start": "Secondary_Hair_18_01",
+            "cap_position": [
+              -0.1356448531150818,
+              -0.1006680279970169,
+              2.6161818504333496
+            ],
+            "fixed_end": [
+              -0.14481091499328613,
+              -0.08581986278295517,
+              2.5631818771362305
+            ]
+          },
+          {
+            "root": "Secondary_Hair_19_00",
+            "physics_start": "Secondary_Hair_19_01",
+            "cap_position": [
+              -0.1307084560394287,
+              -0.11474931240081787,
+              2.6061930656433105
+            ],
+            "fixed_end": [
+              -0.13963264226913452,
+              -0.10892247408628464,
+              2.5531930923461914
+            ]
+          },
+          {
+            "root": "Secondary_Hair_20_00",
+            "physics_start": "Secondary_Hair_20_01",
+            "cap_position": [
+              -0.13310381770133972,
+              -0.12714797258377075,
+              2.6139402389526367
+            ],
+            "fixed_end": [
+              -0.14738236367702484,
+              -0.12483249604701996,
+              2.5609402656555176
+            ]
+          },
+          {
+            "root": "Secondary_Hair_21_00",
+            "physics_start": "Secondary_Hair_21_01",
+            "cap_position": [
+              -0.13469409942626953,
+              -0.12125392258167267,
+              2.621335983276367
+            ],
+            "fixed_end": [
+              -0.1489090919494629,
+              -0.11557161808013916,
+              2.568336009979248
+            ]
+          },
+          {
+            "root": "Secondary_Hair_22_00",
+            "physics_start": "Secondary_Hair_22_01",
+            "cap_position": [
+              -0.14918550848960876,
+              -0.12943965196609497,
+              2.626405715942383
+            ],
+            "fixed_end": [
+              -0.15860715508460999,
+              -0.1271045207977295,
+              2.5734057426452637
+            ]
+          },
+          {
+            "root": "Secondary_Hair_23_00",
+            "physics_start": "Secondary_Hair_23_01",
+            "cap_position": [
+              -0.1482369303703308,
+              -0.11781148612499237,
+              2.6298398971557617
+            ],
+            "fixed_end": [
+              -0.1573680341243744,
+              -0.11401243507862091,
+              2.5768399238586426
+            ]
+          }
+        ],
+        "leg_follow": [
+          {
+            "bone": "Secondary_SkirtFollow_00_00",
+            "target": "Thigh.L",
+            "influence": 0.0
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_01",
+            "target": "Thigh.L",
+            "influence": 0.12499999999999997
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_02",
+            "target": "Thigh.L",
+            "influence": 0.37499999999999994
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_03",
+            "target": "Thigh.L",
+            "influence": 0.5
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_04",
+            "target": "Thigh.R",
+            "influence": 0.37500000000000006
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_05",
+            "target": "Thigh.R",
+            "influence": 0.12499999999999997
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_06",
+            "target": "Thigh.R",
+            "influence": 7.498798913309288e-33
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_07",
+            "target": "Thigh.R",
+            "influence": 0.12500000000000006
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_08",
+            "target": "Thigh.R",
+            "influence": 0.3749999999999998
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_09",
+            "target": "Thigh.R",
+            "influence": 0.5
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_10",
+            "target": "Thigh.L",
+            "influence": 0.37499999999999994
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_11",
+            "target": "Thigh.L",
+            "influence": 0.12500000000000022
+          }
+        ],
+        "regions": [
+          {
+            "object": "Body__torso",
+            "role": "skirt",
+            "vertices": 351
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Face__head",
+            "role": "head_cap",
+            "vertices": 2016
+          },
+          {
+            "object": "Body__unclassified",
+            "role": "head_cap",
+            "vertices": 499
+          },
+          {
+            "object": "Body__head",
+            "role": "head_cap",
+            "vertices": 659
+          },
+          {
+            "object": "Hair__head",
+            "role": "head_cap",
+            "vertices": 6146
+          }
+        ],
+        "colliders": 19,
+        "collider_details": [
+          {
+            "bone": "Head",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.11461468040943146,
+              0
+            ],
+            "radius": 0.04384011525660753
+          },
+          {
+            "bone": "Neck",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.12508271634578705,
+              0
+            ],
+            "radius": 0.04784413900226355
+          },
+          {
+            "bone": "Chest",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.4223427176475525,
+              0
+            ],
+            "radius": 0.06991436465303592
+          },
+          {
+            "bone": "Spine",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.1919660121202469,
+              0
+            ],
+            "radius": 0.07342699963599443
+          },
+          {
+            "bone": "Hips",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.09138575941324234,
+              0
+            ],
+            "radius": 0.03495505297556519
+          },
+          {
+            "bone": "UpperArm.L",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.3737209737300873,
+              0
+            ],
+            "radius": 0.03636294657828729
+          },
+          {
+            "bone": "UpperArm.R",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.3737209141254425,
+              0
+            ],
+            "radius": 0.036362936965259524
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.05145808681845665,
+              0.0,
+              0.002673820126801729
+            ],
+            "tail": [
+              -0.05145808681845665,
+              0.19143627087275186,
+              0.002673820126801729
+            ],
+            "radius": 0.18060536972241012
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.004638235084712505,
+              0.19143627087275186,
+              0.002627147128805518
+            ],
+            "tail": [
+              -0.004638235084712505,
+              0.3828725417455037,
+              0.002627147128805518
+            ],
+            "radius": 0.12713867210054944
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.004398965742439032,
+              0.3828725417455037,
+              0.0019485772354528308
+            ],
+            "tail": [
+              -0.004398965742439032,
+              0.5743088126182556,
+              0.0019485772354528308
+            ],
+            "radius": 0.09642800703504349
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.05145808681845665,
+              0.0,
+              0.002673820126801729
+            ],
+            "tail": [
+              0.05145808681845665,
+              0.19143627087275186,
+              0.002673820126801729
+            ],
+            "radius": 0.18060536972241012
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.004638235084712505,
+              0.19143627087275186,
+              0.002627147128805518
+            ],
+            "tail": [
+              0.004638235084712505,
+              0.3828725417455037,
+              0.002627147128805518
+            ],
+            "radius": 0.12713867210054944
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.004398965742439032,
+              0.3828725417455037,
+              0.0019485735101625323
+            ],
+            "tail": [
+              0.004398965742439032,
+              0.5743088126182556,
+              0.0019485735101625323
+            ],
+            "radius": 0.09642800373590994
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.003827899694442749,
+              0.0,
+              0.025439726188778877
+            ],
+            "tail": [
+              -0.003827899694442749,
+              0.22396504878997803,
+              0.025439726188778877
+            ],
+            "radius": 0.10963469650170089
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.003567364066839218,
+              0.22396504878997803,
+              0.036807915195822716
+            ],
+            "tail": [
+              -0.003567364066839218,
+              0.44793009757995605,
+              0.036807915195822716
+            ],
+            "radius": 0.0977271884581771
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.011141717433929443,
+              0.44793009757995605,
+              0.016888650134205818
+            ],
+            "tail": [
+              -0.011141717433929443,
+              0.6718951463699341,
+              0.016888650134205818
+            ],
+            "radius": 0.06897212950324771
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.003827899694442749,
+              0.0,
+              0.025439729914069176
+            ],
+            "tail": [
+              0.003827899694442749,
+              0.22396504878997803,
+              0.025439729914069176
+            ],
+            "radius": 0.10963469282315792
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.003567364066839218,
+              0.22396504878997803,
+              0.036807917058467865
+            ],
+            "tail": [
+              0.003567364066839218,
+              0.44793009757995605,
+              0.036807917058467865
+            ],
+            "radius": 0.09772718665457429
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.011141717433929443,
+              0.44793009757995605,
+              0.016888650134205818
+            ],
+            "tail": [
+              0.011141717433929443,
+              0.6718951463699341,
+              0.016888650134205818
+            ],
+            "radius": 0.06897212877260628
+          }
+        ],
+        "collider_groups": 2,
+        "spring_names": [
+          "Secondary_Skirt_00_00",
+          "Secondary_Skirt_00_01",
+          "Secondary_Skirt_00_02",
+          "Secondary_Skirt_00_03",
+          "Secondary_Skirt_00_04",
+          "Secondary_Skirt_00_05",
+          "Secondary_Skirt_00_06",
+          "Secondary_Skirt_00_07",
+          "Secondary_Skirt_00_08",
+          "Secondary_Skirt_00_09",
+          "Secondary_Skirt_00_10",
+          "Secondary_Skirt_00_11",
+          "Secondary_Hair_00",
+          "Secondary_Hair_01",
+          "Secondary_Hair_02",
+          "Secondary_Hair_03",
+          "Secondary_Hair_04",
+          "Secondary_Hair_05",
+          "Secondary_Hair_06",
+          "Secondary_Hair_07",
+          "Secondary_Hair_08",
+          "Secondary_Hair_09",
+          "Secondary_Hair_10",
+          "Secondary_Hair_11",
+          "Secondary_Hair_12",
+          "Secondary_Hair_13",
+          "Secondary_Hair_14",
+          "Secondary_Hair_15",
+          "Secondary_Hair_16",
+          "Secondary_Hair_17",
+          "Secondary_Hair_18",
+          "Secondary_Hair_19",
+          "Secondary_Hair_20",
+          "Secondary_Hair_21",
+          "Secondary_Hair_22",
+          "Secondary_Hair_23"
+        ],
+        "generator_without_bvt": true,
+        "geometry_uv_materials_unchanged": true,
+        "unrelated_weights_unchanged": true,
+        "maximum_weight_sum_error": 4.470348358154297e-08,
+        "duplicate_generation_rejected": true,
+        "vrm_references_and_terminal_nodes_valid": true,
+        "bundled_animation": {
+          "operator": "bpy.ops.bvt.apply_user_library_animation",
+          "item_id": "user_library_552db934798bb8907ece",
+          "action": "Idle07_SpinningJump",
+          "source_frame_range": [
+            1,
+            181
+          ],
+          "loop_period": null,
+          "recorded_frames": 181,
+          "fps": 30.0,
+          "endpoint_translation": {
+            "Root": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "Hips": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "simulation_operator": "bpy.ops.bvt.set_spring_simulation(enabled=True)",
+        "simulation_preroll_frames": 60,
+        "recorded_frames": 181,
+        "maximum_spring_angle_degrees": {
+          "Hair": 112.56840235249351,
+          "Skirt": 73.72816963718999
+        },
+        "spring_rotation_variation_degrees": {
+          "Hair": 112.19265998587277,
+          "Skirt": 73.49790346970136
+        }
+      },
+      "export_and_bake": {
+        "exported_rotation_constraints": 12,
+        "imported_rotation_constraints": 12,
+        "fixed_hair_roots_excluded_from_physics": 24,
+        "head_only_cap_vertices": 9320,
+        "exporter_accepted": true,
+        "circular_dependencies": [],
+        "upper_leg_colliders": 6,
+        "max_leg_follow_quaternion_error": 2.3469328880310059e-07,
+        "saved_bake_rotation_error": 0.0,
+        "saved_bake_head_error": 9.612115277570569e-07,
+        "recorded_frames": 181,
+        "export": "/Users/tylerwalker/dev/Hallway/unimate-web/outputs/spring_revision3/library/sample_o_library.vrm"
+      },
+      "contacts": {
+        "frames": 181,
+        "frames_with_contacts": 58,
+        "maximum_skirt_leg_triangle_intersections": 236
+      },
+      "video": {
+        "path": "outputs/spring_revision3/library/sample_o_library.mp4",
+        "width": 1080,
+        "height": 1080,
+        "fps": 30,
+        "decoded_frames": 181,
+        "full_decode_passed": true
+      }
+    },
+    "drag": {
+      "simulation": {
+        "height": 2.6500000982194614,
+        "chains": 36,
+        "deform_bones": 144,
+        "terminal_bones": 36,
+        "rejected": [],
+        "fixed_hair_roots": [
+          "Secondary_Hair_00_00",
+          "Secondary_Hair_01_00",
+          "Secondary_Hair_02_00",
+          "Secondary_Hair_03_00",
+          "Secondary_Hair_04_00",
+          "Secondary_Hair_05_00",
+          "Secondary_Hair_06_00",
+          "Secondary_Hair_07_00",
+          "Secondary_Hair_08_00",
+          "Secondary_Hair_09_00",
+          "Secondary_Hair_10_00",
+          "Secondary_Hair_11_00",
+          "Secondary_Hair_12_00",
+          "Secondary_Hair_13_00",
+          "Secondary_Hair_14_00",
+          "Secondary_Hair_15_00",
+          "Secondary_Hair_16_00",
+          "Secondary_Hair_17_00",
+          "Secondary_Hair_18_00",
+          "Secondary_Hair_19_00",
+          "Secondary_Hair_20_00",
+          "Secondary_Hair_21_00",
+          "Secondary_Hair_22_00",
+          "Secondary_Hair_23_00"
+        ],
+        "hair_attachments": [
+          {
+            "root": "Secondary_Hair_00_00",
+            "physics_start": "Secondary_Hair_00_01",
+            "cap_position": [
+              0.13540023565292358,
+              -0.11250418424606323,
+              2.6056878566741943
+            ],
+            "fixed_end": [
+              0.14589717984199524,
+              -0.10108090192079544,
+              2.552687883377075
+            ]
+          },
+          {
+            "root": "Secondary_Hair_01_00",
+            "physics_start": "Secondary_Hair_01_01",
+            "cap_position": [
+              0.12987647950649261,
+              -0.1119442731142044,
+              2.628666639328003
+            ],
+            "fixed_end": [
+              0.13827937841415405,
+              -0.09826897084712982,
+              2.575666666030884
+            ]
+          },
+          {
+            "root": "Secondary_Hair_02_00",
+            "physics_start": "Secondary_Hair_02_01",
+            "cap_position": [
+              0.14702469110488892,
+              -0.12427929043769836,
+              2.6312029361724854
+            ],
+            "fixed_end": [
+              0.15591511130332947,
+              -0.11742866039276123,
+              2.578202962875366
+            ]
+          },
+          {
+            "root": "Secondary_Hair_03_00",
+            "physics_start": "Secondary_Hair_03_01",
+            "cap_position": [
+              0.1355101317167282,
+              -0.11294553428888321,
+              2.649117946624756
+            ],
+            "fixed_end": [
+              0.14996245503425598,
+              -0.10662049055099487,
+              2.5961179733276367
+            ]
+          },
+          {
+            "root": "Secondary_Hair_04_00",
+            "physics_start": "Secondary_Hair_04_01",
+            "cap_position": [
+              0.13798896968364716,
+              -0.1356259435415268,
+              2.6086368560791016
+            ],
+            "fixed_end": [
+              0.1464170515537262,
+              -0.13473282754421234,
+              2.5556368827819824
+            ]
+          },
+          {
+            "root": "Secondary_Hair_05_00",
+            "physics_start": "Secondary_Hair_05_01",
+            "cap_position": [
+              0.12863832712173462,
+              -0.12206828594207764,
+              2.6223185062408447
+            ],
+            "fixed_end": [
+              0.13939239084720612,
+              -0.11636503785848618,
+              2.5693185329437256
+            ]
+          },
+          {
+            "root": "Secondary_Hair_06_00",
+            "physics_start": "Secondary_Hair_06_01",
+            "cap_position": [
+              0.13564471900463104,
+              -0.10066791623830795,
+              2.6161818504333496
+            ],
+            "fixed_end": [
+              0.1448107659816742,
+              -0.08581976592540741,
+              2.5631818771362305
+            ]
+          },
+          {
+            "root": "Secondary_Hair_07_00",
+            "physics_start": "Secondary_Hair_07_01",
+            "cap_position": [
+              0.13070833683013916,
+              -0.11474919319152832,
+              2.6061930656433105
+            ],
+            "fixed_end": [
+              0.13963252305984497,
+              -0.10892235487699509,
+              2.5531930923461914
+            ]
+          },
+          {
+            "root": "Secondary_Hair_08_00",
+            "physics_start": "Secondary_Hair_08_01",
+            "cap_position": [
+              0.13310372829437256,
+              -0.12714783847332,
+              2.6139402389526367
+            ],
+            "fixed_end": [
+              0.14738228917121887,
+              -0.1248323917388916,
+              2.5609402656555176
+            ]
+          },
+          {
+            "root": "Secondary_Hair_09_00",
+            "physics_start": "Secondary_Hair_09_01",
+            "cap_position": [
+              0.13469401001930237,
+              -0.12125380337238312,
+              2.6213362216949463
+            ],
+            "fixed_end": [
+              0.14890895783901215,
+              -0.11557148396968842,
+              2.568336248397827
+            ]
+          },
+          {
+            "root": "Secondary_Hair_10_00",
+            "physics_start": "Secondary_Hair_10_01",
+            "cap_position": [
+              0.1491854190826416,
+              -0.1294395476579666,
+              2.626405715942383
+            ],
+            "fixed_end": [
+              0.15860703587532043,
+              -0.12710435688495636,
+              2.5734057426452637
+            ]
+          },
+          {
+            "root": "Secondary_Hair_11_00",
+            "physics_start": "Secondary_Hair_11_01",
+            "cap_position": [
+              0.14823681116104126,
+              -0.11781137436628342,
+              2.629840135574341
+            ],
+            "fixed_end": [
+              0.15736792981624603,
+              -0.11401227116584778,
+              2.5768401622772217
+            ]
+          },
+          {
+            "root": "Secondary_Hair_12_00",
+            "physics_start": "Secondary_Hair_12_01",
+            "cap_position": [
+              -0.13540035486221313,
+              -0.11250429600477219,
+              2.6056878566741943
+            ],
+            "fixed_end": [
+              -0.14589732885360718,
+              -0.10108105838298798,
+              2.552687883377075
+            ]
+          },
+          {
+            "root": "Secondary_Hair_13_00",
+            "physics_start": "Secondary_Hair_13_01",
+            "cap_position": [
+              -0.12987658381462097,
+              -0.11194437742233276,
+              2.628666639328003
+            ],
+            "fixed_end": [
+              -0.1382794827222824,
+              -0.09826909750699997,
+              2.575666666030884
+            ]
+          },
+          {
+            "root": "Secondary_Hair_14_00",
+            "physics_start": "Secondary_Hair_14_01",
+            "cap_position": [
+              -0.14702478051185608,
+              -0.12427941709756851,
+              2.6312029361724854
+            ],
+            "fixed_end": [
+              -0.15591523051261902,
+              -0.11742880940437317,
+              2.578202962875366
+            ]
+          },
+          {
+            "root": "Secondary_Hair_15_00",
+            "physics_start": "Secondary_Hair_15_01",
+            "cap_position": [
+              -0.13551023602485657,
+              -0.11294563114643097,
+              2.649117946624756
+            ],
+            "fixed_end": [
+              -0.14996258914470673,
+              -0.10662057995796204,
+              2.5961179733276367
+            ]
+          },
+          {
+            "root": "Secondary_Hair_16_00",
+            "physics_start": "Secondary_Hair_16_01",
+            "cap_position": [
+              -0.13798905909061432,
+              -0.13562610745429993,
+              2.6086368560791016
+            ],
+            "fixed_end": [
+              -0.14641714096069336,
+              -0.1347329318523407,
+              2.5556368827819824
+            ]
+          },
+          {
+            "root": "Secondary_Hair_17_00",
+            "physics_start": "Secondary_Hair_17_01",
+            "cap_position": [
+              -0.12863841652870178,
+              -0.12206840515136719,
+              2.6223185062408447
+            ],
+            "fixed_end": [
+              -0.13939249515533447,
+              -0.11636512726545334,
+              2.5693185329437256
+            ]
+          },
+          {
+            "root": "Secondary_Hair_18_00",
+            "physics_start": "Secondary_Hair_18_01",
+            "cap_position": [
+              -0.1356448531150818,
+              -0.1006680279970169,
+              2.6161818504333496
+            ],
+            "fixed_end": [
+              -0.14481091499328613,
+              -0.08581986278295517,
+              2.5631818771362305
+            ]
+          },
+          {
+            "root": "Secondary_Hair_19_00",
+            "physics_start": "Secondary_Hair_19_01",
+            "cap_position": [
+              -0.1307084560394287,
+              -0.11474931240081787,
+              2.6061930656433105
+            ],
+            "fixed_end": [
+              -0.13963264226913452,
+              -0.10892247408628464,
+              2.5531930923461914
+            ]
+          },
+          {
+            "root": "Secondary_Hair_20_00",
+            "physics_start": "Secondary_Hair_20_01",
+            "cap_position": [
+              -0.13310381770133972,
+              -0.12714797258377075,
+              2.6139402389526367
+            ],
+            "fixed_end": [
+              -0.14738236367702484,
+              -0.12483249604701996,
+              2.5609402656555176
+            ]
+          },
+          {
+            "root": "Secondary_Hair_21_00",
+            "physics_start": "Secondary_Hair_21_01",
+            "cap_position": [
+              -0.13469409942626953,
+              -0.12125392258167267,
+              2.621335983276367
+            ],
+            "fixed_end": [
+              -0.1489090919494629,
+              -0.11557161808013916,
+              2.568336009979248
+            ]
+          },
+          {
+            "root": "Secondary_Hair_22_00",
+            "physics_start": "Secondary_Hair_22_01",
+            "cap_position": [
+              -0.14918550848960876,
+              -0.12943965196609497,
+              2.626405715942383
+            ],
+            "fixed_end": [
+              -0.15860715508460999,
+              -0.1271045207977295,
+              2.5734057426452637
+            ]
+          },
+          {
+            "root": "Secondary_Hair_23_00",
+            "physics_start": "Secondary_Hair_23_01",
+            "cap_position": [
+              -0.1482369303703308,
+              -0.11781148612499237,
+              2.6298398971557617
+            ],
+            "fixed_end": [
+              -0.1573680341243744,
+              -0.11401243507862091,
+              2.5768399238586426
+            ]
+          }
+        ],
+        "leg_follow": [
+          {
+            "bone": "Secondary_SkirtFollow_00_00",
+            "target": "Thigh.L",
+            "influence": 0.0
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_01",
+            "target": "Thigh.L",
+            "influence": 0.12499999999999997
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_02",
+            "target": "Thigh.L",
+            "influence": 0.37499999999999994
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_03",
+            "target": "Thigh.L",
+            "influence": 0.5
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_04",
+            "target": "Thigh.R",
+            "influence": 0.37500000000000006
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_05",
+            "target": "Thigh.R",
+            "influence": 0.12499999999999997
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_06",
+            "target": "Thigh.R",
+            "influence": 7.498798913309288e-33
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_07",
+            "target": "Thigh.R",
+            "influence": 0.12500000000000006
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_08",
+            "target": "Thigh.R",
+            "influence": 0.3749999999999998
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_09",
+            "target": "Thigh.R",
+            "influence": 0.5
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_10",
+            "target": "Thigh.L",
+            "influence": 0.37499999999999994
+          },
+          {
+            "bone": "Secondary_SkirtFollow_00_11",
+            "target": "Thigh.L",
+            "influence": 0.12500000000000022
+          }
+        ],
+        "regions": [
+          {
+            "object": "Body__torso",
+            "role": "skirt",
+            "vertices": 351
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 132
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 120
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 124
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Hair__head",
+            "role": "hair",
+            "vertices": 136
+          },
+          {
+            "object": "Face__head",
+            "role": "head_cap",
+            "vertices": 2016
+          },
+          {
+            "object": "Body__unclassified",
+            "role": "head_cap",
+            "vertices": 499
+          },
+          {
+            "object": "Body__head",
+            "role": "head_cap",
+            "vertices": 659
+          },
+          {
+            "object": "Hair__head",
+            "role": "head_cap",
+            "vertices": 6146
+          }
+        ],
+        "colliders": 19,
+        "collider_details": [
+          {
+            "bone": "Head",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.11461468040943146,
+              0
+            ],
+            "radius": 0.04384011525660753
+          },
+          {
+            "bone": "Neck",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.12508271634578705,
+              0
+            ],
+            "radius": 0.04784413900226355
+          },
+          {
+            "bone": "Chest",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.4223427176475525,
+              0
+            ],
+            "radius": 0.06991436465303592
+          },
+          {
+            "bone": "Spine",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.1919660121202469,
+              0
+            ],
+            "radius": 0.07342699963599443
+          },
+          {
+            "bone": "Hips",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.09138575941324234,
+              0
+            ],
+            "radius": 0.03495505297556519
+          },
+          {
+            "bone": "UpperArm.L",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.3737209737300873,
+              0
+            ],
+            "radius": 0.03636294657828729
+          },
+          {
+            "bone": "UpperArm.R",
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "tail": [
+              0,
+              0.3737209141254425,
+              0
+            ],
+            "radius": 0.036362936965259524
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.05145808681845665,
+              0.0,
+              0.002673820126801729
+            ],
+            "tail": [
+              -0.05145808681845665,
+              0.19143627087275186,
+              0.002673820126801729
+            ],
+            "radius": 0.18060536972241012
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.004638235084712505,
+              0.19143627087275186,
+              0.002627147128805518
+            ],
+            "tail": [
+              -0.004638235084712505,
+              0.3828725417455037,
+              0.002627147128805518
+            ],
+            "radius": 0.12713867210054944
+          },
+          {
+            "bone": "Thigh.L",
+            "offset": [
+              -0.004398965742439032,
+              0.3828725417455037,
+              0.0019485772354528308
+            ],
+            "tail": [
+              -0.004398965742439032,
+              0.5743088126182556,
+              0.0019485772354528308
+            ],
+            "radius": 0.09642800703504349
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.05145808681845665,
+              0.0,
+              0.002673820126801729
+            ],
+            "tail": [
+              0.05145808681845665,
+              0.19143627087275186,
+              0.002673820126801729
+            ],
+            "radius": 0.18060536972241012
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.004638235084712505,
+              0.19143627087275186,
+              0.002627147128805518
+            ],
+            "tail": [
+              0.004638235084712505,
+              0.3828725417455037,
+              0.002627147128805518
+            ],
+            "radius": 0.12713867210054944
+          },
+          {
+            "bone": "Thigh.R",
+            "offset": [
+              0.004398965742439032,
+              0.3828725417455037,
+              0.0019485735101625323
+            ],
+            "tail": [
+              0.004398965742439032,
+              0.5743088126182556,
+              0.0019485735101625323
+            ],
+            "radius": 0.09642800373590994
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.003827899694442749,
+              0.0,
+              0.025439726188778877
+            ],
+            "tail": [
+              -0.003827899694442749,
+              0.22396504878997803,
+              0.025439726188778877
+            ],
+            "radius": 0.10963469650170089
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.003567364066839218,
+              0.22396504878997803,
+              0.036807915195822716
+            ],
+            "tail": [
+              -0.003567364066839218,
+              0.44793009757995605,
+              0.036807915195822716
+            ],
+            "radius": 0.0977271884581771
+          },
+          {
+            "bone": "Shin.L",
+            "offset": [
+              -0.011141717433929443,
+              0.44793009757995605,
+              0.016888650134205818
+            ],
+            "tail": [
+              -0.011141717433929443,
+              0.6718951463699341,
+              0.016888650134205818
+            ],
+            "radius": 0.06897212950324771
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.003827899694442749,
+              0.0,
+              0.025439729914069176
+            ],
+            "tail": [
+              0.003827899694442749,
+              0.22396504878997803,
+              0.025439729914069176
+            ],
+            "radius": 0.10963469282315792
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.003567364066839218,
+              0.22396504878997803,
+              0.036807917058467865
+            ],
+            "tail": [
+              0.003567364066839218,
+              0.44793009757995605,
+              0.036807917058467865
+            ],
+            "radius": 0.09772718665457429
+          },
+          {
+            "bone": "Shin.R",
+            "offset": [
+              0.011141717433929443,
+              0.44793009757995605,
+              0.016888650134205818
+            ],
+            "tail": [
+              0.011141717433929443,
+              0.6718951463699341,
+              0.016888650134205818
+            ],
+            "radius": 0.06897212877260628
+          }
+        ],
+        "collider_groups": 2,
+        "spring_names": [
+          "Secondary_Skirt_00_00",
+          "Secondary_Skirt_00_01",
+          "Secondary_Skirt_00_02",
+          "Secondary_Skirt_00_03",
+          "Secondary_Skirt_00_04",
+          "Secondary_Skirt_00_05",
+          "Secondary_Skirt_00_06",
+          "Secondary_Skirt_00_07",
+          "Secondary_Skirt_00_08",
+          "Secondary_Skirt_00_09",
+          "Secondary_Skirt_00_10",
+          "Secondary_Skirt_00_11",
+          "Secondary_Hair_00",
+          "Secondary_Hair_01",
+          "Secondary_Hair_02",
+          "Secondary_Hair_03",
+          "Secondary_Hair_04",
+          "Secondary_Hair_05",
+          "Secondary_Hair_06",
+          "Secondary_Hair_07",
+          "Secondary_Hair_08",
+          "Secondary_Hair_09",
+          "Secondary_Hair_10",
+          "Secondary_Hair_11",
+          "Secondary_Hair_12",
+          "Secondary_Hair_13",
+          "Secondary_Hair_14",
+          "Secondary_Hair_15",
+          "Secondary_Hair_16",
+          "Secondary_Hair_17",
+          "Secondary_Hair_18",
+          "Secondary_Hair_19",
+          "Secondary_Hair_20",
+          "Secondary_Hair_21",
+          "Secondary_Hair_22",
+          "Secondary_Hair_23"
+        ],
+        "generator_without_bvt": true,
+        "geometry_uv_materials_unchanged": true,
+        "unrelated_weights_unchanged": true,
+        "maximum_weight_sum_error": 4.470348358154297e-08,
+        "duplicate_generation_rejected": true,
+        "vrm_references_and_terminal_nodes_valid": true,
+        "object_drag": {
+          "animated_channels": [
+            "armature object location"
+          ],
+          "frames": 240,
+          "final_settle_frames": 67,
+          "maximum_translation": 0.4992880054576038,
+          "maximum_body_pose_change": 0.0
+        },
+        "simulation_operator": "bpy.ops.bvt.set_spring_simulation(enabled=True)",
+        "simulation_preroll_frames": 60,
+        "recorded_frames": 240,
+        "maximum_spring_angle_degrees": {
+          "Hair": 41.18621486500072,
+          "Skirt": 157.6033229468643
+        },
+        "spring_rotation_variation_degrees": {
+          "Hair": 40.43751001875144,
+          "Skirt": 160.52921206275767
+        }
+      },
+      "export_and_bake": {
+        "exported_rotation_constraints": 12,
+        "imported_rotation_constraints": 12,
+        "fixed_hair_roots_excluded_from_physics": 24,
+        "head_only_cap_vertices": 9320,
+        "exporter_accepted": true,
+        "circular_dependencies": [],
+        "upper_leg_colliders": 6,
+        "max_leg_follow_quaternion_error": 2.4564855038988753e-08,
+        "saved_bake_rotation_error": 0.0,
+        "saved_bake_head_error": 4.782901360304366e-07,
+        "recorded_frames": 240,
+        "export": "/Users/tylerwalker/dev/Hallway/unimate-web/outputs/spring_revision3/drag/sample_o_drag.vrm"
+      },
+      "contacts": {
+        "frames": 240,
+        "frames_with_contacts": 50,
+        "maximum_skirt_leg_triangle_intersections": 54
+      },
+      "video": {
+        "path": "outputs/spring_revision3/drag/sample_o_drag.mp4",
+        "width": 1080,
+        "height": 1080,
+        "fps": 30,
+        "decoded_frames": 240,
+        "full_decode_passed": true
+      }
+    }
+  },
+  "generalization": [
+    {
+      "height": 2.6499998552622004,
+      "chains": 12,
+      "deform_bones": 48,
+      "terminal_bones": 12,
+      "rejected": [],
+      "fixed_hair_roots": [],
+      "hair_attachments": [],
+      "leg_follow": [
+        {
+          "bone": "Secondary_SkirtFollow_00_00",
+          "target": "Thigh.L",
+          "influence": 0.0
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_01",
+          "target": "Thigh.L",
+          "influence": 0.12499999999999997
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_02",
+          "target": "Thigh.L",
+          "influence": 0.37499999999999994
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_03",
+          "target": "Thigh.L",
+          "influence": 0.5
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_04",
+          "target": "Thigh.R",
+          "influence": 0.37500000000000006
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_05",
+          "target": "Thigh.R",
+          "influence": 0.12499999999999997
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_06",
+          "target": "Thigh.R",
+          "influence": 7.498798913309288e-33
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_07",
+          "target": "Thigh.R",
+          "influence": 0.12500000000000006
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_08",
+          "target": "Thigh.R",
+          "influence": 0.3749999999999998
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_09",
+          "target": "Thigh.R",
+          "influence": 0.5
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_10",
+          "target": "Thigh.L",
+          "influence": 0.37499999999999994
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_11",
+          "target": "Thigh.L",
+          "influence": 0.12500000000000022
+        }
+      ],
+      "regions": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "vertices": 830
+        },
+        {
+          "object": "Face__head",
+          "role": "head_cap",
+          "vertices": 1179
+        },
+        {
+          "object": "Body__body",
+          "role": "head_cap",
+          "vertices": 122
+        },
+        {
+          "object": "Hair001__head",
+          "role": "head_cap",
+          "vertices": 4736
+        }
+      ],
+      "colliders": 13,
+      "collider_details": [
+        {
+          "bone": "Hips",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.09754973649978638,
+            0
+          ],
+          "radius": 0.037312774211168284
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.0471162311732769,
+            0.0,
+            0.004908584989607334
+          ],
+          "tail": [
+            -0.0471162311732769,
+            0.20113799969355264,
+            0.004908584989607334
+          ],
+          "radius": 0.15540062719554276
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.0007586390129290521,
+            0.20113799969355264,
+            0.000581132248044014
+          ],
+          "tail": [
+            -0.0007586390129290521,
+            0.4022759993871053,
+            0.000581132248044014
+          ],
+          "radius": 0.10276166727386994
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.0047858391189947724,
+            0.4022759993871053,
+            0.0006502165924757719
+          ],
+          "tail": [
+            -0.0047858391189947724,
+            0.603413999080658,
+            0.0006502165924757719
+          ],
+          "radius": 0.07619348175991933
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.04711643606424332,
+            0.0,
+            0.004909409210085869
+          ],
+          "tail": [
+            0.04711643606424332,
+            0.20113801956176758,
+            0.004909409210085869
+          ],
+          "radius": 0.1554009772172545
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.0007586570573039353,
+            0.20113801956176758,
+            0.0005811022128909826
+          ],
+          "tail": [
+            0.0007586570573039353,
+            0.40227603912353516,
+            0.0005811022128909826
+          ],
+          "radius": 0.10276220718259005
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.004785730387084186,
+            0.40227603912353516,
+            0.0006497439462691545
+          ],
+          "tail": [
+            0.004785730387084186,
+            0.6034140586853027,
+            0.0006497439462691545
+          ],
+          "radius": 0.07619450236911166
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.004769124556332827,
+            0.0,
+            0.018252305686473846
+          ],
+          "tail": [
+            -0.004769124556332827,
+            0.22466838359832764,
+            0.018252305686473846
+          ],
+          "radius": 0.09776778341482333
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.003658441099105403,
+            0.22466838359832764,
+            0.03517015650868416
+          ],
+          "tail": [
+            -0.003658441099105403,
+            0.4493367671966553,
+            0.03517015650868416
+          ],
+          "radius": 0.08615743731252595
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.008496751543134451,
+            0.4493367671966553,
+            0.020021828822791576
+          ],
+          "tail": [
+            -0.008496751543134451,
+            0.6740051507949829,
+            0.020021828822791576
+          ],
+          "radius": 0.057933290479032534
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.004768446087837219,
+            0.0,
+            0.01825309917330742
+          ],
+          "tail": [
+            0.004768446087837219,
+            0.2246686021486918,
+            0.01825309917330742
+          ],
+          "radius": 0.09776730682607021
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.003658017434645444,
+            0.2246686021486918,
+            0.03517042100429535
+          ],
+          "tail": [
+            0.003658017434645444,
+            0.4493372042973836,
+            0.03517042100429535
+          ],
+          "radius": 0.0861577384256333
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.008496253751218319,
+            0.4493372042973836,
+            0.020022379234433174
+          ],
+          "tail": [
+            0.008496253751218319,
+            0.6740058064460754,
+            0.020022379234433174
+          ],
+          "radius": 0.05793387198769027
+        }
+      ],
+      "collider_groups": 1,
+      "spring_names": [
+        "Secondary_Skirt_00_00",
+        "Secondary_Skirt_00_01",
+        "Secondary_Skirt_00_02",
+        "Secondary_Skirt_00_03",
+        "Secondary_Skirt_00_04",
+        "Secondary_Skirt_00_05",
+        "Secondary_Skirt_00_06",
+        "Secondary_Skirt_00_07",
+        "Secondary_Skirt_00_08",
+        "Secondary_Skirt_00_09",
+        "Secondary_Skirt_00_10",
+        "Secondary_Skirt_00_11"
+      ],
+      "avatar": "avatarsample_a",
+      "posed_head_cap_rigid_error": 3.1007867288720537e-07,
+      "head_only_cap_vertices": 6037,
+      "rest_surface_error": 7.574074957456034e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "height": 2.6499998551356194,
+      "chains": 26,
+      "deform_bones": 104,
+      "terminal_bones": 26,
+      "rejected": [],
+      "fixed_hair_roots": [
+        "Secondary_Hair_00_00",
+        "Secondary_Hair_01_00",
+        "Secondary_Hair_02_00",
+        "Secondary_Hair_03_00",
+        "Secondary_Hair_04_00",
+        "Secondary_Hair_05_00",
+        "Secondary_Hair_06_00",
+        "Secondary_Hair_07_00",
+        "Secondary_Hair_08_00",
+        "Secondary_Hair_09_00",
+        "Secondary_Hair_10_00",
+        "Secondary_Hair_11_00",
+        "Secondary_Hair_12_00",
+        "Secondary_Hair_13_00"
+      ],
+      "hair_attachments": [
+        {
+          "root": "Secondary_Hair_00_00",
+          "physics_start": "Secondary_Hair_00_01",
+          "cap_position": [
+            0.10241055488586426,
+            -0.007812757045030594,
+            2.457413673400879
+          ],
+          "fixed_end": [
+            0.10321062803268433,
+            -0.005287849344313145,
+            2.4044137001037598
+          ]
+        },
+        {
+          "root": "Secondary_Hair_01_00",
+          "physics_start": "Secondary_Hair_01_01",
+          "cap_position": [
+            0.0741889551281929,
+            0.02448972687125206,
+            2.455209732055664
+          ],
+          "fixed_end": [
+            0.07628566771745682,
+            0.02990848384797573,
+            2.402209758758545
+          ]
+        },
+        {
+          "root": "Secondary_Hair_02_00",
+          "physics_start": "Secondary_Hair_02_01",
+          "cap_position": [
+            0.05742493271827698,
+            0.03418095409870148,
+            2.4557583332061768
+          ],
+          "fixed_end": [
+            0.05742493271827698,
+            0.0378793403506279,
+            2.4027583599090576
+          ]
+        },
+        {
+          "root": "Secondary_Hair_03_00",
+          "physics_start": "Secondary_Hair_03_01",
+          "cap_position": [
+            0.018052374944090843,
+            0.04377949237823486,
+            2.468895673751831
+          ],
+          "fixed_end": [
+            0.018134750425815582,
+            0.051292579621076584,
+            2.415895700454712
+          ]
+        },
+        {
+          "root": "Secondary_Hair_04_00",
+          "physics_start": "Secondary_Hair_04_01",
+          "cap_position": [
+            0.13935868442058563,
+            -0.04591028392314911,
+            2.368772029876709
+          ],
+          "fixed_end": [
+            0.1425940990447998,
+            -0.04409617930650711,
+            2.31577205657959
+          ]
+        },
+        {
+          "root": "Secondary_Hair_05_00",
+          "physics_start": "Secondary_Hair_05_01",
+          "cap_position": [
+            0.1269502490758896,
+            -0.033419959247112274,
+            2.4235594272613525
+          ],
+          "fixed_end": [
+            0.1269502490758896,
+            -0.030600465834140778,
+            2.3705594539642334
+          ]
+        },
+        {
+          "root": "Secondary_Hair_06_00",
+          "physics_start": "Secondary_Hair_06_01",
+          "cap_position": [
+            0.10959149897098541,
+            -0.005903194658458233,
+            2.4145724773406982
+          ],
+          "fixed_end": [
+            0.11289066076278687,
+            -0.005903194658458233,
+            2.361572504043579
+          ]
+        },
+        {
+          "root": "Secondary_Hair_07_00",
+          "physics_start": "Secondary_Hair_07_01",
+          "cap_position": [
+            -0.10083325207233429,
+            -0.007277613040059805,
+            2.457526922225952
+          ],
+          "fixed_end": [
+            -0.1034906804561615,
+            -0.0036477805115282536,
+            2.404526948928833
+          ]
+        },
+        {
+          "root": "Secondary_Hair_08_00",
+          "physics_start": "Secondary_Hair_08_01",
+          "cap_position": [
+            -0.07413287460803986,
+            0.02580089122056961,
+            2.455439805984497
+          ],
+          "fixed_end": [
+            -0.0762973204255104,
+            0.030956631526350975,
+            2.402439832687378
+          ]
+        },
+        {
+          "root": "Secondary_Hair_09_00",
+          "physics_start": "Secondary_Hair_09_01",
+          "cap_position": [
+            -0.05770110711455345,
+            0.03579293563961983,
+            2.4559621810913086
+          ],
+          "fixed_end": [
+            -0.05770110711455345,
+            0.04007989913225174,
+            2.4029622077941895
+          ]
+        },
+        {
+          "root": "Secondary_Hair_10_00",
+          "physics_start": "Secondary_Hair_10_01",
+          "cap_position": [
+            -0.018188804388046265,
+            0.04508861154317856,
+            2.4691193103790283
+          ],
+          "fixed_end": [
+            -0.01825261116027832,
+            0.053080640733242035,
+            2.416119337081909
+          ]
+        },
+        {
+          "root": "Secondary_Hair_11_00",
+          "physics_start": "Secondary_Hair_11_01",
+          "cap_position": [
+            -0.13962805271148682,
+            -0.04604007303714752,
+            2.369481086730957
+          ],
+          "fixed_end": [
+            -0.14198260009288788,
+            -0.045064523816108704,
+            2.316481113433838
+          ]
+        },
+        {
+          "root": "Secondary_Hair_12_00",
+          "physics_start": "Secondary_Hair_12_01",
+          "cap_position": [
+            -0.12538066506385803,
+            -0.035323675721883774,
+            2.4231905937194824
+          ],
+          "fixed_end": [
+            -0.12538130581378937,
+            -0.032370056957006454,
+            2.3701906204223633
+          ]
+        },
+        {
+          "root": "Secondary_Hair_13_00",
+          "physics_start": "Secondary_Hair_13_01",
+          "cap_position": [
+            -0.10972723364830017,
+            -0.004526476375758648,
+            2.4147040843963623
+          ],
+          "fixed_end": [
+            -0.11299110949039459,
+            -0.004526476375758648,
+            2.361704111099243
+          ]
+        }
+      ],
+      "leg_follow": [
+        {
+          "bone": "Secondary_SkirtFollow_00_00",
+          "target": "Thigh.L",
+          "influence": 0.0
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_01",
+          "target": "Thigh.L",
+          "influence": 0.12499999999999997
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_02",
+          "target": "Thigh.L",
+          "influence": 0.37499999999999994
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_03",
+          "target": "Thigh.L",
+          "influence": 0.5
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_04",
+          "target": "Thigh.R",
+          "influence": 0.37500000000000006
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_05",
+          "target": "Thigh.R",
+          "influence": 0.12499999999999997
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_06",
+          "target": "Thigh.R",
+          "influence": 7.498798913309288e-33
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_07",
+          "target": "Thigh.R",
+          "influence": 0.12500000000000006
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_08",
+          "target": "Thigh.R",
+          "influence": 0.3749999999999998
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_09",
+          "target": "Thigh.R",
+          "influence": 0.5
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_10",
+          "target": "Thigh.L",
+          "influence": 0.37499999999999994
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_11",
+          "target": "Thigh.L",
+          "influence": 0.12500000000000022
+        }
+      ],
+      "regions": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "vertices": 381
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 300
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 300
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 304
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 316
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 252
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 292
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 280
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 292
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 300
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 304
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 316
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 252
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 284
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 276
+        },
+        {
+          "object": "Face__head",
+          "role": "head_cap",
+          "vertices": 1174
+        },
+        {
+          "object": "Body__body",
+          "role": "head_cap",
+          "vertices": 122
+        },
+        {
+          "object": "Hair001__head",
+          "role": "head_cap",
+          "vertices": 2830
+        }
+      ],
+      "colliders": 19,
+      "collider_details": [
+        {
+          "bone": "Head",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.11099151521921158,
+            0
+          ],
+          "radius": 0.042454254571348424
+        },
+        {
+          "bone": "Neck",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.11766012012958527,
+            0
+          ],
+          "radius": 0.04050536169469899
+        },
+        {
+          "bone": "Chest",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.35770246386528015,
+            0
+          ],
+          "radius": 0.12231585222041183
+        },
+        {
+          "bone": "Spine",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.1830015331506729,
+            0
+          ],
+          "radius": 0.06999808643013239
+        },
+        {
+          "bone": "Hips",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.08671299368143082,
+            0
+          ],
+          "radius": 0.033167720083147285
+        },
+        {
+          "bone": "UpperArm.L",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.38818272948265076,
+            0
+          ],
+          "radius": 0.03542135929618037
+        },
+        {
+          "bone": "UpperArm.R",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.3881851136684418,
+            0
+          ],
+          "radius": 0.03544363263565994
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.04505563713610172,
+            0.0,
+            0.004917027894407511
+          ],
+          "tail": [
+            -0.04505563713610172,
+            0.19026422500610352,
+            0.004917027894407511
+          ],
+          "radius": 0.15201765001044468
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.0007503509405069053,
+            0.19026422500610352,
+            0.0005836880300194025
+          ],
+          "tail": [
+            -0.0007503509405069053,
+            0.38052845001220703,
+            0.0005836880300194025
+          ],
+          "radius": 0.10159366278692841
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.004715453600510955,
+            0.38052845001220703,
+            0.0006688234861940145
+          ],
+          "tail": [
+            -0.004715453600510955,
+            0.5707926750183105,
+            0.0006688234861940145
+          ],
+          "radius": 0.07530420994475229
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.04505585879087448,
+            0.0,
+            0.004917297046631575
+          ],
+          "tail": [
+            0.04505585879087448,
+            0.19026420513788858,
+            0.004917297046631575
+          ],
+          "radius": 0.15201785445660643
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.0007503940141759813,
+            0.19026420513788858,
+            0.0005836712662130594
+          ],
+          "tail": [
+            0.0007503940141759813,
+            0.38052841027577716,
+            0.0005836712662130594
+          ],
+          "radius": 0.1015934678182883
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.004715350456535816,
+            0.38052841027577716,
+            0.0006686744745820761
+          ],
+          "tail": [
+            0.004715350456535816,
+            0.5707926154136658,
+            0.0006686744745820761
+          ],
+          "radius": 0.07530425051532563
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.004680939018726349,
+            0.0,
+            0.018122736364603043
+          ],
+          "tail": [
+            -0.004680939018726349,
+            0.21258829037348428,
+            0.018122736364603043
+          ],
+          "radius": 0.09650887999203098
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.003622698684921488,
+            0.21258829037348428,
+            0.03469684161245823
+          ],
+          "tail": [
+            -0.003622698684921488,
+            0.42517658074696857,
+            0.03469684161245823
+          ],
+          "radius": 0.08515943969556167
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.008745206985622644,
+            0.42517658074696857,
+            0.0209839204326272
+          ],
+          "tail": [
+            -0.008745206985622644,
+            0.6377648711204529,
+            0.0209839204326272
+          ],
+          "radius": 0.05969818398526671
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.004680187441408634,
+            0.0,
+            0.01812303252518177
+          ],
+          "tail": [
+            0.004680187441408634,
+            0.21258854866027832,
+            0.01812303252518177
+          ],
+          "radius": 0.09650826877893547
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.0036222265334799886,
+            0.21258854866027832,
+            0.03469675034284592
+          ],
+          "tail": [
+            0.0036222265334799886,
+            0.42517709732055664,
+            0.03469675034284592
+          ],
+          "radius": 0.08515936812156412
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.008744662161916494,
+            0.42517709732055664,
+            0.020984116941690445
+          ],
+          "tail": [
+            0.008744662161916494,
+            0.637765645980835,
+            0.020984116941690445
+          ],
+          "radius": 0.059698182757489664
+        }
+      ],
+      "collider_groups": 2,
+      "spring_names": [
+        "Secondary_Skirt_00_00",
+        "Secondary_Skirt_00_01",
+        "Secondary_Skirt_00_02",
+        "Secondary_Skirt_00_03",
+        "Secondary_Skirt_00_04",
+        "Secondary_Skirt_00_05",
+        "Secondary_Skirt_00_06",
+        "Secondary_Skirt_00_07",
+        "Secondary_Skirt_00_08",
+        "Secondary_Skirt_00_09",
+        "Secondary_Skirt_00_10",
+        "Secondary_Skirt_00_11",
+        "Secondary_Hair_00",
+        "Secondary_Hair_01",
+        "Secondary_Hair_02",
+        "Secondary_Hair_03",
+        "Secondary_Hair_04",
+        "Secondary_Hair_05",
+        "Secondary_Hair_06",
+        "Secondary_Hair_07",
+        "Secondary_Hair_08",
+        "Secondary_Hair_09",
+        "Secondary_Hair_10",
+        "Secondary_Hair_11",
+        "Secondary_Hair_12",
+        "Secondary_Hair_13"
+      ],
+      "avatar": "avatarsample_b",
+      "posed_head_cap_rigid_error": 5.101879929235575e-07,
+      "head_only_cap_vertices": 4126,
+      "rest_surface_error": 4.865748246686368e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "reason": "Not a continuous circumferential skirt",
+          "coverage": [
+            8,
+            8,
+            6
+          ]
+        }
+      ],
+      "avatar": "avatarsample_c",
+      "posed_head_cap_rigid_error": 3.9044525745466776e-07,
+      "head_only_cap_vertices": 7783,
+      "rest_surface_error": 4.946787163555678e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "darkness_shibu",
+      "posed_head_cap_rigid_error": 5.230286352272107e-07,
+      "head_only_cap_vertices": 10884,
+      "rest_surface_error": 4.917383193969727e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "reason": "Not a continuous circumferential skirt",
+          "coverage": [
+            8,
+            8,
+            6
+          ]
+        }
+      ],
+      "avatar": "sakurada_fumiriya",
+      "posed_head_cap_rigid_error": 5.243139314237193e-07,
+      "head_only_cap_vertices": 13733,
+      "rest_surface_error": 5.331722099427833e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "height": 2.6499996236289185,
+      "chains": 37,
+      "deform_bones": 148,
+      "terminal_bones": 37,
+      "rejected": [],
+      "fixed_hair_roots": [
+        "Secondary_Hair_00_00",
+        "Secondary_Hair_01_00",
+        "Secondary_Hair_02_00",
+        "Secondary_Hair_03_00",
+        "Secondary_Hair_04_00",
+        "Secondary_Hair_05_00",
+        "Secondary_Hair_06_00",
+        "Secondary_Hair_07_00",
+        "Secondary_Hair_08_00",
+        "Secondary_Hair_09_00",
+        "Secondary_Hair_10_00",
+        "Secondary_Hair_11_00",
+        "Secondary_Hair_12_00",
+        "Secondary_Hair_13_00",
+        "Secondary_Hair_14_00",
+        "Secondary_Hair_15_00",
+        "Secondary_Hair_16_00",
+        "Secondary_Hair_17_00",
+        "Secondary_Hair_18_00",
+        "Secondary_Hair_19_00",
+        "Secondary_Hair_20_00",
+        "Secondary_Hair_21_00",
+        "Secondary_Hair_22_00",
+        "Secondary_Hair_23_00",
+        "Secondary_Hair_24_00"
+      ],
+      "hair_attachments": [
+        {
+          "root": "Secondary_Hair_00_00",
+          "physics_start": "Secondary_Hair_00_01",
+          "cap_position": [
+            -0.04104207083582878,
+            -0.16514815390110016,
+            2.6436142921447754
+          ],
+          "fixed_end": [
+            -0.07588230818510056,
+            -0.17235073447227478,
+            2.5960285663604736
+          ]
+        },
+        {
+          "root": "Secondary_Hair_01_00",
+          "physics_start": "Secondary_Hair_01_01",
+          "cap_position": [
+            0.06194633990526199,
+            -0.1335347592830658,
+            2.642045259475708
+          ],
+          "fixed_end": [
+            0.1036062091588974,
+            -0.134727343916893,
+            2.589045286178589
+          ]
+        },
+        {
+          "root": "Secondary_Hair_02_00",
+          "physics_start": "Secondary_Hair_02_01",
+          "cap_position": [
+            0.06278371810913086,
+            -0.11911839991807938,
+            2.6423733234405518
+          ],
+          "fixed_end": [
+            0.09361402690410614,
+            -0.11507123708724976,
+            2.5893733501434326
+          ]
+        },
+        {
+          "root": "Secondary_Hair_03_00",
+          "physics_start": "Secondary_Hair_03_01",
+          "cap_position": [
+            0.05858783423900604,
+            -0.1048676148056984,
+            2.6430444717407227
+          ],
+          "fixed_end": [
+            0.08538196235895157,
+            -0.09299369156360626,
+            2.5900444984436035
+          ]
+        },
+        {
+          "root": "Secondary_Hair_04_00",
+          "physics_start": "Secondary_Hair_04_01",
+          "cap_position": [
+            0.05051020532846451,
+            -0.07791174948215485,
+            2.643826723098755
+          ],
+          "fixed_end": [
+            0.06459414958953857,
+            -0.06153951585292816,
+            2.5908267498016357
+          ]
+        },
+        {
+          "root": "Secondary_Hair_05_00",
+          "physics_start": "Secondary_Hair_05_01",
+          "cap_position": [
+            0.024482857435941696,
+            -0.059795767068862915,
+            2.6440773010253906
+          ],
+          "fixed_end": [
+            0.03113429993391037,
+            -0.03918569162487984,
+            2.5910773277282715
+          ]
+        },
+        {
+          "root": "Secondary_Hair_06_00",
+          "physics_start": "Secondary_Hair_06_01",
+          "cap_position": [
+            0.005261037964373827,
+            -0.050593361258506775,
+            2.644136905670166
+          ],
+          "fixed_end": [
+            0.007895656861364841,
+            -0.027808871120214462,
+            2.591136932373047
+          ]
+        },
+        {
+          "root": "Secondary_Hair_07_00",
+          "physics_start": "Secondary_Hair_07_01",
+          "cap_position": [
+            -0.014845128171145916,
+            -0.04892401024699211,
+            2.6437549591064453
+          ],
+          "fixed_end": [
+            -0.01617690920829773,
+            -0.028852999210357666,
+            2.590754985809326
+          ]
+        },
+        {
+          "root": "Secondary_Hair_08_00",
+          "physics_start": "Secondary_Hair_08_01",
+          "cap_position": [
+            -0.03083190694451332,
+            -0.0627601221203804,
+            2.6429097652435303
+          ],
+          "fixed_end": [
+            -0.03756143897771835,
+            -0.036998189985752106,
+            2.589909791946411
+          ]
+        },
+        {
+          "root": "Secondary_Hair_09_00",
+          "physics_start": "Secondary_Hair_09_01",
+          "cap_position": [
+            -0.04803447425365448,
+            -0.07993113994598389,
+            2.642723560333252
+          ],
+          "fixed_end": [
+            -0.06320616602897644,
+            -0.05584293603897095,
+            2.589723587036133
+          ]
+        },
+        {
+          "root": "Secondary_Hair_10_00",
+          "physics_start": "Secondary_Hair_10_01",
+          "cap_position": [
+            -0.06160308048129082,
+            -0.0943339467048645,
+            2.6424388885498047
+          ],
+          "fixed_end": [
+            -0.08326204866170883,
+            -0.08023221790790558,
+            2.5894389152526855
+          ]
+        },
+        {
+          "root": "Secondary_Hair_11_00",
+          "physics_start": "Secondary_Hair_11_01",
+          "cap_position": [
+            -0.06396055221557617,
+            -0.11408808827400208,
+            2.6420559883117676
+          ],
+          "fixed_end": [
+            -0.10383020341396332,
+            -0.10558324307203293,
+            2.5890560150146484
+          ]
+        },
+        {
+          "root": "Secondary_Hair_12_00",
+          "physics_start": "Secondary_Hair_12_01",
+          "cap_position": [
+            0.07029315084218979,
+            -0.18308395147323608,
+            2.6097187995910645
+          ],
+          "fixed_end": [
+            0.10122501850128174,
+            -0.15735149383544922,
+            2.5567188262939453
+          ]
+        },
+        {
+          "root": "Secondary_Hair_13_00",
+          "physics_start": "Secondary_Hair_13_01",
+          "cap_position": [
+            0.07081054896116257,
+            -0.16947442293167114,
+            2.611563205718994
+          ],
+          "fixed_end": [
+            0.10400454699993134,
+            -0.14068350195884705,
+            2.558563232421875
+          ]
+        },
+        {
+          "root": "Secondary_Hair_14_00",
+          "physics_start": "Secondary_Hair_14_01",
+          "cap_position": [
+            0.05723435431718826,
+            -0.14168572425842285,
+            2.6203222274780273
+          ],
+          "fixed_end": [
+            0.07837735116481781,
+            -0.11467419564723969,
+            2.567322254180908
+          ]
+        },
+        {
+          "root": "Secondary_Hair_15_00",
+          "physics_start": "Secondary_Hair_15_01",
+          "cap_position": [
+            0.012341266497969627,
+            -0.17346054315567017,
+            2.6240744590759277
+          ],
+          "fixed_end": [
+            0.024816542863845825,
+            -0.1525074541568756,
+            2.5710744857788086
+          ]
+        },
+        {
+          "root": "Secondary_Hair_16_00",
+          "physics_start": "Secondary_Hair_16_01",
+          "cap_position": [
+            0.03402227908372879,
+            -0.1073523461818695,
+            2.6259732246398926
+          ],
+          "fixed_end": [
+            0.041882600635290146,
+            -0.080156110227108,
+            2.5729732513427734
+          ]
+        },
+        {
+          "root": "Secondary_Hair_17_00",
+          "physics_start": "Secondary_Hair_17_01",
+          "cap_position": [
+            0.0171236339956522,
+            -0.10110311955213547,
+            2.6281447410583496
+          ],
+          "fixed_end": [
+            0.015354650095105171,
+            -0.07217878103256226,
+            2.5751447677612305
+          ]
+        },
+        {
+          "root": "Secondary_Hair_18_00",
+          "physics_start": "Secondary_Hair_18_01",
+          "cap_position": [
+            0.001203490188345313,
+            -0.09890063852071762,
+            2.629239559173584
+          ],
+          "fixed_end": [
+            -0.00030286097899079323,
+            -0.0689559057354927,
+            2.576239585876465
+          ]
+        },
+        {
+          "root": "Secondary_Hair_19_00",
+          "physics_start": "Secondary_Hair_19_01",
+          "cap_position": [
+            -0.014166437089443207,
+            -0.0969245433807373,
+            2.6287477016448975
+          ],
+          "fixed_end": [
+            -0.019375070929527283,
+            -0.07084471732378006,
+            2.5757477283477783
+          ]
+        },
+        {
+          "root": "Secondary_Hair_20_00",
+          "physics_start": "Secondary_Hair_20_01",
+          "cap_position": [
+            -0.03908815234899521,
+            -0.10509488731622696,
+            2.62587833404541
+          ],
+          "fixed_end": [
+            -0.04913562536239624,
+            -0.08147679269313812,
+            2.572878360748291
+          ]
+        },
+        {
+          "root": "Secondary_Hair_21_00",
+          "physics_start": "Secondary_Hair_21_01",
+          "cap_position": [
+            -0.0568944476544857,
+            -0.11545576900243759,
+            2.621659994125366
+          ],
+          "fixed_end": [
+            -0.07005395740270615,
+            -0.0976250097155571,
+            2.568660020828247
+          ]
+        },
+        {
+          "root": "Secondary_Hair_22_00",
+          "physics_start": "Secondary_Hair_22_01",
+          "cap_position": [
+            -0.06551866233348846,
+            -0.14217302203178406,
+            2.618060827255249
+          ],
+          "fixed_end": [
+            -0.08451198041439056,
+            -0.12326012551784515,
+            2.56506085395813
+          ]
+        },
+        {
+          "root": "Secondary_Hair_23_00",
+          "physics_start": "Secondary_Hair_23_01",
+          "cap_position": [
+            -0.0683017373085022,
+            -0.16521374881267548,
+            2.6143903732299805
+          ],
+          "fixed_end": [
+            -0.09822869300842285,
+            -0.14774774014949799,
+            2.5613903999328613
+          ]
+        },
+        {
+          "root": "Secondary_Hair_24_00",
+          "physics_start": "Secondary_Hair_24_01",
+          "cap_position": [
+            -0.062231067568063736,
+            -0.1867256462574005,
+            2.613349676132202
+          ],
+          "fixed_end": [
+            -0.09901566058397293,
+            -0.17839832603931427,
+            2.560349702835083
+          ]
+        }
+      ],
+      "leg_follow": [
+        {
+          "bone": "Secondary_SkirtFollow_00_00",
+          "target": "Thigh.L",
+          "influence": 0.0
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_01",
+          "target": "Thigh.L",
+          "influence": 0.12499999999999997
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_02",
+          "target": "Thigh.L",
+          "influence": 0.37499999999999994
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_03",
+          "target": "Thigh.L",
+          "influence": 0.5
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_04",
+          "target": "Thigh.R",
+          "influence": 0.37500000000000006
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_05",
+          "target": "Thigh.R",
+          "influence": 0.12499999999999997
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_06",
+          "target": "Thigh.R",
+          "influence": 7.498798913309288e-33
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_07",
+          "target": "Thigh.R",
+          "influence": 0.12500000000000006
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_08",
+          "target": "Thigh.R",
+          "influence": 0.3749999999999998
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_09",
+          "target": "Thigh.R",
+          "influence": 0.5
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_10",
+          "target": "Thigh.L",
+          "influence": 0.37499999999999994
+        },
+        {
+          "bone": "Secondary_SkirtFollow_00_11",
+          "target": "Thigh.L",
+          "influence": 0.12500000000000022
+        }
+      ],
+      "regions": [
+        {
+          "object": "Body__torso",
+          "role": "skirt",
+          "vertices": 381
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 352
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 168
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 176
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 184
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 192
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 196
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 196
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 192
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 184
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 176
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 168
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 160
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 168
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 176
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 212
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 204
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 204
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 204
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 192
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 180
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 172
+        },
+        {
+          "object": "Hair001__head",
+          "role": "hair",
+          "vertices": 160
+        },
+        {
+          "object": "Face__head",
+          "role": "head_cap",
+          "vertices": 1153
+        },
+        {
+          "object": "Body__body",
+          "role": "head_cap",
+          "vertices": 143
+        },
+        {
+          "object": "Body__head",
+          "role": "head_cap",
+          "vertices": 200
+        },
+        {
+          "object": "Hair001__head",
+          "role": "head_cap",
+          "vertices": 3748
+        }
+      ],
+      "colliders": 19,
+      "collider_details": [
+        {
+          "bone": "Head",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.1551150232553482,
+            0
+          ],
+          "radius": 0.05933149639517069
+        },
+        {
+          "bone": "Neck",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.11942514032125473,
+            0
+          ],
+          "radius": 0.044974208967070134
+        },
+        {
+          "bone": "Chest",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.3941654562950134,
+            0
+          ],
+          "radius": 0.13523155536532563
+        },
+        {
+          "bone": "Spine",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.18447841703891754,
+            0
+          ],
+          "radius": 0.07056299451738596
+        },
+        {
+          "bone": "Hips",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.08643446117639542,
+            0
+          ],
+          "radius": 0.033061181399971246
+        },
+        {
+          "bone": "UpperArm.L",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.3521283268928528,
+            0
+          ],
+          "radius": 0.03734991907627764
+        },
+        {
+          "bone": "UpperArm.R",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0.3521294593811035,
+            0
+          ],
+          "radius": 0.03734920739064885
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.04852132499217987,
+            0.0,
+            0.006226837635040283
+          ],
+          "tail": [
+            -0.04852132499217987,
+            0.19600902001063028,
+            0.006226837635040283
+          ],
+          "radius": 0.17502308357561888
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.000949155306443572,
+            0.19600902001063028,
+            0.0001531769521534443
+          ],
+          "tail": [
+            -0.000949155306443572,
+            0.39201804002126056,
+            0.0001531769521534443
+          ],
+          "radius": 0.11902639930115202
+        },
+        {
+          "bone": "Thigh.L",
+          "offset": [
+            -0.005420627654530108,
+            0.39201804002126056,
+            6.839819252490997e-05
+          ],
+          "tail": [
+            -0.005420627654530108,
+            0.5880270600318909,
+            6.839819252490997e-05
+          ],
+          "radius": 0.08725866031209845
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.048521678894758224,
+            0.0,
+            0.006227613892406225
+          ],
+          "tail": [
+            0.048521678894758224,
+            0.1960087219874064,
+            0.006227613892406225
+          ],
+          "radius": 0.17502354394981287
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.0009491993114352226,
+            0.1960087219874064,
+            0.0001531117595732212
+          ],
+          "tail": [
+            0.0009491993114352226,
+            0.3920174439748128,
+            0.0001531117595732212
+          ],
+          "radius": 0.11902689020901844
+        },
+        {
+          "bone": "Thigh.R",
+          "offset": [
+            0.00542051752563566,
+            0.3920174439748128,
+            6.784172728657722e-05
+          ],
+          "tail": [
+            0.00542051752563566,
+            0.5880261659622192,
+            6.784172728657722e-05
+          ],
+          "radius": 0.08725919564310755
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.005174742313101888,
+            0.0,
+            0.01739612128585577
+          ],
+          "tail": [
+            -0.005174742313101888,
+            0.2279074788093567,
+            0.01739612128585577
+          ],
+          "radius": 0.10717017872486813
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.008159833028912544,
+            0.2279074788093567,
+            0.048019442707300186
+          ],
+          "tail": [
+            -0.008159833028912544,
+            0.4558149576187134,
+            0.048019442707300186
+          ],
+          "radius": 0.08661624452647564
+        },
+        {
+          "bone": "Shin.L",
+          "offset": [
+            -0.009277320466935635,
+            0.4558149576187134,
+            0.01683632656931877
+          ],
+          "tail": [
+            -0.009277320466935635,
+            0.6837224364280701,
+            0.01683632656931877
+          ],
+          "radius": 0.06271231029067188
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.005173912737518549,
+            0.0,
+            0.017395335249602795
+          ],
+          "tail": [
+            0.005173912737518549,
+            0.22790743907292682,
+            0.017395335249602795
+          ],
+          "radius": 0.10717141610919735
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.008158533833920956,
+            0.22790743907292682,
+            0.04801851511001587
+          ],
+          "tail": [
+            0.008158533833920956,
+            0.45581487814585364,
+            0.04801851511001587
+          ],
+          "radius": 0.08661692575438863
+        },
+        {
+          "bone": "Shin.R",
+          "offset": [
+            0.009276757948100567,
+            0.45581487814585364,
+            0.016835806891322136
+          ],
+          "tail": [
+            0.009276757948100567,
+            0.6837223172187805,
+            0.016835806891322136
+          ],
+          "radius": 0.0627126042927994
+        }
+      ],
+      "collider_groups": 2,
+      "spring_names": [
+        "Secondary_Skirt_00_00",
+        "Secondary_Skirt_00_01",
+        "Secondary_Skirt_00_02",
+        "Secondary_Skirt_00_03",
+        "Secondary_Skirt_00_04",
+        "Secondary_Skirt_00_05",
+        "Secondary_Skirt_00_06",
+        "Secondary_Skirt_00_07",
+        "Secondary_Skirt_00_08",
+        "Secondary_Skirt_00_09",
+        "Secondary_Skirt_00_10",
+        "Secondary_Skirt_00_11",
+        "Secondary_Hair_00",
+        "Secondary_Hair_01",
+        "Secondary_Hair_02",
+        "Secondary_Hair_03",
+        "Secondary_Hair_04",
+        "Secondary_Hair_05",
+        "Secondary_Hair_06",
+        "Secondary_Hair_07",
+        "Secondary_Hair_08",
+        "Secondary_Hair_09",
+        "Secondary_Hair_10",
+        "Secondary_Hair_11",
+        "Secondary_Hair_12",
+        "Secondary_Hair_13",
+        "Secondary_Hair_14",
+        "Secondary_Hair_15",
+        "Secondary_Hair_16",
+        "Secondary_Hair_17",
+        "Secondary_Hair_18",
+        "Secondary_Hair_19",
+        "Secondary_Hair_20",
+        "Secondary_Hair_21",
+        "Secondary_Hair_22",
+        "Secondary_Hair_23",
+        "Secondary_Hair_24"
+      ],
+      "avatar": "sendagaya_shino",
+      "posed_head_cap_rigid_error": 5.230286352272107e-07,
+      "head_only_cap_vertices": 5244,
+      "rest_surface_error": 5.36868489465063e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "victoria_rubin",
+      "posed_head_cap_rigid_error": 2.494554078993679e-07,
+      "head_only_cap_vertices": 6983,
+      "rest_surface_error": 5.344201278814464e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "vita",
+      "posed_head_cap_rigid_error": 4.842304232499576e-07,
+      "head_only_cap_vertices": 7324,
+      "rest_surface_error": 4.814712530792806e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    },
+    {
+      "chains": 0,
+      "rejected": [],
+      "avatar": "vivi",
+      "posed_head_cap_rigid_error": 5.257808793895647e-07,
+      "head_only_cap_vertices": 7919,
+      "rest_surface_error": 4.971273934129559e-07,
+      "geometry_and_unrelated_weights_preserved": true
+    }
+  ]
+}

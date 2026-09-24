@@ -32,6 +32,8 @@
 
 Fork testing: [Blender 5.2 bust evaluation and compatibility notes](docs/blender-5.2-evaluation.md).
 
+Secondary rigs: [Generated hair and skirt spring rigs](docs/avatar-spring-rigs.md).
+
 Expanded test: [Nine freely sourced avatars, destructive Boolean bust cuts, fresh rigs, and a 3×3 animation grid](docs/nine-avatar-grid.md).
 
 Anime outfit test: [Nine additional VRoid characters with complex outfits, fresh rigs, and head/neck/arm evaluation](docs/complex-avatar-grid.md).

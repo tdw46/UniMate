@@ -18,6 +18,9 @@ from avatar_apparel_weights import correct_apparel, weights
 from avatar_source_import import adapt_humanoid, split_material_regions
 from avatar_voxel_seams import correct_skin_seams
 FULLBODY = '--full-body' in sys.argv
+SPRINGS = '--springs' in sys.argv
+if SPRINGS and not FULLBODY:
+    raise ValueError('--springs requires --full-body')
 OUT = Path(os.environ.get('AVATAR_EVAL_ROOT', ROOT / ('outputs/fullbody_avatar_grid' if FULLBODY else 'outputs/avatar_grid'))).resolve()
 SOURCES = Path(os.environ.get('AVATAR_SOURCE_ROOT', ROOT / 'outputs/complex_avatar_grid/sources' if FULLBODY else OUT / 'sources')).resolve()
 HANDS = '--hands' in sys.argv or FULLBODY
@@ -216,6 +219,9 @@ def prepare(entry):
         if parent:
             bone.parent = rig.data.edit_bones[parent]
     bpy.ops.object.mode_set(mode='OBJECT')
+    from avatar_bone_collections import organize_bones
+    organize_bones(rig)
+    rig['hallway_generated_rig'] = True
     # Run the same automatic-weight binding used by the initial bust flow.
     select_only(meshes+[rig], rig)
     binding_result = bpy.ops.object.parent_set(type='ARMATURE_AUTO')
@@ -292,6 +298,19 @@ def prepare(entry):
     rig.animation_data.action.name = 'evaluation'
     scene.frame_start, scene.frame_end = 0, FRAMES-1
     scene.frame_set(0)
+    if SPRINGS:
+        # Generate after authoring the body action so no animation channels
+        # claim the newly added physics bones. BVT is not needed here.
+        for repo in bpy.context.preferences.extensions.repos:
+            if repo.module == 'user_default':
+                repo.use_custom_directory = True
+                repo.custom_directory = os.environ.get('BLENDER_EXTENSION_ROOT',
+                    str(Path.home()/'Documents/Blender/extensions/user_default'))
+        bpy.ops.preferences.addon_enable(module='bl_ext.user_default.vrm')
+        from avatar_springs import plan_secondary, generate_secondary
+        secondary = plan_secondary(rig, meshes)
+        audit['secondary_rig'] = (generate_secondary(rig, meshes) if secondary['chains'] else
+                                  {'chains':0, 'rejected':secondary['rejected']})
     scene['preparation_audit'] = json.dumps(audit)
     select_only(meshes+[rig],rig)
     bpy.ops.export_scene.gltf(filepath=str(folder/'02_fresh_rig.glb'),export_format='GLB',use_selection=True,export_animations=True,export_animation_mode='ACTIONS',export_force_sampling=True)

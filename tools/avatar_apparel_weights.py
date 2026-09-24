@@ -43,6 +43,101 @@ def assign(obj, indices, values):
             group.add(indices, weight, 'REPLACE')
 
 
+def hair_root_length(height, strand_height):
+    return min(height*.02, strand_height*.08)
+
+
+def hair_free_top(points, height, neck_z, crown_z):
+    """Find the movable portion of a hanging strand; scalp sheets stay rigid.
+
+    Long hair keeps the established attachment rule. Short hair must extend
+    below the crown and be vertically elongated. Its entire crown remains
+    fixed, even when a connected strip includes both scalp and hanging hair.
+    """
+    span = np.ptp(points, axis=0)
+    lo, hi = points[:, 2].min(), points[:, 2].max()
+    root = hi-hair_root_length(height, span[2])
+    if span[2] >= height*.22 and lo <= neck_z:
+        return float(root)
+    if span[2] < height*.04 or span[2] < min(span[:2])*1.2:
+        return None
+    top = min(root, crown_z)
+    return float(top) if top-lo >= height*.035 else None
+
+
+def head_cap_vertices(meshes, rig):
+    """Find cranial skin and the fixed hair cap in the prepared rest pose.
+
+    A head/face surface establishes the skull envelope. This also catches scalp
+    islands in mixed body meshes without capturing nearby sleeves or hands.
+    Hanging strands below the head attachment remain available for springs.
+    """
+    head_z = rig.data.bones['Head'].head_local.z
+    head_xy = np.array(tuple(rig.data.bones['Head'].head_local))[:2]
+    cranial_radius = max(abs(rig.data.bones[n].head_local.x-head_xy[0])
+                        for n in ('UpperArm.L', 'UpperArm.R'))*.9
+    points, skin, hair, reference = {}, {}, {}, []
+    for obj in meshes:
+        tr = rig.matrix_world.inverted() @ obj.matrix_world
+        points[obj.name] = np.array([tuple(tr @ v.co) for v in obj.data.vertices])
+        skin[obj.name], hair[obj.name] = set(), set()
+        for face in obj.data.polygons:
+            mat = obj.data.materials[face.material_index] if face.material_index < len(obj.data.materials) else None
+            label = mat.name.lower() if mat else ''
+            if 'hair' in label:
+                hair[obj.name].update(face.vertices)
+            elif any(token in label for token in ('skin', 'face')):
+                skin[obj.name].update(face.vertices)
+        if obj.get('binding_role') == 'head':
+            reference.extend(points[obj.name][i] for i in skin[obj.name]
+                             if points[obj.name][i, 2] >= head_z)
+        # A face reference does not extend around the back of the skull.
+        # Include central cranial skin even when it is a separate neck/scalp
+        # island in a mixed body object and was misbound by the heat solve.
+        reference.extend(points[obj.name][i] for i in skin[obj.name]
+                         if points[obj.name][i, 2] >= head_z
+                         and np.linalg.norm(points[obj.name][i, :2]-head_xy) <= cranial_radius)
+    bounds = None
+    if reference:
+        reference = np.array(reference)
+        low, high = reference.min(axis=0), reference.max(axis=0)
+        padding = np.maximum((high-low)*.05, rig.data.bones['Neck'].length*.05)
+        bounds = low-padding, high+padding
+    result = {}
+    height = max(p[:, 2].max() for p in points.values())-min(p[:, 2].min() for p in points.values())
+    for obj in meshes:
+        p = points[obj.name]
+        ids = {i for i in hair[obj.name] if p[i, 2] >= head_z}
+        for component in components(obj.data):
+            strand = sorted(set(component) & hair[obj.name])
+            if len(strand) < 8:
+                continue
+            z = p[strand, 2]
+            fixed_end = hair_free_top(p[strand], height,
+                                      rig.data.bones['Neck'].head_local.z,
+                                      rig.data.bones['Head'].tail_local.z)
+            if fixed_end is not None:
+                # Long connected strips attach at the cap, even when their
+                # hanging section begins above the anatomical head joint.
+                ids.difference_update(i for i in strand if p[i, 2] < fixed_end)
+                ids.update(i for i in strand if p[i, 2] >= fixed_end)
+        if bounds is not None:
+            low, high = bounds
+            ids.update(i for i in skin[obj.name] if p[i, 2] >= head_z
+                       and np.all(p[i] >= low) and np.all(p[i] <= high))
+        if ids:
+            result[obj.name] = sorted(ids)
+    return result
+
+
+def enforce_head_cap(meshes, rig):
+    cap = head_cap_vertices(meshes, rig)
+    for obj in meshes:
+        if obj.name in cap:
+            assign(obj, cap[obj.name], {'Head': 1.})
+    return cap
+
+
 def smooth(low, high, value):
     t = max(0., min(1., (value-low)/(high-low)))
     return t*t*(3-2*t)
@@ -264,4 +359,6 @@ def correct_apparel(meshes, rig, rigid_parts):
         audit['regions'].append({'mesh':obj.name, 'vertices':len(ids), 'role':role,
                                  'reason':r['reason'], 'weight_source':source,
                                  'bounds_min':list(r['low']), 'bounds_max':list(r['high'])})
+    cap = enforce_head_cap(meshes, rig)
+    audit['rigid_head_cap_vertices'] = {name:len(ids) for name, ids in cap.items()}
     return audit
