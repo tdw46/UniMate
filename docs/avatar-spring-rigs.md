@@ -334,3 +334,39 @@ would reintroduce the previously fixed rest-pose displacement. Further cloth
 clearance work must address the rest garment surface and panel skinning/chain
 coverage while retaining standard exported VRM shapes; editable collider meshes
 are not a solution. Evidence: `outputs/vrm_collider_fit_20260924/`.
+
+## Continuous leg capsules, revision 6
+
+Skirt colliders now use one standard VRM capsule per upper/lower leg, with its
+center segment exactly on the bone head/tail. The radius remains fitted to body
+samples and limited by rest spring/garment clearance. Hair fitting is unchanged.
+Belle has four skirt capsules and five hair/body capsules; refitting removes
+the previous section records and their display objects through the VRM API.
+
+`diagnose_skirt_collision.py` compares the current setup, continuous capsules,
+combined sections, coaxial sections, per-chain capsules, and sector-specific
+extended planes. Run with `--full --variant generated` for both upper legs,
+0% and 20% follow, and eight combinations of +/-30 degrees about local X/Z.
+Each case smoothly moves out and back over 91 frames at 60 Hz using BVT only.
+The optional `--bvt-runtime-only` flag loads the installed, unmodified BVT solver
+without its unrelated UI modules for isolated testing; it is never used live.
+
+Across 32 cases, exact spring-segment crossings dropped from 4.14 mm to zero.
+The collision spheres retain up to 0.79 mm of penetration after BVT's length
+projection, compared with 6.21 mm before. These are different metrics: zero
+segment crossings does not mean perfectly separated collision spheres or cloth.
+No spring/collider overlap was introduced at rest. Nine-avatar generation,
+repeated-refit object counts, attachment movement, and VRM export/re-import pass.
+
+Rendered front/back diagnostics still show skirt/thigh clipping. The source has
+234 skirt/body triangle intersections at rest; sampled intersections over the
+matrix were 35,595 before and 35,707 after. This collider change improves spring
+containment, **not** overall cloth-surface clearance. Per-chain volumes reduced
+that sample count to 34,800 but required substantially more collider references
+and did not eliminate clipping. Sector planes increased contact error and can
+fight fixed roots when legs rotate, so they are not generated. A collision-free
+skinned surface will require separate garment/weight/chain work or solver-level
+cloth contact beyond these exported endpoint colliders. BVT was not modified.
+
+Evidence: `docs/skirt-collision-sweep.json` and ignored artifacts under
+`outputs/skirt_collision_sweep_20260924/`.

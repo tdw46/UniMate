@@ -1,0 +1,100 @@
+{
+  "test": {
+    "degrees": 30,
+    "follow": [
+      0,
+      0.2
+    ],
+    "upper_legs": [
+      "left",
+      "right"
+    ],
+    "local_axes": [
+      "X",
+      "Z",
+      "X followed by Z"
+    ],
+    "rotations_per_leg": 8,
+    "frames_per_case": 91,
+    "hz": 60,
+    "motion": "sin(pi * t)^2 out and back",
+    "solver": "Installed BVT, unmodified",
+    "first_six_case_segment_metric": "interior quarter samples; full matrix uses exact segment distance"
+  },
+  "variants": {
+    "baseline": {
+      "cases": 6,
+      "max_hit_sphere_penetration_m": 0.006208222742466317,
+      "max_spring_segment_penetration_m": 0.0022026472554363026,
+      "sampled_triangle_pairs": 6697,
+      "rest_triangle_pairs": 234
+    },
+    "full": {
+      "cases": 6,
+      "max_hit_sphere_penetration_m": 0.0006451877456317284,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 6633,
+      "rest_triangle_pairs": 234
+    },
+    "combined": {
+      "cases": 6,
+      "max_hit_sphere_penetration_m": 0.0035352513774969813,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 6701,
+      "rest_triangle_pairs": 234
+    },
+    "tapered": {
+      "cases": 6,
+      "max_hit_sphere_penetration_m": 0.0008572368996885016,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 6643,
+      "rest_triangle_pairs": 234
+    },
+    "planes_fixed": {
+      "cases": 6,
+      "max_hit_sphere_penetration_m": 0.04148323833942413,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 6379,
+      "rest_triangle_pairs": 234
+    },
+    "per_chain": {
+      "cases": 6,
+      "max_hit_sphere_penetration_m": 0.0008540063254139502,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 6582,
+      "rest_triangle_pairs": 234
+    },
+    "baseline_matrix": {
+      "cases": 32,
+      "max_hit_sphere_penetration_m": 0.006208222742466317,
+      "max_spring_segment_penetration_m": 0.004139926550892001,
+      "sampled_triangle_pairs": 35595,
+      "rest_triangle_pairs": 234
+    },
+    "generated_matrix": {
+      "cases": 32,
+      "max_hit_sphere_penetration_m": 0.0007853672715051677,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 35707,
+      "rest_triangle_pairs": 234
+    },
+    "per_chain_matrix": {
+      "cases": 32,
+      "max_hit_sphere_penetration_m": 0.0008540063254139502,
+      "max_spring_segment_penetration_m": 0.0,
+      "sampled_triangle_pairs": 34800,
+      "rest_triangle_pairs": 234
+    }
+  },
+  "chosen": "generated_matrix",
+  "remaining_limitations": [
+    "Residual collision-sphere overlap from length projection",
+    "Skirt mesh clipping persists; mesh intersections existed at rest and were not improved overall by continuous capsules"
+  ],
+  "export": {
+    "colliders": 9,
+    "groups": 2,
+    "maximum_parenting_error": 1.2731557704981462e-07,
+    "maximum_roundtrip_error": 3.753680588605538e-07
+  }
+}

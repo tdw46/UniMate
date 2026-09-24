@@ -64,18 +64,19 @@ def plan_colliders(rig, meshes, material_roles=None):
             bone=rig.data.bones.get(name)
             if not bone:continue
             local=[bone.matrix_local.inverted()@p for p,w in skin if w.get(name,0)>.4]
-            sections=3 if 'leg' in semantic else 1
+            # Leg contact needs a continuous, straight surface. Independent
+            # offset sections create changes in the contact normal that let a
+            # low-follow spring slide between volumes after length projection.
+            # Use the actual bone head/tail for the capsule center segment.
+            sections=1
             for section in range(sections):
                 lo=section/sections*bone.length;hi=(section+1)/sections*bone.length
                 band=np.array([tuple(p) for p in local if lo<=p.y<=hi])
-                center=np.median(band[:,(0,2)],axis=0) if len(band)>=4 else np.zeros(2)
+                center=np.median(band[:,(0,2)],axis=0) if role!='skirt' and len(band)>=4 else np.zeros(2)
                 radius=float(np.quantile(np.linalg.norm(band[:,(0,2)]-center,axis=1),.85)) if len(band)>=4 else bone.length*.12
                 radius=min(radius,(bone.length if role=='skirt' else hi-lo)*.45)
-                # Overlap adjacent leg sections instead of shrinking every
-                # capsule to a tiny disconnected sphere. Rounded ends remain
-                # inside the whole bone's longitudinal extent.
-                a_y=max(radius,lo) if role=='skirt' else lo+radius
-                b_y=min(bone.length-radius,hi) if role=='skirt' else hi-radius
+                a_y=0. if role=='skirt' else lo+radius
+                b_y=bone.length if role=='skirt' else hi-radius
                 a=Vector((center[0],a_y,center[1]));b=Vector((center[0],max(a_y,b_y),center[1]))
                 world_a=bone.matrix_local@a;world_b=bone.matrix_local@b
                 limit=min(segment_distance(p,world_a,world_b)-hit-margin for p,hit,_ in samples+garment)
@@ -153,7 +154,7 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
             bpy.context.view_layer.objects.active=bpy.context.view_layer.objects.get(active_name) if active_name else None
             bpy.context.view_layer.update()
     plan.update(colliders=len(plan['collider_details']),collider_groups=len(groups))
-    rig['unimate_collider_generator']=5
+    rig['unimate_collider_generator']=6
     return plan
 
 

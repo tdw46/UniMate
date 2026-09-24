@@ -91,7 +91,7 @@ for _ in range(3):
     assert all(o.show_in_front and not o.hide_viewport and not o.hide_get() for o in collection.objects)
     assert hair <= {c.uuid for c in sb.colliders}
 assert counts[0] == counts[1] == counts[2], counts
-assert counts[0][:2] == (17, 34), counts
+assert counts[0][:2] == (9, 18), counts
 assert len(source.data.vrm_addon_extension.spring_bone1.colliders) == source_count
 assert all(n in bpy.data.objects for n in source_names)
 archive = bpy.data.collections['Belle_arm - Original comparison']
@@ -106,7 +106,7 @@ assert archive_colliders(source, archive, legacy) == 447
 assert len(archive.children) == 1
 assert not cleanup_orphan_displays(rig)
 show_colliders(rig, True)
-report = dict(repeated_refit_counts=counts, generated_display_objects=34,
+report = dict(repeated_refit_counts=counts, generated_display_objects=18,
               front_enabled=True, object_hide_flags_clear=True,
               collection_toggle_tested=True, hidden_colliders_follow_bones=True, orphan_recovery=True,
               artist_references_preserved=True, original_vrm_displays_preserved=len(source_names),
@@ -117,6 +117,6 @@ bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'validated.blend'))
 bpy.ops.wm.open_mainfile(filepath=str(OUT/'validated.blend'))
 rig = bpy.data.objects['Belle_arm_UniMate']
 collection = collider_collection(rig)
-assert collection and len(collection.objects) == 34 and not collection.hide_viewport
+assert collection and len(collection.objects) == 18 and not collection.hide_viewport
 assert all(o.show_in_front and not o.hide_viewport for o in collection.objects)
 print('COLLIDER_LIFECYCLE_OK', json.dumps(report), flush=True)
