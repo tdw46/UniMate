@@ -13,6 +13,11 @@ not regenerate weights, assign spring centers, or overwrite its configuration.
   is capped by spring endpoint and skirt surface clearance in the rest pose.
   The operator reports how many radii were capped. This prevents initial
   collider overlap; it does not guarantee clipping-free motion.
+- **Refit Skirt Colliders** rebuilds only generated skirt capsules through the
+  official VRM API and resets their thickness multiplier to 1x. It preserves
+  hair/artist groups and the current body pose.
+- **Show/Hide VRM Colliders** displays the actual schema-referenced empties,
+  independent of old MMD rigid-body meshes retained for comparison.
 - **Skirt/Hair Springs** expose drag, root stiffness and gravity separately.
   Stiffness preserves its taper along the chain. Existing spring centers remain
   unchanged; generated springs have no center unless explicitly requested.

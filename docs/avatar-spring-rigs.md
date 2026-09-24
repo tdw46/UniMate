@@ -299,3 +299,38 @@ matching stationary BVT runs: springs react without a center, while an explicit
 Hips center compensates hips-joint translation. Whole-object behavior remains
 BVT-owned and is recorded separately. The live Belle setup has all 90 spring
 centers cleared.
+
+
+## VRM collider API and coverage revision 5
+
+`avatar_vrm_colliders.py` owns the integration boundary. It creates colliders
+and groups through the official VRM `add_collider()` / `add_collider_group()`
+methods, falling back to the corresponding VRM operators on older schemas.
+Removal uses official operators so UUID references and active indices stay
+consistent. Capsule type, bone attachment, offset, tail and radius are written
+through VRM RNA. No collider mesh is created or deformed. Capsule generation
+requires VRM 1; the visibility helper also understands VRM 0 sphere references.
+
+Leg capsules now overlap adjacent fitted sections instead of being shortened
+inside every third of a limb. Radius limits still include spring hit radii and
+rest garment clearance. A skirt-only refit preserves hair collider objects,
+artist groups and body pose, and rejects groups shared with artist springs.
+The Hallway panel exposes refit and display controls. The MMD installer disables
+legacy rigid-body mesh viewport display so ordinary Unhide does not make the
+inactive comparison volumes look like the generated VRM colliders.
+
+On the posed Belle snapshot, all 17 active colliders were already VRM empties
+with correct bone parents. The 395 stationary colored mesh volumes were legacy
+MMD rigid bodies. The new fit keeps 12 skirt capsules and 5 hair-body capsules.
+`validate_vrm_colliders.py` tests local X/Z leg rotations, armature translation,
+zero spring/collider overlap at rest, and real VRM export/re-import including
+capsule shape parameters, bone references and collider-group references.
+
+The overlapping fit modestly reduces triangle intersections in the raised-leg
+fixture; it does not eliminate skirt penetration. The rest mesh itself contains
+skirt/pants and skirt/skin intersections, and VRM collision acts on spring joint
+endpoints rather than every skinned cloth triangle. Enlarging capsules globally
+would reintroduce the previously fixed rest-pose displacement. Further cloth
+clearance work must address the rest garment surface and panel skinning/chain
+coverage while retaining standard exported VRM shapes; editable collider meshes
+are not a solution. Evidence: `outputs/vrm_collider_fit_20260924/`.

@@ -37,6 +37,47 @@ class HALLWAY_OT_ApplyRigSettings(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class HALLWAY_OT_ShowColliders(bpy.types.Operator):
+    bl_idname = 'hallway.show_colliders'
+    bl_label = 'Show VRM Colliders'
+    bl_options = {'REGISTER', 'UNDO'}
+    visible: bpy.props.BoolProperty(default=True)
+
+    @classmethod
+    def poll(cls, context):
+        rig = active_rig(context)
+        return bool(rig and hasattr(rig.data, 'vrm_addon_extension'))
+
+    def execute(self, context):
+        from avatar_vrm_colliders import show_colliders
+        show_colliders(active_rig(context), self.visible)
+        return {'FINISHED'}
+
+
+class HALLWAY_OT_RefitSkirtColliders(bpy.types.Operator):
+    bl_idname = 'hallway.refit_skirt_colliders'
+    bl_label = 'Refit Skirt Colliders'
+    bl_description = 'Refit generated skirt capsules through the VRM API; preserve hair and artist collider groups'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context):
+        rig = active_rig(context)
+        return bool(rig and rig.mode != 'EDIT' and hasattr(rig.data, 'vrm_addon_extension')
+                    and rig.data.vrm_addon_extension.spec_version == '1.0')
+
+    def execute(self, context):
+        from avatar_colliders import rebuild_colliders
+        rig = active_rig(context)
+        meshes = [obj for obj in context.scene.objects if obj.type == 'MESH'
+                  and any(m.type == 'ARMATURE' and m.object == rig for m in obj.modifiers)]
+        report = rebuild_colliders(rig, meshes, collider_roles=('skirt',))
+        settings = initialize(rig)
+        settings.skirt_thickness = 1.
+        self.report({'INFO'}, f"Fitted {report['colliders']} VRM skirt capsules; thickness reset to 1x")
+        return {'FINISHED'}
+
+
 class HALLWAY_PT_Rig(bpy.types.Panel):
     bl_label = 'Rig Configuration'
     bl_idname = 'HALLWAY_PT_Rig'
@@ -72,6 +113,11 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
         if 'Skirt' in settings.spring_groups:
             col.prop(settings, 'skirt_thickness', text='Skirt Thickness')
             col.label(text='Limited by rest clearance', icon='INFO')
+            col.operator('hallway.refit_skirt_colliders')
+        from avatar_vrm_colliders import display_objects
+        visible = any(obj.visible_get() for obj in display_objects(rig)) if hasattr(rig.data, 'vrm_addon_extension') else False
+        op = col.operator('hallway.show_colliders', text='Hide VRM Colliders' if visible else 'Show VRM Colliders')
+        op.visible = not visible
         for group in settings.spring_groups:
             box = col.box()
             box.label(text=group.name + ' Springs')
@@ -89,7 +135,7 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
         box.operator('hallway.configure_rig', text='Refresh Bone Organization')
 
 
-CLASSES = (HALLWAY_OT_ConfigureRig, HALLWAY_OT_ApplyRigSettings, HALLWAY_PT_Rig)
+CLASSES = (HALLWAY_OT_ConfigureRig, HALLWAY_OT_ApplyRigSettings, HALLWAY_OT_ShowColliders, HALLWAY_OT_RefitSkirtColliders, HALLWAY_PT_Rig)
 
 
 def register():

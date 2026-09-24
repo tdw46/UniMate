@@ -1,0 +1,67 @@
+{
+  "fixture": "Belle",
+  "blender": "5.2.2",
+  "original_stale_mmd_rigid_body_meshes": 395,
+  "active_vrm_capsules": 17,
+  "api": "Official VRM schema creation methods with operator fallback; official removal operators and shape RNA setters",
+  "export_roundtrip": {
+    "colliders": 17,
+    "groups": 2,
+    "maximum_parenting_error": 1.6340398937062404e-07,
+    "maximum_roundtrip_error": 3.753680588605538e-07
+  },
+  "rest_clearance": {
+    "pairs": 2136,
+    "contacts": [],
+    "minimum_clearance": 0.0023757399207912297
+  },
+  "before_triangle_intersections": {
+    "rest": [
+      240,
+      240,
+      240
+    ],
+    "user": [
+      263,
+      268,
+      268
+    ],
+    "forward": [
+      220,
+      230,
+      230
+    ],
+    "outward": [
+      291,
+      283,
+      283
+    ]
+  },
+  "after_triangle_intersections": {
+    "rest": [
+      240,
+      240,
+      240
+    ],
+    "user": [
+      261,
+      264,
+      264
+    ],
+    "forward": [
+      220,
+      230,
+      230
+    ],
+    "outward": [
+      279,
+      279,
+      279
+    ]
+  },
+  "remaining_penetration": true,
+  "generalization_avatars": 9,
+  "scope": "Collider API, attachment, exportability, and modest coverage improvement; not complete cloth collision",
+  "repeat_refit_stable": true,
+  "hair_collider_ids_preserved": true
+}

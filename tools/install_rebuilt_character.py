@@ -87,7 +87,7 @@ def install(directory):
     for obj in bpy.context.scene.objects:
         if getattr(obj,'mmd_type',None)=='RIGID_BODY':
             legacy.append(dict(name=obj.name,hide_render=obj.hide_render,hide_viewport=obj.hide_viewport,hide_set=obj.hide_get()))
-            obj.hide_set(True);obj.hide_render=True
+            obj.hide_set(True);obj.hide_viewport=True;obj.hide_render=True
     if bpy.context.scene.rigidbody_world:bpy.context.scene.rigidbody_world.enabled=False
     for collider in rig.data.vrm_addon_extension.spring_bone1.colliders:
         if collider.bpy_object:
