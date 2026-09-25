@@ -30,6 +30,9 @@ def run(source,output):
     sb=rig.data.vrm_addon_extension.spring_bone1
     counts=lambda:(len(rig.data.bones),len(sb.springs),len(sb.colliders),len(sb.collider_groups))
     first=counts();install_skirt_contact_rig(rig,meshes);assert counts()==first
+    skirt_chains=[s for s in sb.springs if s.vrm_name.startswith('Secondary_Skirt_')]
+    assert all('_Contact_' not in s.vrm_name for s in skirt_chains)
+    assert all(len(s.joints)>2 for s in skirt_chains)
     hum=rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
     thighs=[getattr(hum,s+'_upper_leg').node.bone_name for s in ('left','right')]
     colliders={c.uuid:c for c in sb.colliders};groups={g.uuid:g for g in sb.collider_groups}

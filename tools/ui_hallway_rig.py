@@ -139,7 +139,7 @@ class HALLWAY_OT_RegenerateSecondary(bpy.types.Operator):
 class HALLWAY_OT_SkirtContacts(bpy.types.Operator):
     bl_idname = 'hallway.skirt_contacts'
     bl_label = 'Upgrade Skirt Contacts'
-    bl_description = 'Create segment-specific VRM contact guards while preserving mesh geometry and all skin weights'
+    bl_description = 'Fit ordered VRM skirt chains and body-sized contact guards while preserving mesh geometry and all skin weights'
     bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod

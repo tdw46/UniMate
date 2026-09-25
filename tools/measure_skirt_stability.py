@@ -13,7 +13,7 @@ from avatar_colliders import segment_distance,spring_samples,plan_colliders
 from avatar_vrm_colliders import add_capsule,add_group,call_operator
 from avatar_apparel_weights import weights
 from properties_hallway_rig import initialize
-p=argparse.ArgumentParser();p.add_argument('source');p.add_argument('output');p.add_argument('--variant',default='baseline');p.add_argument('--full',action='store_true');p.add_argument('--yaw',action='store_true');p.add_argument('--bvt-runtime-only',action='store_true');p.add_argument('--follow',type=float,nargs='+');args=p.parse_args(sys.argv[sys.argv.index('--')+1:])
+p=argparse.ArgumentParser();p.add_argument('source');p.add_argument('output');p.add_argument('--variant',default='baseline');p.add_argument('--full',action='store_true');p.add_argument('--stress',action='store_true');p.add_argument('--loop-motion',action='store_true');p.add_argument('--yaw',action='store_true');p.add_argument('--bvt-runtime-only',action='store_true');p.add_argument('--follow',type=float,nargs='+');args=p.parse_args(sys.argv[sys.argv.index('--')+1:])
 out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
 for repo in bpy.context.preferences.extensions.repos:
     if repo.module=='user_default':repo.use_custom_directory=True;repo.custom_directory=str(Path.home()/'Documents/Blender/extensions/user_default')
@@ -64,14 +64,20 @@ from avatar_directional_contacts import install_directional_contacts,skirt_owner
 from avatar_mesh_invariant import snapshot,verify
 geometry=snapshot(meshes)
 settings.follow_groups['Skirt'].influence=.55;settings.spring_groups['Skirt'].drag=.4
+if args.variant.startswith('continuous'):
+ from avatar_continuous_contacts import merge_contact_segments
+ from avatar_contact_colliders import install_contact_colliders
+ from avatar_skirt_fit_io import rest_edit
+ with rest_edit(rig):
+  merge_contact_segments(rig);install_contact_colliders(rig,meshes)
 if args.variant!='baseline':
  from avatar_skirt_fit_io import rest_edit
  with rest_edit(rig):
-  setup=install_directional_contacts(rig,meshes,1. if args.variant in ('pelvisflat','pelvisdetail','pelvishybrid','compactown') else .5,0.,rest_envelope=True,side_scoped=True,smooth_fallback=args.variant in ('smooth','soft','physical','physicalsoft','pelvis','pelvisflat'),opposite_fallback=args.variant.startswith('physical') or args.variant.startswith('pelvis') or args.variant=='compactown',pelvis_support=args.variant.startswith('pelvis'),opposite_full_only=args.variant in ('pelvishybrid','compactown'))
+  setup=install_directional_contacts(rig,meshes,1. if args.variant in ('pelvisflat','pelvisdetail','pelvishybrid','compactown') else .5,0.,rest_envelope=True,side_scoped=True,smooth_fallback=args.variant in ('smooth','soft','physical','physicalsoft','pelvis','pelvisflat'),opposite_fallback=args.variant.startswith('continuous') or args.variant.startswith('physical') or args.variant.startswith('pelvis') or args.variant=='compactown',pelvis_support=args.variant.startswith('pelvis') or args.variant=='continuous',opposite_full_only=args.variant in ('pelvishybrid','compactown','continuous','continuousown'))
  if args.variant in ('soft','physicalsoft'):settings.spring_groups['Skirt'].stiffness*=.5
 skirt_springs=[s for s in sb.springs if s.vrm_name.startswith('Secondary_Skirt_')]
-tips=[s.joints[-1].node.bone_name for s in skirt_springs]
-owners=[skirt_owner_leg(rig,s,legs) for s in skirt_springs]
+tips=[j.node.bone_name for s in skirt_springs for j in s.joints[1:]]
+owners=[skirt_owner_leg(rig,s,legs) for s in skirt_springs for j in s.joints[1:]]
 def positions():return np.array([rig.matrix_world@rig.pose.bones[n].head for n in tips])
 def surfaces():
  vertices=[];st=[];lt=[]
@@ -82,22 +88,40 @@ def surfaces():
  return len(BVHTree.FromPolygons(vertices,st,all_triangles=True).overlap(BVHTree.FromPolygons(vertices,lt,all_triangles=True)))
 results=[]
 for side in range(2):
- for x,z,y in [(30,0,0),(0,30,0),(-30,-30,-30)]:
+ for x,z,y in ([(65,0,0),(0,60,0),(-60,-45,30)] if args.stress else [(30,0,0),(0,30,0),(-30,-30,-30)]):
   set_simulation(False)
   for pb in rig.pose.bones:pb.matrix_basis=Matrix.Identity(4)
   bpy.context.view_layer.update();set_simulation(True)
   for _ in range(90):background_step(1/60)
   start=positions();history=[];counts=[]
-  for f in range(240):
-   t=(1-math.cos(math.pi*min(f,89)/89))/2 if f<90 else 1. if f<180 else (1+math.cos(math.pi*(f-180)/59))/2
-   pb=rig.pose.bones[legs[side]];pb.rotation_mode='QUATERNION';pb.rotation_quaternion=Quaternion((1,0,0),math.radians(x)*t)@Quaternion((0,0,1),math.radians(z)*t)@Quaternion((0,1,0),math.radians(y)*t)
+  ramp=8 if args.stress else 90; hold=180 if args.stress else 90; end=ramp+hold; returning=8 if args.stress else 60; total=end+returning+(90 if args.stress else 0)
+  if args.loop_motion:total=360;ramp=120;end=270;returning=8
+  for f in range(total):
+   t=(1-math.cos(math.pi*f/(ramp-1)))/2 if f<ramp else 1. if f<end else (1+math.cos(math.pi*min(f-end,returning-1)/(returning-1)))/2
+   ax,az,ay=x*t,z*t,y*t
+   if args.loop_motion and f<120:
+    phase=math.tau*f/24; ax=65*math.sin(phase);az=60*math.cos(phase);ay=30*math.sin(phase*.5)
+   pb=rig.pose.bones[legs[side]];pb.rotation_mode='QUATERNION';pb.rotation_quaternion=Quaternion((1,0,0),math.radians(ax))@Quaternion((0,0,1),math.radians(az))@Quaternion((0,1,0),math.radians(ay))
    bpy.context.view_layer.update();background_step(1/60);bpy.context.view_layer.update();history.append(positions())
-   if f in (45,89,120,150,179,210,239):counts.append(surfaces())
-  h=np.asarray(history);np.save(out/f'positions_{side}_{x}_{z}_{y}.npy',h);quiet=h[120:180];acc=np.diff(quiet,n=2,axis=0);speed=np.diff(quiet,axis=0)
+   if f==end-1:
+    deepest=0.;penetrating=0
+    cmap={c.uuid:c for c in sb.colliders};gmap={g.uuid:g for g in sb.collider_groups}
+    for spring in skirt_springs:
+     for h,tj in zip(spring.joints,spring.joints[1:]):
+      point=rig.pose.bones[tj.node.bone_name].head
+      for ref in spring.collider_groups:
+       for cr in gmap[ref.collider_group_uuid].colliders:
+        c=cmap[cr.collider_uuid];shape=c.shape.capsule;m=rig.pose.bones[c.node.bone_name].matrix
+        depth=shape.radius+h.hit_radius-segment_distance(point,m@Vector(shape.offset),m@Vector(shape.tail))
+        deepest=max(deepest,depth);penetrating+=depth>1e-4
+   if f in (ramp//2,ramp-1,end-60,end-30,end-1,end+returning//2,total-1):counts.append(surfaces())
+  h=np.asarray(history);np.save(out/f'positions_{side}_{x}_{z}_{y}.npy',h);quiet=h[end-60:end];acc=np.diff(quiet,n=2,axis=0);speed=np.diff(quiet,axis=0)
   opposite=np.array([n!=legs[side] for n in owners])
   row=dict(side=side,angles=[x,z,y],surfaces=counts,hold_jitter_rms_mm=float(np.sqrt(np.mean(acc*acc))*1000),hold_step_rms_mm=float(np.sqrt(np.mean(speed*speed))*1000),opposite_excursion_mm=float(np.max(np.linalg.norm(h[:,opposite]-start[None,opposite],axis=2)))*1000)
-  row['motion_jerk_rms_mm']=float(np.sqrt(np.mean(np.diff(h[5:85],n=3,axis=0)**2))*1000)
-  row['return_jerk_rms_mm']=float(np.sqrt(np.mean(np.diff(h[185:235],n=3,axis=0)**2))*1000)
+  row['motion_jerk_rms_mm']=float(np.sqrt(np.mean(np.diff(h[:ramp],n=3,axis=0)**2))*1000)
+  row['return_jerk_rms_mm']=float(np.sqrt(np.mean(np.diff(h[end:end+returning],n=3,axis=0)**2))*1000)
+  row['hold_collider_penetrations']=penetrating;row['hold_collider_depth_mm']=deepest*1000
+  row['rest_return_error_mm']=float(np.max(np.linalg.norm(h[-1]-start,axis=1)))*1000
   results.append(row);print('STABILITY',args.variant,json.dumps(row),flush=True)
 set_simulation(False)
 for pb in rig.pose.bones:pb.matrix_basis=Matrix.Identity(4)

@@ -237,6 +237,11 @@ from the installed BVT addon. The project contains no independent solver.
 The **Hallway** sidebar uses `bpy.ops.bvt.set_spring_simulation`; rig generation
 continues to use our own code and the official VRM RNA schema.
 
+Skirt physics now uses continuous, ordered VRM chains with body-sized contact
+capsules. Existing segmented rigs are upgraded by **Refit Skirt Colliders**;
+rest geometry, weights, bone frames and spring tuning are preserved. See
+`docs/skirt-contact-design.md` for fast-motion evidence and remaining limitations.
+
 Each spring group has a saved **Non-root Stiffness** slider below **Root
 Stiffness** (`hallway_rig.spring_groups[...].non_root_stiffness`). It multiplies
 the existing taper below each original simulated chain root: `1.0` preserves

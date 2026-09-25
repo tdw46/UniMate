@@ -1,5 +1,54 @@
 # Portable skirt contact: pose fitting and validation
 
+## Ordered skirt chains (2026-09-25, current generation)
+
+The production generator now keeps each skirt strip in one continuous VRM spring
+chain. It upgrades older segment-per-simulation setups by joining their original
+deform joints in hierarchy order and retaining only the last tip as a spring
+terminal. Rest frames, parent relationships, geometry, weights, and each simulated
+joint's stiffness/drag/gravity/hit radius are unchanged. Old helper bones remain
+unanimated leaves; no generated mesh uses them. Hair springs are untouched.
+
+This removes inter-simulation parent dependencies. The VRM specification defines
+ordered updates within a chain but leaves execution order between branching
+chains undefined. The previous split arrangement also gave each segment a
+separate collision scope and could settle into a different collision basin after
+reversals. The new setup rebuilds one rest-clear collider group per complete skirt
+chain. Support radii remain capped by body thickness; owning-side attachment,
+stationary pelvis support, and physical cross-leg fallback remain in place.
+On Belle that reduces support capsules from 96 to 24, total colliders from 133 to
+61, and total springs from 126 to 90, without reducing simulated skirt segments.
+
+The fast diagnostic moves either leg through 60–65 degrees in eight 60 Hz steps,
+holds for three seconds, returns in eight steps, then settles. It includes local
+X, local Z, and combined X/Z/Y rotations. A second diagnostic adds five rapid
+loops before the hold and return, exercising path-dependent trapped states.
+
+Compared with the committed segmented setup, with identical spring settings:
+
+- Mean third-difference motion proxy decreases 56.9% on the fast outward ramp
+  and 64.5% on return; in the repeated loops it decreases 76.5%.
+- A reproduced trapped state after repeated motion remains 408.2 mm away from
+  its settled initial position with split simulations. All continuous-chain
+  return errors are below 0.5 mm in this diagnostic.
+- Static-hold jitter was not reproduced in either version. This does not prove
+  that every interactive hold pose is stable.
+- Sampled skirt/body triangle-overlap pairs increase 2.4% in the fast-ramp set
+  and decrease 2.8% in the loop set. Mesh clipping remains unresolved. Some held
+  endpoints still have small collider penetrations after length projection.
+- Repeated installation produces no count growth; geometry, UVs, existing shape
+  keys, weights and live settings remain unchanged. Native VRM export has no
+  extended colliders or shared spring joints. The official three-vrm runtime
+  loads and steps the export without warnings.
+
+Results: `docs/skirt-fast-motion-results.json`; detailed comparisons, source
+copies and export: `outputs/skirt_fast_motion_20260925/`. The standalone test
+uses the installed BVT solver; Hallway adds no solver, frame handler, or pose
+correction callback. Collider-only fitting cannot guarantee collision-free
+arbitrary teleports or full cloth self-collision.
+
+Spec: https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_springBone-1.0/README.md
+
 ## Body-sized support capsules (2026-09-25)
 
 The thigh-length guard radius was too broad: Belle had 96 support capsules with

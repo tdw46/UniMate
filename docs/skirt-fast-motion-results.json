@@ -1,0 +1,26 @@
+{
+  "fast": {
+    "motion_jerk_rms_mm_improvement_percent": 56.86823479470888,
+    "return_jerk_rms_mm_improvement_percent": 64.47242451631735,
+    "baseline_max_return_error_mm": 0.4739788710139692,
+    "continuous_max_return_error_mm": 0.48077566316351295,
+    "triangle_pair_change_percent": 2.384853449845248,
+    "held_jitter_reproduced": false
+  },
+  "loop": {
+    "motion_jerk_rms_mm_improvement_percent": 76.52750845781071,
+    "return_jerk_rms_mm_improvement_percent": 62.38179438270567,
+    "baseline_max_return_error_mm": 408.2218110561371,
+    "continuous_max_return_error_mm": 0.48079813132062554,
+    "triangle_pair_change_percent": -2.766762797404465,
+    "held_jitter_reproduced": false
+  },
+  "parameters": {
+    "follow": 0.55,
+    "drag": 0.4,
+    "root_stiffness": 1.42,
+    "non_root_stiffness": 1.0
+  },
+  "source": "outputs/skirt_fast_motion_20260925",
+  "notes": "Numerical BVT diagnostics, not rendered or visual validation; clipping and arbitrary-motion guarantees remain unresolved."
+}

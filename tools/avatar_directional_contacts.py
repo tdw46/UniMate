@@ -190,20 +190,27 @@ def install_skirt_contact_rig(rig,meshes):
     from avatar_apparel_weights import weights
     from avatar_bone_collections import organize_bones
     from properties_hallway_rig import initialize
+    from avatar_continuous_contacts import merge_contact_segments
+    from avatar_contact_colliders import install_contact_colliders
     before=snapshot(meshes)
     binding={o.name:[weights(o,v.index) for v in o.data.vertices] for o in meshes}
     springs=[s for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith('Secondary_Skirt_')]
     if not springs:return dict(guards=0,segments=0)
-    split=['_Contact_' in s.vrm_name for s in springs]
-    if any(split) and not all(split):raise ValueError('Mixed old and segmented skirt springs; regenerate the secondary rig')
     with rest_edit(rig):
-        if not any(split):split_contact_segments(rig)
+        # VRM evaluates a continuous chain in order. Separate simulations for
+        # dependent segments can feed stale parent poses into the next segment
+        # and get stuck in a different collision basin after a fast reversal.
+        # Merge only our generated segments; all deform bones/weights stay put.
+        merge_contact_segments(rig)
+        install_contact_colliders(rig,meshes)
         report=install_directional_contacts(rig,meshes,radius_factor=1.,fan_degrees=0.,
             rest_envelope=True,side_scoped=True,opposite_fallback=True,pelvis_support=True,opposite_full_only=True)
         initialize(rig);organize_bones(rig)
         verify(meshes,before)
         if binding!={o.name:[weights(o,v.index) for v in o.data.vertices] for o in meshes}:
             raise RuntimeError('Contact generation unexpectedly changed skin weights')
-        rig['hallway_skirt_contact_rig']=3
-        report['segments']=sum(s.vrm_name.startswith('Secondary_Skirt_') for s in rig.data.vrm_addon_extension.spring_bone1.springs)
+        rig['hallway_skirt_contact_rig']=4
+        chains=[s for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith('Secondary_Skirt_')]
+        report['chains']=len(chains)
+        report['segments']=sum(len(s.joints)-1 for s in chains)
     return report
