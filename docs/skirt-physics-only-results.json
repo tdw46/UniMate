@@ -1,0 +1,171 @@
+{
+  "runtime": "BVT only; standard VRM capsules, no vertex edits or direct leg weights",
+  "pilots": {
+    "segmentguards_05_25_rest_nearest": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 5955,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.0034740876784838393
+    },
+    "patchguards_05_0_rest": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 5842,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.006518154388532815
+    },
+    "dense_baseline": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 6386,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.0030544907743452338
+    },
+    "guards_05_0": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 6349,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.0019495639128546682
+    },
+    "physics_full": {
+      "motions": 56,
+      "samples": 224,
+      "triangle_pairs": 50316,
+      "new_triangle_pairs": 27755,
+      "maximum_spring_contact_residual_m": 0.010465186191253528
+    },
+    "segmentguards_2_25": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 5657,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.01565275740552774
+    },
+    "live_follow": {
+      "motions": 28,
+      "samples": 112,
+      "triangle_pairs": 23888,
+      "new_triangle_pairs": 11890,
+      "maximum_spring_contact_residual_m": 0.0024603048309430053
+    },
+    "baseline_full": {
+      "motions": 56,
+      "samples": 224,
+      "triangle_pairs": 59233,
+      "new_triangle_pairs": 31139,
+      "maximum_spring_contact_residual_m": 0.002641311605118199
+    },
+    "segmentguards_05_0_rest": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 5574,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.0028723096888253474
+    },
+    "guards_2_25": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 5950,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.016129302926244926
+    },
+    "segmentguards_2_0": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 6155,
+      "new_triangle_pairs": null,
+      "maximum_spring_contact_residual_m": 0.015676584936854643
+    },
+    "contact_order": {
+      "motions": 6,
+      "samples": 24,
+      "triangle_pairs": 5542,
+      "new_triangle_pairs": 3001,
+      "maximum_spring_contact_residual_m": 0.0028723096888253474
+    },
+    "soft_025": {
+      "motions": 6,
+      "triangle_pairs": 5677,
+      "new_triangle_pairs": 3476,
+      "maximum_spring_contact_residual_m": 0.0011464773152572438
+    },
+    "soft_05": {
+      "motions": 6,
+      "triangle_pairs": 5554,
+      "new_triangle_pairs": 3170,
+      "maximum_spring_contact_residual_m": 0.00185849127769655
+    }
+  },
+  "export": {
+    "changed_vertices": 0,
+    "maximum_rest_displacement": 0.0,
+    "maximum_shape_key_delta_error": 0.0,
+    "uv_material_slots_preserved": true,
+    "topology_preserved": true,
+    "removed_hidden_cap_faces": 0,
+    "weights_preserved": null,
+    "exported_colliders": 133,
+    "exported_springs": 126,
+    "unique_spring_joints": true,
+    "extended_colliders": 0
+  },
+  "production_test": {
+    "report": {
+      "guards": 96,
+      "minimum_rest_clearance": 0.00237581441787868,
+      "radius_factor": 0.5,
+      "fan_degrees": 0.0,
+      "segments": 48
+    },
+    "repeat_counts": [
+      640,
+      126,
+      133,
+      49
+    ],
+    "mesh_unchanged": true,
+    "weights_unchanged": true,
+    "stiffness_callback_passed": true
+  },
+  "regeneration_test": {
+    "counts": [
+      640,
+      126,
+      133,
+      49
+    ],
+    "mesh_preserved": true,
+    "repeat_no_duplicates": true,
+    "direct_skirt_leg_weights": 0
+  },
+  "limitations": [
+    "Residual mesh clipping remains, including combined rotations.",
+    "Triangle overlap counts are not penetration depth or visible area.",
+    "The broadest capsule guards had incompatible contacts and were rejected.",
+    "Contact residuals include conservative guard volumes; these are not penetration depth into the actual leg mesh.",
+    "External runtime check covers spring import and stepping, not renderer or mesh contact parity."
+  ],
+  "live": {
+    "weights_unchanged": true,
+    "skirt_vertices": 574,
+    "maximum_direct_leg_weight": 0,
+    "bones": 640,
+    "springs": 126,
+    "colliders": 133,
+    "groups": 49,
+    "directional_guards": 96,
+    "bvt": true,
+    "mode": "POSE",
+    "follow": [
+      [
+        "Skirt",
+        0.4000000059604645
+      ]
+    ],
+    "existing_shape_keys": [
+      52
+    ]
+  }
+}

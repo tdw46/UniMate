@@ -1,0 +1,1575 @@
+{
+  "selected": "pelvishybrid",
+  "metrics": "Third finite differences of spring endpoint positions during smooth input; abrupt-motion proxy, not a visual jitter rating. Overlaps count triangle pairs, not penetration depth.",
+  "variants": {
+    "baseline_motion": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            205,
+            183,
+            183,
+            183,
+            183,
+            208,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 51.15502327680588,
+          "motion_jerk_rms_mm": 0.6442378163337708,
+          "return_jerk_rms_mm": 0.5961834192276001
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            141,
+            137,
+            137,
+            137,
+            137,
+            138,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 138.42767477035522,
+          "motion_jerk_rms_mm": 0.601386308670044,
+          "return_jerk_rms_mm": 0.6461537480354309
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            251,
+            248,
+            238,
+            238,
+            238,
+            223,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 68.60474497079849,
+          "motion_jerk_rms_mm": 0.782383382320404,
+          "return_jerk_rms_mm": 0.8743062615394592
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            186,
+            176,
+            176,
+            176,
+            176,
+            190,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 89.6536111831665,
+          "motion_jerk_rms_mm": 0.6357786655426025,
+          "return_jerk_rms_mm": 0.6318405270576477
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            244,
+            267,
+            267,
+            267,
+            267,
+            229,
+            237
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 23.31940084695816,
+          "motion_jerk_rms_mm": 0.7952552437782288,
+          "return_jerk_rms_mm": 0.7022377848625183
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            202,
+            114,
+            114,
+            114,
+            114,
+            173,
+            234
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 177.04451084136963,
+          "motion_jerk_rms_mm": 0.5525929927825928,
+          "return_jerk_rms_mm": 0.629420816898346
+        }
+      ],
+      "colliders": 133,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 8281,
+      "mean_motion_jerk_rms_mm": 0.6686057349046072,
+      "mean_return_jerk_rms_mm": 0.6800237596035004
+    },
+    "pelvisdetail": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            200,
+            194,
+            194,
+            194,
+            194,
+            205,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5042117834091187,
+          "return_jerk_rms_mm": 0.5083512663841248
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            197,
+            204,
+            204,
+            204,
+            204,
+            202,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 4.06356668099761,
+          "motion_jerk_rms_mm": 0.5739336013793945,
+          "return_jerk_rms_mm": 0.5920856595039368
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            242,
+            255,
+            255,
+            255,
+            255,
+            214,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.56624436378479,
+          "return_jerk_rms_mm": 0.7803381085395813
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            190,
+            181,
+            181,
+            181,
+            181,
+            190,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5734423995018005,
+          "return_jerk_rms_mm": 0.6025136709213257
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            237,
+            223,
+            224,
+            224,
+            224,
+            228,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6130465269088745,
+          "return_jerk_rms_mm": 0.5897790789604187
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            227,
+            171,
+            171,
+            171,
+            171,
+            218,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 118.05319041013718,
+          "motion_jerk_rms_mm": 0.475717693567276,
+          "return_jerk_rms_mm": 0.5070623755455017
+        }
+      ],
+      "colliders": 133,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 8891,
+      "mean_motion_jerk_rms_mm": 0.5510993947585424,
+      "mean_return_jerk_rms_mm": 0.5966883599758148
+    },
+    "physical": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            206,
+            192,
+            192,
+            192,
+            192,
+            204,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5557973980903625,
+          "return_jerk_rms_mm": 0.4871991276741028
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            240,
+            227,
+            225,
+            225,
+            225,
+            246,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.47017472982406616,
+          "return_jerk_rms_mm": 0.5311367511749268
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            315,
+            394,
+            398,
+            398,
+            398,
+            284,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5725252032279968,
+          "return_jerk_rms_mm": 1.012995719909668
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            188,
+            179,
+            179,
+            179,
+            179,
+            186,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5028424859046936,
+          "return_jerk_rms_mm": 0.5896791219711304
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            259,
+            290,
+            290,
+            290,
+            290,
+            259,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.3955051898956299,
+          "return_jerk_rms_mm": 0.48846715688705444
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            262,
+            316,
+            317,
+            317,
+            317,
+            266,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 54.86143380403519,
+          "motion_jerk_rms_mm": 0.6282645463943481,
+          "return_jerk_rms_mm": 0.9038717150688171
+        }
+      ],
+      "colliders": 57,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 10742,
+      "mean_motion_jerk_rms_mm": 0.5208515922228495,
+      "mean_return_jerk_rms_mm": 0.66889159878095
+    },
+    "smooth": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            206,
+            192,
+            192,
+            192,
+            192,
+            204,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            240,
+            227,
+            225,
+            225,
+            225,
+            246,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            315,
+            394,
+            398,
+            398,
+            398,
+            284,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            188,
+            179,
+            179,
+            179,
+            179,
+            186,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            259,
+            290,
+            290,
+            290,
+            290,
+            259,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            262,
+            333,
+            334,
+            334,
+            334,
+            266,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        }
+      ],
+      "colliders": 57,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 10810,
+      "mean_motion_jerk_rms_mm": 0.0,
+      "mean_return_jerk_rms_mm": 0.0
+    },
+    "baseline": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            205,
+            183,
+            183,
+            183,
+            183,
+            208,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 51.15502327680588
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            141,
+            137,
+            137,
+            137,
+            137,
+            138,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 138.42767477035522
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            251,
+            248,
+            238,
+            238,
+            238,
+            223,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 68.60474497079849
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            186,
+            176,
+            176,
+            176,
+            176,
+            190,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 89.6536111831665
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            244,
+            267,
+            267,
+            267,
+            267,
+            229,
+            237
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 23.31940084695816
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            202,
+            114,
+            114,
+            114,
+            114,
+            173,
+            234
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 177.04451084136963
+        }
+      ],
+      "colliders": 133,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 8281,
+      "mean_motion_jerk_rms_mm": 0.0,
+      "mean_return_jerk_rms_mm": 0.0
+    },
+    "pelvishybrid": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            200,
+            194,
+            194,
+            194,
+            194,
+            205,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5042117834091187,
+          "return_jerk_rms_mm": 0.5083512663841248
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            197,
+            208,
+            208,
+            208,
+            208,
+            202,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5738736391067505,
+          "return_jerk_rms_mm": 0.5920416712760925
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            242,
+            255,
+            255,
+            255,
+            255,
+            214,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.56624436378479,
+          "return_jerk_rms_mm": 0.7803381085395813
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            190,
+            181,
+            181,
+            181,
+            181,
+            190,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5734423995018005,
+          "return_jerk_rms_mm": 0.6025136709213257
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            237,
+            223,
+            224,
+            224,
+            224,
+            228,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6130465269088745,
+          "return_jerk_rms_mm": 0.5897790789604187
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            229,
+            235,
+            235,
+            235,
+            235,
+            218,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 56.98531121015549,
+          "motion_jerk_rms_mm": 0.47272366285324097,
+          "return_jerk_rms_mm": 0.5018022060394287
+        }
+      ],
+      "colliders": 133,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 9165,
+      "mean_motion_jerk_rms_mm": 0.5505903959274292,
+      "mean_return_jerk_rms_mm": 0.5958043336868286
+    },
+    "scoped": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            206,
+            192,
+            192,
+            192,
+            192,
+            204,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            240,
+            227,
+            225,
+            225,
+            225,
+            246,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            278,
+            381,
+            385,
+            385,
+            385,
+            235,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            188,
+            183,
+            183,
+            183,
+            183,
+            186,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            252,
+            270,
+            270,
+            270,
+            270,
+            254,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            270,
+            331,
+            331,
+            331,
+            331,
+            266,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0
+        }
+      ],
+      "colliders": 85,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 10593,
+      "mean_motion_jerk_rms_mm": 0.0,
+      "mean_return_jerk_rms_mm": 0.0
+    },
+    "pelvisflat": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            200,
+            194,
+            194,
+            194,
+            194,
+            205,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5040798187255859,
+          "return_jerk_rms_mm": 0.5146178007125854
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            197,
+            208,
+            208,
+            208,
+            208,
+            202,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5738736391067505,
+          "return_jerk_rms_mm": 0.5920416712760925
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            254,
+            288,
+            288,
+            288,
+            288,
+            256,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5751916170120239,
+          "return_jerk_rms_mm": 0.775676429271698
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            190,
+            181,
+            181,
+            181,
+            181,
+            190,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5763838291168213,
+          "return_jerk_rms_mm": 0.5995119214057922
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            238,
+            228,
+            228,
+            228,
+            228,
+            224,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6101182699203491,
+          "return_jerk_rms_mm": 0.5956557989120483
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            229,
+            235,
+            235,
+            235,
+            235,
+            218,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 56.98531121015549,
+          "motion_jerk_rms_mm": 0.4725700318813324,
+          "return_jerk_rms_mm": 0.5018022060394287
+        }
+      ],
+      "colliders": 105,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 9365,
+      "mean_motion_jerk_rms_mm": 0.5520362009604772,
+      "mean_return_jerk_rms_mm": 0.5965509712696075
+    },
+    "soft": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            210,
+            202,
+            202,
+            202,
+            202,
+            212,
+            250
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.651616096496582,
+          "return_jerk_rms_mm": 0.8046987056732178
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            260,
+            231,
+            231,
+            231,
+            231,
+            252,
+            242
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5912632346153259,
+          "return_jerk_rms_mm": 0.9776248931884766
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            310,
+            391,
+            399,
+            399,
+            399,
+            323,
+            253
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.9858061075210571,
+          "return_jerk_rms_mm": 0.9869378805160522
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            201,
+            208,
+            208,
+            208,
+            208,
+            210,
+            253
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6693368554115295,
+          "return_jerk_rms_mm": 0.8585758805274963
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            272,
+            284,
+            279,
+            279,
+            279,
+            262,
+            259
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5916277766227722,
+          "return_jerk_rms_mm": 0.8189542293548584
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            269,
+            340,
+            348,
+            348,
+            348,
+            251,
+            243
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 1.0508681535720825,
+          "return_jerk_rms_mm": 0.8548717498779297
+        }
+      ],
+      "colliders": 57,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 0.7100000381469727,
+      "total_triangle_pairs": 11189,
+      "mean_motion_jerk_rms_mm": 0.7567530373732249,
+      "mean_return_jerk_rms_mm": 0.8836105565230051
+    },
+    "physicalsoft": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            210,
+            202,
+            202,
+            202,
+            202,
+            212,
+            250
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.651616096496582,
+          "return_jerk_rms_mm": 0.8046987056732178
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            260,
+            231,
+            231,
+            231,
+            231,
+            252,
+            242
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5912632346153259,
+          "return_jerk_rms_mm": 0.9776248931884766
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            310,
+            391,
+            399,
+            399,
+            399,
+            323,
+            253
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.9858061075210571,
+          "return_jerk_rms_mm": 0.9869378805160522
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            201,
+            208,
+            208,
+            208,
+            208,
+            210,
+            253
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6693368554115295,
+          "return_jerk_rms_mm": 0.8585758805274963
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            272,
+            284,
+            279,
+            279,
+            279,
+            262,
+            259
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5916277766227722,
+          "return_jerk_rms_mm": 0.8189542293548584
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            269,
+            320,
+            326,
+            326,
+            326,
+            251,
+            243
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 55.59276044368744,
+          "motion_jerk_rms_mm": 1.0524168014526367,
+          "return_jerk_rms_mm": 0.8550313711166382
+        }
+      ],
+      "colliders": 57,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 0.7100000381469727,
+      "total_triangle_pairs": 11103,
+      "mean_motion_jerk_rms_mm": 0.7570111453533173,
+      "mean_return_jerk_rms_mm": 0.8836371600627899
+    },
+    "pelvis": {
+      "cases": [
+        {
+          "side": 0,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            203,
+            192,
+            192,
+            192,
+            192,
+            206,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.581797182559967,
+          "return_jerk_rms_mm": 0.532828152179718
+        },
+        {
+          "side": 0,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            204,
+            217,
+            217,
+            217,
+            217,
+            205,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5395424962043762,
+          "return_jerk_rms_mm": 0.6085330247879028
+        },
+        {
+          "side": 0,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            282,
+            290,
+            291,
+            291,
+            291,
+            265,
+            236
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6709672212600708,
+          "return_jerk_rms_mm": 0.8049286603927612
+        },
+        {
+          "side": 1,
+          "angles": [
+            30,
+            0,
+            0
+          ],
+          "surfaces": [
+            188,
+            179,
+            179,
+            179,
+            179,
+            190,
+            238
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.5376479625701904,
+          "return_jerk_rms_mm": 0.6090313792228699
+        },
+        {
+          "side": 1,
+          "angles": [
+            0,
+            30,
+            0
+          ],
+          "surfaces": [
+            243,
+            287,
+            285,
+            285,
+            285,
+            217,
+            237
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 0.0,
+          "motion_jerk_rms_mm": 0.6803938150405884,
+          "return_jerk_rms_mm": 0.5546292662620544
+        },
+        {
+          "side": 1,
+          "angles": [
+            -30,
+            -30,
+            -30
+          ],
+          "surfaces": [
+            254,
+            262,
+            264,
+            264,
+            264,
+            227,
+            234
+          ],
+          "hold_jitter_rms_mm": 0.0,
+          "hold_step_rms_mm": 0.0,
+          "opposite_excursion_mm": 54.86143380403519,
+          "motion_jerk_rms_mm": 0.4684259295463562,
+          "return_jerk_rms_mm": 0.5675996541976929
+        }
+      ],
+      "colliders": 105,
+      "follow": 0.550000011920929,
+      "drag": 0.4000000059604645,
+      "stiffness": 1.4200000762939453,
+      "total_triangle_pairs": 9816,
+      "mean_motion_jerk_rms_mm": 0.5797957678635915,
+      "mean_return_jerk_rms_mm": 0.6129250228404999
+    }
+  },
+  "regression": {
+    "counts": [
+      640,
+      126,
+      133,
+      49
+    ],
+    "report": {
+      "guards": 96,
+      "minimum_rest_clearance": 0.0023758158637764426,
+      "radius_factor": 1.0,
+      "fan_degrees": 0.0,
+      "segments": 48
+    },
+    "geometry_unchanged": true,
+    "weights_unchanged": true,
+    "repeat_no_duplicates": true,
+    "stiffness_callback": true
+  },
+  "export": {
+    "changed_vertices": 0,
+    "maximum_rest_displacement": 0.0,
+    "maximum_shape_key_delta_error": 0.0,
+    "uv_material_slots_preserved": true,
+    "topology_preserved": true,
+    "removed_hidden_cap_faces": 0,
+    "weights_preserved": null,
+    "exported_colliders": 133,
+    "exported_springs": 126,
+    "unique_spring_joints": true,
+    "extended_colliders": 0
+  }
+}

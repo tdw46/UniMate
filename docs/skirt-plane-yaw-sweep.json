@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "runtime": "Blender 5.2.2, installed BVT solver",
+  "angles_degrees": 30,
+  "follow": [
+    0,
+    0.2
+  ],
+  "samples_per_motion": 4,
+  "geometry_metric": "Number of intersecting skirt/leg triangle pairs; not penetration depth or area",
+  "variants": {
+    "baseline": {
+      "all": {
+        "motions": 56,
+        "triangle_pairs": 62561,
+        "spring_penetration_max_m": 0.000785373141435057,
+        "unreachable_plane_distance_max_m": 0.0,
+        "rest_spring_penetration_max_m": 0.0,
+        "rest_triangle_pairs": [
+          234
+        ]
+      },
+      "yaw": {
+        "motions": 24,
+        "triangle_pairs": 26854,
+        "spring_penetration_max_m": 0.000785373141435057,
+        "unreachable_plane_distance_max_m": 0.0,
+        "rest_spring_penetration_max_m": 0.0,
+        "rest_triangle_pairs": [
+          234
+        ]
+      },
+      "xz": {
+        "motions": 32,
+        "triangle_pairs": 35707,
+        "spring_penetration_max_m": 0.0007853672715051677,
+        "unreachable_plane_distance_max_m": 0.0,
+        "rest_spring_penetration_max_m": 0.0,
+        "rest_triangle_pairs": [
+          234
+        ]
+      }
+    },
+    "chain_planes": {
+      "all": {
+        "motions": 56,
+        "triangle_pairs": 59365,
+        "spring_penetration_max_m": 0.03715005237609148,
+        "unreachable_plane_distance_max_m": 0.035268167320917906,
+        "rest_spring_penetration_max_m": 0.0,
+        "rest_triangle_pairs": [
+          234
+        ]
+      },
+      "yaw": {
+        "motions": 24,
+        "triangle_pairs": 24922,
+        "spring_penetration_max_m": 0.03715005237609148,
+        "unreachable_plane_distance_max_m": 0.035268167320917906,
+        "rest_spring_penetration_max_m": 0.0,
+        "rest_triangle_pairs": [
+          234
+        ]
+      },
+      "xz": {
+        "motions": 32,
+        "triangle_pairs": 34443,
+        "spring_penetration_max_m": 0.027693547308444977,
+        "unreachable_plane_distance_max_m": 0.02579365210412493,
+        "rest_spring_penetration_max_m": 0.0,
+        "rest_triangle_pairs": [
+          234
+        ]
+      }
+    }
+  },
+  "decision": "Keep standard capsules live; chain-exclusive planes with shared capsules remain experimental because mesh clipping persists and fixed-root reachability fails.",
+  "setup_validation": {
+    "exported_colliders": 21,
+    "exported_extended_planes": 12,
+    "shared_leg_capsules_per_skirt_chain": 4,
+    "exclusive_planes_per_skirt_chain": 1,
+    "native_vrm_export": "passed",
+    "other_application_support": "not tested"
+  }
+}

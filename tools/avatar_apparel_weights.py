@@ -74,8 +74,12 @@ def head_cap_vertices(meshes, rig):
     """
     head_z = rig.data.bones['Head'].head_local.z
     head_xy = np.array(tuple(rig.data.bones['Head'].head_local))[:2]
-    cranial_radius = max(abs(rig.data.bones[n].head_local.x-head_xy[0])
-                        for n in ('UpperArm.L', 'UpperArm.R'))*.9
+    humanoid=getattr(getattr(rig.data,'vrm_addon_extension',None),'vrm1',None)
+    arm_names=[]
+    for semantic,legacy,mixamo in (('left_upper_arm','UpperArm.L','LeftArm'),('right_upper_arm','UpperArm.R','RightArm')):
+        mapped=getattr(humanoid.humanoid.human_bones,semantic).node.bone_name if humanoid else ''
+        arm_names.append(next(n for n in (mapped,legacy,mixamo) if n in rig.data.bones))
+    cranial_radius = max(abs(rig.data.bones[n].head_local.x-head_xy[0]) for n in arm_names)*.9
     points, skin, hair, reference = {}, {}, {}, []
     for obj in meshes:
         tr = rig.matrix_world.inverted() @ obj.matrix_world

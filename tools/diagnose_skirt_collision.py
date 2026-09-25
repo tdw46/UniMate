@@ -12,7 +12,7 @@ from avatar_colliders import segment_distance,spring_samples,plan_colliders
 from avatar_vrm_colliders import add_capsule,add_group,call_operator
 from avatar_apparel_weights import weights
 from properties_hallway_rig import initialize
-p=argparse.ArgumentParser();p.add_argument('source');p.add_argument('output');p.add_argument('--variant',default='baseline');p.add_argument('--full',action='store_true');p.add_argument('--bvt-runtime-only',action='store_true');args=p.parse_args(sys.argv[sys.argv.index('--')+1:])
+p=argparse.ArgumentParser();p.add_argument('source');p.add_argument('output');p.add_argument('--variant',default='baseline');p.add_argument('--full',action='store_true');p.add_argument('--yaw',action='store_true');p.add_argument('--bvt-runtime-only',action='store_true');p.add_argument('--follow',type=float,nargs='+');args=p.parse_args(sys.argv[sys.argv.index('--')+1:])
 out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
 for repo in bpy.context.preferences.extensions.repos:
     if repo.module=='user_default':repo.use_custom_directory=True;repo.custom_directory=str(Path.home()/'Documents/Blender/extensions/user_default')
@@ -53,12 +53,18 @@ parts=[];garment=[]
 for obj in meshes:
     obj.data.calc_loop_triangles();ws=[weights(obj,v.index) for v in obj.data.vertices]
     skirt={i for i,w in enumerate(ws) if sum(v for n,v in w.items() if n.startswith('Secondary_Skirt_'))>.05}
-    skin={i for i,w in enumerate(ws) if sum(v for n,v in w.items() if n in leg_names)>.4}
+    skin={i for i,w in enumerate(ws) if i not in skirt and sum(v for n,v in w.items() if n in leg_names)>.4}
     st=[tuple(t.vertices) for t in obj.data.loop_triangles if all(i in skirt for i in t.vertices)]
     lt=[tuple(t.vertices) for t in obj.data.loop_triangles if all(i in skin for i in t.vertices)]
     if st or lt:parts.append((obj,st,lt))
     tr=rig.matrix_world.inverted()@obj.matrix_world
     garment.extend((tr@obj.data.vertices[i].co,0.,'surface') for i in skirt)
+if '_skinning' in args.variant:
+    from avatar_skirt_binding import rebind_skirt_strips
+    print('STRIP_BINDING',json.dumps(rebind_skirt_strips(rig,meshes)),flush=True)
+if args.variant.endswith('_fit'):
+    from avatar_skirt_binding import fit_rest_clearance
+    print('REST_FIT',json.dumps(fit_rest_clearance(rig,parts)),flush=True)
 base=[dict(bone=c.node.bone_name,offset=list(c.shape.capsule.offset),tail=list(c.shape.capsule.tail),radius=c.shape.capsule.radius) for c in sb.colliders if c.node.bone_name in leg_names]
 full=[]
 for name in sorted(leg_names):
@@ -71,7 +77,32 @@ if args.variant=='generated':
     rebuild_colliders(rig,meshes,collider_roles=('skirt',))
     initialize(rig)
     settings.skirt_thickness=1.
-if args.variant not in ('baseline','generated'):
+if args.variant.startswith(('guards_','segmentguards_','patchguards_')):
+    from avatar_directional_contacts import install_directional_contacts
+    if args.variant.startswith('segmentguards_'):
+        from avatar_directional_contacts import split_contact_segments
+        split_contact_segments(rig)
+    if args.variant.startswith('patchguards_'):
+        from avatar_directional_contacts import make_surface_patches
+        print('PATCHES',make_surface_patches(rig,meshes),flush=True)
+    factor=float(args.variant.split('_')[1]);fan=float(args.variant.split('_')[2])
+    print('DIRECTIONAL_SETUP',json.dumps(install_directional_contacts(rig,meshes,factor,fan,rest_envelope='_rest' in args.variant,both_legs='nearest' not in args.variant)),flush=True)
+if args.variant.startswith('soft_'):
+    settings.spring_groups['Skirt'].stiffness*=float(args.variant.split('_')[1])
+if args.variant=='contact_order':
+    guards={c.uuid for c in sb.colliders if c.bpy_object and c.bpy_object.get('hallway_directional_guard')}
+    for g in sb.collider_groups:
+        refs=[r.collider_uuid for r in g.colliders]
+        refs.sort(key=lambda uuid:uuid not in guards)
+        g.colliders.clear()
+        for uuid in refs:g.colliders.add().collider_uuid=uuid
+if args.variant=='tethers':
+    from avatar_skirt_tension import add_neighbor_cages
+    print('TENSION_SETUP',json.dumps(add_neighbor_cages(rig)),flush=True)
+if args.variant in ('network','segments','segments_rest_fit'):
+    from avatar_skirt_tension import add_segment_network
+    print('NETWORK_SETUP',json.dumps(add_segment_network(rig,meshes,couple=args.variant=='network')),flush=True)
+if not args.variant.startswith(('guards_','segmentguards_','patchguards_','soft_')) and args.variant not in ('contact_order','baseline','generated','tethers','network','segments','segments_rest_fit'):
     owned={g.uuid for g in sb.collider_groups if g.vrm_name=='Secondary_SkirtBody'}
     ids={r.collider_uuid for g in sb.collider_groups if g.uuid in owned for r in g.colliders}
     for i in reversed(range(len(sb.collider_groups))):
@@ -89,32 +120,50 @@ if args.variant not in ('baseline','generated'):
                 limit=min(segment_distance(p,bone.matrix_local@a,bone.matrix_local@b)-r-margin for p,r,_ in samples+garment)
                 radius=min(original['radius'],limit)
                 if radius>height*.001:specs.append(dict(bone=name,offset=list(a),tail=list(b),radius=radius))
-    if args.variant=='per_chain':specs=[]
+    if args.variant in ('per_chain','per_chain_body'):specs=[]
     for spec in specs:
         c=add_capsule(rig,spec);group.colliders.add().collider_uuid=c.uuid
+    # Adding another RNA collection item can invalidate a retained group
+    # wrapper. Keep its stable identifier before creating per-chain groups.
+    shared_group_uuid=group.uuid
     for spring in sb.springs:
-        if spring.vrm_name.startswith('Secondary_Skirt_'):spring.collider_groups.add().collider_group_uuid=group.uuid
-    if args.variant=='per_chain':
+        if spring.vrm_name.startswith('Secondary_Skirt_'):spring.collider_groups.add().collider_group_uuid=shared_group_uuid
+    if args.variant in ('per_chain','per_chain_body') or args.variant.startswith('per_chain_sections'):
+        body_radii={s['bone']:s['body_radius'] for s in plan_colliders(rig,meshes)['collider_details']}
+        shared_capsules_uuid=group.uuid
         for spring in sb.springs:
             if not spring.vrm_name.startswith('Secondary_Skirt_'):continue
             points=[(rig.data.bones[t.node.bone_name].head_local,h.hit_radius) for h,t in zip(spring.joints,spring.joints[1:])]
             g=add_group(rig,'Sector '+spring.vrm_name)
             for name in sorted(leg_names):
-                bone=rig.data.bones[name];a=Vector((0,0,0));b=Vector((0,bone.length,0))
-                limit=min(segment_distance(p,bone.matrix_local@a,bone.matrix_local@b)-r-margin for p,r in points)
-                radius=min(max(s['radius'] for s in base if s['bone']==name),limit)
-                if radius<=height*.001:continue
-                c=add_capsule(rig,dict(bone=name,offset=list(a),tail=list(b),radius=radius))
-                g.colliders.add().collider_uuid=c.uuid
-            spring.collider_groups.clear();spring.collider_groups.add().collider_group_uuid=g.uuid
+                bone=rig.data.bones[name]
+                sections=6 if args.variant.startswith('per_chain_sections') and name in legs else 1
+                for section in range(sections):
+                    a=Vector((0,(section+.5)/sections*bone.length if sections>1 else 0,0))
+                    b=a.copy() if sections>1 else Vector((0,bone.length,0))
+                    limit=min(segment_distance(p,bone.matrix_local@a,bone.matrix_local@b)-r-margin for p,r in points)
+                    desired=body_radii[name] if args.variant!='per_chain' else max(s['radius'] for s in base if s['bone']==name)
+                    radius=min(desired,limit)
+                    if radius<=height*.001:continue
+                    c=add_capsule(rig,dict(bone=name,offset=list(a),tail=list(b),radius=radius))
+                    g.colliders.add().collider_uuid=c.uuid
+            spring.collider_groups.clear()
+            if args.variant.startswith('per_chain_sections'):spring.collider_groups.add().collider_group_uuid=shared_capsules_uuid
+            spring.collider_groups.add().collider_group_uuid=g.uuid
     if args.variant.startswith('planes'):
+        body_radii = ({s['bone']: s['body_radius'] for s in plan_colliders(rig,meshes)['collider_details']}
+                      if args.variant.endswith('_body') else {})
         for spring in sb.springs:
             if not spring.vrm_name.startswith('Secondary_Skirt_'):continue
             points=[rig.data.bones[j.node.bone_name].head_local for j in spring.joints]
             name=min(legs,key=lambda n:segment_distance(points[2],rig.data.bones[n].head_local,rig.data.bones[n].tail_local))
             bone=rig.data.bones[name];local=[bone.matrix_local.inverted()@p for p in points]
-            normal=Vector((local[2].x,0,local[2].z)).normalized()
+            center=sum(local,Vector())/len(local) if args.variant.startswith('planes_centroid') else local[2]
+            normal=Vector((center.x,0,center.z)).normalized()
             distance=min(p.dot(normal)-j.hit_radius-margin for p,j in zip(local[1:],spring.joints))
+            if args.variant.startswith('planes_centroid'):
+                desired=body_radii[name] if body_radii else max(s['radius'] for s in base if s['bone']==name)
+                distance=min(distance,desired)
             # One outward plane for this spring's angular sector, never six
             # incompatible outward half-spaces pretending to be a box.
             c=sb.add_collider(bpy.context,rig);c.node.bone_name=name;c.ui_collider_type='uiColliderTypePlane'
@@ -125,12 +174,22 @@ if args.variant not in ('baseline','generated'):
             assert (Vector(shape.offset)-normal*distance).length<1e-5
             g=add_group(rig,'Sector '+spring.vrm_name);g.colliders.add().collider_uuid=c.uuid
             spring.collider_groups.add().collider_group_uuid=g.uuid
+            # Exclusive planes supplement the shared, rotation-independent
+            # capsules; yaw must never remove that fallback from a chain.
+            refs={r.collider_group_uuid for r in spring.collider_groups}
+            assert shared_group_uuid in refs and g.uuid in refs
+            assert sum(any(r.collider_group_uuid==g.uuid for r in s.collider_groups)
+                       for s in sb.springs)==1
     bpy.context.view_layer.update()
 # Cache official shape data; world geometry follows each attachment pose bone.
 colliders={}
 for c in sb.colliders:
     ex=c.extensions.vrmc_spring_bone_extended_collider
-    if ex.enabled and 'Plane' in ex.shape_type:
+    if ex.enabled and 'Sphere' in ex.shape_type and ex.shape.sphere.inside:
+        shape=ex.shape.sphere;colliders[c.uuid]=(c.node.bone_name,'inside_capsule',Vector(shape.offset),Vector(shape.offset),shape.radius)
+    elif ex.enabled and 'Capsule' in ex.shape_type and ex.shape.capsule.inside:
+        shape=ex.shape.capsule;colliders[c.uuid]=(c.node.bone_name,'inside_capsule',Vector(shape.offset),Vector(shape.tail),shape.radius)
+    elif ex.enabled and 'Plane' in ex.shape_type:
         shape=ex.shape.plane;colliders[c.uuid]=(c.node.bone_name,'plane',Vector(shape.offset),Vector(shape.normal),0.)
     elif c.shape_type=='Capsule':
         shape=c.shape.capsule;colliders[c.uuid]=(c.node.bone_name,'capsule',Vector(shape.offset),Vector(shape.tail),shape.radius)
@@ -146,60 +205,73 @@ def segment_segment_distance(a,b,c,d):
             result=min(result,(p-q).length)
     return result
 
+neutral_pairs=None
+
 def contacts(surface=False):
-    maximum=0.;hits=0;worst=None;segment_max=0.
-    matrices={n:rig.matrix_world@rig.pose.bones[n].matrix for n in leg_names}
+    global neutral_pairs
+    maximum=0.;hits=0;worst=None;segment_max=0.;unreachable=0.
+    matrices={n:rig.matrix_world@rig.pose.bones[n].matrix for n,_,_,_,_ in colliders.values()}
     for spring,head,tail,cs in pairs:
         pos=Vector(tail.animation_state.current_world_translation)
         start=rig.matrix_world@rig.pose.bones[head.node.bone_name].head
         for name,kind,a,b,r in cs:
             matrix=matrices[name];a=matrix@a
-            if kind=='capsule':
+            if kind=='inside_capsule':
+                b=matrix@b;penetration=segment_distance(pos,a,b)+head.hit_radius-r
+            elif kind=='capsule':
                 b=matrix@b;penetration=r+head.hit_radius-segment_distance(pos,a,b)
                 segment_max=max(segment_max,r-segment_segment_distance(start,pos,a,b))
             else:
                 normal=(matrix.to_quaternion()@b).normalized();penetration=head.hit_radius-(pos-a).dot(normal)
+                unreachable=max(unreachable,head.hit_radius-(start-a).dot(normal)-(pos-start).length)
             if penetration>height*1e-5:hits+=1
             if penetration>maximum:maximum=penetration;worst=[spring.vrm_name,head.node.bone_name,name,kind]
-    triangles=None
+    triangles=None;new_triangles=None
     if surface:
         vertices=[];skirt=[];legs_tri=[]
         for obj,st,lt in parts:
             ev=obj.evaluated_get(bpy.context.evaluated_depsgraph_get());mesh=ev.to_mesh();n=len(vertices)
             vertices.extend(obj.matrix_world@v.co for v in mesh.vertices);ev.to_mesh_clear()
             skirt.extend(tuple(i+n for i in tri) for tri in st);legs_tri.extend(tuple(i+n for i in tri) for tri in lt)
-        triangles=len(BVHTree.FromPolygons(vertices,skirt,all_triangles=True).overlap(BVHTree.FromPolygons(vertices,legs_tri,all_triangles=True)))
-    return dict(maximum=maximum,hits=hits,worst=worst,segment_max=segment_max,triangles=triangles)
+        current_pairs=set(BVHTree.FromPolygons(vertices,skirt,all_triangles=True).overlap(BVHTree.FromPolygons(vertices,legs_tri,all_triangles=True)))
+        if neutral_pairs is None:neutral_pairs=current_pairs
+        triangles=len(current_pairs);new_triangles=len(current_pairs-neutral_pairs)
+    return dict(maximum=maximum,hits=hits,worst=worst,segment_max=segment_max,triangles=triangles,new_triangles=new_triangles,unreachable=unreachable)
 
 cases=[(x,z) for x,z in ((30,0),(-30,0),(0,30),(0,-30),(30,30),(30,-30),(-30,30),(-30,-30))]
 if not args.full:cases=[(30,0),(-30,0),(0,30),(0,-30),(30,30),(-30,-30)]
+cases=[(x,z,0) for x,z in cases]
+if args.yaw:cases.extend([(0,0,30),(0,0,-30),(30,30,30),(-30,-30,-30),(30,-30,30),(-30,30,-30)])
+contacts(True)
 results=[]
-for follow in ((0.,.2) if args.full else (0.,)):
+for follow in (args.follow if args.follow is not None else ((0.,.2) if args.full else (0.,))):
     settings.follow_groups['Skirt'].influence=follow
     for side in (range(2) if args.full else (0,)):
-        for x,z in cases:
+        for x,z,y in cases:
             set_simulation(False)
             for pb in rig.pose.bones:pb.matrix_basis=Matrix.Identity(4)
             bpy.context.view_layer.update();set_simulation(True)
             for _ in range(20):background_step(1/60)
             bpy.context.view_layer.update();rest=contacts(True)
-            result=dict(follow=follow,side=side,x=x,z=z,rest=rest,maximum=0.,segment_max=0.,hit_frames=0,surfaces=[])
+            result=dict(follow=follow,side=side,x=x,z=z,y=y,rest=rest,maximum=0.,segment_max=0.,hit_frames=0,surfaces=[],new_surfaces=[],unreachable=0.)
             for frame in range(91):
                 t=frame/90;weight=math.sin(math.pi*t)**2
-                pb=rig.pose.bones[legs[side]];pb.rotation_mode='QUATERNION';pb.rotation_quaternion=Quaternion((1,0,0),math.radians(x)*weight)@Quaternion((0,0,1),math.radians(z)*weight)
+                pb=rig.pose.bones[legs[side]];pb.rotation_mode='QUATERNION';pb.rotation_quaternion=Quaternion((1,0,0),math.radians(x)*weight)@Quaternion((0,0,1),math.radians(z)*weight)@Quaternion((0,1,0),math.radians(y)*weight)
                 bpy.context.view_layer.update();background_step(1/60);bpy.context.view_layer.update()
                 value=contacts(frame in (22,45,68,90))
-                if frame==45 and side==0 and follow==0 and x==-30 and z==-30:
+                if frame==45 and side==0 and follow==0 and x==-30 and z==-30 and y==0:
                     (out/'sample_pose.json').write_text(json.dumps({p.name:[list(row) for row in p.matrix_basis] for p in rig.pose.bones}))
                 if value['maximum']>result['maximum']:result.update(maximum=value['maximum'],worst=value['worst'],frame=frame)
                 result['segment_max']=max(result['segment_max'],value['segment_max'])
+                result['unreachable']=max(result['unreachable'],value['unreachable'])
                 if value['hits']:result['hit_frames']+=1
-                if value['triangles'] is not None:result['surfaces'].append(value['triangles'])
+                if value['triangles'] is not None:
+                    result['surfaces'].append(value['triangles']);result['new_surfaces'].append(value['new_triangles'])
             results.append(result)
             print('CASE',args.variant,follow,side,x,z,json.dumps(result),flush=True)
     (out/'results.json').write_text(json.dumps(dict(variant=args.variant,full_capsules=full,cases=results),indent=2))
 if args.variant=='generated':
-    assert len(results)==(32 if args.full else 6)
+    assert len(results)==len(cases)*(4 if args.full else 1)
     assert all(c['rest']['maximum']<height*1e-6 and c['segment_max']<height*1e-6 for c in results), results
 set_simulation(False)
 for pb in rig.pose.bones:pb.matrix_basis=Matrix.Identity(4)

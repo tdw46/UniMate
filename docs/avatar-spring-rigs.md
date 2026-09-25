@@ -1,5 +1,11 @@
 # Generated hair and skirt spring rigs
 
+Final source mesh coordinates, topology, UVs and existing shape keys must remain
+unchanged. Skirt vertices remain bound to springs and the waist, with no direct
+leg-weight fitting. Use the physics contact regeneration workflow documented
+in `docs/skirt-contact-design.md`; earlier rest-geometry repair experiments below
+are superseded and their executable entry points are disabled.
+
 `tools/avatar_springs.py` owns secondary bone generation, skin weights, body
 colliders, collider groups and VRM 1 spring definitions. It does not import or
 call external spring generators or physics operators. The official VRM add-on
@@ -40,10 +46,10 @@ landmarks from the posed source surface before its rig is removed.
   checks. Twelve circumferential chains blend continuously in angle and height;
   the attachment row stays fixed to Hips.
 - Each skirt chain has an unweighted leg-follow parent. Matching leg rest axes
-  make local rotation copying well-defined. Every panel follows its corresponding upper leg at 100% influence. Helpers
+  make local rotation copying well-defined. Every panel defaults to 55% follow of its corresponding upper leg. Helpers
   copy the leg head, tail and roll explicitly; assigning a matrix to a newly
   allocated zero-length bone can discard its direction and reverse local Z.
-  Skirt drag is 0.60, increased slightly from 0.55. Spring bones are separate children, so the
+  Skirt drag defaults to 0.40. Spring bones are separate children, so the
   constraint does not overwrite simulation rotations.
 - Thighs and calves receive up to three fitted capsules per bone. Body fit uses
   freshly weighted skin and an 85th-percentile radius, bounded by the section
@@ -231,6 +237,16 @@ from the installed BVT addon. The project contains no independent solver.
 The **Hallway** sidebar uses `bpy.ops.bvt.set_spring_simulation`; rig generation
 continues to use our own code and the official VRM RNA schema.
 
+Each spring group has a saved **Non-root Stiffness** slider below **Root
+Stiffness** (`hallway_rig.spring_groups[...].non_root_stiffness`). It multiplies
+the existing taper below each original simulated chain root: `1.0` preserves
+the current result, `0.25` uses one quarter of the distal stiffness, and `0.0`
+removes distal stiffness. Root stiffness is unchanged by this slider. Root
+classification follows the bone hierarchy across separate VRM contact segments;
+the first joint of every segment is not treated as a new chain root. Skirt and
+hair controls update their own native VRM joint values immediately, without
+resetting BVT simulation or changing geometry, weights, or colliders.
+
 `demo_avatar_springs.py` asks BVT to prepare its playback/render pose cache,
 records those poses, and renders a baked take. Headless numerical checks call
 BVT's duration-step API directly, with a capability check and a clear error
@@ -370,3 +386,59 @@ cloth contact beyond these exported endpoint colliders. BVT was not modified.
 
 Evidence: `docs/skirt-collision-sweep.json` and ignored artifacts under
 `outputs/skirt_collision_sweep_20260924/`.
+
+## Capsule display and chain-plane yaw experiment
+
+Hallway resolves its sidebar target through the VRM add-on's `current_armature`,
+the same resolver used by BVT. The panel stays available when a mesh or collider
+is active; configuration operators still require a Hallway-generated target.
+The selected target is shown explicitly, including a notice for other rigs.
+
+VRM represents a capsule using two sphere-shaped empty displays. The collider
+already spans between them, but those empties do not draw its cylindrical part.
+`avatar_collider_overlay.py` adds read-only capsule wires from the official VRM
+radius and display endpoints. It respects collection visibility, viewport
+overlays and the collider's in-front flag. It adds no scene objects, export
+geometry, solver or timer. Register/unregister owns a single draw handler.
+
+The `planes_centroid_body` diagnostic variant fits one outward plane for each
+skirt chain, using the leg-axis-to-chain-centroid direction as its normal. Each
+plane has a group referenced by exactly one chain. All chains retain the four
+shared leg capsules, including during yaw. Planes use the VRM extended-collider
+RNA, setting offset before normal because the offset setter resets rotation.
+They require a runtime that supports the VRM extended-collider extension.
+An isolated VRM export preserves all 21 colliders, including 12 extended planes;
+setup assertions verify one plane per skirt chain plus all four shared leg
+capsules. This export check does not establish support in other applications.
+
+`--full --yaw` tests 56 smooth motions: both upper legs, follow 0 and 0.2, X/Z
+rotations, local-Y yaw and combinations, each up to 30 degrees. BVT alone runs
+the simulation. At four samples per motion, capsules alone produce 62,561
+skirt/leg triangle pairs; adding these planes produces 59,365, about 5.1% fewer.
+This is an intersection-count diagnostic, not a penetration depth or area.
+Both have 234 intersecting triangle pairs at rest and zero rest spring overlap.
+
+The planes leave up to 37.15 mm of spring collision-sphere penetration versus
+0.785 mm for capsules alone. An anchored segment can lack up to 35.27 mm of
+reach to get onto its plane's allowed side. Front/back renders still show cloth
+penetration. The candidate therefore remains experimental and is not generated
+by default or applied to live Belle. Capsules remain the live collider setup.
+The thigh fit is constrained to roughly 31 mm radius by rest clearance despite
+body samples suggesting roughly 69 mm; visible capsule spans make that coverage
+limit apparent. Enlarging them without changing rest geometry/chain placement
+would restore the unwanted displacement at rest.
+
+Evidence: `docs/skirt-plane-yaw-sweep.json`; candidate scenes, pose snapshots,
+full measurements and renders are under
+`outputs/collider_display_audit_20260924/`.
+
+
+### Offline skirt pose fitting
+
+For portable contact optimization, use `tools/fit_avatar_skirt.py`, then the
+Hallway **Apply Offline Pose Fit…** operator. It caches BVT poses, bounds rest
+mesh edits, shares equivalent native capsules between chains, and preserves
+relative shape keys. No extra runtime solver is installed. See
+[design, measured coverage and limitations](skirt-contact-design.md). The
+ordinary generator still produces its initial rest fit; pose optimization is
+an explicit offline refinement because it alters the skirt's rest silhouette.

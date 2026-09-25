@@ -1,7 +1,7 @@
 """VRM-exportable skirt follow with the same rest frame as its source leg."""
 import bpy
 
-INFLUENCE=1.0
+INFLUENCE=.55
 PREFIX='Secondary_SkirtFollow_'
 CONSTRAINT_NAME='UniMate skirt leg follow'
 

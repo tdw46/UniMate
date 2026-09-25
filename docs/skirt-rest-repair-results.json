@@ -1,0 +1,145 @@
+{
+  "rest_states": {
+    "unposed": {
+      "pairs": 0,
+      "types": {}
+    },
+    "neutral_no_physics": {
+      "pairs": 0,
+      "types": {}
+    },
+    "physics_1": {
+      "pairs": 0,
+      "types": {}
+    },
+    "physics_20": {
+      "pairs": 0,
+      "types": {}
+    },
+    "physics_120": {
+      "pairs": 0,
+      "types": {}
+    }
+  },
+  "live_install": {
+    "operator": [
+      "FINISHED"
+    ],
+    "colliders_unchanged": true,
+    "springs": 90,
+    "follow": 0.4000000059604645,
+    "physics": true,
+    "mode": "POSE",
+    "working_file_unsaved": true,
+    "polygons": 18175
+  },
+  "geometry": {
+    "changed_vertices": 3785,
+    "maximum_rest_displacement": 0.059388934331024865,
+    "maximum_shape_key_delta_error": 0.0,
+    "uv_material_slots_preserved": true,
+    "topology_preserved": false,
+    "removed_hidden_cap_faces": 19,
+    "weights_preserved": true,
+    "exported_colliders": 37,
+    "exported_springs": 90,
+    "unique_spring_joints": true,
+    "extended_colliders": 0
+  },
+  "rest_layers": {
+    "rest_pairs": 0,
+    "pairs": [],
+    "layers": [
+      {
+        "material": 2,
+        "signed_radius": 0.06848767399787903
+      },
+      {
+        "material": 4,
+        "signed_radius": 0.04728427901864052
+      },
+      {
+        "material": 5,
+        "signed_radius": 0.01921229064464569
+      },
+      {
+        "material": 6,
+        "signed_radius": 0.03549063205718994
+      },
+      {
+        "material": 7,
+        "signed_radius": -0.019032049924135208
+      },
+      {
+        "material": 12,
+        "signed_radius": -0.033018019050359726
+      }
+    ],
+    "removed_cap_triangles": [
+      9663,
+      9664,
+      9666,
+      9667,
+      9848,
+      9849,
+      9850,
+      9851,
+      9852,
+      9853,
+      9854,
+      9855,
+      9856,
+      9857,
+      9858,
+      9886,
+      9887,
+      9888,
+      9889
+    ],
+    "skirt_faces": 755,
+    "skirt_vertices": 555,
+    "outer_vertices": 3230,
+    "maximum_displacement": 0.059388935565948486,
+    "removed_polygons": {
+      "Belle_mesh": [
+        4749,
+        4750,
+        4752,
+        4753,
+        4934,
+        4935,
+        4936,
+        4937,
+        4938,
+        4939,
+        4940,
+        4941,
+        4942,
+        4943,
+        4944,
+        4972,
+        4973,
+        4974,
+        4975
+      ]
+    }
+  },
+  "baseline": {
+    "motions": 56,
+    "samples": 224,
+    "intersection_pairs": 2582,
+    "clear_samples": 164
+  },
+  "sweep": {
+    "motions": 56,
+    "samples": 224,
+    "intersection_pairs": 701,
+    "clear_samples": 214
+  },
+  "follow40": {
+    "motions": 28,
+    "samples": 112,
+    "intersection_pairs": 0,
+    "clear_samples": 112
+  }
+}

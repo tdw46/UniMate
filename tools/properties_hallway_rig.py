@@ -1,5 +1,6 @@
 """Persistent per-rig configuration with immediate, owner-scoped RNA updates."""
 from contextlib import contextmanager
+import sys
 import bpy
 from mathutils import Vector
 
@@ -26,6 +27,8 @@ def _update(property_group, context, field):
         return
     if rig.as_pointer() in _updating or not rig.hallway_rig.initialized:
         return
+    if rig.get('hallway_pose_fit'):
+        rig['hallway_pose_fit_settings_changed'] = True
     with suppress_updates(rig):
         if field == 'influence':
             apply_follow(rig, property_group)
@@ -57,14 +60,30 @@ def update_stiffness(self, context):
     _update(self, context, 'stiffness')
 
 
+def update_non_root_stiffness(self, context):
+    _update(self, context, 'non_root_stiffness')
+
+
 def update_gravity(self, context):
     _update(self, context, 'gravity')
 
 
-def active_rig(context):
+def target_armature(context):
+    """Use the same official VRM context resolver used by BVT's panels."""
+    for name, module in tuple(sys.modules.items()):
+        if name.endswith('vrm.editor.search'):
+            resolve = getattr(module, 'current_armature', None)
+            if callable(resolve):
+                return resolve(context)
+    # Without VRM installed, retain body-only rig configuration support.
     obj = context.object
     if obj and obj.type != 'ARMATURE':
         obj = obj.find_armature()
+    return obj if obj and obj.type == 'ARMATURE' else None
+
+
+def active_rig(context):
+    obj = target_armature(context)
     return obj if obj and (obj.get('hallway_generated_rig') or obj.get('unimate_secondary_generator')) else None
 
 
@@ -86,14 +105,16 @@ def skirt_colliders(rig):
     if not ext:
         return []
     sb = ext.spring_bone1
-    owned = {r.collider_uuid for g in sb.collider_groups if g.vrm_name == 'Secondary_SkirtBody' for r in g.colliders}
-    foreign = {r.collider_uuid for g in sb.collider_groups if g.vrm_name != 'Secondary_SkirtBody' for r in g.colliders}
+    from avatar_contact_colliders import owned_group
+    owned = {r.collider_uuid for g in sb.collider_groups if owned_group(g.vrm_name) for r in g.colliders}
+    foreign = {r.collider_uuid for g in sb.collider_groups if not owned_group(g.vrm_name) for r in g.colliders}
     return [c for c in sb.colliders if c.uuid in owned - foreign and c.bpy_object and c.shape_type == 'Capsule']
 
 
 def capture_collider_baselines(rig, refresh_limits=False):
     """Store fitted radii and safe expansion bounds in bone-local rest space."""
-    colliders = [c for c in skirt_colliders(rig) if refresh_limits or 'hallway_base_radius' not in c.bpy_object]
+    colliders = [c for c in skirt_colliders(rig) if (refresh_limits and not c.bpy_object.get('hallway_contact_collider'))
+                 or 'hallway_base_radius' not in c.bpy_object]
     if not colliders:
         return
     from avatar_colliders import spring_samples, segment_distance
@@ -126,15 +147,19 @@ def capture_collider_baselines(rig, refresh_limits=False):
 
 class HALLWAY_PG_Follow(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty()
-    influence: bpy.props.FloatProperty(name='Follow', default=1., min=0., max=1., subtype='FACTOR', update=update_follow)
+    influence: bpy.props.FloatProperty(name='Follow', default=.55, min=0., max=1., subtype='FACTOR', update=update_follow)
 
 
 class HALLWAY_PG_Spring(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty()
     prefix: bpy.props.StringProperty()
-    drag: bpy.props.FloatProperty(name='Drag', min=0., max=1., default=.6, update=update_drag)
+    drag: bpy.props.FloatProperty(name='Drag', min=0., max=1., default=.4, update=update_drag)
     stiffness: bpy.props.FloatProperty(name='Root Stiffness', min=0., soft_max=4., default=1.6,
         description='Stiffness of the first simulated joint; preserves the generated taper down each chain', update=update_stiffness)
+    non_root_stiffness: bpy.props.FloatProperty(name='Non-root Stiffness', min=0., max=2., soft_max=1.,
+        default=1., subtype='FACTOR',
+        description='Scale stiffness below the original chain roots. 1.0 preserves the current taper; lower values soften the ends without changing root stiffness',
+        update=update_non_root_stiffness)
     gravity: bpy.props.FloatProperty(name='Gravity', min=0., soft_max=.2, default=.025, update=update_gravity)
 
 
@@ -206,20 +231,44 @@ def apply_follow(rig, group):
             constraint.influence = group.influence  # Preserve VRM export flags.
 
 
+def non_root_joint_roles(rig, chains):
+    """Resolve logical chain roots even when each segment is a VRM spring.
+
+    VRM's last joint is a terminal point, not another simulated segment. Its
+    settings follow the preceding segment, including on two-joint springs.
+    """
+    simulated = {j.node.bone_name for s in chains for j in s.joints[:-1]}
+    roles = {}
+    for name in simulated:
+        bone = rig.data.bones.get(name)
+        roles[name] = bool(bone and any(p.name in simulated for p in bone.parent_recursive))
+    return [[roles.get(j.node.bone_name, False) for j in s.joints[:-1]] +
+            ([roles.get(s.joints[-2].node.bone_name, False)] if len(s.joints) > 1 else [False])
+            for s in chains]
+
+
 def apply_spring(rig, group, field=None):
     if not group.prefix:
         return
-    for spring in springs(rig, group.prefix):
+    chains = springs(rig, group.prefix)
+    stiffness_update = field in (None, 'stiffness', 'non_root_stiffness')
+    roles = non_root_joint_roles(rig, chains) if stiffness_update else [None] * len(chains)
+    for spring, non_roots in zip(chains, roles):
         if not spring.joints:
             continue
         root = spring.joints[0].stiffness
         for index, joint in enumerate(spring.joints):
-            if field in (None, 'stiffness'):
+            if stiffness_update:
                 if 'hallway_stiffness_ratio' not in joint:
                     joint['hallway_stiffness_ratio'] = joint.stiffness / root if root > 1e-8 else max(0., 1. - .1 * index)
-                value = group.stiffness * joint['hallway_stiffness_ratio']
-                if joint.stiffness != value:
-                    joint.stiffness = value
+                # Never recapture the taper from already-scaled values, even
+                # after the multiplier has been set to zero and restored.
+                if field != 'non_root_stiffness' or non_roots[index]:
+                    value = group.stiffness * joint['hallway_stiffness_ratio']
+                    if non_roots[index]:
+                        value *= group.non_root_stiffness
+                    if joint.stiffness != value:
+                        joint.stiffness = value
             if field in (None, 'drag') and joint.drag_force != group.drag:
                 joint.drag_force = group.drag
             if field in (None, 'gravity') and joint.gravity_power != group.gravity:

@@ -83,7 +83,7 @@ def _vertical_weights(names, parent, t, smooth_transition=False):
     return {nodes[a]: 1-blend, nodes[a+1]: blend}
 
 
-def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12):
+def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, skirt_segments=None):
     """Detect long strands and circumferential skirts before mutating anything.
 
     Bottoms that do not surround both legs are rejected (e.g. separate trouser
@@ -93,6 +93,13 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     if segments < 2 or skirt_sectors < 6:
         raise ValueError('Need at least two segments and six skirt sectors')
     roles = material_roles or {}
+    humanoid=rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
+    def limb(side,part,legacy,mixamo):
+        mapped=getattr(humanoid,side+'_'+part).node.bone_name
+        return next((n for n in (mapped,legacy,mixamo) if n in rig.data.bones),None)
+    thighs={'L':limb('left','upper_leg','Thigh.L','LeftUpLeg'),'R':limb('right','upper_leg','Thigh.R','RightUpLeg')}
+    shins=[limb('left','lower_leg','Shin.L','LeftLeg'),limb('right','lower_leg','Shin.R','RightLeg')]
+    if None in [*thighs.values(),*shins]:raise ValueError('Missing humanoid leg mapping')
     all_points = {o.name: _points(rig, o) for o in meshes}
     height = max(p[:, 2].max() for p in all_points.values()) - min(p[:, 2].min() for p in all_points.values())
     chains, regions, rejected = [], [], []
@@ -122,7 +129,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             # VRoid long dresses often label every layer as Tops, not Bottoms.
             # Restrict them anatomically before the circumferential tests below.
             waist = rig.data.bones['Hips'].tail_local.z
-            knee = min(rig.data.bones[n].head_local.z for n in ('Shin.L', 'Shin.R'))
+            knee = min(rig.data.bones[n].head_local.z for n in shins)
             slots = {i for i, mat in enumerate(obj.data.materials) if mat and
                      mat.name not in roles and 'cloth' in mat.name.lower() and
                      not any(t in mat.name.lower() for t in ('shoe', 'glove'))}
@@ -150,6 +157,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
         if hi-lo < height*.10 or min(coverage) < 7 or not bridges:
             rejected.append(dict(object=obj.name, role='skirt', reason='Not a continuous circumferential skirt', coverage=coverage))
             continue
+        skirt_resolution = skirt_segments if skirt_segments is not None else segments
         names_by_sector = []
         radii = np.linalg.norm(delta, axis=1)
         skirt_index = sum(r['role'] == 'skirt' for r in regions)
@@ -157,16 +165,16 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             angle = sector/skirt_sectors*math.tau
             angular_distance = np.abs((angles-angle+math.pi) % math.tau-math.pi)
             line = []
-            for z in np.linspace(hi, lo, segments+1):
-                score = angular_distance/(math.tau/skirt_sectors) + np.abs(p[:, 2]-z)/((hi-lo)/segments)
-                near = np.argsort(score)[:max(4, len(p)//(skirt_sectors*segments))]
+            for z in np.linspace(hi, lo, skirt_resolution+1):
+                score = angular_distance/(math.tau/skirt_sectors) + np.abs(p[:, 2]-z)/((hi-lo)/skirt_resolution)
+                near = np.argsort(score)[:max(4, len(p)//(skirt_sectors*skirt_resolution))]
                 radius = float(np.median(radii[near]))
                 line.append(Vector((* (center+radius*np.array((math.cos(angle), math.sin(angle)))), z)))
-            names = [f'{PREFIX}Skirt_{skirt_index:02d}_{sector:02d}_{i:02d}' for i in range(segments+1)]
+            names = [f'{PREFIX}Skirt_{skirt_index:02d}_{sector:02d}_{i:02d}' for i in range(skirt_resolution+1)]
             side = 'L' if math.cos(angle) >= 0 else 'R'
             chains.append(dict(role='skirt', names=names, line=line, parent='Hips',
                                follow=f'{PREFIX}SkirtFollow_{skirt_index:02d}_{sector:02d}',
-                               leg='Thigh.'+side, follow_influence=INFLUENCE))
+                               leg=thighs[side], follow_influence=INFLUENCE))
             names_by_sector.append(names)
         regions.append(dict(obj=obj, ids=skirt, role='skirt', names=names_by_sector,
                             lo=float(lo), hi=float(hi), center=center.tolist()))
@@ -176,7 +184,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     return dict(chains=chains, regions=regions, rejected=rejected, height=float(height), points=all_points)
 
 
-def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None):
+def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None, skirt_segments=None):
     """Add a secondary rig once, preserving all geometry and unrelated weights.
 
     Repeated calls reject before mutation rather than accumulating duplicate
@@ -193,7 +201,7 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
     for name in ('Head', 'Neck', 'Hips'):
         if name not in rig.data.bones:
             raise ValueError('Missing humanoid attachment bone: '+name)
-    plan = plan_secondary(rig, meshes, material_roles, segments, skirt_sectors)
+    plan = plan_secondary(rig, meshes, material_roles, segments, skirt_sectors, skirt_segments)
     if not plan['chains']:
         raise ValueError('No supported long-hair or skirt regions detected')
     selected = list(bpy.context.selected_objects)
@@ -253,6 +261,14 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         rig.data.pose_position = 'POSE'
         bpy.context.view_layer.update()
         metadata = _write_vrm(rig, meshes, plan, material_roles or {}, spring_center)
+        if any(c['role']=='skirt' for c in plan['chains']):
+            from avatar_contact_colliders import install_contact_colliders
+            from avatar_skirt_binding import rebind_skirt_strips
+            from avatar_directional_contacts import install_skirt_contact_rig
+            metadata['contact_colliders']=install_contact_colliders(rig,meshes)
+            metadata['strip_binding']=rebind_skirt_strips(rig,meshes)
+            metadata['contact_rig']=install_skirt_contact_rig(rig,meshes)
+            metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
     finally:
         if bpy.context.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
@@ -301,7 +317,7 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
             joint = spring.joints.add()
             joint.node.bone_name = name
             joint.stiffness = (1.0 if hair else 1.6) * (1-.10*i)
-            joint.drag_force = .4 if hair else .60
+            joint.drag_force = .4
             joint.gravity_power = .035 if hair else .025
             joint.gravity_dir = (0, 0, -1)
             # Bone-point collisions need a margin for the skinned cloth between

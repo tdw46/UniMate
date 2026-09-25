@@ -98,13 +98,22 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
                                      organize_colliders, cleanup_orphan_displays)
     if rig.data.vrm_addon_extension.spec_version != '1.0':
         raise ValueError('Generated capsule fitting requires VRM 1')
+    if rig.get('hallway_contact_colliders') and collider_roles and set(collider_roles)=={'skirt'}:
+        from avatar_contact_colliders import install_contact_colliders
+        from avatar_skirt_fit_io import rest_edit
+        with rest_edit(rig):
+            result=install_contact_colliders(rig,meshes)
+        rig['hallway_pose_fit_settings_changed']=True
+        return dict(result,colliders=result['unique_skirt_colliders'])
     plan=plan_colliders(rig,meshes,material_roles)
     roles=set(collider_roles or ('skirt','hair'))
     plan['collider_details']=[s for s in plan['collider_details'] if s['role'] in roles]
     plan['omitted']=[s for s in plan['omitted'] if s['role'] in roles]
     names={PREFIX+role.title()+'Body' for role in roles}
     sb=rig.data.vrm_addon_extension.spring_bone1
-    owned_groups={g.uuid for g in sb.collider_groups if g.vrm_name in names}
+    from avatar_contact_colliders import owned_group
+    owned_groups={g.uuid for g in sb.collider_groups if g.vrm_name in names
+                  or ('skirt' in roles and owned_group(g.vrm_name))}
     # A group shared by artist springs is not ours to replace.
     shared={ref.collider_group_uuid for spring in sb.springs
             if not spring.vrm_name.startswith(PREFIX) for ref in spring.collider_groups}
@@ -154,6 +163,9 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
             bpy.context.view_layer.objects.active=bpy.context.view_layer.objects.get(active_name) if active_name else None
             bpy.context.view_layer.update()
     plan.update(colliders=len(plan['collider_details']),collider_groups=len(groups))
+    if 'skirt' in roles:
+        rig['hallway_contact_colliders']=0
+        if rig.get('hallway_pose_fit'):rig['hallway_pose_fit_settings_changed']=True
     rig['unimate_collider_generator']=6
     return plan
 

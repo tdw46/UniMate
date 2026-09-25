@@ -1,0 +1,143 @@
+{
+  "runtime": "Blender 5.2.2 / installed BVT solver",
+  "angle_limit_degrees": 30,
+  "metric": "Intersecting skirt/leg triangle pairs at 4 sampled frames per 91-frame motion. Not penetration depth, visible area or percent clean.",
+  "pilot_follow": 0,
+  "pilot_side": "left",
+  "pilots": {
+    "baseline": {
+      "motions": 12,
+      "triangle_pairs": 13540,
+      "maximum_spring_penetration_m": 0.0007853596405973523,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "tethers": {
+      "motions": 12,
+      "triangle_pairs": 13535,
+      "maximum_spring_penetration_m": 0.0486153106172075,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "per_chain_body": {
+      "motions": 12,
+      "triangle_pairs": 13152,
+      "maximum_spring_penetration_m": 0.0008169860957403935,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "per_chain_sections": {
+      "motions": 12,
+      "triangle_pairs": 12921,
+      "maximum_spring_penetration_m": 0.0017479938875850781,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "per_chain_sections_skinning": {
+      "motions": 12,
+      "triangle_pairs": 12827,
+      "maximum_spring_penetration_m": 0.0017479938875850781,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "segments": {
+      "motions": 12,
+      "triangle_pairs": 13112,
+      "maximum_spring_penetration_m": 0.0008169734189610589,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "network": {
+      "motions": 12,
+      "triangle_pairs": 13135,
+      "maximum_spring_penetration_m": 0.04887447531423739,
+      "rest_triangle_pairs": [
+        234
+      ]
+    },
+    "surface_fit": {
+      "motions": 12,
+      "triangle_pairs": 4699,
+      "maximum_spring_penetration_m": 0.0017479938875850781,
+      "rest_triangle_pairs": [
+        0
+      ]
+    }
+  },
+  "full": {
+    "baseline_full": {
+      "motions": 56,
+      "follow": [
+        0,
+        0.2
+      ],
+      "sides": [
+        "left",
+        "right"
+      ],
+      "triangle_pairs": 62561,
+      "maximum_spring_penetration_m": 0.000785373141435057,
+      "rest_triangle_pairs": [
+        234
+      ],
+      "samples_with_zero_intersections": 0,
+      "samples": 224
+    },
+    "surface_fit_full": {
+      "motions": 56,
+      "follow": [
+        0,
+        0.2
+      ],
+      "sides": [
+        "left",
+        "right"
+      ],
+      "triangle_pairs": 19608,
+      "maximum_spring_penetration_m": 0.002617985687588184,
+      "rest_triangle_pairs": [
+        0
+      ],
+      "samples_with_zero_intersections": 56,
+      "samples": 224
+    }
+  },
+  "export": {
+    "changed_vertices": 157,
+    "maximum_rest_displacement": 0.017727237680300413,
+    "maximum_shape_key_delta_error": 0.0,
+    "uv_topology_material_slots_preserved": true,
+    "exported_colliders": 177,
+    "exported_springs": 90,
+    "unique_spring_joints": true,
+    "extended_colliders": 0
+  },
+  "three_vrm": {
+    "runtime": "three-vrm-springbone 3.5.5 / three 0.186.1",
+    "candidate": {
+      "input": "outputs/skirt_tension_research_20260924/export/candidate.vrm",
+      "runtime": "Official three-vrm-springbone loader and solver from supplied npm prefix",
+      "joints": 360,
+      "frames": 180,
+      "warnings": [],
+      "scope": "Exported node hierarchy and official spring loader/solver; no mesh rendering or mesh contact validation"
+    },
+    "network": {
+      "input": "outputs/skirt_tension_research_20260924/network_export/candidate.vrm",
+      "runtime": "Official three-vrm-springbone loader and solver from supplied npm prefix",
+      "joints": 360,
+      "frames": 180,
+      "warnings": [
+        "VRMSpringBoneManager: Circular dependency detected"
+      ],
+      "scope": "Exported node hierarchy and official spring loader/solver; no mesh rendering or mesh contact validation"
+    }
+  },
+  "decision": "Candidate only. Actual posed mesh clipping remains; reciprocal links also introduce cross-runtime circular dependencies. No live geometry, weights, colliders or BVT solver changes."
+}
