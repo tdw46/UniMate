@@ -19,7 +19,7 @@ from avatar_head_weights import correct_head_weights
 from avatar_surface_samples import sample_surface
 
 
-def repaired_heat(meshes, rig, allow_unweighted=False):
+def repaired_heat(meshes, rig, allow_unweighted=False, cap_holes=True):
     """Heat-only retry on a welded/capped copy; never voxelize the body."""
     height=max(v.co.z for o in meshes for v in o.data.vertices)-min(v.co.z for o in meshes for v in o.data.vertices)
     scale=10/height
@@ -31,7 +31,7 @@ def repaired_heat(meshes, rig, allow_unweighted=False):
             data=obj.data.copy();bm=bmesh.new();bm.from_mesh(data)
             bmesh.ops.remove_doubles(bm,verts=list(bm.verts),dist=height*1e-6)
             bmesh.ops.dissolve_degenerate(bm,dist=height*1e-8,edges=list(bm.edges))
-            holes=bmesh.ops.holes_fill(bm,edges=[e for e in bm.edges if e.is_boundary],sides=0)
+            holes=bmesh.ops.holes_fill(bm,edges=[e for e in bm.edges if e.is_boundary],sides=0) if cap_holes else {'faces':[]}
             filled=len(holes['faces']);bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces))
             bm.to_mesh(data);bm.free();data.transform(Matrix.Scale(scale,4))
             temp=bpy.data.objects.new('Temporary closed heat mesh',data);bpy.context.scene.collection.objects.link(temp)
@@ -40,6 +40,14 @@ def repaired_heat(meshes, rig, allow_unweighted=False):
                 assert bpy.ops.object.parent_set(type='ARMATURE_AUTO')=={'FINISHED'}
                 missing=sum(not weights(temp,v.index) for v in data.vertices)
                 print('REPAIRED_HEAT',len(data.vertices),filled,missing,flush=True)
+                if missing==len(data.vertices) and cap_holes:
+                    # Closing layered clothing can create invalid/nonplanar
+                    # caps and make the entire heat system singular. Retry the
+                    # welded open surface before considering unseeded regions.
+                    retry=repaired_heat([obj],rig,allow_unweighted=allow_unweighted,cap_holes=False)
+                    for row in retry:row['retry_reason']='Capped surface produced no heat weights'
+                    audit.extend(retry)
+                    continue
                 assert missing==0 or allow_unweighted,'Heat also failed on the welded/capped copy'
                 lookup=KDTree(len(data.vertices))
                 for v in data.vertices:lookup.insert(v.co,v.index)

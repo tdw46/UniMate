@@ -1,0 +1,630 @@
+{
+  "date": "2026-09-29",
+  "method": "Per-chain hips-mounted outward-sloped native VRM capsule ceilings",
+  "baseline": {
+    "variant": "baseline",
+    "setup": {},
+    "cases": [
+      {
+        "amplitude_m": 0.2915101766586304,
+        "cycle_frames": 24,
+        "leg_degrees": 0,
+        "peak_above_ceiling_mm": 71.54330796003339,
+        "final_above_ceiling": 3,
+        "return_error_mm": 273.72608858720525,
+        "hold_step_rms_mm": 0.0
+      },
+      {
+        "amplitude_m": 0.43726526498794555,
+        "cycle_frames": 12,
+        "leg_degrees": 0,
+        "peak_above_ceiling_mm": 207.860918700695,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.13538593998234544,
+        "hold_step_rms_mm": 0.0
+      },
+      {
+        "amplitude_m": 0.43726526498794555,
+        "cycle_frames": 8,
+        "leg_degrees": 30,
+        "peak_above_ceiling_mm": 231.48259705305097,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.2034483679958775,
+        "hold_step_rms_mm": 0.0
+      },
+      {
+        "amplitude_m": 0.6558978974819184,
+        "cycle_frames": 6,
+        "leg_degrees": 30,
+        "peak_above_ceiling_mm": 239.7038657069206,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.21733189253996438,
+        "hold_step_rms_mm": 0.0
+      }
+    ],
+    "geometry_and_weights_unchanged": true
+  },
+  "selected": {
+    "variant": "capsules_tilt_deep",
+    "setup": {
+      "outward_slope": 0.7,
+      "groups": 12,
+      "capsules": 60,
+      "underside_heights": [
+        0.9441817402839661,
+        0.9401969313621521,
+        0.9353309869766235,
+        0.9403399229049683,
+        0.9448748826980591,
+        0.9405859708786011,
+        0.9454194903373718,
+        0.9484381079673767,
+        0.9516769647598267,
+        0.9536471962928772,
+        0.9511101245880127,
+        0.9480431079864502
+      ],
+      "portable": true
+    },
+    "cases": [
+      {
+        "amplitude_m": 0.2915101766586304,
+        "cycle_frames": 24,
+        "leg_degrees": 0,
+        "peak_above_ceiling_mm": 20.95198631286621,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.19545202926681646,
+        "hold_step_rms_mm": 0.0
+      },
+      {
+        "amplitude_m": 0.43726526498794555,
+        "cycle_frames": 12,
+        "leg_degrees": 0,
+        "peak_above_ceiling_mm": 109.38912630081177,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.20936421663527605,
+        "hold_step_rms_mm": 0.0
+      },
+      {
+        "amplitude_m": 0.43726526498794555,
+        "cycle_frames": 8,
+        "leg_degrees": 30,
+        "peak_above_ceiling_mm": 101.57984495162964,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.2646471809908475,
+        "hold_step_rms_mm": 0.0
+      },
+      {
+        "amplitude_m": 0.6558978974819184,
+        "cycle_frames": 6,
+        "leg_degrees": 30,
+        "peak_above_ceiling_mm": 115.86612462997437,
+        "final_above_ceiling": 0,
+        "return_error_mm": 0.18320499260538517,
+        "hold_step_rms_mm": 0.0
+      }
+    ],
+    "geometry_and_weights_unchanged": true
+  },
+  "lifecycle": {
+    "setup": {
+      "outward_slope": 0.7,
+      "groups": 12,
+      "capsules": 60,
+      "underside_heights": [
+        0.9441817402839661,
+        0.9401969313621521,
+        0.9353309869766235,
+        0.9403399229049683,
+        0.9448748826980591,
+        0.9405859708786011,
+        0.9454194903373718,
+        0.9484381079673767,
+        0.9516769647598267,
+        0.9536471962928772,
+        0.9511101245880127,
+        0.9480431079864502
+      ],
+      "portable": true
+    },
+    "idempotent": true,
+    "geometry_and_weights_unchanged": true,
+    "portable_capsule_export": true,
+    "pose_attachment_verified": true,
+    "rest_audit": {
+      "pairs": 3096,
+      "contacts": [],
+      "minimum_clearance": 0.002195470468178723
+    }
+  },
+  "scope": "Numerical recovery and native export/data checks only; visual review belongs to the user.",
+  "live": {
+    "ceiling_groups": 12,
+    "ceiling_capsules": 60,
+    "attachment": [
+      {
+        "object": "Anby_mesh",
+        "fixed_vertices": 62,
+        "free_vertices": 1742,
+        "spring_root_z": 0.9717363119125366,
+        "garment_top": 0.9960559010505676
+      }
+    ],
+    "active": "Anby_arm_UniMate",
+    "mode": "OBJECT",
+    "physics_enabled": true,
+    "reference_collection": "Anby_arm - Original comparison",
+    "reference_geometry_and_weights_verified": true,
+    "mesh_geometry_and_existing_keys_unchanged": true,
+    "rest_collisions": 0,
+    "springs": 126,
+    "colliders": 120,
+    "bone_collections": [
+      "Physics",
+      "Constraints",
+      "Deform",
+      "Controls"
+    ],
+    "file_unchanged": true,
+    "saved_current_file": false
+  },
+  "height_revision": {
+    "method": "Raise the slab face to at least garment top plus joint hit radius and scale-relative margin; chain root fallback for legacy rigs",
+    "pose_before": {
+      "variant": "baseline",
+      "geometry_and_weights_unchanged": true,
+      "samples": [
+        {
+          "frame": 0,
+          "triangle_intersections": 19,
+          "collider_penetration": {
+            "leg": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 0,
+              "max_mm": 0.0
+            }
+          }
+        },
+        {
+          "frame": 44,
+          "triangle_intersections": 50,
+          "collider_penetration": {
+            "leg": {
+              "count": 1,
+              "max_mm": 0.40772766259725146
+            },
+            "roof": {
+              "count": 4,
+              "max_mm": 18.109868198588618
+            },
+            "other": {
+              "count": 5,
+              "max_mm": 6.347088254824704
+            }
+          }
+        },
+        {
+          "frame": 89,
+          "triangle_intersections": 166,
+          "collider_penetration": {
+            "leg": {
+              "count": 2,
+              "max_mm": 1.1925186015036422
+            },
+            "roof": {
+              "count": 4,
+              "max_mm": 25.79747026780413
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 30.864052716020197
+            }
+          }
+        },
+        {
+          "frame": 179,
+          "triangle_intersections": 166,
+          "collider_penetration": {
+            "leg": {
+              "count": 2,
+              "max_mm": 1.1925186015036422
+            },
+            "roof": {
+              "count": 4,
+              "max_mm": 25.79747026780413
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 30.864052716020197
+            }
+          }
+        },
+        {
+          "frame": 239,
+          "triangle_intersections": 166,
+          "collider_penetration": {
+            "leg": {
+              "count": 2,
+              "max_mm": 1.1925186015036422
+            },
+            "roof": {
+              "count": 4,
+              "max_mm": 25.79747026780413
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 30.864052716020197
+            }
+          }
+        },
+        {
+          "frame": 269,
+          "triangle_intersections": 166,
+          "collider_penetration": {
+            "leg": {
+              "count": 2,
+              "max_mm": 1.1925186015036422
+            },
+            "roof": {
+              "count": 4,
+              "max_mm": 25.79747026780413
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 30.864052716020197
+            }
+          }
+        },
+        {
+          "frame": 359,
+          "triangle_intersections": 19,
+          "collider_penetration": {
+            "leg": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 0,
+              "max_mm": 0.0
+            }
+          }
+        },
+        {
+          "frame": 539,
+          "triangle_intersections": 19,
+          "collider_penetration": {
+            "leg": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 0,
+              "max_mm": 0.0
+            }
+          }
+        }
+      ],
+      "hold_step_rms_mm": 0.0,
+      "return_error_mm": 0.08364733754116216
+    },
+    "pose_after": {
+      "variant": "raised",
+      "geometry_and_weights_unchanged": true,
+      "samples": [
+        {
+          "frame": 0,
+          "triangle_intersections": 19,
+          "collider_penetration": {
+            "leg": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 0,
+              "max_mm": 0.0
+            }
+          }
+        },
+        {
+          "frame": 44,
+          "triangle_intersections": 9,
+          "collider_penetration": {
+            "leg": {
+              "count": 1,
+              "max_mm": 0.4154799613690502
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 2,
+              "max_mm": 2.946384350147352
+            }
+          }
+        },
+        {
+          "frame": 89,
+          "triangle_intersections": 43,
+          "collider_penetration": {
+            "leg": {
+              "count": 3,
+              "max_mm": 0.29139408189250704
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 19.8158816477408
+            }
+          }
+        },
+        {
+          "frame": 179,
+          "triangle_intersections": 43,
+          "collider_penetration": {
+            "leg": {
+              "count": 3,
+              "max_mm": 0.29139408189250704
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 19.8158816477408
+            }
+          }
+        },
+        {
+          "frame": 239,
+          "triangle_intersections": 43,
+          "collider_penetration": {
+            "leg": {
+              "count": 3,
+              "max_mm": 0.29139408189250704
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 19.8158816477408
+            }
+          }
+        },
+        {
+          "frame": 269,
+          "triangle_intersections": 43,
+          "collider_penetration": {
+            "leg": {
+              "count": 3,
+              "max_mm": 0.29139408189250704
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 6,
+              "max_mm": 19.8158816477408
+            }
+          }
+        },
+        {
+          "frame": 359,
+          "triangle_intersections": 19,
+          "collider_penetration": {
+            "leg": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 0,
+              "max_mm": 0.0
+            }
+          }
+        },
+        {
+          "frame": 539,
+          "triangle_intersections": 19,
+          "collider_penetration": {
+            "leg": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "roof": {
+              "count": 0,
+              "max_mm": 0.0
+            },
+            "other": {
+              "count": 0,
+              "max_mm": 0.0
+            }
+          }
+        }
+      ],
+      "hold_step_rms_mm": 0.0,
+      "return_error_mm": 0.12303577307754127
+    },
+    "bounce": {
+      "variant": "capsules",
+      "outward_slope": 0.7,
+      "setup": {
+        "outward_slope": 0.7,
+        "groups": 12,
+        "capsules": 60,
+        "underside_heights": [
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542
+        ],
+        "portable": true
+      },
+      "cases": [
+        {
+          "amplitude_m": 0.2915101766586304,
+          "cycle_frames": 24,
+          "leg_degrees": 0,
+          "peak_above_ceiling_mm": 0.0,
+          "final_above_ceiling": 0,
+          "return_error_mm": 0.1744053010579235,
+          "hold_step_rms_mm": 0.0
+        },
+        {
+          "amplitude_m": 0.43726526498794555,
+          "cycle_frames": 12,
+          "leg_degrees": 0,
+          "peak_above_ceiling_mm": 89.20538425445557,
+          "final_above_ceiling": 0,
+          "return_error_mm": 0.1389350598259594,
+          "hold_step_rms_mm": 0.0
+        },
+        {
+          "amplitude_m": 0.43726526498794555,
+          "cycle_frames": 8,
+          "leg_degrees": 30,
+          "peak_above_ceiling_mm": 81.07519149780273,
+          "final_above_ceiling": 0,
+          "return_error_mm": 0.19910792386696738,
+          "hold_step_rms_mm": 0.0
+        },
+        {
+          "amplitude_m": 0.6558978974819184,
+          "cycle_frames": 6,
+          "leg_degrees": 30,
+          "peak_above_ceiling_mm": 80.0628662109375,
+          "final_above_ceiling": 0,
+          "return_error_mm": 0.1992841867925734,
+          "hold_step_rms_mm": 0.0
+        }
+      ],
+      "geometry_and_weights_unchanged": true
+    },
+    "lifecycle": {
+      "setup": {
+        "outward_slope": 0.7,
+        "groups": 12,
+        "capsules": 60,
+        "underside_heights": [
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542,
+          1.016951322555542
+        ],
+        "portable": true
+      },
+      "idempotent": true,
+      "geometry_and_weights_unchanged": true,
+      "portable_capsule_export": true,
+      "pose_attachment_verified": true,
+      "rest_audit": {
+        "pairs": 3096,
+        "contacts": [],
+        "minimum_clearance": 0.002338518424612898
+      }
+    },
+    "live": {
+      "outward_slope": 0.7,
+      "groups": 12,
+      "capsules": 60,
+      "underside_heights": [
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542,
+        1.016951322555542
+      ],
+      "portable": true,
+      "lift_mm": [
+        72.76956552267077,
+        76.75437444448474,
+        81.6203188300133,
+        76.61138290166858,
+        72.07642310857776,
+        76.36533492803576,
+        71.53181546926501,
+        68.51319783926013,
+        65.27434104681018,
+        63.30410951375964,
+        65.84118121862414,
+        68.90819782018664
+      ],
+      "rest_audit": {
+        "pairs": 3096,
+        "contacts": [],
+        "minimum_clearance": 0.002338518424612898
+      },
+      "weights_and_geometry_unchanged": true,
+      "other_colliders_unchanged": true,
+      "settings_preserved": true,
+      "humanoid_pose_preserved": true,
+      "hair_excluded": true,
+      "saved_current_file": false,
+      "bvt_enabled": true,
+      "total_colliders": 120,
+      "mode": "POSE"
+    },
+    "live_readback": {
+      "live_native_datapaths_verified": true,
+      "pose_attachment_verified": true,
+      "physics_enabled": true,
+      "mode": "POSE",
+      "colliders": 120,
+      "ceiling_groups": 12,
+      "hair_excluded": true,
+      "saved_current_file": false
+    }
+  }
+}

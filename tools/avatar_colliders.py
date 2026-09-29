@@ -39,6 +39,8 @@ def plan_colliders(rig, meshes, material_roles=None):
     height=max(p.z for p in all_points)-min(p.z for p in all_points)
     margin=height*.0015
     skin=[]
+    torso=[]
+    chest_name=bone_name('chest')
     roles=material_roles or {}
     for obj in meshes:
         slots={i for i,m in enumerate(obj.data.materials) if m and
@@ -46,6 +48,15 @@ def plan_colliders(rig, meshes, material_roles=None):
                 (m.get('binding_surface')=='skin' or any(t in m.name.lower() for t in ('skin','face')))))}
         ids={i for f in obj.data.polygons if f.material_index in slots for i in f.vertices}
         for i in ids:skin.append((points[obj.name][i],weights(obj,i)))
+        # Exposed skin may be just one shoulder on a clothed avatar. Fitting
+        # a torso capsule from that patch offsets it into the lower hair. Use
+        # the freshly skinned torso surface, including its clothing, while
+        # excluding spring-driven accessories. Other anatomical fits retain
+        # their existing skin-only references.
+        for i,p in enumerate(points[obj.name]):
+            values=weights(obj,i)
+            if values.get(chest_name,0)>.4 and not any(n.startswith(PREFIX) and w>1e-6 for n,w in values.items()):
+                torso.append((p,values))
     role_nodes={'skirt':('left_upper_leg','right_upper_leg','left_lower_leg','right_lower_leg'),
                 'hair':('head','neck','chest','left_upper_arm','right_upper_arm')}
     candidates=[];omitted=[]
@@ -63,7 +74,8 @@ def plan_colliders(rig, meshes, material_roles=None):
             name=bone_name(semantic)
             bone=rig.data.bones.get(name)
             if not bone:continue
-            local=[bone.matrix_local.inverted()@p for p,w in skin if w.get(name,0)>.4]
+            reference=torso if role=='hair' and semantic=='chest' and torso else skin
+            local=[bone.matrix_local.inverted()@p for p,w in reference if w.get(name,0)>.4]
             # Leg contact needs a continuous, straight surface. Independent
             # offset sections create changes in the contact normal that let a
             # low-follow spring slide between volumes after length projection.

@@ -14,6 +14,9 @@ from mathutils import Vector
 
 from avatar_apparel_weights import assign, components, weights, head_cap_vertices, hair_root_length, hair_free_top
 
+from avatar_hair_guides import hanging_branches, branch_line
+from avatar_waist_attachment import WAIST_FRACTION
+
 from avatar_skirt_follow import INFLUENCE, set_rest_frame, set_constraint, preserve_export_rest_frame
 
 PREFIX = 'Secondary_'
@@ -116,14 +119,18 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             free_top = hair_free_top(p, height, neck_z, rig.data.bones['Head'].tail_local.z)
             if free_top is None:
                 continue
-            label = f'{PREFIX}Hair_{sum(c["role"] == "hair" for c in chains):02d}'
-            root = _line(p, segments, top=min(p[:, 2].max(), free_top+hair_root_length(height, np.ptp(p[:, 2]))))[0]
-            free = _line(p, segments, top=free_top)
-            line = [root]+free
-            names = [f'{label}_{i:02d}' for i in range(len(line))]
-            chains.append(dict(role='hair', names=names, line=line, parent='Head', physics_start=1))
-            regions.append(dict(obj=obj, ids=ids, role='hair', names=[names[1:]],
-                                lo=float(p[:, 2].min()), hi=float(free[0].z)))
+            branches = hanging_branches(obj.data, ids, points, free_top,
+                                         hair_root_length(height, np.ptp(p[:, 2])))
+            for branch in branches:
+                label = f'{PREFIX}Hair_{sum(c["role"] == "hair" for c in chains):02d}'
+                free = branch_line(branch, segments)
+                if free[0].z-free[-1].z < height*.008:
+                    continue  # Too short below the cap for a meaningful spring.
+                line = [branch['root']]+free
+                names = [f'{label}_{i:02d}' for i in range(len(line))]
+                chains.append(dict(role='hair', names=names, line=line, parent='Head', physics_start=1))
+                regions.append(dict(obj=obj, ids=branch['ids'], role='hair', names=[names[1:]],
+                                    lo=float(free[-1].z), hi=float(free[0].z)))
         skirt = sorted(_material_region(obj, 'skirt', roles))
         if not skirt:
             # VRoid long dresses often label every layer as Tops, not Bottoms.
@@ -165,7 +172,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             angle = sector/skirt_sectors*math.tau
             angular_distance = np.abs((angles-angle+math.pi) % math.tau-math.pi)
             line = []
-            for z in np.linspace(hi, lo, skirt_resolution+1):
+            for z in np.linspace(hi-(hi-lo)*WAIST_FRACTION, lo, skirt_resolution+1):
                 score = angular_distance/(math.tau/skirt_sectors) + np.abs(p[:, 2]-z)/((hi-lo)/skirt_resolution)
                 near = np.argsort(score)[:max(4, len(p)//(skirt_sectors*skirt_resolution))]
                 radius = float(np.median(radii[near]))
@@ -174,7 +181,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             side = 'L' if math.cos(angle) >= 0 else 'R'
             chains.append(dict(role='skirt', names=names, line=line, parent='Hips',
                                follow=f'{PREFIX}SkirtFollow_{skirt_index:02d}_{sector:02d}',
-                               leg=thighs[side], follow_influence=INFLUENCE))
+                               leg=thighs[side], follow_influence=INFLUENCE, garment_top=float(hi), garment_bottom=float(lo)))
             names_by_sector.append(names)
         regions.append(dict(obj=obj, ids=skirt, role='skirt', names=names_by_sector,
                             lo=float(lo), hi=float(hi), center=center.tolist()))
@@ -230,6 +237,9 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                 bone.tail = chain['line'][i+1] if i < len(chain['line'])-1 else point+(point-chain['line'][i-1])*.1
                 bone.parent = rig.data.edit_bones[chain['parent'] if i == 0 else chain['names'][i-1]]
                 bone.use_connect = i > 0
+                if chain['role'] == 'skirt' and i == 0:
+                    bone['hallway_garment_top'] = chain['garment_top']
+                    bone['hallway_garment_bottom'] = chain['garment_bottom']
                 bone.use_deform = i < len(chain['line'])-1
                 if chain['role'] == 'hair' and i == 0:
                     bone['unimate_fixed_hair_root'] = True
@@ -266,7 +276,7 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
             from avatar_skirt_binding import rebind_skirt_strips
             from avatar_directional_contacts import install_skirt_contact_rig
             metadata['contact_colliders']=install_contact_colliders(rig,meshes)
-            metadata['strip_binding']=rebind_skirt_strips(rig,meshes)
+            metadata['strip_binding']=rebind_skirt_strips(rig,meshes,regions=[r for r in plan['regions'] if r['role']=='skirt'])
             metadata['contact_rig']=install_skirt_contact_rig(rig,meshes)
             metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
     finally:

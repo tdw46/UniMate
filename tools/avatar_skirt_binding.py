@@ -1,13 +1,14 @@
 """Experimental surface-to-segment binding for generated skirt chains.
 
-Ordinary normalized skin weights export without a runtime extension. The fixed
-waist transition is short; a segment owns its interior, with smooth blends only
+Ordinary normalized skin weights export without a runtime extension. The upper
+tenth stays attached to the body; below it the waist transition is short; a segment owns its interior, with smooth blends only
 around joints. This avoids pulling an entire upper segment toward fixed hips.
 """
 import math
 import bpy
 from mathutils import Vector
 from avatar_apparel_weights import weights, assign
+from avatar_waist_attachment import WaistAttachment, WAIST_FRACTION, TRANSITION_FRACTION
 
 
 def fit_rest_clearance(rig, parts, clearance=0.002):
@@ -92,7 +93,7 @@ def fit_rest_clearance(rig, parts, clearance=0.002):
     return dict(vertices=changed,maximum_displacement=maximum,clearance=clearance)
 
 
-def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=0.05):
+def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACTION, transition_fraction=TRANSITION_FRACTION, regions=None):
     sb = rig.data.vrm_addon_extension.spring_bone1
     families = {}
     for spring in sb.springs:
@@ -101,23 +102,39 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=0.05):
         names = [j.node.bone_name for j in spring.joints]
         points = [rig.data.bones[n].head_local.copy() for n in names]
         families.setdefault(spring.vrm_name.rsplit('_', 1)[0], []).append((names, points))
-    hips = rig.data.vrm_addon_extension.vrm1.humanoid.human_bones.hips.node.bone_name
+    attachment = WaistAttachment(rig, meshes)
+    explicit = {(r['obj'].name, i): r['names'][0][0].rsplit('_', 2)[0]
+                for r in (regions or []) for i in r['ids']}
     changed = 0
+    attached = 0
     def smooth(x):
         x=max(0., min(1., x));return x*x*(3-2*x)
     for obj in meshes:
         matrix=rig.matrix_world.inverted()@obj.matrix_world
         for vertex in obj.data.vertices:
             old=weights(obj, vertex.index)
-            family=next((chains for label,chains in families.items()
-                         if any(n.startswith(label+'_') and w>1e-6 for n,w in old.items())),None)
-            if family is None:
+            label = explicit.get((obj.name, vertex.index))
+            if label is None:
+                label = next((label for label in families
+                              if any(n.startswith(label+'_') and w>1e-6 for n,w in old.items())), None)
+            if label not in families:
                 continue
+            family = families[label]
             p=matrix@vertex.co
             names_set={n for names,_ in family for n in names}
-            amount=sum(w for n,w in old.items() if n in names_set or n==hips)
-            if amount<.99:
+            amount=sum(w for n,w in old.items() if n in names_set or n in attachment.allowed)
+            if (obj.name, vertex.index) not in explicit and amount<.99:
                 continue  # Ambiguous mixed bindings are not ours to rewrite.
+            root = rig.data.bones[family[0][0][0]]
+            top = root.get('hallway_garment_top', max(points[0].z for _, points in family))
+            bottom = root.get('hallway_garment_bottom', min(points[-1].z for _, points in family))
+            free = smooth(((top-p.z)/(top-bottom)-waist_fraction)/transition_fraction)
+            body = attachment.sample(p) if free < 1. else {}
+            if free == 0.:
+                assign(obj, [vertex.index], body)
+                changed += 1
+                attached += 1
+                continue
             center=sum((points[0] for _,points in family),Vector())/len(family)
             angular=sorted((math.atan2(points[0].y-center.y,points[0].x-center.x)%math.tau,names,points)
                            for names,points in family)
@@ -137,10 +154,11 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=0.05):
                         t=smooth((points[j].z+band-p.z)/(2*band))
                         local={names[j-1]:1-t,names[j]:t}
                         break
-                free=smooth((points[0].z-p.z)/((points[0].z-points[-1].z)*waist_fraction))
                 local={n:w*free for n,w in local.items()}
-                local[hips]=1-free
+                for n,w in body.items():local[n]=local.get(n,0.)+w*(1-free)
                 for n,w in local.items():values[n]=values.get(n,0.)+w*angular_weight
             assign(obj,[vertex.index],values)
             changed+=1
-    return {'vertices':changed,'joint_blend':joint_blend,'waist_fraction':waist_fraction}
+    return {'vertices':changed,'joint_blend':joint_blend,'waist_fraction':waist_fraction,
+            'transition_fraction':transition_fraction,'fully_attached_vertices':attached,
+            'body_surface_samples':attachment.sampled,'humanoid_fallback_samples':attachment.fallback}

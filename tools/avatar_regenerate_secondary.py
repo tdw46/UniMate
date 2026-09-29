@@ -54,8 +54,10 @@ def regenerate(rig,meshes,follow=.55,segments=4,sectors=12,skirt_segments=None):
             for key in ('hallway_pose_fit','hallway_pose_fit_bundle','hallway_pose_fit_path','hallway_pose_fit_report','hallway_pose_fit_settings_changed'):
                 if key in rig:del rig[key]
             report=generate_secondary(rig,meshes,segments=segments,skirt_sectors=sectors,skirt_segments=skirt_segments)
-            from properties_hallway_rig import initialize
-            settings=initialize(rig);settings.follow_groups['Skirt'].influence=follow
+            from properties_hallway_rig import initialize, apply_settings
+            settings=initialize(rig)
+            if 'Skirt' in settings.follow_groups:settings.follow_groups['Skirt'].influence=follow
+            apply_settings(rig)
             cleanup_orphan_displays(rig)
             report['mesh_signatures']=verify(meshes,geometry)
             rig['hallway_immutable_mesh']=True

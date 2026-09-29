@@ -1,0 +1,576 @@
+{
+  "baseline": {
+    "variant": "baseline",
+    "cases": [
+      {
+        "scenario": "translate",
+        "motion_jerk_rms_mm": 0.08393317625421182,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.05990638583898544": 844,
+          "0.011155907064676285": 72
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.6422182386098636
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.6422182386098636
+          },
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.6264981211403391
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.6264981211403391
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.5466334742367976
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.5466334742367976
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12682634622628405
+          }
+        ]
+      },
+      {
+        "scenario": "headturn",
+        "motion_jerk_rms_mm": 0.045836685648296474,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.05990638583898544": 1024,
+          "0.011155907064676285": 34
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.19385102053312933
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.19385102053312933
+          },
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.15923552643103148
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.15923552643103148
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.15329647134453211
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.15329647134453211
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12709221996215433
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12709221996215433
+          }
+        ]
+      }
+    ]
+  },
+  "none": {
+    "variant": "none",
+    "cases": [
+      {
+        "scenario": "translate",
+        "motion_jerk_rms_mm": 0.04853454239066148,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {},
+        "worst": [
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.13048449560812928
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.13048449560812928
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.12381287640008957
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.12381287640008957
+          },
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.12196996297792498
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.12196996297792498
+          }
+        ]
+      },
+      {
+        "scenario": "headturn",
+        "motion_jerk_rms_mm": 0.044279874517436854,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {},
+        "worst": [
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.14126022161170956
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.14126022161170956
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.13349276349998065
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.13349276349998065
+          },
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.12921740316327657
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.12921740316327657
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12709221996215433
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12709221996215433
+          }
+        ]
+      }
+    ]
+  },
+  "head": {
+    "variant": "head",
+    "cases": [
+      {
+        "scenario": "translate",
+        "motion_jerk_rms_mm": 0.0491011124784277,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.011155907064676285": 72
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.13048449560812928
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.13048449560812928
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.12381287640008957
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.12381287640008957
+          },
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.12196996297792498
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.12196996297792498
+          }
+        ]
+      },
+      {
+        "scenario": "headturn",
+        "motion_jerk_rms_mm": 0.044281115807361646,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.011155907064676285": 34
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.14126022161170956
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.14126022161170956
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.13349276349998065
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.13349276349998065
+          },
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.12921740316327657
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.12921740316327657
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12709221996215433
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12709221996215433
+          }
+        ]
+      }
+    ]
+  },
+  "nohead": {
+    "variant": "nohead",
+    "cases": [
+      {
+        "scenario": "translate",
+        "motion_jerk_rms_mm": 0.08360299417229201,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.05990638583898544": 844
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.6422182386098636
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.6422182386098636
+          },
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.6264981211403391
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.6264981211403391
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.5466334742367976
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.5466334742367976
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12682634622628405
+          }
+        ]
+      },
+      {
+        "scenario": "headturn",
+        "motion_jerk_rms_mm": 0.045835486485426645,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.05990638583898544": 1024
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.19385102053312933
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.19385102053312933
+          },
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.15923552643103148
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.15923552643103148
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.15329647134453211
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.15329647134453211
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12709221996215433
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12709221996215433
+          }
+        ]
+      }
+    ]
+  },
+  "refit": {
+    "variant": "refit",
+    "cases": [
+      {
+        "scenario": "translate",
+        "motion_jerk_rms_mm": 0.05084470502338422,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.06326791644096375": 26,
+          "0.011155907064676285": 72
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.19128758395290726
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.19128758395290726
+          },
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.1872012447924251
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.1872012447924251
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12682634622628405
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.12381287640008957
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.12381287640008957
+          }
+        ]
+      },
+      {
+        "scenario": "headturn",
+        "motion_jerk_rms_mm": 0.044877444624244575,
+        "hold_step_rms_mm": 0.0,
+        "pair_divergence_mm": 0.0,
+        "contacts_by_radius": {
+          "0.06326791644096375": 234,
+          "0.011155907064676285": 34
+        },
+        "worst": [
+          {
+            "bone": "Secondary_Hair_111_05",
+            "jerk_mm": 0.1621050973446135
+          },
+          {
+            "bone": "Secondary_Hair_76_05",
+            "jerk_mm": 0.1621050973446135
+          },
+          {
+            "bone": "Secondary_Hair_112_05",
+            "jerk_mm": 0.14845507756939852
+          },
+          {
+            "bone": "Secondary_Hair_77_05",
+            "jerk_mm": 0.14845507756939852
+          },
+          {
+            "bone": "Secondary_Hair_113_05",
+            "jerk_mm": 0.13519317828612015
+          },
+          {
+            "bone": "Secondary_Hair_78_05",
+            "jerk_mm": 0.13519317828612015
+          },
+          {
+            "bone": "Secondary_Hair_79_05",
+            "jerk_mm": 0.12709221996215433
+          },
+          {
+            "bone": "Secondary_Hair_95_05",
+            "jerk_mm": 0.12709221996215433
+          }
+        ]
+      }
+    ]
+  },
+  "regression": {
+    "height": 1.5590899323688063,
+    "margin": 0.0023386348985532097,
+    "collider_details": [
+      {
+        "role": "hair",
+        "bone": "Head",
+        "offset": [
+          1.3788754813504056e-06,
+          0.03600002080202103,
+          0.0691240131855011
+        ],
+        "tail": [
+          1.3788754813504056e-06,
+          0.04400002956390381,
+          0.0691240131855011
+        ],
+        "radius": 0.011155906798002036,
+        "body_radius": 0.036000022664666176,
+        "minimum_rest_clearance": 0.00233863489855321,
+        "section": 0
+      },
+      {
+        "role": "hair",
+        "bone": "Neck",
+        "offset": [
+          0.0,
+          0.007796140853315592,
+          0.0
+        ],
+        "tail": [
+          0.0,
+          0.05717169865965843,
+          0.0
+        ],
+        "radius": 0.007796140909194946,
+        "body_radius": 0.007796140909194946,
+        "minimum_rest_clearance": 0.03019290476526899,
+        "section": 0
+      },
+      {
+        "role": "hair",
+        "bone": "Spine1",
+        "offset": [
+          0.0028553828597068787,
+          0.08768188953399658,
+          0.03506748378276825
+        ],
+        "tail": [
+          0.0028553828597068787,
+          0.10716675221920013,
+          0.03506748378276825
+        ],
+        "radius": 0.06326791731856203,
+        "body_radius": 0.08768188878893853,
+        "minimum_rest_clearance": 0.00233863489855321,
+        "section": 0
+      },
+      {
+        "role": "hair",
+        "bone": "LeftArm",
+        "offset": [
+          -0.007062205579131842,
+          0.050006791949272156,
+          -0.02565438486635685
+        ],
+        "tail": [
+          -0.007062205579131842,
+          0.17354542016983032,
+          -0.02565438486635685
+        ],
+        "radius": 0.050006791727521316,
+        "body_radius": 0.050006791727521316,
+        "minimum_rest_clearance": 0.07855165614588575,
+        "section": 0
+      },
+      {
+        "role": "hair",
+        "bone": "RightArm",
+        "offset": [
+          0.007635447662323713,
+          0.047612156718969345,
+          -0.021314622834324837
+        ],
+        "tail": [
+          0.007635447662323713,
+          0.17594005167484283,
+          -0.021314622834324837
+        ],
+        "radius": 0.04761215821617919,
+        "body_radius": 0.04761215821617919,
+        "minimum_rest_clearance": 0.07760210884684816,
+        "section": 0
+      }
+    ],
+    "omitted": [],
+    "colliders": 5,
+    "collider_groups": 1,
+    "idempotent": true,
+    "hair_skirt_colliders_disjoint": true,
+    "skirt_capsules_unchanged": true,
+    "mesh_and_weights_unchanged": true,
+    "rest_audit": {
+      "pairs": 3096,
+      "contacts": [],
+      "minimum_clearance": 0.002195470468178723
+    }
+  },
+  "scope": "Numeric BVT collider ablations, no visual inspection. Skirt barriers were already excluded from hair.",
+  "live": {
+    "hair_colliders": 5,
+    "skirt_colliders": 115,
+    "runtime_overlap": 0,
+    "torso_local_x": 0.002855382626876235,
+    "bvt_enabled": true,
+    "total_colliders": 120,
+    "total_springs": 126,
+    "saved_current_file": false
+  }
+}

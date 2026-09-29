@@ -147,7 +147,7 @@ def rebuild(source, meshes):
     rigid = set()
     for obj in meshes:
         labels={obj.data.materials[p.material_index].name.lower() for p in obj.data.polygons}
-        facial=('face','eye','mouth','teeth','double','hair','headaccessory')
+        facial=('face','eye','iris','mouth','teeth','double','hair','headaccessory')
         if all(any(t in label for t in facial) for label in labels):
             rigid.add(obj.name)
             continue
@@ -190,7 +190,7 @@ def rebuild(source, meshes):
         labels={obj.data.materials[p.material_index].name.lower() for p in obj.data.polygons}
         # Semantic facial surfaces and hair are anchored to Head before adding
         # free hair chains. Mixed body objects retain their ordinary heat solve.
-        facial=('face','eye','mouth','teeth','double','hair','headaccessory')
+        facial=('face','eye','iris','mouth','teeth','double','hair','headaccessory')
         if all(any(t in label for t in facial) for label in labels):
             assign(obj,list(range(count)),{'Head':1.});obj['binding_role']='head'
         else:obj['binding_role']='body'
@@ -213,6 +213,8 @@ def rebuild(source, meshes):
 
 
 def main():
+    if not bpy.app.background:
+        raise RuntimeError('Build replacements in an isolated background Blender')
     directory=Path(sys.argv[sys.argv.index('--')+1]).resolve()
     inventory=json.loads((directory/'source_inventory.json').read_text())
     bpy.ops.wm.open_mainfile(filepath=str(directory/'source_scene.blend'))
@@ -220,6 +222,13 @@ def main():
     scene=next(s for s in bpy.data.scenes if source.name in s.objects)
     bpy.context.window.scene=scene
     meshes=[bpy.data.objects[n] for n in inventory['affected_meshes']]
+    # A live snapshot can contain a posed or simulated source. Landmarks come
+    # from its rest bones; discard only the isolated source's pose, never bake
+    # that pose into the original vertices or existing shape keys.
+    posed=[p.name for p in source.pose.bones if p.matrix_basis != Matrix.Identity(4)]
+    source.animation_data_clear()
+    for pb in source.pose.bones:pb.matrix_basis=Matrix.Identity(4)
+    if scene.rigidbody_world:scene.rigidbody_world.enabled=False
     for obj in list(bpy.data.objects):
         if obj not in meshes and obj!=source:bpy.data.objects.remove(obj,do_unlink=True)
     for repo in bpy.context.preferences.extensions.repos:
@@ -228,6 +237,7 @@ def main():
             repo.custom_directory = str(Path.home()/'Documents/Blender/extensions/user_default')
     bpy.ops.preferences.addon_enable(module='bl_ext.user_default.vrm')
     rig,report=rebuild(source,meshes)
+    report['source_pose_reset_in_isolation']=posed
     rig['unimate_source']='MMD semantic rest joints; new heat weights and geometry-derived springs'
     (directory/'generated_weights.json').write_text(json.dumps({o.name:[weights(o,v.index) for v in o.data.vertices] for o in meshes}))
     (directory/'generation_report.json').write_text(json.dumps(report,indent=2))

@@ -447,3 +447,131 @@ relative shape keys. No extra runtime solver is installed. See
 [design, measured coverage and limitations](skirt-contact-design.md). The
 ordinary generator still produces its initial rest fit; pose optimization is
 an explicit offline refinement because it alters the skirt's rest silhouette.
+
+
+### Anby generalization check (2026-09-29)
+
+Anby on MCP 9876 was rebuilt from the saved rest geometry with the source
+285-bone rig and 94,236 old weight assignments removed in isolation. The result
+uses 52 symmetric MMD rest landmarks, fresh heat weights, and the same generated
+secondary rig as Belle: 12 continuous skirt chains, 82 hair chains, and 59 native
+VRM capsules. All 16 live mesh IDs, 24,531 vertices, UVs, materials and existing
+shape-key coordinates were preserved; the original weighted meshes and rig are
+in the hidden `Anby_arm - Original comparison` collection.
+
+Iris materials now follow the existing rigid facial-surface classification.
+Including detached iris surfaces in the combined heat domain caused an entirely
+unseeded solve. The shared heat retry also handles an all-zero capped solve by
+trying the welded open proxy; this fallback was independently exercised on the
+failed input. Neither route modifies final mesh coordinates.
+
+`tools/validate_rebuilt_character.py` verifies geometry hashes, normalized new
+weights, humanoid symmetry, unique spring joints, empty spring centers and rest
+clearance, renames to unprefixed Mixamo names, and runs 180 installed-BVT simulation
+steps. It packages the validated rig for `install_rebuilt_character.py`. These
+are execution/data checks, not visual or clipping approval. The live file remains
+unsaved. See `docs/anby-pipeline-validation.json` and `outputs/anby_live_20260929/`.
+
+
+### Hair branches and fixed waist attachment (2026-09-29)
+
+Hair planning now cuts its **guide graph** at the cap boundary and creates one
+chain per connected hanging branch. Cap-connected bangs no longer share a
+height-slice median across empty gaps. Roots use their branch's own incoming
+edges, and subsequent guide points use actual edge/height intersections. No
+angle filter removes legitimate sideways strands. The mesh itself is unchanged.
+
+Skirt roots begin 10% below the garment top. The upper 10% uses bounded,
+barycentric sampling of freshly rigged underlying body weights, with mapped Hips
+as the fallback when no suitable body surface exists. The following 5% smoothly
+blends into spring weights; the remaining garment keeps spring-only weights.
+Original garment bounds are stored on chain roots so rebinding uses the same
+attachment region. Regeneration reapplies saved follow, thickness, drag,
+stiffness and gravity settings.
+
+The isolated Anby check found 114 individual hair branches and 12 skirt chains.
+All 62 vertices in the fixed upper skirt band remained stationary when the
+skirt spring bones were rotated, and all 1,742 vertices below the transition
+remained spring-weighted. Body projection supplied all 259 attachment/blend
+samples. Geometry, UVs and existing shape-key coordinates remained identical.
+180 BVT motion steps had finite transforms; rest collider overlap remained zero.
+These numerical checks leave visual review to the user.
+
+Regression fixtures: `tools/test_avatar_hair_guides.py` (cap separation and a
+sideways strand) and `tools/test_avatar_waist_attachment.py` (body interpolation,
+bounded projection and missing-body fallback). Run each with factory-startup
+background Blender. Live application evidence is in
+`outputs/anby_live_20260929/live_attachment_regeneration.json` and
+`docs/anby-attachment-validation.json`.
+
+### Hips-mounted skirt ceilings (2026-09-29)
+
+`avatar_skirt_ceiling.py` adds a native VRM capsule barrier for each generated
+skirt chain. It is attached to Hips and slopes outward/downward, allowing a
+fold to slide back out instead of remaining trapped under a flat lid. Only its
+own chain references each barrier. No mesh, weight, bone, existing collider or
+spring tuning changes are needed. Fresh generation and the existing Refit Skirt
+Colliders action install these barriers through `install_skirt_contact_rig()`.
+
+The collision face is fitted outside all resting samples, including their hit
+radii. Blocked-side depth scales with the whole chain's reach; sizing depth for
+just one segment allowed a fast reversal to cross to the far side. Five long
+capsules per Anby chain provide coverage (60 extra capsules, 240 extra
+segment/collider pairs). Geometry beyond a chain's own group does not affect
+other springs. The leg-collider thickness slider excludes these structural
+barriers so reducing thickness cannot open gaps. Native display parenting,
+show-in-front, and collection-only hiding remain unchanged.
+
+A plane comparison confirmed the installed VRM add-on's offset setter resets
+rotation. Diagnostic planes write offset first, then normal, and verify both in
+bone-local coordinates. The production solution uses standard VRM capsules,
+without the extended-plane schema or an additional physics solver.
+
+`measure_skirt_bounce.py` compares baseline, plane and capsule variants in
+isolated Blender using the installed BVT solver. Four cases repeat vertical
+motion six times, covering 0.29–0.66 m travel and 6–24 frame periods, with two
+cases also holding 30-degree leg rotations. Baseline reproduced a 273.7 mm
+return error; the selected capsule setup returned within 0.27 mm in all four
+cases. This measures recovery, not a guarantee of zero transient mesh clipping.
+`test_avatar_skirt_ceiling.py` also verifies repeat installation, rest clearance,
+standard capsule export, pose-following endpoints and immutable mesh/weights.
+See `docs/anby-ceiling-validation.json` for the measured results.
+
+The ceiling height now has a garment-relative minimum: the authored garment
+top plus joint hit radius and scale-relative clearance. Older rigs without
+garment bounds use their chain attachment height. This lifts the entire slab
+without changing its slope, depth or exclusive chain assignments. Fitting only
+above the first simulated points placed the barrier below the waistband and
+restricted high leg raises. On Anby's recorded high-leg pose, the raised roof
+eliminated roof/sample penetration and reduced sampled skirt/leg triangle
+intersections from 166 to 43. Remaining intersections are not claimed resolved.
+All four vertical-bounce cases returned within 0.20 mm of their settled start.
+`measure_skirt_ceiling_pose.py` reproduces the source file's humanoid pose via a
+raise/hold/return sequence; the lifecycle test also covers legacy root fallback.
+
+### Hair collider scope and torso-fit correction (2026-09-29)
+
+Anby's 114 hair springs referenced only `Secondary_HairBody`: Head, Neck, chest
+and both upper-arm capsules. None referenced the 60 skirt ceiling capsules or
+any other skirt collider. BVT's reference solver resolves groups per spring;
+large skirt display volumes do not make those colliders global.
+
+Controlled movement tests isolated additional sharp motion to the chest
+capsule. The old fit used exposed skin only, which can be a small off-center
+patch on a clothed character. Its chest-local X offset was about 60 mm. The
+shared fitter now includes freshly chest-weighted torso clothing and excludes
+spring-driven accessories; the fitted offset is about 3 mm. Other anatomical
+fits retain their existing references and rest-clearance limits. Chest contact
+remains enabled.
+
+In the translation test, RMS third-position-difference fell from 0.08393 to
+0.05084 mm (39%); the worst tip fell from 0.6422 to 0.1913 mm (70%). Head-turn
+motion improved slightly (0.04584 to 0.04488 mm), with no held-pose chatter in
+these cases. Coincident front/back hair chains remained exactly coincident in
+the tests. These metrics quantify the reproduced contact noise, not visual
+approval or a guarantee against all future motion artifacts.
+
+`measure_hair_contacts.py` supports isolated collider ablations and the refit.
+`test_avatar_hair_contacts.py` verifies repeat refitting, hair/skirt group
+separation, unchanged skirt capsules and immutable geometry/weights. See
+`docs/anby-hair-contact-validation.json` for the measurements.

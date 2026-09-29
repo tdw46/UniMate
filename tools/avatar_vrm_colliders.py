@@ -25,7 +25,7 @@ def add_group(rig, name):
     return group
 
 
-def add_capsule(rig, spec):
+def add_capsule(rig, spec, *, organize=True):
     if rig.data.vrm_addon_extension.spec_version != '1.0':
         raise ValueError('Capsules require VRM 1; VRM 0 supports sphere colliders')
     if spec['bone'] not in rig.data.bones:
@@ -56,7 +56,8 @@ def add_capsule(rig, spec):
     collider.bpy_object.name = spec['bone'] + ' Collider'
     collider.bpy_object.children[0].name = collider.bpy_object.name + ' End'
     collider.bpy_object['unimate_generated_collider'] = True
-    organize_colliders(rig)
+    if organize:
+        organize_colliders(rig)
     return collider
 
 

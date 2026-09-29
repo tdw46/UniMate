@@ -205,11 +205,13 @@ def install_skirt_contact_rig(rig,meshes):
         install_contact_colliders(rig,meshes)
         report=install_directional_contacts(rig,meshes,radius_factor=1.,fan_degrees=0.,
             rest_envelope=True,side_scoped=True,opposite_fallback=True,pelvis_support=True,opposite_full_only=True)
+        from avatar_skirt_ceiling import install_skirt_ceiling
+        report['ceiling']=install_skirt_ceiling(rig)
         initialize(rig);organize_bones(rig)
         verify(meshes,before)
         if binding!={o.name:[weights(o,v.index) for v in o.data.vertices] for o in meshes}:
             raise RuntimeError('Contact generation unexpectedly changed skin weights')
-        rig['hallway_skirt_contact_rig']=4
+        rig['hallway_skirt_contact_rig']=5
         chains=[s for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith('Secondary_Skirt_')]
         report['chains']=len(chains)
         report['segments']=sum(len(s.joints)-1 for s in chains)

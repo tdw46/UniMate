@@ -1,0 +1,33 @@
+{
+  "geometry_and_all_shape_keys_unchanged": true,
+  "changed_frames": 179,
+  "physics_steps": 180,
+  "mesh_count": 16,
+  "vertices": 24531,
+  "bones": 616,
+  "springs": 94,
+  "skirt_chains": 12,
+  "hair_chains": 82,
+  "colliders": 59,
+  "rest_audit": {
+    "pairs": 1888,
+    "contacts": [],
+    "minimum_clearance": 0.002338518424612898
+  },
+  "humanoid_symmetry_error": 0.0,
+  "normalized_fresh_weights": true,
+  "unique_spring_joints": true,
+  "centers_empty": true,
+  "method": "MMD rest landmarks, fresh Blender heat weights, generated native VRM physics; BVT simulation",
+  "scope": "Execution and data-integrity checks only; visual and clipping review is left to the user",
+  "source_bones": 285,
+  "source_weight_assignments_removed": 94236,
+  "source_rest_landmarks_used": 52,
+  "reference_collection": "Anby_arm - Original comparison",
+  "evidence_directory": "outputs/anby_live_20260929/",
+  "generalization_fixes": [
+    "Recognize iris material surfaces as rigid head attachments",
+    "Reset source pose only in isolated rest-geometry build",
+    "Retry the uncapped welded heat proxy if capping eliminates all heat weights"
+  ]
+}

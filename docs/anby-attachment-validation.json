@@ -1,0 +1,55 @@
+{
+  "attachment": [
+    {
+      "object": "Anby_mesh",
+      "fixed_vertices": 62,
+      "free_vertices": 1742,
+      "spring_root_z": 0.9717363119125366,
+      "garment_top": 0.9960559010505676
+    }
+  ],
+  "active": "Anby_arm_UniMate",
+  "mode": "POSE",
+  "physics_enabled": true,
+  "reference_collection": "Anby_arm - Original comparison",
+  "reference_geometry_and_weights_verified": true,
+  "mesh_geometry_and_existing_keys_unchanged": true,
+  "rest_collisions": 0,
+  "springs": 126,
+  "colliders": 60,
+  "bone_collections": [
+    "Physics",
+    "Constraints",
+    "Deform",
+    "Controls"
+  ],
+  "file_unchanged": true,
+  "saved_current_file": false,
+  "date": "2026-09-29",
+  "binding": {
+    "vertices": 2001,
+    "joint_blend": 0.2,
+    "waist_fraction": 0.1,
+    "transition_fraction": 0.05,
+    "fully_attached_vertices": 62,
+    "body_surface_samples": 259,
+    "humanoid_fallback_samples": 0
+  },
+  "motion_validation": {
+    "waist_vertices": 62,
+    "waist_displacement_from_spring_rotation": 0.0,
+    "physics_steps": 180,
+    "changed_frames": 179,
+    "geometry_unchanged": true,
+    "finite_transforms": true
+  },
+  "hair_chains": 114,
+  "skirt_chains": 12,
+  "regressions": [
+    "cap-connected branches remain separate",
+    "sideways hair strand retained",
+    "bounded barycentric body-weight transfer",
+    "missing-body pelvis fallback"
+  ],
+  "scope": "Execution and numerical integrity checks. Visual review remains with the user."
+}
