@@ -575,3 +575,23 @@ approval or a guarantee against all future motion artifacts.
 `test_avatar_hair_contacts.py` verifies repeat refitting, hair/skirt group
 separation, unchanged skirt capsules and immutable geometry/weights. See
 `docs/anby-hair-contact-validation.json` for the measurements.
+
+### VRM rest-landmark replacement (2026-10-01)
+
+`avatar_vrm_landmarks.py` supplies a fresh symmetric full-body/finger skeleton
+from official VRM humanoid assignments. The same geometry-preserving rebuilder
+used for MMD accepts these specifications; source weights and secondary bones
+are discarded before fresh heat binding. It does not run the older grid
+preparation's mesh normalization, welding, rest-pose baking or material splits.
+`avatar_vrm_presentation.py` copies VRM 1 metadata, expressions and first-person
+annotations through RNA and remaps their mesh/material references to the
+replacement. It does not copy the original humanoid, constraints or springs.
+
+LongerSkirt validation preserved 37,826 vertices and all 58 facial shape keys,
+with 12 generated skirt chains, 121 hair chains and 102 native colliders. All
+weights normalized, humanoid symmetry error was zero, rest contact audit was
+clear, and the installed BVT solver produced finite changing spring transforms
+over 180 motion steps. The review file includes an excluded original-reference
+collection with the source weights intact and 14 remapped expression binds.
+These are execution/data checks, not visual or clipping approval; see
+`docs/longerskirt-validation.json`.

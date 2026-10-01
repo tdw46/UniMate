@@ -119,12 +119,12 @@ def specs_from_mmd(source):
     return specs
 
 
-def rebuild(source, meshes):
+def rebuild(source, meshes, specs=None):
     assert all(pb.matrix_basis == Matrix.Identity(4) for pb in source.pose.bones), 'Source must be neutral'
     assert source.matrix_world == Matrix.Identity(4), 'Apply rig transforms first'
     assert all(o.matrix_world == Matrix.Identity(4) for o in meshes), 'Mesh transforms must match rig space'
     before = {o.name:fingerprint(o) for o in meshes}
-    specs = specs_from_mmd(source)
+    specs = specs_from_mmd(source) if specs is None else specs
     data=bpy.data.armatures.new('UniMate fresh humanoid')
     rig=bpy.data.objects.new(source.name+'_UniMate',data)
     bpy.context.scene.collection.objects.link(rig)

@@ -1,0 +1,58 @@
+{
+  "source": "LongerSkirt.vrm",
+  "date": "2026-10-01",
+  "validation": {
+    "geometry_and_all_shape_keys_unchanged": true,
+    "changed_frames": 179,
+    "physics_steps": 180,
+    "mesh_count": 3,
+    "vertices": 37826,
+    "bones": 850,
+    "springs": 133,
+    "skirt_chains": 12,
+    "hair_chains": 121,
+    "colliders": 102,
+    "rest_audit": {
+      "pairs": 3224,
+      "contacts": [],
+      "minimum_clearance": 0.0025907507002682767
+    },
+    "humanoid_symmetry_error": 0.0,
+    "normalized_fresh_weights": true,
+    "unique_spring_joints": true,
+    "centers_empty": true,
+    "method": "VRM rest landmarks, new symmetric skeleton, fresh heat and generated spring physics; immutable source meshes",
+    "scope": "Execution and data-integrity checks only; visual and clipping review is left to the user"
+  },
+  "package": {
+    "file": "/Users/tylerwalker/Downloads/LongerSkirt_Hallway.blend",
+    "rig": "LongerSkirt_UniMate",
+    "reference": "LongerSkirt - Original reference",
+    "reference_weights_unchanged": true,
+    "geometry_and_shape_keys_unchanged": true,
+    "expression_binds": 14,
+    "meta_name": "LongerSkirt",
+    "colliders": 102,
+    "bones": 850
+  },
+  "live": {
+    "file": "/Users/tylerwalker/Downloads/LongerSkirt_Hallway.blend",
+    "rig": "LongerSkirt_UniMate",
+    "physics_enabled": true,
+    "geometry_keys_reference_and_weights_verified": true,
+    "rest_contacts": 0,
+    "hair_skirt_disjoint": true,
+    "mode": "POSE",
+    "bones": 850,
+    "springs": 133,
+    "colliders": 102,
+    "bone_collections": [
+      "Physics",
+      "Constraints",
+      "Deform",
+      "Controls"
+    ],
+    "follow": 0.550000011920929,
+    "drag": 0.4000000059604645
+  }
+}

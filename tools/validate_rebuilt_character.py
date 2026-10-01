@@ -79,7 +79,7 @@ def run(directory):
                 hair_chains=sum(s.vrm_name.startswith('Secondary_Hair_') for s in sb.springs),
                 colliders=len(sb.colliders),rest_audit=rest_contacts(rig),humanoid_symmetry_error=symmetry,
                 normalized_fresh_weights=True,unique_spring_joints=True,centers_empty=True,
-                method='MMD rest landmarks, fresh Blender heat weights, generated native VRM physics; BVT simulation',
+                method=source.get('method','MMD rest landmarks, fresh Blender heat weights, generated native VRM physics; BVT simulation'),
                 scope='Execution and data-integrity checks only; visual and clipping review is left to the user')
     (directory/'validated_weights.json').write_text(json.dumps(values))
     (directory/'validation.json').write_text(json.dumps(report,indent=2))
