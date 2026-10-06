@@ -20,6 +20,16 @@ class WaistAttachment:
                                        for side in ('left', 'right')])
         self.allowed.discard('')
         self.center = rig.data.bones[self.torso[0]].head_local.copy()
+        self.legs=[getattr(human,side+'_upper_leg').node.bone_name for side in ('left','right')]
+        self.legs=[n for n in self.legs if n in rig.data.bones]
+        self.lateral=None
+        if len(self.legs)==2:
+            left,right=(rig.data.bones[n].head_local for n in self.legs)
+            axis=left-right
+            if axis.length>1e-8:
+                self.midpoint=(left+right)*.5
+                self.midline_width=axis.length*.08
+                self.lateral=axis.normalized()
         self.distance = max(rig.data.bones[n].length for n in self.torso)*.35
         self.points, self.values, self.triangles = [], [], []
         for obj in meshes:
@@ -40,6 +50,21 @@ class WaistAttachment:
                     self.triangles.append(indices)
         self.tree = BVHTree.FromPolygons(self.points, self.triangles, all_triangles=True) if self.triangles else None
         self.sampled = self.fallback = 0
+
+    def lateral_coordinate(self,point):
+        return (point-self.midpoint).dot(self.lateral) if self.lateral else 0.
+
+    def side_owned(self,point,values):
+        """Transfer opposite-leg samples to Hips, with a neutral midline fade."""
+        result=dict(values)
+        if self.lateral:
+            side=self.lateral_coordinate(point)
+            for name,sign in zip(self.legs,(1.,-1.)):
+                t=max(0.,min(1.,side*sign/self.midline_width));t=t*t*(3.-2.*t)
+                w=result.get(name,0.)
+                result[name]=w*t
+                result[self.torso[0]]=result.get(self.torso[0],0.)+w*(1.-t)
+        return {n:w for n,w in result.items() if w>1e-10}
 
     def sample(self, point):
         if self.tree:
@@ -72,7 +97,7 @@ class WaistAttachment:
                 total = sum(values.values())
                 if total > 1e-8:
                     self.sampled += 1
-                    return {n: w/total for n, w in values.items() if w > 1e-8}
+                    return self.side_owned(point,{n: w/total for n, w in values.items() if w > 1e-8})
         self.fallback += 1
         # With no underlying body, a waistband follows the mapped pelvis.
         # This stays independent of leg follow and does not invent leg weights.

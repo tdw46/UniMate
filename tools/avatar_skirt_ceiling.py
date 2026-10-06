@@ -23,10 +23,13 @@ def plan_ceiling(rig, outward_slope=OUTWARD_SLOPE):
     families = {}
     for spring in sb.springs:
         if spring.vrm_name.startswith('Secondary_Skirt_') and len(spring.joints) > 1:
-            families.setdefault(spring.vrm_name if outward_slope else spring.vrm_name.rsplit('_', 1)[0], []).append(spring)
+            root=rig.data.bones[spring.joints[0].node.bone_name]
+            family=root.get('hallway_dress_upper_spring',spring.vrm_name)
+            families.setdefault(family if outward_slope else family.rsplit('_', 1)[0], []).append(spring)
     plans = []
     for family, springs in families.items():
-        roots = [rig.data.bones[s.joints[0].node.bone_name].head_local for s in springs]
+        attachments=[s for s in springs if not rig.data.bones[s.joints[0].node.bone_name].get('hallway_dress_lower')]
+        roots = [rig.data.bones[s.joints[0].node.bone_name].head_local for s in attachments]
         samples = [(rig.data.bones[t.node.bone_name].head_local, h.hit_radius)
                    for s in springs for h,t in zip(s.joints,s.joints[1:])]
         center = rig.data.bones[hips].head_local
@@ -46,7 +49,7 @@ def plan_ceiling(rig, outward_slope=OUTWARD_SLOPE):
         # use their chain roots. Only translate upward: retain the slope,
         # radial coverage, slab depth and the existing rest-clear envelope.
         garment_top = max(max(float(rig.data.bones[s.joints[0].node.bone_name].get(
-            'hallway_garment_top', root.z)), root.z) for root,s in zip(roots,springs))
+            'hallway_garment_top', root.z)), root.z) for root,s in zip(roots,attachments))
         minimum_height = garment_top + max(r for p,r in samples) + margin
         lift = max(0., minimum_height-anchor.z)
         anchor.z += lift
@@ -54,14 +57,15 @@ def plan_ceiling(rig, outward_slope=OUTWARD_SLOPE):
         across = normal.cross(tangent).normalized()
         z = anchor.z
         # Cover a conservative reachable disk around the chain attachment.
-        reach = max((p-center).length + sum(rig.data.bones[j.node.bone_name].length for j in s.joints[:-1])
-                    for p,s in zip(roots,springs)) + max(r for p,r in samples) + margin
+        from avatar_dress import full_chain_names
+        lengths=[sum(rig.data.bones[n].length for n in full_chain_names(rig,s)[:-1]) for s in attachments]
+        reach = max((p-center).length+length for p,length in zip(roots,lengths)) + max(r for p,r in samples) + margin
         # Row spacing <= radius leaves a slab at least sqrt(3)*radius
         # thick everywhere. Size the blocked side for the whole chain,
         # not just one segment: a folded chain can cross a thinner slab.
         # Increasing depth leaves the supporting face and rest clearance put.
         longest = max(rig.data.bones[j.node.bone_name].length for s in springs for j in s.joints[:-1])
-        chain_length = max(sum(rig.data.bones[j.node.bone_name].length for j in s.joints[:-1]) for s in springs)
+        chain_length = max(lengths)
         radius = max(height*.035, reach/24., longest*.75+margin, chain_length*.85+max(r for p,r in samples))
         count = max(2, math.ceil(2*reach/radius)+1)
         specs = []

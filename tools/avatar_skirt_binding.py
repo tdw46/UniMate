@@ -1,8 +1,8 @@
 """Experimental surface-to-segment binding for generated skirt chains.
 
-Ordinary normalized skin weights export without a runtime extension. The upper
-tenth stays attached to the body; below it the waist transition is short; a segment owns its interior, with smooth blends only
-around joints. This avoids pulling an entire upper segment toward fixed hips.
+Ordinary normalized skin weights export without a runtime extension. A fixed
+top band anchors a smooth body/spring overlap above and below the chain roots.
+Each segment owns its interior with local joint blends and at most two chains.
 """
 import math
 import bpy
@@ -93,45 +93,114 @@ def fit_rest_clearance(rig, parts, clearance=0.002):
     return dict(vertices=changed,maximum_displacement=maximum,clearance=clearance)
 
 
-def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACTION, transition_fraction=TRANSITION_FRACTION, regions=None):
+def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACTION, transition_fraction=TRANSITION_FRACTION, regions=None, knee_joint_blend=0.4, smooth_iterations=20, smooth_factor=.2):
+    from avatar_dress import full_chain_names
     sb = rig.data.vrm_addon_extension.spring_bone1
+    if not 0 < joint_blend <= .5 or not 0 < knee_joint_blend <= .5:
+        raise ValueError('Joint blend fractions must be in (0, 0.5] to avoid overlapping bands')
     families = {}
+    knee_joints = {}
     for spring in sb.springs:
         if not spring.vrm_name.startswith('Secondary_Skirt_'):
             continue
-        names = [j.node.bone_name for j in spring.joints]
+        names = full_chain_names(rig,spring)
+        if names is None:continue
+        knee_joints[names[0]] = rig.data.bones[names[0]].get('hallway_dress_knee_index')
         points = [rig.data.bones[n].head_local.copy() for n in names]
         families.setdefault(spring.vrm_name.rsplit('_', 1)[0], []).append((names, points))
+    from avatar_skirt_support import ensure_support, PREFIX as SUPPORT_PREFIX
+    support = ensure_support(rig, meshes, families) if families else None
     attachment = WaistAttachment(rig, meshes)
+    bounds={}
+    for label,family in families.items():
+        root=rig.data.bones[family[0][0][0]]
+        top=root.get('hallway_garment_top',max(points[0].z for _,points in family))
+        bottom=root.get('hallway_garment_bottom',min(points[-1].z for _,points in family))
+        old_start=top-waist_fraction*(top-bottom)
+        first_segment=min(points[0].z-points[1].z for _,points in family)
+        lift=min((top-old_start)*.65,first_segment*.25)
+        bounds[label]=(top,bottom,old_start,first_segment,lift)
     explicit = {(r['obj'].name, i): r['names'][0][0].rsplit('_', 2)[0]
                 for r in (regions or []) for i in r['ids']}
     changed = 0
     attached = 0
+    domains = {}
+    handoffs = []
     def smooth(x):
         x=max(0., min(1., x));return x*x*(3-2*x)
     for obj in meshes:
         matrix=rig.matrix_world.inverted()@obj.matrix_world
+        candidates=[]
         for vertex in obj.data.vertices:
             old=weights(obj, vertex.index)
             label = explicit.get((obj.name, vertex.index))
             if label is None:
                 label = next((label for label in families
-                              if any(n.startswith(label+'_') and w>1e-6 for n,w in old.items())), None)
+                              if any((n.startswith(label+'_') or (n in rig.data.bones and str(rig.data.bones[n].get('hallway_support_chain','')).startswith(label+'_'))) and w>1e-6 for n,w in old.items())), None)
             if label not in families:
                 continue
             family = families[label]
             p=matrix@vertex.co
             names_set={n for names,_ in family for n in names}
-            amount=sum(w for n,w in old.items() if n in names_set or n in attachment.allowed)
+            amount=sum(w for n,w in old.items() if n in names_set or n in attachment.allowed or n.startswith(SUPPORT_PREFIX))
             if (obj.name, vertex.index) not in explicit and amount<.99:
                 continue  # Ambiguous mixed bindings are not ours to rewrite.
-            root = rig.data.bones[family[0][0][0]]
-            top = root.get('hallway_garment_top', max(points[0].z for _, points in family))
-            bottom = root.get('hallway_garment_bottom', min(points[-1].z for _, points in family))
-            free = smooth(((top-p.z)/(top-bottom)-waist_fraction)/transition_fraction)
+            candidates.append((vertex.index,label,p))
+        # Previously only already-spring-weighted vertices were candidates,
+        # making it impossible to blend upward into the transferred bodice.
+        # Grow within the same connected garment/material and bounded height.
+        from collections import deque
+        adjacency={}
+        for edge in obj.data.edges:
+            a,b=edge.vertices
+            adjacency.setdefault(a,[]).append(b);adjacency.setdefault(b,[]).append(a)
+        owned={i for i,_,_ in candidates}
+        for label in sorted({row[1] for row in candidates}):
+            top,bottom,old_start,first_segment,lift=bounds[label]
+            seed={i for i,name,_ in candidates if name==label}
+            slots={f.material_index for f in obj.data.polygons if any(i in seed for i in f.vertices)}
+            allowed={i for f in obj.data.polygons if f.material_index in slots for i in f.vertices}
+            queue=deque(seed);seen=set(seed)
+            while queue:
+                for i in adjacency.get(queue.popleft(),()):
+                    if i in seen:continue
+                    seen.add(i)
+                    if i not in allowed or i in owned:continue
+                    p=matrix@obj.data.vertices[i].co
+                    if not old_start-1e-6<=p.z<=top:continue
+                    old=weights(obj,i)
+                    if sum(w for n,w in old.items() if n in attachment.allowed)<.99:continue
+                    candidates.append((i,label,p));owned.add(i);queue.append(i)
+        blend_mass={}
+        for label in sorted({row[1] for row in candidates}):
+            family=families[label]
+            rows=[(i,p) for i,name,p in candidates if name==label]
+            ids={i for i,p in rows};coords=dict(rows)
+            top,bottom,old_start,first_segment,lift=bounds[label]
+            start=old_start+lift
+            edges=[tuple(e.vertices) for e in obj.data.edges if all(i in ids for i in e.vertices)]
+            steps=[abs(coords[a].z-coords[b].z) for a,b in edges
+                   if min(coords[a].z,coords[b].z)>old_start-(top-bottom)*.15 and max(coords[a].z,coords[b].z)<=old_start
+                   and abs(coords[a].z-coords[b].z)>(top-bottom)*1e-4]
+            import statistics
+            # Cover several actual mesh rings, bounded before the next spring
+            # joint. Widen the scalar handoff, never the chain neighborhood.
+            span=max(transition_fraction*(top-bottom),4*statistics.median(steps) if steps else 0.)
+            span=min(span,first_segment*.55)+lift
+            span=max(span,(top-bottom)*1e-6)
+            seed={i:smooth((start-p.z)/span) for i,p in rows}
+            from avatar_weight_smoothing import smooth_attachment_mass
+            mass=smooth_attachment_mass(seed,edges,iterations=smooth_iterations,factor=smooth_factor)
+            blend_mass.update(mass)
+            handoffs.append(dict(object=obj.name,family=label,start=start,span=span,
+                                 nominal_span=transition_fraction*(top-bottom),upward_overlap=lift,previous_start=old_start))
+        for vertex_index,label,p in candidates:
+            family=families[label]
+            domains.setdefault(obj.name,{}).setdefault(label,[]).append(vertex_index)
+            free=blend_mass[vertex_index]
             body = attachment.sample(p) if free < 1. else {}
             if free == 0.:
-                assign(obj, [vertex.index], body)
+                assign(obj, [vertex_index], body)
                 changed += 1
                 attached += 1
                 continue
@@ -142,6 +211,14 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
             k=max((i for i,c in enumerate(angular) if c[0]<=angle),default=len(angular)-1)
             a,names_a,points_a=angular[k];b,names_b,points_b=angular[(k+1)%len(angular)]
             fraction=((angle-a)%math.tau)/((b-a)%math.tau)
+            if attachment.lateral:
+                side_a=attachment.lateral_coordinate(points_a[0])
+                side_b=attachment.lateral_coordinate(points_b[0])
+                if side_a*side_b<0:
+                    # Front/back bridge is physically narrow even on a flared
+                    # hem; angular interpolation otherwise widens with radius.
+                    lateral=attachment.lateral_coordinate(p)
+                    fraction=smooth(.5+.5*lateral/attachment.midline_width*(1 if side_b>0 else -1))
             values={}
             for names,points,angular_weight in ((names_a,points_a,1-fraction),(names_b,points_b,fraction)):
                 if not all(points[i].z>points[i+1].z for i in range(len(points)-1)):
@@ -149,7 +226,10 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
                 index=next((i for i in range(len(points)-1) if p.z>=points[i+1].z),len(points)-2)
                 local={names[index]:1.}
                 for j in range(1,len(points)-1):
-                    band=min(points[j-1].z-points[j].z,points[j].z-points[j+1].z)*joint_blend
+                    # Broaden only the thigh/calf spring junction. Keep the
+                    # cloth spring-weighted and the fixed waist band intact.
+                    blend=knee_joint_blend if j==knee_joints[names[0]] else joint_blend
+                    band=min(points[j-1].z-points[j].z,points[j].z-points[j+1].z)*blend
                     if abs(p.z-points[j].z)<band:
                         t=smooth((points[j].z+band-p.z)/(2*band))
                         local={names[j-1]:1-t,names[j]:t}
@@ -157,8 +237,10 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
                 local={n:w*free for n,w in local.items()}
                 for n,w in body.items():local[n]=local.get(n,0.)+w*(1-free)
                 for n,w in local.items():values[n]=values.get(n,0.)+w*angular_weight
-            assign(obj,[vertex.index],values)
+            assign(obj,[vertex_index],values)
             changed+=1
-    return {'vertices':changed,'joint_blend':joint_blend,'waist_fraction':waist_fraction,
+    from avatar_weight_smoothing import smooth_skirt_weights
+    smoothing=smooth_skirt_weights(rig,meshes,domains,iterations=smooth_iterations,factor=smooth_factor) if smooth_iterations else None
+    return {'support':support,'handoffs':handoffs,'smoothing':smoothing,'vertices':changed,'joint_blend':joint_blend,'knee_joint_blend':knee_joint_blend,'waist_fraction':waist_fraction,
             'transition_fraction':transition_fraction,'fully_attached_vertices':attached,
             'body_surface_samples':attachment.sampled,'humanoid_fallback_samples':attachment.fallback}

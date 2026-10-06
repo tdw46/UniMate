@@ -63,7 +63,8 @@ def run(source, output):
         assert not (ids & {c.uuid for c in skirt_colliders(rig)})  # Thickness cannot open roof gaps.
         for group in groups:
             owners = [s.vrm_name for s in sb.springs if any(r.collider_group_uuid==group.uuid for r in s.collider_groups)]
-            assert len(owners)==1 and owners[0].startswith('Secondary_Skirt_')
+            expected='Secondary_Skirt_'+group.vrm_name[len(GROUP_PREFIX):]
+            assert set(owners) in ({expected},{expected,expected+'_Lower'})
         used=[]
         data, lookup = Vrm1Exporter.create_spring_bone_collider_dicts(used,sb,{b.name:i for i,b in enumerate(rig.data.bones)})
         assert all('capsule' in data[lookup[c.uuid]]['shape'] and 'extensions' not in data[lookup[c.uuid]] for c in roof)

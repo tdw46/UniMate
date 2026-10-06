@@ -80,7 +80,7 @@ def replace_contact_colliders(rig,payload):
         if any(i<0 or i>=len(payload['colliders']) for i in group['colliders']):
             raise ValueError('Invalid collider reference')
     owned={g.uuid for g in sb.collider_groups if g.vrm_name=='Secondary_SkirtBody' or g.vrm_name.startswith(GROUP_PREFIX)}
-    foreign={r.collider_group_uuid for s in sb.springs if not s.vrm_name.startswith('Secondary_Skirt_') for r in s.collider_groups}
+    foreign={r.collider_group_uuid for s in sb.springs if not s.vrm_name.startswith(('Secondary_Skirt_','Secondary_HipSkirt_')) for r in s.collider_groups}
     if owned & foreign:raise ValueError('Skirt contact groups are shared with artist springs')
     ids={r.collider_uuid for g in sb.collider_groups if g.uuid in owned for r in g.colliders}
     other={r.collider_uuid for g in sb.collider_groups if g.uuid not in owned for r in g.colliders}

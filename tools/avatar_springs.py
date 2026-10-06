@@ -16,6 +16,7 @@ from avatar_apparel_weights import assign, components, weights, head_cap_vertice
 
 from avatar_hair_guides import hanging_branches, branch_line
 from avatar_waist_attachment import WAIST_FRACTION
+from avatar_dress import dress_profile, install_lower_follow
 
 from avatar_skirt_follow import INFLUENCE, set_rest_frame, set_constraint, preserve_export_rest_frame
 
@@ -86,15 +87,31 @@ def _vertical_weights(names, parent, t, smooth_transition=False):
     return {nodes[a]: 1-blend, nodes[a+1]: blend}
 
 
-def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, skirt_segments=None):
+def _skirt_coverage(obj, points, ids, center, height):
+    p=points[sorted(ids)];lo,hi=p[:,2].min(),p[:,2].max()
+    if hi-lo<height*.10:return False,[]
+    angles=np.arctan2(p[:,1]-center[1],p[:,0]-center[0])%math.tau
+    coverage=[]
+    for t in (.2,.5,.8):
+        band=np.abs(p[:,2]-(hi-(hi-lo)*t))<(hi-lo)*.2
+        coverage.append(len(set((angles[band]/math.tau*8).astype(int))))
+    ids=set(ids)
+    bridges=any(all(i in ids for i in face.vertices)
+                and points[list(face.vertices),0].min()<center[0]<points[list(face.vertices),0].max()
+                and points[list(face.vertices),2].mean()<lo+(hi-lo)*.35
+                for face in obj.data.polygons)
+    return min(coverage)>=7 and bridges,coverage
+
+
+def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, skirt_segments=None, *, include_hair=True):
     """Detect long strands and circumferential skirts before mutating anything.
 
     Bottoms that do not surround both legs are rejected (e.g. separate trouser
     legs). Ambiguous garments should use explicit material roles instead of
     silently guessing. No source bones or original skin weights are consumed.
     """
-    if segments < 2 or skirt_sectors < 6:
-        raise ValueError('Need at least two segments and six skirt sectors')
+    if segments < 2 or skirt_sectors < 6 or skirt_sectors % 2:
+        raise ValueError('Need at least two segments and an even number of skirt sectors, at least six')
     roles = material_roles or {}
     humanoid=rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
     def limb(side,part,legacy,mixamo):
@@ -110,8 +127,8 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     center = np.array(tuple(rig.data.bones['Hips'].head_local))[:2]
     for obj in meshes:
         points = all_points[obj.name]
-        hair = _material_region(obj, 'hair', roles)
-        for component in components(obj.data):
+        hair = _material_region(obj, 'hair', roles) if include_hair else set()
+        for component in components(obj.data) if hair else ():
             ids = sorted(set(component) & hair)
             if len(ids) < 8:
                 continue
@@ -140,9 +157,16 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             slots = {i for i, mat in enumerate(obj.data.materials) if mat and
                      mat.name not in roles and 'cloth' in mat.name.lower() and
                      not any(t in mat.name.lower() for t in ('shoe', 'glove'))}
-            candidate = {v for f in obj.data.polygons if f.material_index in slots for v in f.vertices}
-            if candidate and min(points[i, 2] for i in candidate) < knee:
-                skirt = sorted(i for i in candidate if points[i, 2] <= waist)
+            # Validate each material independently. A dress must not lend its
+            # circumferential coverage to an unrelated tail/belt accessory.
+            accepted=set()
+            for slot in slots:
+                candidate={v for f in obj.data.polygons if f.material_index==slot for v in f.vertices
+                           if points[v,2]<=waist}
+                if candidate and min(points[i,2] for i in candidate)<knee:
+                    valid,_=_skirt_coverage(obj,points,candidate,center,height)
+                    if valid:accepted.update(candidate)
+            skirt=sorted(accepted)
         if not skirt:
             continue
         p = points[skirt]
@@ -151,17 +175,8 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
         angles = np.arctan2(delta[:, 1], delta[:, 0]) % math.tau
         # A skirt must surround the pelvis at multiple heights. Require faces
         # crossing the sagittal plane below the waist; separated pants fail.
-        skirt_set = set(skirt)
-        bridges = sum(1 for face in obj.data.polygons
-                      if all(i in skirt_set for i in face.vertices)
-                      and points[list(face.vertices), 0].min() < center[0]
-                      < points[list(face.vertices), 0].max()
-                      and points[list(face.vertices), 2].mean() < lo+(hi-lo)*.35)
-        coverage = []
-        for t in (.2, .5, .8):
-            band = np.abs(p[:, 2]-(hi-(hi-lo)*t)) < (hi-lo)*.2
-            coverage.append(len(set((angles[band]/math.tau*8).astype(int))))
-        if hi-lo < height*.10 or min(coverage) < 7 or not bridges:
+        valid,coverage=_skirt_coverage(obj,points,skirt,center,height)
+        if not valid:
             rejected.append(dict(object=obj.name, role='skirt', reason='Not a continuous circumferential skirt', coverage=coverage))
             continue
         skirt_resolution = skirt_segments if skirt_segments is not None else segments
@@ -169,23 +184,28 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
         radii = np.linalg.norm(delta, axis=1)
         skirt_index = sum(r['role'] == 'skirt' for r in regions)
         for sector in range(skirt_sectors):
-            angle = sector/skirt_sectors*math.tau
+            from avatar_dress import skirt_sector_angle
+            angle = skirt_sector_angle(sector,skirt_sectors)
             angular_distance = np.abs((angles-angle+math.pi) % math.tau-math.pi)
             line = []
-            for z in np.linspace(hi-(hi-lo)*WAIST_FRACTION, lo, skirt_resolution+1):
+            side = 'L' if math.cos(angle) >= 0 else 'R'
+            lower_leg=limb('left' if side=='L' else 'right','lower_leg','Shin.'+side,'LeftLeg' if side=='L' else 'RightLeg')
+            calf=rig.data.bones[lower_leg]
+            profile=dress_profile(hi-(hi-lo)*WAIST_FRACTION,lo,calf.head_local.z,calf.tail_local.z,skirt_resolution)
+            for z in profile['heights']:
                 score = angular_distance/(math.tau/skirt_sectors) + np.abs(p[:, 2]-z)/((hi-lo)/skirt_resolution)
                 near = np.argsort(score)[:max(4, len(p)//(skirt_sectors*skirt_resolution))]
                 radius = float(np.median(radii[near]))
                 line.append(Vector((* (center+radius*np.array((math.cos(angle), math.sin(angle)))), z)))
-            names = [f'{PREFIX}Skirt_{skirt_index:02d}_{sector:02d}_{i:02d}' for i in range(skirt_resolution+1)]
-            side = 'L' if math.cos(angle) >= 0 else 'R'
+            names = [f'{PREFIX}Skirt_{skirt_index:02d}_{sector:02d}_{i:02d}' for i in range(len(line))]
             chains.append(dict(role='skirt', names=names, line=line, parent='Hips',
                                follow=f'{PREFIX}SkirtFollow_{skirt_index:02d}_{sector:02d}',
-                               leg=thighs[side], follow_influence=INFLUENCE, garment_top=float(hi), garment_bottom=float(lo)))
+                               leg=thighs[side], lower_leg=lower_leg, dress=profile,
+                               follow_influence=INFLUENCE, garment_top=float(hi), garment_bottom=float(lo)))
             names_by_sector.append(names)
         regions.append(dict(obj=obj, ids=skirt, role='skirt', names=names_by_sector,
                             lo=float(lo), hi=float(hi), center=center.tolist()))
-    cap = head_cap_vertices(meshes, rig)
+    cap = head_cap_vertices(meshes, rig) if include_hair else {}
     regions.extend(dict(obj=obj, ids=cap[obj.name], role='head_cap')
                    for obj in meshes if obj.name in cap)
     return dict(chains=chains, regions=regions, rejected=rejected, height=float(height), points=all_points)
@@ -216,6 +236,10 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
     pose_position = rig.data.pose_position
     rig.data.pose_position = 'REST'
     try:
+        from avatar_pelvis_binding import repair_pelvis_weights,transfer_garment_waist,confine_pelvis_weights
+        pelvis_binding=repair_pelvis_weights(rig,meshes) if any(c['role']=='skirt' for c in plan['chains']) else dict(applied=False)
+        if any(c['role']=='skirt' for c in plan['chains']):
+            pelvis_binding['socket_falloff']=confine_pelvis_weights(rig,meshes)
         bpy.ops.object.select_all(action='DESELECT')
         rig.select_set(True)
         bpy.context.view_layer.objects.active = rig
@@ -238,6 +262,11 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                 bone.parent = rig.data.edit_bones[chain['parent'] if i == 0 else chain['names'][i-1]]
                 bone.use_connect = i > 0
                 if chain['role'] == 'skirt' and i == 0:
+                    # Binding runs before the upper/lower spring split. Mark
+                    # its knee now so fresh generation gets the same smoothing.
+                    if chain['dress']['lower_follow']:
+                        bone['hallway_dress_knee_index'] = chain['dress']['knee_index']
+                    bone['hallway_bilateral_chain'] = True
                     bone['hallway_garment_top'] = chain['garment_top']
                     bone['hallway_garment_bottom'] = chain['garment_bottom']
                 bone.use_deform = i < len(chain['line'])-1
@@ -261,7 +290,8 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                     values = _vertical_weights(region['names'][0], 'Head', t, smooth_transition=True)
                 else:
                     angle = math.atan2(p[1]-region['center'][1], p[0]-region['center'][0]) % math.tau
-                    sector = angle/math.tau*skirt_sectors
+                    from avatar_dress import skirt_sector_angle
+                    sector = ((angle-skirt_sector_angle(0,skirt_sectors)) % math.tau)/math.tau*skirt_sectors
                     a = int(sector)
                     values = {}
                     for s, factor in ((a, 1-(sector-a)), ((a+1) % skirt_sectors, sector-a)):
@@ -271,13 +301,18 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         rig.data.pose_position = 'POSE'
         bpy.context.view_layer.update()
         metadata = _write_vrm(rig, meshes, plan, material_roles or {}, spring_center)
+        metadata['pelvis_binding']=pelvis_binding
         if any(c['role']=='skirt' for c in plan['chains']):
             from avatar_contact_colliders import install_contact_colliders
             from avatar_skirt_binding import rebind_skirt_strips
             from avatar_directional_contacts import install_skirt_contact_rig
             metadata['contact_colliders']=install_contact_colliders(rig,meshes)
             metadata['strip_binding']=rebind_skirt_strips(rig,meshes,regions=[r for r in plan['regions'] if r['role']=='skirt'])
+            metadata['waist_attachment']=transfer_garment_waist(rig,meshes)
+            metadata['dress']=install_lower_follow(rig,plan['chains'])
             metadata['contact_rig']=install_skirt_contact_rig(rig,meshes)
+            from avatar_skirt_hip_physics import extend_hip_physics
+            metadata['hip_physics']=extend_hip_physics(rig)
             metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
     finally:
         if bpy.context.mode != 'OBJECT':
@@ -288,7 +323,7 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
             obj.select_set(True)
         bpy.context.view_layer.objects.active = active
     report = dict(height=plan['height'], chains=len(plan['chains']),
-                  deform_bones=len(plan['chains'])*segments,
+                  deform_bones=sum(len(c['names'])-1 for c in plan['chains']),
                   terminal_bones=len(plan['chains']), rejected=plan['rejected'],
                   fixed_hair_roots=[c['names'][0] for c in plan['chains'] if c['role'] == 'hair'],
                   hair_attachments=[dict(root=c['names'][0], physics_start=c['names'][1],
@@ -299,6 +334,7 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                   regions=[dict(object=r['obj'].name, role=r['role'], vertices=len(r['ids'])) for r in plan['regions']],
                   **metadata)
     rig['unimate_secondary_generator'] = 4
+    rig['hallway_bilateral_skirt_layout'] = 1
     from properties_hallway_rig import initialize
     from avatar_bone_collections import organize_bones
     initialize(rig)
@@ -326,9 +362,11 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         for i, name in enumerate(chain['names'][chain.get('physics_start', 0):]):
             joint = spring.joints.add()
             joint.node.bone_name = name
-            joint.stiffness = (1.0 if hair else 1.6) * (1-.10*i)
-            joint.drag_force = .4
-            joint.gravity_power = .035 if hair else .025
+            from avatar_rig_defaults import SPRINGS
+            defaults = SPRINGS['Hair' if hair else 'Skirt']
+            joint.stiffness = defaults['stiffness'] * (1-.10*i)
+            joint.drag_force = defaults['drag']
+            joint.gravity_power = defaults['gravity']
             joint.gravity_dir = (0, 0, -1)
             # Bone-point collisions need a margin for the skinned cloth between
             # adjacent chains, which can lie inside their collision envelope.

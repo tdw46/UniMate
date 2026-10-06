@@ -1,7 +1,8 @@
 """VRM-exportable skirt follow with the same rest frame as its source leg."""
 import bpy
 
-INFLUENCE=.55
+from avatar_rig_defaults import FOLLOW
+INFLUENCE=FOLLOW['Skirt']
 PREFIX='Secondary_SkirtFollow_'
 CONSTRAINT_NAME='UniMate skirt leg follow'
 
@@ -70,11 +71,24 @@ def upgrade_skirt_follow(rig,influence=INFLUENCE):
         if bpy.context.mode!='OBJECT':bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action='DESELECT');rig.select_set(True);bpy.context.view_layer.objects.active=rig
         bpy.ops.object.mode_set(mode='EDIT')
-        for name,source in targets.items():set_rest_frame(rig.data.edit_bones[name],rig.data.edit_bones[source])
+        for name,source in targets.items():
+            helper=rig.data.edit_bones[name];leg=rig.data.edit_bones[source]
+            parent,pivot=helper.parent,helper.head.copy()
+            dress=bool(helper.get('hallway_dress_lower_follow') or helper.get('hallway_dress_knee_blend'))
+            set_rest_frame(helper,leg)
+            if dress:
+                helper.parent=parent;helper.head=pivot;helper.tail=pivot+(leg.tail-leg.head)
         bpy.ops.object.mode_set(mode='OBJECT')
         for name,source in targets.items():
             pb=rig.pose.bones[name];constraint=next(c for c in pb.constraints if c.name==CONSTRAINT_NAME)
-            set_constraint(constraint,rig,source,influence)
+            knee=pb.bone.get('hallway_dress_lower_follow') or pb.bone.get('hallway_dress_knee_blend')
+            group=rig.hallway_rig.follow_groups.get('Skirt Knee') if hasattr(rig,'hallway_rig') else None
+            value=(group.influence if group else FOLLOW['Skirt Knee']) if knee else influence
+            if knee and group:
+                from properties_hallway_rig import follow_influence
+                value=follow_influence(rig,pb,group)
+            else:value*=float(pb.bone.get('hallway_follow_share',1.))
+            set_constraint(constraint,rig,source,value)
             index=list(pb.constraints).index(constraint)
             if index:pb.constraints.move(index,0)
         bpy.context.view_layer.update()
@@ -86,10 +100,12 @@ def upgrade_skirt_follow(rig,influence=INFLUENCE):
             # Mode; retain positions exactly and allow only round-off in axes.
             assert error<1e-5,('Unrelated rest frame changed',name,error)
         for name,source in targets.items():
-            assert max(abs(a-b) for row,old in zip(rig.data.bones[name].matrix_local,rig.data.bones[source].matrix_local) for a,b in zip(row,old))<1e-6
+            a,b=rig.data.bones[name].matrix_local,rig.data.bones[source].matrix_local
+            if rig.data.bones[name].get('hallway_dress_lower_follow') or rig.data.bones[name].get('hallway_dress_knee_blend'):a,b=a.to_3x3(),b.to_3x3()
+            assert max(abs(x-y) for row,old in zip(a,b) for x,y in zip(row,old))<1e-6
         rig['unimate_skirt_follow_revision']=2
         preserve_export_rest_frame(rig)
-        return [dict(bone=n,target=t,influence=influence) for n,t in targets.items()]
+        return [dict(bone=n,target=t,influence=next(c.influence for c in rig.pose.bones[n].constraints if c.name==CONSTRAINT_NAME)) for n,t in targets.items()]
     finally:
         if bpy.context.mode!='OBJECT':bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action='DESELECT')

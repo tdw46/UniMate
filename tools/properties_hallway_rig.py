@@ -3,6 +3,7 @@ from contextlib import contextmanager
 import sys
 import bpy
 from mathutils import Vector
+from avatar_rig_defaults import FOLLOW, SPRINGS, SKIRT_THICKNESS
 
 _updating = set()
 
@@ -89,15 +90,20 @@ def active_rig(context):
 
 def springs(rig, prefix):
     ext = getattr(rig.data, 'vrm_addon_extension', None)
-    return [s for s in ext.spring_bone1.springs if s.vrm_name.startswith(prefix)] if ext else []
+    return [s for s in ext.spring_bone1.springs if (s.vrm_name.startswith(prefix) or (prefix=='Secondary_Skirt_' and s.vrm_name.startswith('Secondary_HipSkirt_')))] if ext else []
 
 
-def follow_constraints(rig, group):
+def follow_entries(rig, group):
     for pb in rig.pose.bones:
         if pb.bone.get('hallway_constraint_group') == group:
             for c in pb.constraints:
                 if c.type == 'COPY_ROTATION' and c.name == pb.bone.get('hallway_follow_constraint'):
-                    yield c
+                    yield pb,c
+
+
+def follow_constraints(rig, group):
+    for pb,c in follow_entries(rig,group):
+        yield c
 
 
 def skirt_colliders(rig):
@@ -106,8 +112,11 @@ def skirt_colliders(rig):
         return []
     sb = ext.spring_bone1
     from avatar_contact_colliders import owned_group
-    owned = {r.collider_uuid for g in sb.collider_groups if owned_group(g.vrm_name) for r in g.colliders}
-    foreign = {r.collider_uuid for g in sb.collider_groups if not owned_group(g.vrm_name) for r in g.colliders}
+    from avatar_hip_contacts import GROUP_PREFIX as HIP_GROUP_PREFIX
+    def skirt_group(name):
+        return owned_group(name) or name.startswith(HIP_GROUP_PREFIX)
+    owned = {r.collider_uuid for g in sb.collider_groups if skirt_group(g.vrm_name) for r in g.colliders}
+    foreign = {r.collider_uuid for g in sb.collider_groups if not skirt_group(g.vrm_name) for r in g.colliders}
     return [c for c in sb.colliders if c.uuid in owned - foreign and c.bpy_object and c.shape_type == 'Capsule']
 
 
@@ -147,7 +156,7 @@ def capture_collider_baselines(rig, refresh_limits=False):
 
 class HALLWAY_PG_Follow(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty()
-    influence: bpy.props.FloatProperty(name='Follow', default=.55, min=0., max=1., subtype='FACTOR', update=update_follow)
+    influence: bpy.props.FloatProperty(name='Follow', default=FOLLOW['Skirt'], min=0., max=1., subtype='FACTOR', update=update_follow)
 
 
 class HALLWAY_PG_Spring(bpy.types.PropertyGroup):
@@ -167,7 +176,7 @@ class HALLWAY_PG_Rig(bpy.types.PropertyGroup):
     initialized: bpy.props.BoolProperty(default=False)
     follow_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Follow)
     spring_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Spring)
-    skirt_thickness: bpy.props.FloatProperty(name='Skirt Collider Thickness', default=1., min=.05, max=3.,
+    skirt_thickness: bpy.props.FloatProperty(name='Skirt Collider Thickness', default=SKIRT_THICKNESS, min=.05, max=3.,
         description='Multiplier of fitted skirt collider radii, capped at rest clearance; hair colliders are unchanged', update=update_thickness)
 
 
@@ -183,7 +192,7 @@ def _initialize(rig):
     for pb in rig.pose.bones:
         for c in pb.constraints:
             if pb.name.startswith('Secondary_SkirtFollow_') and c.name == 'UniMate skirt leg follow':
-                pb.bone['hallway_constraint_group'] = 'Skirt'
+                pb.bone['hallway_constraint_group'] = 'Skirt Knee' if (pb.bone.get('hallway_dress_lower_follow') or pb.bone.get('hallway_dress_knee_blend')) else 'Skirt'
                 pb.bone['hallway_follow_constraint'] = c.name
     # New groups can be registered through the same bone/constraint metadata.
     names = sorted({b.get('hallway_constraint_group') for b in rig.data.bones if b.get('hallway_constraint_group')})
@@ -193,7 +202,19 @@ def _initialize(rig):
             if constraints:
                 group = settings.follow_groups.add()
                 group.name = name
-                group.influence = constraints[0].influence
+                group.influence = FOLLOW.get(name, constraints[0].influence)
+                group['hallway_default_influence'] = group.influence
+                if name == 'Skirt Knee':apply_follow(rig,group)
+    if any('hallway_knee_profile' in b for b in rig.data.bones):
+        if not rig.get('hallway_knee_profile_initialized'):
+            settings.follow_groups['Skirt Knee'].influence=FOLLOW['Skirt Knee']
+        for name in ('Skirt Knee Side','Skirt Knee Back'):
+            value=FOLLOW[name]
+            if name not in settings.follow_groups:
+                group=settings.follow_groups.add();group.name=name;group.influence=value
+        if not rig.get('hallway_knee_profile_initialized'):
+            apply_follow(rig,settings.follow_groups['Skirt Knee'])
+            rig['hallway_knee_profile_initialized']=1
     for name in ('Skirt', 'Hair'):
         prefix = 'Secondary_' + name + '_'
         chains = springs(rig, prefix)
@@ -205,6 +226,48 @@ def _initialize(rig):
     capture_collider_baselines(rig)
     settings.initialized = True
     return settings
+
+
+def reset_settings(rig, context=None):
+    """Reset all panel state, then update native constraints/joints/colliders."""
+    from avatar_physics_preview import suspended, available, set_simulation
+    from avatar_rig_defaults import PHYSICS_ENABLED, COLLIDERS_VISIBLE, BONES_VISIBLE
+    from avatar_vrm_colliders import show_colliders
+    from avatar_bone_collections import organize_bones, NAMES
+    context = context or bpy.context
+    if rig.mode == 'EDIT':
+        raise ValueError('Exit Edit Mode before resetting rig settings')
+    with suspended(context):
+        with suppress_updates(rig):
+            settings = _initialize(rig)
+            for group in settings.follow_groups:
+                group.influence = FOLLOW.get(group.name, group.get(
+                    'hallway_default_influence', group.bl_rna.properties['influence'].default))
+            settings.skirt_thickness = SKIRT_THICKNESS
+            for group in settings.spring_groups:
+                defaults = SPRINGS.get(group.name, {})
+                for field in ('drag', 'stiffness', 'non_root_stiffness', 'gravity'):
+                    setattr(group, field, defaults.get(field, group.bl_rna.properties[field].default))
+        limited = _apply_settings(rig)
+        organize_bones(rig)
+        if hasattr(rig.data, 'collections'):
+            for collection in rig.data.collections:
+                if collection.get('hallway_role') in NAMES:
+                    collection.is_visible = BONES_VISIBLE
+        elif hasattr(rig.data, 'layers'):
+            for index in range(len(NAMES)):
+                rig.data.layers[index] = BONES_VISIBLE
+        if hasattr(rig.data, 'vrm_addon_extension'):
+            show_colliders(rig, COLLIDERS_VISIBLE)
+    physics_available = available(context)
+    if physics_available:
+        set_simulation(PHYSICS_ENABLED, context)
+    if rig.get('hallway_pose_fit'):
+        rig['hallway_pose_fit_settings_changed'] = True
+    if context.screen:
+        for area in context.screen.areas:
+            if area.type == 'VIEW_3D': area.tag_redraw()
+    return dict(limited_colliders=limited, physics_available=physics_available)
 
 
 def apply_settings(rig):
@@ -225,10 +288,24 @@ def _apply_settings(rig):
     return count
 
 
+def follow_influence(rig,pb,group):
+    base=group.influence
+    if group.name=='Skirt Knee' and 'hallway_knee_profile' in pb.bone:
+        groups=rig.hallway_rig.follow_groups
+        values=[groups[name].influence if name in groups else default for name,default in
+                ((name,FOLLOW[name]) for name in ('Skirt Knee','Skirt Knee Side','Skirt Knee Back'))]
+        base=sum(weight*value for weight,value in zip(pb.bone['hallway_knee_profile'],values))
+    return base*float(pb.bone.get('hallway_follow_share',1.))
+
+
 def apply_follow(rig, group):
-    for constraint in follow_constraints(rig, group.name):
-        if constraint.influence != group.influence:
-            constraint.influence = group.influence  # Preserve VRM export flags.
+    if group.name in ('Skirt Knee Side','Skirt Knee Back'):
+        group=rig.hallway_rig.follow_groups.get('Skirt Knee')
+        if group is None:return
+    for pb,constraint in follow_entries(rig, group.name):
+        influence=follow_influence(rig,pb,group)
+        if constraint.influence != influence:
+            constraint.influence = influence  # Preserve VRM export flags.
 
 
 def non_root_joint_roles(rig, chains):

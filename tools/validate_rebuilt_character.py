@@ -60,7 +60,9 @@ def run(directory):
     try:
         for frame in range(180):
             pulse=math.sin(math.tau*frame/179)*math.sin(math.pi*frame/179)
-            for bone,axis,angle in (('LeftUpLeg',(1,0,0),30),('RightUpLeg',(0,0,1),20),('Head',(0,1,0),20),('LeftArm',(0,0,1),25)):
+            for bone,axis,angle in (('LeftUpLeg',(1,0,0),30),('RightUpLeg',(0,0,1),20),
+                                    ('LeftLeg',(1,0,0),70),('RightLeg',(1,0,0),50),
+                                    ('Head',(0,1,0),20),('LeftArm',(0,0,1),25)):
                 pb=rig.pose.bones[bone];pb.rotation_mode='QUATERNION';pb.rotation_quaternion=Quaternion(axis,math.radians(angle)*pulse)
             bpy.context.view_layer.update();background_step(1/60);bpy.context.view_layer.update()
             current=[tuple(rig.pose.bones[n].matrix.to_quaternion()) for n in joints]

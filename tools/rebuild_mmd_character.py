@@ -119,7 +119,7 @@ def specs_from_mmd(source):
     return specs
 
 
-def rebuild(source, meshes, specs=None):
+def rebuild(source, meshes, specs=None, skirt_segments=None):
     assert all(pb.matrix_basis == Matrix.Identity(4) for pb in source.pose.bones), 'Source must be neutral'
     assert source.matrix_world == Matrix.Identity(4), 'Apply rig transforms first'
     assert all(o.matrix_world == Matrix.Identity(4) for o in meshes), 'Mesh transforms must match rig space'
@@ -199,15 +199,17 @@ def rebuild(source, meshes, specs=None):
         mod=obj.modifiers.new('UniMate deform','ARMATURE');mod.object=rig
         obj.parent=rig
     bpy.data.objects.remove(proxy,do_unlink=True);bpy.data.meshes.remove(proxy_data)
+    from avatar_leg_binding import bind_leg_domains
+    leg_binding=bind_leg_domains(rig,meshes)
     enforce_head_cap(meshes,rig)
     seams=correct_skin_seams(meshes,rig,max_rings=2)
-    springs=generate_secondary(rig,meshes)
+    springs=generate_secondary(rig,meshes,skirt_segments=skirt_segments)
     after={o.name:fingerprint(o) for o in meshes}
     assert before==after,'Geometry or shape keys changed'
     sums=[sum(weights(o,v.index).values()) for o in meshes for v in o.data.vertices]
     assert min(sums)>.9999 and max(sums)<1.0001, (min(sums),max(sums))
     assert all(g.name in rig.data.bones for o in meshes for g in o.vertex_groups)
-    return rig,dict(mesh_hashes=before,heat=heat,seams=seams,springs=springs,
+    return rig,dict(mesh_hashes=before,heat=heat,leg_binding=leg_binding,seams=seams,springs=springs,
                     bones=len(rig.data.bones),vertices=len(sums),weight_sum_range=[min(sums),max(sums)],
                     shape_keys={o.name:len(o.data.shape_keys.key_blocks) if o.data.shape_keys else 0 for o in meshes})
 

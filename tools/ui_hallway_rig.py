@@ -37,6 +37,25 @@ class HALLWAY_OT_ApplyRigSettings(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class HALLWAY_OT_ResetRigSettings(bpy.types.Operator):
+    bl_idname = 'hallway.reset_rig_settings'
+    bl_label = 'Reset Rig Defaults'
+    bl_description = 'Restore all follow, collider thickness, spring, physics and visibility controls to their defaults'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context):
+        rig = active_rig(context)
+        return bool(rig and rig.mode != 'EDIT')
+
+    def execute(self, context):
+        from properties_hallway_rig import reset_settings
+        report = reset_settings(active_rig(context), context)
+        self.report({'INFO'}, 'Rig defaults restored' if report['physics_available'] else
+                    'Rig defaults restored; enable BVT for physics preview')
+        return {'FINISHED'}
+
+
 class HALLWAY_OT_ShowColliders(bpy.types.Operator):
     bl_idname = 'hallway.show_colliders'
     bl_label = 'Show VRM Colliders'
@@ -183,16 +202,18 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
         from avatar_physics_preview import available, enabled as physics_enabled
         enabled = physics_enabled(context)
         row = layout.row(align=True)
-        row.enabled = available(context)
-        op = row.operator('hallway.set_physics', text='BVT Physics On' if enabled else 'BVT Physics Off', depress=enabled)
+        physics_row = row.row(align=True)
+        physics_row.enabled = available(context)
+        op = physics_row.operator('hallway.set_physics', text='BVT Physics On' if enabled else 'BVT Physics Off', depress=enabled)
         op.enabled = not enabled
-        row.operator('hallway.reset_physics', text='Reset')
+        row.operator('hallway.reset_rig_settings', text='Reset')
         if not available(context):
             layout.label(text='Enable BVT for physics preview', icon='INFO')
         col = layout.column()
         col.enabled = rig.mode != 'EDIT'
         for group in settings.follow_groups:
-            col.prop(group, 'influence', text=group.name + ' Follow', slider=True)
+            label={'Skirt Knee':'Front Knee Follow','Skirt Knee Side':'Side Knee Follow','Skirt Knee Back':'Back Knee Follow'}.get(group.name,group.name+' Follow')
+            col.prop(group, 'influence', text=label, slider=True)
         if 'Skirt' in settings.spring_groups:
             col.prop(settings, 'skirt_thickness', text='Skirt Thickness')
             col.label(text='Limited by rest clearance', icon='INFO')
@@ -231,7 +252,7 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
         box.operator('hallway.configure_rig', text='Refresh Bone Organization')
 
 
-CLASSES = (HALLWAY_OT_ConfigureRig, HALLWAY_OT_ApplyRigSettings, HALLWAY_OT_ShowColliders, HALLWAY_OT_RefitSkirtColliders, HALLWAY_OT_ApplySkirtFit, HALLWAY_OT_RegenerateSecondary, HALLWAY_OT_SkirtContacts, HALLWAY_PT_Rig)
+CLASSES = (HALLWAY_OT_ResetRigSettings, HALLWAY_OT_ConfigureRig, HALLWAY_OT_ApplyRigSettings, HALLWAY_OT_ShowColliders, HALLWAY_OT_RefitSkirtColliders, HALLWAY_OT_ApplySkirtFit, HALLWAY_OT_RegenerateSecondary, HALLWAY_OT_SkirtContacts, HALLWAY_PT_Rig)
 
 
 def register():

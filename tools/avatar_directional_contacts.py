@@ -3,12 +3,14 @@
 Finite, offset capsules approximate an outward support surface for one chain.
 Their back sides stay inside the leg; broad fronts resist slipping around small
 centerline colliders. Guards follow their chain's own leg or its pelvis support,
-never the opposite moving thigh. Every guard is fitted against its spring endpoints
+with both moving legs supporting only the narrow center of long dresses. Every
+guard is fitted against its spring endpoints
 at rest. No mesh coordinates or skin weights are written here.
 """
 import math
 from mathutils import Vector,Quaternion
 from avatar_colliders import plan_colliders,segment_distance
+from avatar_dress import is_midline_dress_chain,upgrade_knee_follow
 from avatar_contact_colliders import snapshot_contact_colliders,replace_contact_colliders
 
 
@@ -26,9 +28,10 @@ def skirt_owner_leg(rig,spring,thighs):
     return min(thighs,key=lambda n:(rig.data.bones[n].head_local-point).length_squared)
 
 
-def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,both_legs=True,rest_envelope=False,side_scoped=False,smooth_fallback=False,opposite_fallback=False,pelvis_support=False,opposite_full_only=False,compact=True):
+def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,both_legs=True,rest_envelope=False,side_scoped=False,smooth_fallback=False,opposite_fallback=False,pelvis_support=False,opposite_full_only=False,compact=True,guard_width=1.,lower_thigh_support=False,broad_dress_roots=False,midline_contacts=False,midline_transverse=False):
     # Optional flags support isolated comparisons; the production wrapper below
     # selects stable ownership, pelvis support and only true cross-leg fallback.
+    if not math.isfinite(guard_width) or guard_width<=0:raise ValueError('Guard width must be positive and finite')
     plan=plan_colliders(rig,meshes);sb=rig.data.vrm_addon_extension.spring_bone1
     payload=snapshot_contact_colliders(rig)
     payload['groups']=[g for g in payload['groups'] if g['springs']]
@@ -43,7 +46,9 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
     lower={getattr(hum,side+'_upper_leg').node.bone_name:getattr(hum,side+'_lower_leg').node.bone_name for side in ('left','right')}
     leg_names=set(thighs)|set(lower.values())
     lookup={s.vrm_name:s for s in sb.springs}
-    guards=0;minimum=float('inf')
+    pelvis=rig.data.bones[hum.hips.node.bone_name]
+    hip_separation=abs(rig.data.bones[thighs[0]].head_local.x-rig.data.bones[thighs[1]].head_local.x)
+    guards=0;minimum=float('inf');shared_chains=[]
     for group in payload['groups']:
         if len(group['springs'])!=1:continue
         spring=lookup[group['springs'][0]]
@@ -61,6 +66,19 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
         chosen=[owner] if side_scoped else thighs if both_legs else [min(thighs,key=lambda n:segment_distance(center,rig.data.bones[n].head_local,rig.data.bones[n].tail_local))]
         if pelvis_support:
             chosen=[owner]+[n for n in thighs if n!=owner]
+        root=rig.data.bones[spring.joints[0].node.bone_name]
+        # Resolve both knee sections to the same original attachment. Only the
+        # narrow central dress strip spans both legs; side panels retain their
+        # owning leg's moving support and the stationary pelvis fallback.
+        shared_midline=midline_contacts and is_midline_dress_chain(rig,spring,lookup)
+        if shared_midline:shared_chains.append(spring.vrm_name)
+        if root.get('hallway_dress_lower'):
+            # Distal contacts follow their calf (both calves at the midline).
+            # Full-leg fallback capsules remain for yaw and crossed poses.
+            owners=thighs if shared_midline else [owner]
+            chosen=(owners if lower_thigh_support else [])+[lower[n] for n in owners]
+        elif min(p.z for p,r in samples)<rig.data.bones[lower[owner]].head_local.z:
+            chosen=list(dict.fromkeys(chosen+[lower[owner]]))
         for name in chosen:
             if name not in body:continue  # No safe body fit for this bone.
             bone=rig.data.bones[name];inverse=bone.matrix_local.inverted()
@@ -69,16 +87,29 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
             if normal.length<.5:continue
             R=bone.length*radius_factor
             if compact:
-                # A leg-length radius creates a near-plane whose back side
-                # spans other chains. Bound support by measured body thickness
-                # rather than the longitudinal bone length. Keep a continuous
-                # head-to-tail axis: short rounded supports introduce abrupt
-                # changes in contact normal as the leg rotates.
-                R=min(R,body[name]['body_radius'])
+                # Ordinary chains use measured body thickness. Long dress
+                # roots need a flatter support to resist wrapping around the
+                # thigh at large raises. Their own upper-leg guard (both at
+                # the midline) gets the broad back side. Lower sections, fixed
+                # pelvis guards and hair retain their existing sizes.
+                # The front is still fitted against every endpoint below,
+                # and the radius cannot exceed this bone's length.
+                width=4. if broad_dress_roots and root.get('hallway_dress_full_chain') and (name==owner or shared_midline) else guard_width
+                R=min(R,body[name]['body_radius']*width)
             for degrees in ((-fan_degrees,0,fan_degrees) if fan_degrees else (0,)):
                 n=Quaternion((0,1,0),math.radians(degrees))@normal
                 def shape(bound):
                     offset=n*(bound-R)
+                    # A longitudinal rounded guard can let a center panel
+                    # slide across its neighbor to the far side of the leg.
+                    # A transverse support flattens the reaction across the
+                    # panel width. Keep full longitudinal body capsules as
+                    # fallback, and fit this surface clear of the rest chain.
+                    if shared_midline and midline_transverse and not root.get('hallway_dress_lower'):
+                        tangent=Vector((0.,1.,0.)).cross(n).normalized()
+                        middle=offset+Vector((0.,bone.length*.5,0.))
+                        span=max(hip_separation,body[name]['body_radius']*2.)
+                        return middle-tangent*span,middle+tangent*span
                     return offset,offset+Vector((0,bone.length,0))
                 def clearance(bound):
                     a,b=shape(bound)
@@ -91,7 +122,7 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
                     else:hi=mid
                 a,b=shape(lo)
                 attachment=name
-                if pelvis_support and name!=owner:
+                if pelvis_support and name in thighs and name!=owner and not shared_midline:
                     attachment=hum.hips.node.bone_name
                     transform=rig.data.bones[attachment].matrix_local.inverted()@bone.matrix_local
                     a,b=transform@a,transform@b
@@ -102,7 +133,7 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
     payload['colliders']=[payload['colliders'][i] for i in used]
     for group in payload['groups']:group['colliders']=[remap[i] for i in group['colliders']]
     replace_contact_colliders(rig,payload)
-    return dict(guards=guards,minimum_rest_clearance=minimum,radius_factor=radius_factor,fan_degrees=fan_degrees,compact=compact)
+    return dict(guards=guards,minimum_rest_clearance=minimum,radius_factor=radius_factor,fan_degrees=fan_degrees,compact=compact,guard_width=guard_width,broad_dress_roots=broad_dress_roots,shared_midline_chains=shared_chains,midline_transverse=midline_transverse)
 
 
 def split_contact_segments(rig):
@@ -202,16 +233,20 @@ def install_skirt_contact_rig(rig,meshes):
         # and get stuck in a different collision basin after a fast reversal.
         # Merge only our generated segments; all deform bones/weights stay put.
         merge_contact_segments(rig)
+        knee_report=upgrade_knee_follow(rig)
         install_contact_colliders(rig,meshes)
         report=install_directional_contacts(rig,meshes,radius_factor=1.,fan_degrees=0.,
-            rest_envelope=True,side_scoped=True,opposite_fallback=True,pelvis_support=True,opposite_full_only=True)
+            rest_envelope=True,side_scoped=True,opposite_fallback=True,pelvis_support=True,opposite_full_only=True,broad_dress_roots=True,midline_contacts=True,midline_transverse=True)
         from avatar_skirt_ceiling import install_skirt_ceiling
+        report['knee_follow']=knee_report
         report['ceiling']=install_skirt_ceiling(rig)
+        from avatar_skirt_hip_physics import refresh_hip_contacts
+        report['hip_contacts']=refresh_hip_contacts(rig)
         initialize(rig);organize_bones(rig)
         verify(meshes,before)
         if binding!={o.name:[weights(o,v.index) for v in o.data.vertices] for o in meshes}:
             raise RuntimeError('Contact generation unexpectedly changed skin weights')
-        rig['hallway_skirt_contact_rig']=5
+        rig['hallway_skirt_contact_rig']=8
         chains=[s for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith('Secondary_Skirt_')]
         report['chains']=len(chains)
         report['segments']=sum(len(s.joints)-1 for s in chains)
