@@ -1,0 +1,169 @@
+{
+  "geometry_and_all_shape_keys_unchanged": true,
+  "changed_frames": 179,
+  "physics_steps": 180,
+  "mesh_count": 3,
+  "vertices": 29350,
+  "bones": 670,
+  "springs": 119,
+  "skirt_chains": 24,
+  "hair_chains": 83,
+  "colliders": 179,
+  "rest_audit": {
+    "pairs": 2640,
+    "contacts": [],
+    "minimum_clearance": 0.001813318760967575
+  },
+  "humanoid_symmetry_error": 0.0,
+  "normalized_fresh_weights": true,
+  "unique_spring_joints": true,
+  "centers_empty": true,
+  "method": "VRM semantic rest landmarks only; fresh heat binding and generated native VRM physics",
+  "scope": "Execution and data-integrity checks only; visual and clipping review is left to the user",
+  "packaging": {
+    "scenes": [
+      "Yukata - Hallway",
+      "Yukata - Source Reference"
+    ],
+    "skirt_vertices": 700,
+    "maximum_skirt_influences": 4,
+    "portable_constraints": 24,
+    "reference_bones": 247,
+    "file": "/Users/tylerwalker/Downloads/Yukata_Hallway.blend"
+  },
+  "heat_fallback": {
+    "method": "material-isolated fresh heat after complete combined failure",
+    "seeded_vertices": 7478,
+    "domains": [
+      {
+        "domain": "Body:material:0",
+        "vertices": 3765,
+        "seeded": 3765,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 2988,
+            "temporary_cap_faces": 6,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 9.423921764932221e-07,
+            "solver_scale": 6.151200950942635,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:1",
+        "vertices": 760,
+        "seeded": 760,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 760,
+            "temporary_cap_faces": 1,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 43.16228832047683,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:2",
+        "vertices": 792,
+        "seeded": 792,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 768,
+            "temporary_cap_faces": 2,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 11.096714038857412,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:3",
+        "vertices": 106,
+        "seeded": 106,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 96,
+            "temporary_cap_faces": 2,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 119.6556553140909,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:4",
+        "vertices": 1593,
+        "seeded": 1593,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 1363,
+            "temporary_cap_faces": 2,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 22.60876783599536,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:5",
+        "vertices": 186,
+        "seeded": 186,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 180,
+            "temporary_cap_faces": 2,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 65.91760111269144,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:6",
+        "vertices": 80,
+        "seeded": 80,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 74,
+            "temporary_cap_faces": 1,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 50.023185031819786,
+            "voxelized": false
+          }
+        ]
+      },
+      {
+        "domain": "Body:material:7",
+        "vertices": 196,
+        "seeded": 196,
+        "heat": [
+          {
+            "mesh": "Temporary isolated heat surface",
+            "heat_vertices": 92,
+            "temporary_cap_faces": 0,
+            "heat_unweighted_vertices": 0,
+            "maximum_correspondence_distance": 0.0,
+            "solver_scale": 269.9705008868607,
+            "voxelized": false
+          }
+        ]
+      }
+    ],
+    "source_weights_used": false
+  }
+}

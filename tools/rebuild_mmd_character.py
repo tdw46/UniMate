@@ -144,6 +144,7 @@ def rebuild(source, meshes, specs=None, skirt_segments=None):
     # One joined temporary surface gives disconnected facial parts and the neck
     # the same heat domain; original meshes and their shape keys are untouched.
     vertices,faces,ranges=[],[],{}
+    heat_domains=[]
     rigid = set()
     for obj in meshes:
         labels={obj.data.materials[p.material_index].name.lower() for p in obj.data.polygons}
@@ -155,6 +156,12 @@ def rebuild(source, meshes, specs=None, skirt_segments=None):
         vertices.extend(tuple(v.co) for v in obj.data.vertices)
         offset=ranges[obj.name][0]
         faces.extend(tuple(offset+i for i in p.vertices) for p in obj.data.polygons)
+        material_faces={}
+        for polygon in obj.data.polygons:
+            face=tuple(offset+i for i in polygon.vertices)
+            material_faces.setdefault(polygon.material_index,[]).append(face)
+        for material_index, domain_faces in material_faces.items():
+            heat_domains.append((f'{obj.name}:material:{material_index}',domain_faces))
     proxy_data=bpy.data.meshes.new('Fresh heat surface')
     proxy_data.from_pydata(vertices,[],faces);proxy_data.update()
     proxy=bpy.data.objects.new('Fresh heat surface',proxy_data)
@@ -163,13 +170,22 @@ def rebuild(source, meshes, specs=None, skirt_segments=None):
     solved={v.index:weights(proxy,v.index) for v in proxy.data.vertices}
     proxy.data.calc_loop_triangles()
     triangles=[tuple(t.vertices) for t in proxy.data.loop_triangles if all(solved[i] for i in t.vertices)]
+    fallback=None
+    if not triangles:
+        from avatar_heat_fallback import seed_material_heat
+        fallback=seed_material_heat(proxy,rig,heat_domains)
+        heat.append(fallback)
+        solved={v.index:weights(proxy,v.index) for v in proxy_data.vertices}
+        triangles=[tuple(t.vertices) for t in proxy_data.loop_triangles if all(solved[i] for i in t.vertices)]
     assert triangles,'Heat produced no usable surface'
     tree=BVHTree.FromPolygons([v.co for v in proxy.data.vertices],triangles,all_triangles=True)
     transferred=0;max_distance=0.
+    heat_transfer_limit=rig.data.bones['UpperArm.L'].length*.75
     for v in proxy.data.vertices:
         if solved[v.index]:continue
         hit,normal,index,distance=tree.find_nearest(v.co)
-        assert index is not None and distance<rig.data.bones['UpperArm.L'].length*.75, 'Unseeded surface too far from heat solution'
+        maximum=heat_transfer_limit
+        assert index is not None and distance<maximum, f'Unseeded surface too far from heat solution: vertex {v.index}, distance {distance}, limit {maximum}, position {tuple(v.co)}'
         tri=triangles[index]
         bary=barycentric_transform(hit,*(proxy.data.vertices[i].co for i in tri),Vector((1,0,0)),Vector((0,1,0)),Vector((0,0,1)))
         values={}
