@@ -87,7 +87,11 @@ def upgrade_skirt_follow(rig,influence=INFLUENCE):
             if knee and group:
                 from properties_hallway_rig import follow_influence
                 value=follow_influence(rig,pb,group)
-            else:value*=float(pb.bone.get('hallway_follow_share',1.))
+            else:
+                from avatar_dress_fit import adapted_follow
+                strength=rig.hallway_rig.dress_fit_strength if hasattr(rig,'hallway_rig') else 1.
+                value=adapted_follow(value,pb.bone.get('hallway_dress_tightness',0.),strength)
+                value*=float(pb.bone.get('hallway_follow_share',1.))
             set_constraint(constraint,rig,source,value)
             index=list(pb.constraints).index(constraint)
             if index:pb.constraints.move(index,0)

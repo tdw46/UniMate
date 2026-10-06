@@ -41,6 +41,9 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
     payload['colliders']=[payload['colliders'][i] for i in keep]
     for group in payload['groups']:group['colliders']=[mapping[i] for i in group['colliders'] if i in mapping]
     body={s['bone']:s for s in plan['collider_details'] if s['role']=='skirt'}
+    from avatar_dress_contacts import family_fit,fit_for_spring,is_tight,prune_competing_contacts,corner_normals
+    dress_fits=family_fit(rig,meshes,plan['collider_details'])
+    tight_groups=[];pruned=0
     hum=rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
     thighs=[getattr(hum,s+'_upper_leg').node.bone_name for s in ('left','right')]
     lower={getattr(hum,side+'_upper_leg').node.bone_name:getattr(hum,side+'_lower_leg').node.bone_name for side in ('left','right')}
@@ -55,6 +58,8 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
         samples=[(rig.data.bones[t.node.bone_name].head_local.copy(),h.hit_radius) for h,t in zip(spring.joints,spring.joints[1:])]
         center=sum((p for p,r in samples),Vector())/len(samples)
         owner=skirt_owner_leg(rig,spring,thighs)
+        fit=fit_for_spring(rig,spring,dress_fits)
+        tight=is_tight(fit)
         if side_scoped and not opposite_fallback:
             allowed={owner,lower[owner]}
             group['colliders']=[i for i in group['colliders'] if payload['colliders'][i]['bone'] not in leg_names or payload['colliders'][i]['bone'] in allowed]
@@ -79,6 +84,8 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
             chosen=(owners if lower_thigh_support else [])+[lower[n] for n in owners]
         elif min(p.z for p,r in samples)<rig.data.bones[lower[owner]].head_local.z:
             chosen=list(dict.fromkeys(chosen+[lower[owner]]))
+        if tight:
+            chosen=[name for name in chosen if name in (owner,lower[owner])]
         for name in chosen:
             if name not in body:continue  # No safe body fit for this bone.
             bone=rig.data.bones[name];inverse=bone.matrix_local.inverted()
@@ -95,9 +102,14 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
                 # The front is still fitted against every endpoint below,
                 # and the radius cannot exceed this bone's length.
                 width=4. if broad_dress_roots and root.get('hallway_dress_full_chain') and (name==owner or shared_midline) else guard_width
+                if tight and root.get('hallway_dress_lower') and name==lower[owner]:
+                    width=max(width,1.+7.*fit.get('lower',0.))
                 R=min(R,body[name]['body_radius']*width)
-            for degrees in ((-fan_degrees,0,fan_degrees) if fan_degrees else (0,)):
-                n=Quaternion((0,1,0),math.radians(degrees))@normal
+            normals=[Quaternion((0,1,0),math.radians(degrees))@normal
+                     for degrees in ((-fan_degrees,0,fan_degrees) if fan_degrees else (0,))]
+            if tight and root.get('hallway_dress_lower') and name==lower[owner]:
+                normals=corner_normals(middle)
+            for n in normals:
                 def shape(bound):
                     offset=n*(bound-R)
                     # A longitudinal rounded guard can let a center panel
@@ -128,12 +140,17 @@ def install_directional_contacts(rig,meshes,radius_factor=2.,fan_degrees=25.,bot
                     a,b=transform@a,transform@b
                 index=len(payload['colliders']);payload['colliders'].append(dict(bone=attachment,offset=list(a),tail=list(b),radius=R,base=R,limit=R,contact=True,directional=True))
                 group['colliders'].append(index);guards+=1;minimum=min(minimum,clearance(lo))
+        if tight:
+            before_refs=len(group['colliders'])
+            prune_competing_contacts(payload,group,{owner,lower[owner]})
+            pruned+=before_refs-len(group['colliders'])
+            tight_groups.append(spring.vrm_name)
     used=sorted({i for g in payload['groups'] for i in g['colliders']})
     remap={old:i for i,old in enumerate(used)}
     payload['colliders']=[payload['colliders'][i] for i in used]
     for group in payload['groups']:group['colliders']=[remap[i] for i in group['colliders']]
     replace_contact_colliders(rig,payload)
-    return dict(guards=guards,minimum_rest_clearance=minimum,radius_factor=radius_factor,fan_degrees=fan_degrees,compact=compact,guard_width=guard_width,broad_dress_roots=broad_dress_roots,shared_midline_chains=shared_chains,midline_transverse=midline_transverse)
+    return dict(tight_dress_groups=tight_groups,pruned_competing_references=pruned,guards=guards,minimum_rest_clearance=minimum,radius_factor=radius_factor,fan_degrees=fan_degrees,compact=compact,guard_width=guard_width,broad_dress_roots=broad_dress_roots,shared_midline_chains=shared_chains,midline_transverse=midline_transverse)
 
 
 def split_contact_segments(rig):
@@ -246,7 +263,7 @@ def install_skirt_contact_rig(rig,meshes):
         verify(meshes,before)
         if binding!={o.name:[weights(o,v.index) for v in o.data.vertices] for o in meshes}:
             raise RuntimeError('Contact generation unexpectedly changed skin weights')
-        rig['hallway_skirt_contact_rig']=8
+        rig['hallway_skirt_contact_rig']=9
         chains=[s for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith('Secondary_Skirt_')]
         report['chains']=len(chains)
         report['segments']=sum(len(s.joints)-1 for s in chains)

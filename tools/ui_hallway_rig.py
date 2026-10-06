@@ -214,6 +214,12 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
         for group in settings.follow_groups:
             label={'Skirt Knee':'Front Knee Follow','Skirt Knee Side':'Side Knee Follow','Skirt Knee Back':'Back Knee Follow'}.get(group.name,group.name+' Follow')
             col.prop(group, 'influence', text=label, slider=True)
+        if rig.get('hallway_dress_fit'):
+            col.prop(settings, 'dress_fit_strength', slider=True)
+            from properties_hallway_rig import follow_entries
+            for name,label in (('Skirt','Upper'),('Skirt Knee','Lower')):
+                values=[c.influence for pb,c in follow_entries(rig,name) if 'hallway_dress_tightness' in pb.bone]
+                if values:col.label(text=f'{label} effective follow: {min(values):.0%}–{max(values):.0%}')
         if 'Skirt' in settings.spring_groups:
             col.prop(settings, 'skirt_thickness', text='Skirt Thickness')
             col.label(text='Limited by rest clearance', icon='INFO')

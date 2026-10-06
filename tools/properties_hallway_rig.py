@@ -3,7 +3,7 @@ from contextlib import contextmanager
 import sys
 import bpy
 from mathutils import Vector
-from avatar_rig_defaults import FOLLOW, SPRINGS, SKIRT_THICKNESS
+from avatar_rig_defaults import FOLLOW, SPRINGS, SKIRT_THICKNESS, DRESS_FIT_STRENGTH
 
 _updating = set()
 
@@ -33,6 +33,9 @@ def _update(property_group, context, field):
     with suppress_updates(rig):
         if field == 'influence':
             apply_follow(rig, property_group)
+        elif field == 'dress_fit_strength':
+            for group in rig.hallway_rig.follow_groups:
+                apply_follow(rig, group)
         elif field == 'skirt_thickness':
             apply_thickness(rig, context)
         else:
@@ -47,6 +50,10 @@ def _update(property_group, context, field):
 
 def update_follow(self, context):
     _update(self, context, 'influence')
+
+
+def update_dress_fit(self, context):
+    _update(self, context, 'dress_fit_strength')
 
 
 def update_thickness(self, context):
@@ -176,6 +183,8 @@ class HALLWAY_PG_Rig(bpy.types.PropertyGroup):
     initialized: bpy.props.BoolProperty(default=False)
     follow_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Follow)
     spring_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Spring)
+    dress_fit_strength: bpy.props.FloatProperty(name='Tight Dress Follow', default=DRESS_FIT_STRENGTH, min=0., max=1.,
+        subtype='FACTOR', description='Boost upper and lower follow according to measured rest clearance. Zero uses the original follow sliders; no extra constraints or leg weights', update=update_dress_fit)
     skirt_thickness: bpy.props.FloatProperty(name='Skirt Collider Thickness', default=SKIRT_THICKNESS, min=.05, max=3.,
         description='Multiplier of fitted skirt collider radii, capped at rest clearance; hair colliders are unchanged', update=update_thickness)
 
@@ -187,6 +196,8 @@ def initialize(rig):
 
 
 def _initialize(rig):
+    from avatar_rig_defaults import profile_defaults
+    follow_defaults = profile_defaults(rig)['follow']
     rig['hallway_generated_rig'] = True
     settings = rig.hallway_rig
     for pb in rig.pose.bones:
@@ -202,7 +213,7 @@ def _initialize(rig):
             if constraints:
                 group = settings.follow_groups.add()
                 group.name = name
-                group.influence = FOLLOW.get(name, constraints[0].influence)
+                group.influence = follow_defaults.get(name, constraints[0].influence)
                 group['hallway_default_influence'] = group.influence
                 if name == 'Skirt Knee':apply_follow(rig,group)
     if any('hallway_knee_profile' in b for b in rig.data.bones):
@@ -240,14 +251,7 @@ def reset_settings(rig, context=None):
     with suspended(context):
         with suppress_updates(rig):
             settings = _initialize(rig)
-            for group in settings.follow_groups:
-                group.influence = FOLLOW.get(group.name, group.get(
-                    'hallway_default_influence', group.bl_rna.properties['influence'].default))
-            settings.skirt_thickness = SKIRT_THICKNESS
-            for group in settings.spring_groups:
-                defaults = SPRINGS.get(group.name, {})
-                for field in ('drag', 'stiffness', 'non_root_stiffness', 'gravity'):
-                    setattr(group, field, defaults.get(field, group.bl_rna.properties[field].default))
+            set_profile_defaults(rig)
         limited = _apply_settings(rig)
         organize_bones(rig)
         if hasattr(rig.data, 'collections'):
@@ -268,6 +272,24 @@ def reset_settings(rig, context=None):
         for area in context.screen.areas:
             if area.type == 'VIEW_3D': area.tag_redraw()
     return dict(limited_colliders=limited, physics_available=physics_available)
+
+
+def set_profile_defaults(rig):
+    """Set controls for generation/reset only; ordinary initialization preserves edits."""
+    from avatar_rig_defaults import profile_defaults
+    profile = profile_defaults(rig)
+    settings = rig.hallway_rig
+    with suppress_updates(rig):
+        for group in settings.follow_groups:
+            group.influence = profile['follow'].get(group.name, group.get(
+                'hallway_default_influence', group.bl_rna.properties['influence'].default))
+        settings.skirt_thickness = SKIRT_THICKNESS
+        settings.dress_fit_strength = DRESS_FIT_STRENGTH
+        for group in settings.spring_groups:
+            defaults = profile['springs'].get(group.name, {})
+            for field in ('drag', 'stiffness', 'non_root_stiffness', 'gravity'):
+                setattr(group, field, defaults.get(field, group.bl_rna.properties[field].default))
+    return profile['name']
 
 
 def apply_settings(rig):
@@ -295,6 +317,9 @@ def follow_influence(rig,pb,group):
         values=[groups[name].influence if name in groups else default for name,default in
                 ((name,FOLLOW[name]) for name in ('Skirt Knee','Skirt Knee Side','Skirt Knee Back'))]
         base=sum(weight*value for weight,value in zip(pb.bone['hallway_knee_profile'],values))
+    if group.name in ('Skirt','Skirt Knee'):
+        from avatar_dress_fit import adapted_follow
+        base=adapted_follow(base,pb.bone.get('hallway_dress_tightness',0.),rig.hallway_rig.dress_fit_strength)
     return base*float(pb.bone.get('hallway_follow_share',1.))
 
 

@@ -11,11 +11,13 @@ bpy.ops.preferences.addon_enable(module='bl_ext.user_default.vrm')
 import ui_hallway_rig
 ui_hallway_rig.register()
 bpy.ops.wm.open_mainfile(filepath=str(Path(source).resolve()))
-from avatar_rig_defaults import FOLLOW, SPRINGS
+from avatar_rig_defaults import profile_defaults
 from properties_hallway_rig import active_rig, initialize, follow_entries, follow_influence, skirt_colliders, non_root_joint_roles, springs
 from avatar_vrm_colliders import show_colliders, colliders_visible
 from avatar_mesh_invariant import snapshot,verify
 r=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE' and o.get('hallway_generated_rig'))
+profile=profile_defaults(r)
+FOLLOW,SPRINGS=profile['follow'],profile['springs']
 bpy.context.view_layer.objects.active=r
 if bpy.context.mode!='OBJECT':bpy.ops.object.mode_set(mode='OBJECT')
 meshes=[o for o in bpy.context.scene.objects if o.type=='MESH' and o.find_armature()==r]
@@ -25,6 +27,7 @@ for group in r.hallway_rig.follow_groups:group.influence=.13
 for group in r.hallway_rig.spring_groups:
     group.drag=.11;group.stiffness=.31;group.non_root_stiffness=.23;group.gravity=.009
 r.hallway_rig.skirt_thickness=.35
+r.hallway_rig.dress_fit_strength=.12
 for c in r.data.collections:
     if c.get('hallway_role'):c.is_visible=False
 show_colliders(r,True)
@@ -45,6 +48,7 @@ for group in r.hallway_rig.spring_groups:
             expected=group.stiffness*joint['hallway_stiffness_ratio']*(group.non_root_stiffness if nonroot else 1.)
             assert abs(joint.stiffness-expected)<1e-6
 assert r.hallway_rig.skirt_thickness==1.
+assert r.hallway_rig.dress_fit_strength==1.
 for c in skirt_colliders(r):
     o=c.bpy_object;assert abs(c.shape.capsule.radius-min(o['hallway_base_radius'],o['hallway_radius_limit']))<1e-6
 assert not colliders_visible(r)

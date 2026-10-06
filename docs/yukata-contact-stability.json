@@ -1,0 +1,312 @@
+{
+  "smooth": {
+    "baseline": [
+      {
+        "case": [
+          65,
+          0,
+          -80
+        ],
+        "hits": [
+          17,
+          0,
+          56,
+          56,
+          0,
+          38,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 2.289974729175708,
+        "acc_max_mm": 36.15522751308138,
+        "worst": "Secondary_Skirt_00_09_04"
+      },
+      {
+        "case": [
+          0,
+          35,
+          0
+        ],
+        "hits": [
+          43,
+          15,
+          31,
+          31,
+          14,
+          32,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 2.3568997941611207,
+        "acc_max_mm": 24.114372340167503,
+        "worst": "Secondary_Skirt_00_05_04"
+      },
+      {
+        "case": [
+          60,
+          30,
+          -65
+        ],
+        "hits": [
+          47,
+          14,
+          29,
+          29,
+          39,
+          31,
+          0
+        ],
+        "hold_step_max_mm": 0.501707748351501,
+        "hold_step_rms_mm": 0.014254965189603576,
+        "acc_p99_mm": 4.418722161392702,
+        "acc_max_mm": 97.05472115759187,
+        "worst": "Secondary_Skirt_00_09_04"
+      }
+    ],
+    "corrected": [
+      {
+        "case": [
+          65,
+          0,
+          -80
+        ],
+        "hits": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 1.9550046353885246,
+        "acc_max_mm": 8.688727269490837,
+        "worst": "Secondary_Skirt_00_09_03"
+      },
+      {
+        "case": [
+          0,
+          35,
+          0
+        ],
+        "hits": [
+          37,
+          0,
+          0,
+          0,
+          33,
+          0,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 1.3545286930964047,
+        "acc_max_mm": 14.571017542568047,
+        "worst": "Secondary_Skirt_00_00_04"
+      },
+      {
+        "case": [
+          60,
+          30,
+          -65
+        ],
+        "hits": [
+          32,
+          29,
+          31,
+          31,
+          61,
+          0,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 1.7792769688728998,
+        "acc_max_mm": 10.850097676847756,
+        "worst": "Secondary_Skirt_00_10_04"
+      }
+    ],
+    "sampled_triangle_intersection_pairs": [
+      522,
+      254
+    ],
+    "max_discrete_acceleration_mm_per_frame_squared": [
+      97.05472115759187,
+      14.571017542568047
+    ],
+    "intersection_pair_reduction": 0.5134099616858238,
+    "max_acceleration_reduction": 0.8498680191053409
+  },
+  "step_seconds": 0.016666666666666666,
+  "settle_steps": 35,
+  "smooth_ramp_frames": 45,
+  "hold_frames": 90,
+  "rest_frames": 60,
+  "native_validation": {
+    "shared_sections": [],
+    "side_sections": 24,
+    "native_counts": [
+      177,
+      49,
+      489
+    ],
+    "hair_disjoint": true,
+    "portable_capsules": true,
+    "idempotent": true,
+    "pose_preserved": true,
+    "geometry_and_weights_unchanged": true,
+    "rest": {
+      "pairs": 2294,
+      "contacts": [],
+      "minimum_clearance": 0.001813318760967575
+    }
+  },
+  "limits": "Counts measure sampled triangle pairs, not penetration volume; diagonal and transient clipping remains. No mesh, weight, follow, stiffness or drag changes were used in this collider correction.",
+  "fast_ramp_frames": 12,
+  "fast": {
+    "baseline": [
+      {
+        "case": [
+          65,
+          0,
+          -80
+        ],
+        "hits": [
+          0,
+          0,
+          55,
+          55,
+          0,
+          19,
+          0
+        ],
+        "hold_step_max_mm": 0.12291518423213293,
+        "hold_step_rms_mm": 0.003172860559681544,
+        "acc_p99_mm": 15.17630210506207,
+        "acc_max_mm": 160.55310989595316,
+        "worst": "Secondary_Skirt_00_09_04"
+      },
+      {
+        "case": [
+          0,
+          35,
+          0
+        ],
+        "hits": [
+          18,
+          0,
+          31,
+          31,
+          53,
+          0,
+          0
+        ],
+        "hold_step_max_mm": 0.14060005489544383,
+        "hold_step_rms_mm": 0.005058525890101327,
+        "acc_p99_mm": 9.161790543715508,
+        "acc_max_mm": 74.62031454558509,
+        "worst": "Secondary_Skirt_00_05_04"
+      },
+      {
+        "case": [
+          60,
+          30,
+          -65
+        ],
+        "hits": [
+          0,
+          0,
+          29,
+          29,
+          35,
+          27,
+          0
+        ],
+        "hold_step_max_mm": 0.6810908297839147,
+        "hold_step_rms_mm": 0.029480483192040267,
+        "acc_p99_mm": 17.308149799714016,
+        "acc_max_mm": 169.19950580807136,
+        "worst": "Secondary_Skirt_00_10_04"
+      }
+    ],
+    "corrected": [
+      {
+        "case": [
+          65,
+          0,
+          -80
+        ],
+        "hits": [
+          20,
+          0,
+          0,
+          0,
+          9,
+          4,
+          0
+        ],
+        "hold_step_max_mm": 0.13607319811589363,
+        "hold_step_rms_mm": 0.0026483210265476234,
+        "acc_p99_mm": 13.031418242958424,
+        "acc_max_mm": 59.00003285600501,
+        "worst": "Secondary_Skirt_00_10_04"
+      },
+      {
+        "case": [
+          0,
+          35,
+          0
+        ],
+        "hits": [
+          16,
+          0,
+          0,
+          0,
+          93,
+          0,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 9.157788712194613,
+        "acc_max_mm": 56.13020206025479,
+        "worst": "Secondary_Skirt_00_11_04"
+      },
+      {
+        "case": [
+          60,
+          30,
+          -65
+        ],
+        "hits": [
+          7,
+          20,
+          31,
+          31,
+          47,
+          0,
+          0
+        ],
+        "hold_step_max_mm": 0.0,
+        "hold_step_rms_mm": 0.0,
+        "acc_p99_mm": 13.092349622055247,
+        "acc_max_mm": 39.42254303426974,
+        "worst": "Secondary_Skirt_00_09_04"
+      }
+    ],
+    "sampled_triangle_intersection_pairs": [
+      382,
+      278
+    ],
+    "max_discrete_acceleration_mm_per_frame_squared": [
+      169.19950580807136,
+      59.00003285600501
+    ],
+    "intersection_pair_reduction": 0.2722513089005235,
+    "max_acceleration_reduction": 0.6512990237516963
+  }
+}
