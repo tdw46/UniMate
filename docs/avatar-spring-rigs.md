@@ -601,3 +601,32 @@ These are execution/data checks, not visual or clipping approval; see
 The shared final-generation pass adds up to 25% of remaining non-Hips mass to Hips at the front-center of the pelvis. Generated thigh sockets, spine and their lengths define a compact smooth envelope, with zero effect behind the socket plane or below its lower fade. Admitted skirt domains and anatomically owned skin/bottomwear are eligible; fingers and unrelated attachments are excluded. Apply after waistband handoff, before transverse cloth smoothing and mounted fittings. Maximum four influences; original rigs and weights are never inputs.
 
 Blender 4.2/5.2 focused checks and four-character fixture checks pass. Fresh Grace public generation matches exactly in both hosts, including weights and bones. Grace's 755 affected vertices gain an average 7.21 percentage points of Hips mass. The final strap remains smoothly diffused (edge energy 0.03194). No new all-pose or native Windows acceptance is claimed. Updated generated Grace files and evidence are in research `delivery/zzz-238`; live code is loaded without saving or reweighting the dirty Nicole scene. See BVT `front-pelvis-238.json`.
+
+
+### Main-branch checkpoint and collision jitter investigation — turn 242
+
+The accepted solver/auto-rigger and cloth-smoothing work is committed and published
+on both main branches. The separately authorized renderer source draft is also on
+BVT/Beyond NPR main; its open Windows qualification gates remain separate from
+this rigging checkpoint. The installed Mac shader package passes source continuity;
+that is not a new runtime/cadence qualification.
+
+Seven generated-cloth damping variants were compared with the accepted Grace
+fixture: uniform 0.55/0.65/0.8 drag, lower-only 0.8, upper-only 0.65/0.8, and
+upper/lower 0.8/0.55. Each used 144 frames of Walk01 and Run01, sampled at 24 fps
+with unchanged 60 Hz VRM Physics. Typical directional jerk fell substantially,
+but every candidate failed either the no-increase peak collider-distance gate
+or the existing strap/cloth intersection gate. Upper-only 0.8 reduced the 95th
+percentile jerk proxy by 42% walking and 45% running, with zero tested strap
+crossings, but its worst running collider overlap increased from 0.1462 to
+0.1777 model units. It is **not admitted**.
+
+No experimental damping, solver modification or collider retuning is shipped.
+The accepted weights, rest shape and original/generated files remain unchanged;
+the live dirty scene was neither saved nor reweighted. These are recorded rejected
+experiments, not a physics improvement release. Next investigate conflicting
+generated contact surfaces at peak frames, retaining the native VRM response and
+all existing penetration checks. Collider distances include virtual guards and
+are distinct from mesh intersections; the direction-difference jerk proxy also
+contains authored parent motion. Full evidence: collision-tuning-242.json and
+research delivery/zzz-242.

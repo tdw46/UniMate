@@ -1,0 +1,538 @@
+{
+  "schema": 1,
+  "date": "2026-11-13",
+  "status": "Investigation complete; no candidate admitted",
+  "runtime": "Blender 5.2.2 d13f752e3b9c",
+  "fixture": "Accepted generated Grace, skirt smoothing checkpoint 241",
+  "source_and_accepted_generated_unchanged": true,
+  "frame_count_per_clip": 144,
+  "clips": [
+    "Walk01",
+    "Run01"
+  ],
+  "capture_fps": 24,
+  "physics_hz": 60,
+  "baseline": {
+    "Walk01": {
+      "accel_p95": 0.41978752613067627,
+      "accel_p99": 0.6210930943489075,
+      "accel_max": 0.9382442831993103,
+      "jerk_p95": 0.5845403671264648,
+      "jerk_p99": 0.9277344942092896,
+      "jerk_max": 1.570858359336853,
+      "movement": 0.3462834060192108,
+      "penetration_max": 0.04986928067393093,
+      "penetration_mean": 0.0006416414988689191,
+      "penetrating_samples": 802,
+      "samples": 14400
+    },
+    "Run01": {
+      "accel_p95": 1.3953125476837158,
+      "accel_p99": 1.9111096858978271,
+      "accel_max": 2.9977433681488037,
+      "jerk_p95": 2.3317816257476807,
+      "jerk_p99": 3.4121131896972656,
+      "jerk_max": 4.810016632080078,
+      "movement": 0.6098208427429199,
+      "penetration_max": 0.1462373490729949,
+      "penetration_mean": 0.0013794878415180332,
+      "penetrating_samples": 779,
+      "samples": 14400
+    }
+  },
+  "candidates": {
+    "damp55": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Walk01: collider_peak_not_increased",
+        "Run01: no_distant_fold_crossings"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 33.65543450773736,
+          "metrics": {
+            "accel_p95": 0.26527470350265503,
+            "accel_p99": 0.3935086131095886,
+            "accel_max": 0.8874279260635376,
+            "jerk_p95": 0.38781076669692993,
+            "jerk_p99": 0.5966042876243591,
+            "jerk_max": 1.4587483406066895,
+            "movement": 0.346618115901947,
+            "penetration_max": 0.06425691373693031,
+            "penetration_mean": 0.000496496115571319,
+            "penetrating_samples": 614,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0018809651955962181,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": true,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": false
+          },
+          "jerk_p95_reduction_percent": 34.28795584058037,
+          "metrics": {
+            "accel_p95": 0.9847301840782166,
+            "accel_p99": 1.4041067361831665,
+            "accel_max": 2.4907267093658447,
+            "jerk_p95": 1.5322613716125488,
+            "jerk_p99": 2.3230178356170654,
+            "jerk_max": 3.802600860595703,
+            "movement": 0.5913601517677307,
+            "penetration_max": 0.12427762776653595,
+            "penetration_mean": 0.0007298430975698326,
+            "penetrating_samples": 551,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0016361072193831205,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 7
+          }
+        }
+      }
+    },
+    "damp65": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Walk01: collider_peak_not_increased",
+        "Run01: no_local_crossings",
+        "Run01: no_distant_fold_crossings"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 43.005284002381984,
+          "metrics": {
+            "accel_p95": 0.22576217353343964,
+            "accel_p99": 0.3422498106956482,
+            "accel_max": 0.671546459197998,
+            "jerk_p95": 0.33315712213516235,
+            "jerk_p99": 0.5308678150177002,
+            "jerk_max": 1.1988284587860107,
+            "movement": 0.3477056622505188,
+            "penetration_max": 0.060910763163102954,
+            "penetration_mean": 0.00040720796401401345,
+            "penetrating_samples": 550,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0018788111628964543,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": true,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": false,
+            "no_distant_fold_crossings": false
+          },
+          "jerk_p95_reduction_percent": 42.514530120597726,
+          "metrics": {
+            "accel_p95": 0.8229320049285889,
+            "accel_p99": 1.320277214050293,
+            "accel_max": 2.341017723083496,
+            "jerk_p95": 1.3404356241226196,
+            "jerk_p99": 2.159381628036499,
+            "jerk_max": 3.6572089195251465,
+            "movement": 0.5898029208183289,
+            "penetration_max": 0.14596584950753688,
+            "penetration_mean": 0.0006934369241878415,
+            "penetrating_samples": 482,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": -0.0009400069247931242,
+            "negative_samples": 26,
+            "samples": 114768,
+            "far_frames": 22
+          }
+        }
+      }
+    },
+    "damp80": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Walk01: no_local_crossings",
+        "Walk01: no_distant_fold_crossings",
+        "Run01: no_distant_fold_crossings"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": true,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": false,
+            "no_distant_fold_crossings": false
+          },
+          "jerk_p95_reduction_percent": 51.95279678921909,
+          "metrics": {
+            "accel_p95": 0.18465839326381683,
+            "accel_p99": 0.28423190116882324,
+            "accel_max": 0.4711257517337799,
+            "jerk_p95": 0.28085529804229736,
+            "jerk_p99": 0.43915408849716187,
+            "jerk_max": 0.8134921193122864,
+            "movement": 0.3517152667045593,
+            "penetration_max": 0.048703251712066686,
+            "penetration_mean": 0.0002995384709629709,
+            "penetrating_samples": 484,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": -0.002413509413599968,
+            "negative_samples": 46,
+            "samples": 114768,
+            "far_frames": 14
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": true,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": false
+          },
+          "jerk_p95_reduction_percent": 51.291399839328456,
+          "metrics": {
+            "accel_p95": 0.7352674007415771,
+            "accel_p99": 1.0185916423797607,
+            "accel_max": 2.059918165206909,
+            "jerk_p95": 1.1357781887054443,
+            "jerk_p99": 1.9025249481201172,
+            "jerk_max": 3.29156756401062,
+            "movement": 0.5963889956474304,
+            "penetration_max": 0.13796200987710694,
+            "penetration_mean": 0.0007093619217169787,
+            "penetrating_samples": 394,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0016361108282580972,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 1
+          }
+        }
+      }
+    },
+    "lower80": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Walk01: collider_peak_not_increased",
+        "Run01: no_distant_fold_crossings"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 13.797833375480273,
+          "metrics": {
+            "accel_p95": 0.37062880396842957,
+            "accel_p99": 0.5643370747566223,
+            "accel_max": 0.9382442831993103,
+            "jerk_p95": 0.5038864612579346,
+            "jerk_p99": 0.8503229022026062,
+            "jerk_max": 1.4094723463058472,
+            "movement": 0.3405762016773224,
+            "penetration_max": 0.05322086644766544,
+            "penetration_mean": 0.0005268519421736494,
+            "penetrating_samples": 713,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0018740048399195075,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": true,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": false
+          },
+          "jerk_p95_reduction_percent": 15.622562358380975,
+          "metrics": {
+            "accel_p95": 1.210756778717041,
+            "accel_p99": 1.7025110721588135,
+            "accel_max": 2.5922346115112305,
+            "jerk_p95": 1.9674975872039795,
+            "jerk_p99": 2.730802059173584,
+            "jerk_max": 4.0729804039001465,
+            "movement": 0.5953113436698914,
+            "penetration_max": 0.11087513204756783,
+            "penetration_mean": 0.0011932678803124636,
+            "penetrating_samples": 753,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0016358778811991215,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 7
+          }
+        }
+      }
+    },
+    "upper80": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Run01: collider_peak_not_increased"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": true,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 41.85551893757087,
+          "metrics": {
+            "accel_p95": 0.24170556664466858,
+            "accel_p99": 0.37788504362106323,
+            "accel_max": 1.2572914361953735,
+            "jerk_p95": 0.3398779630661011,
+            "jerk_p99": 0.5372515320777893,
+            "jerk_max": 2.014209032058716,
+            "movement": 0.35308200120925903,
+            "penetration_max": 0.04843516928472891,
+            "penetration_mean": 0.00035571173259242366,
+            "penetrating_samples": 553,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0018789073219522834,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 44.941238937727356,
+          "metrics": {
+            "accel_p95": 0.8329887986183167,
+            "accel_p99": 1.2949135303497314,
+            "accel_max": 2.0888147354125977,
+            "jerk_p95": 1.283850073814392,
+            "jerk_p99": 2.081899642944336,
+            "jerk_max": 3.39882755279541,
+            "movement": 0.6056577563285828,
+            "penetration_max": 0.17765395381347693,
+            "penetration_mean": 0.000472352138315403,
+            "penetrating_samples": 347,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0016361108282580972,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        }
+      }
+    },
+    "upper65": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Walk01: collider_peak_not_increased",
+        "Run01: collider_peak_not_increased"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 36.97044751890493,
+          "metrics": {
+            "accel_p95": 0.2603224515914917,
+            "accel_p99": 0.42097795009613037,
+            "accel_max": 1.0530307292938232,
+            "jerk_p95": 0.3684331774711609,
+            "jerk_p99": 0.6306225657463074,
+            "jerk_max": 1.5423812866210938,
+            "movement": 0.3506464660167694,
+            "penetration_max": 0.06308604505811521,
+            "penetration_mean": 0.00044986193801694257,
+            "penetrating_samples": 615,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0018788111628964543,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 35.95315167858002,
+          "metrics": {
+            "accel_p95": 0.9487226009368896,
+            "accel_p99": 1.36864173412323,
+            "accel_max": 2.341017723083496,
+            "jerk_p95": 1.493432641029358,
+            "jerk_p99": 2.2505457401275635,
+            "jerk_max": 3.861238479614258,
+            "movement": 0.6000388264656067,
+            "penetration_max": 0.15835272397382483,
+            "penetration_mean": 0.0006584526699302002,
+            "penetrating_samples": 477,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0016362571623176336,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        }
+      }
+    },
+    "split8055": {
+      "accepted": false,
+      "rejection_reasons": [
+        "Walk01: collider_peak_not_increased",
+        "Walk01: no_distant_fold_crossings",
+        "Run01: collider_peak_not_increased"
+      ],
+      "clips": {
+        "Walk01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": false
+          },
+          "jerk_p95_reduction_percent": 48.40044213497353,
+          "metrics": {
+            "accel_p95": 0.20635293424129486,
+            "accel_p99": 0.3049374222755432,
+            "accel_max": 0.9380117058753967,
+            "jerk_p95": 0.3016202449798584,
+            "jerk_p99": 0.4700319766998291,
+            "jerk_max": 1.2733701467514038,
+            "movement": 0.3519003391265869,
+            "penetration_max": 0.05413792320453059,
+            "penetration_mean": 0.000328415536523163,
+            "penetrating_samples": 513,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.001290673390030861,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 9
+          }
+        },
+        "Run01": {
+          "checks": {
+            "typical_jerk_reduced": true,
+            "collider_peak_not_increased": false,
+            "collider_mean_not_increased": true,
+            "no_local_crossings": true,
+            "no_distant_fold_crossings": true
+          },
+          "jerk_p95_reduction_percent": 49.286543292924144,
+          "metrics": {
+            "accel_p95": 0.7604931592941284,
+            "accel_p99": 1.207571029663086,
+            "accel_max": 2.183778762817383,
+            "jerk_p95": 1.1825270652770996,
+            "jerk_p99": 1.9841092824935913,
+            "jerk_max": 3.319420337677002,
+            "movement": 0.5993422269821167,
+            "penetration_max": 0.16563168263097927,
+            "penetration_mean": 0.0005150125868678297,
+            "penetrating_samples": 332,
+            "samples": 14400
+          },
+          "geometry": {
+            "local_vertices": 797,
+            "min_gap": 0.0016361108282580972,
+            "negative_samples": 0,
+            "samples": 114768,
+            "far_frames": 0
+          }
+        }
+      }
+    }
+  },
+  "production_change": "None. Preserve accepted settings, weights, collider geometry and simulator.",
+  "limitations": [
+    "Direction third differences are a jerk proxy including authored parent motion, not physical jerk units.",
+    "Collider distances include virtual guard capsules; they are a conservative separate gate, not mesh penetration measurements.",
+    "Mesh checks target the accepted strap/carrier and distant folds, not universal whole-character collision proof.",
+    "This investigation uses Mac CPU VRM simulation, not a new Windows renderer or native package qualification."
+  ],
+  "next": "Inspect which generated contact surfaces conflict at the remaining peak frames. Preserve UniVRM response, 60 Hz cadence, rest shape, anatomical weight fractions and zero strap crossings."
+}
