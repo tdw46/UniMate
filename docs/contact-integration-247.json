@@ -1,0 +1,66 @@
+{
+  "scope": "Generation-only standard VRM cloth contact response; existing rigs not migrated",
+  "candidate_parity": [
+    {
+      "clip": "Walk01",
+      "vertices": {
+        "exact": true,
+        "max_error": 0.0
+      },
+      "bones": {
+        "exact": true,
+        "max_error": 0.0
+      }
+    },
+    {
+      "clip": "Run01",
+      "vertices": {
+        "exact": true,
+        "max_error": 0.0
+      },
+      "bones": {
+        "exact": true,
+        "max_error": 0.0
+      }
+    }
+  ],
+  "invariant_evidence": "/Users/tylerwalker/Documents/Codex/2026-10-29/autoskin-rea-research/delivery/zzz-247/invariants-vrm410/result-0.json",
+  "blender42": {
+    "passed": true,
+    "version": "4.2.0",
+    "result": {
+      "version": 1,
+      "merged": 1,
+      "reanchored": 1,
+      "tuned": 2,
+      "merge_checks": [
+        {
+          "bone": "Calf",
+          "clearance": 0.22000003086386577
+        }
+      ],
+      "rejected_merges": [],
+      "anchors": [
+        {
+          "from_bone": "Calf",
+          "to_bone": "Pelvis"
+        }
+      ],
+      "tuned_bones": [
+        "BVT_Secondary_Skirt_00_00_08",
+        "BVT_Secondary_Skirt_00_00_09"
+      ]
+    }
+  },
+  "limits": [
+    "Character fixtures saved by 5.2 cannot open in 4.2; 4.2 native synthetic execution passed instead",
+    "Four-character checks cover invariant geometry/settings, not all animation/collision poses",
+    "Fresh Windows Vulkan auto-selection run remains open; no binaries or renderer code changed"
+  ],
+  "source_hashes": {
+    "third_party/unimate/avatar_cloth_response.py": "993b007109f07c20c36d5ab8d03291b1c6f628db5ea6f50a3d8deb46d9ada2df",
+    "third_party/unimate/avatar_springs.py": "14efbbe7c13138b2bb32f6ca1b3c0f942b1f086c89a07cb1b649224af0c75e00",
+    "VRM_SpringSimulation.py": "8da91f9c0d26559ae60d97c395efc7c5aa509beb0162c37971fe31e57a085cf8",
+    "third_party/unimate/avatar_cloth_smoothing.py": "5174d79938c3459239f000d4da0988496e0d93a194b932229703a7115bdbed52"
+  }
+}

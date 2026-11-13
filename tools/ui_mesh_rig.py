@@ -91,7 +91,7 @@ def register():
     for cls in CLASSES:bpy.utils.register_class(cls)
     bpy.types.Scene.hallway_rig_device=bpy.props.EnumProperty(name='Processing',items=(('cpu','CPU','Portable local processing'),('mps','Metal','Apple Silicon GPU')),default='cpu')
     bpy.types.Scene.hallway_skinning=bpy.props.EnumProperty(name='Skin Weights',items=(('SOLVER','Hallway Solver','Use the bundled independent skinning solver'),('BLENDER','Blender Weighting','Use Blender heat weighting and cleanup')),default='SOLVER')
-    bpy.types.Scene.hallway_skinning_device=bpy.props.EnumProperty(name='Skinning Device',items=(('cpu','CPU','Portable local processing'),('gpu','GPU','Use Metal or the native Windows GPU backend')),default='cpu')
+    bpy.types.Scene.hallway_skinning_device=bpy.props.EnumProperty(name='Skinning Device',items=(('auto','Automatic','Prefer Metal or Vulkan when available; otherwise use CPU',2),('cpu','CPU','Portable local processing',0),('gpu','GPU','Use Metal or the native Windows GPU backend',1)),default='auto')
     bpy.types.Scene.hallway_rig_secondary=bpy.props.BoolProperty(name='Generate Hair and Skirt Bones',default=True)
     bpy.types.Scene.hallway_rig_breasts=bpy.props.BoolProperty(name='Generate Breast Bones',default=False)
 def unregister():

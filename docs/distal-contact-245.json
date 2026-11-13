@@ -1,0 +1,1624 @@
+{
+  "turn": 245,
+  "recorded_at": "2026-11-13T19:30:45.401222+00:00",
+  "status": "Distal candidate qualified for strap regression; not admitted as default",
+  "accepted_runtime_changed": false,
+  "work_dir": "/Users/tylerwalker/Documents/Codex/2026-10-29/autoskin-rea-research/delivery/zzz-245",
+  "physics": "Unmodified VRM Physics 60 Hz; standard per-joint stiffness/drag and capsule data only",
+  "protected_sha256": {
+    "VRM_SpringSimulation.py": "8da91f9c0d26559ae60d97c395efc7c5aa509beb0162c37971fe31e57a085cf8",
+    "third_party/unimate/avatar_cloth_smoothing.py": "5174d79938c3459239f000d4da0988496e0d93a194b932229703a7115bdbed52",
+    "third_party/unimate/avatar_cloth_overlays.py": "8b432a3a78010c8caf5e985cada646cf325d1ad69495a95d8fc6667222d03b6d",
+    "third_party/unimate/avatar_cloth_contacts.py": "aa2ac1fcb28a8c9d942524605e249588c7cda8feefd94e028a8c8cd1722512b0",
+    "third_party/unimate/avatar_directional_contacts.py": "065b997d96481ee1c450707a1b9c9c589781738aab166442a9413733b624b015"
+  },
+  "selected": "tip_stiffness",
+  "setup": {
+    "base": "zzz-243/merge_damp65",
+    "arc_start": 0.65,
+    "arc_end": 1.0,
+    "tip_stiffness_floor_fraction": 0.35,
+    "changed_joints": 13,
+    "tip_drag_changed": false
+  },
+  "findings": [
+    "Observation-only contact trace reproduces reviewed candidate bone and vertex captures exactly.",
+    "Long-chain tips inherited only 10 percent of root stiffness; length-normalized smooth distal floor prevents extremely weak endpoints.",
+    "Stiffness-only candidate passes both 144-frame strap geometry checks: zero negative local samples and zero distant-fold intersection frames.",
+    "Extra tip drag reduces some direction spikes but fails strap checks alone and combined; neither candidate is accepted.",
+    "No generated geometry, weights, smoothing, gravity, collider geometry, or upper-joint settings changed relative to the reviewed candidate.",
+    "The complete candidate still increases worst Walk anatomical capsule overlap versus accepted runtime. The worst event is at frame 9 on the long chain tip; keep collision qualification open."
+  ],
+  "limits": [
+    "Third finite differences of world bone directions are not physical jerk units and include authored motion.",
+    "Unsigned local bend-angle third differences can include angle cusps; do not equate those peaks to perceived jerk.",
+    "Anatomical capsule overlap is a conservative setup diagnostic, not measured mesh penetration.",
+    "Only Grace Walk01 and Run01 were exercised; no other character, platform or full-delivery gate closed."
+  ],
+  "motion": {
+    "metrics": {
+      "accepted": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.5572033524513245,
+            "p99": 0.89241623878479,
+            "max": 1.5708550214767456
+          },
+          "distal_jerk": {
+            "p95": 0.7496700286865234,
+            "p99": 1.0489161014556885,
+            "max": 1.5708550214767456
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 43.36929702758789,
+            "p99": 68.83935546875,
+            "max": 107.85845184326172
+          },
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 2.1577467918395996,
+            "p99": 3.3293240070343018,
+            "max": 4.810016632080078
+          },
+          "distal_jerk": {
+            "p95": 2.7620840072631836,
+            "p99": 4.0691237449646,
+            "max": 4.810016632080078
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 114.1736068725586,
+            "p99": 143.1123504638672,
+            "max": 318.61090087890625
+          },
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        }
+      },
+      "reviewed_candidate": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.3598971962928772,
+            "p99": 0.582715630531311,
+            "max": 1.3671540021896362
+          },
+          "distal_jerk": {
+            "p95": 0.45420023798942566,
+            "p99": 0.659705638885498,
+            "max": 1.3671540021896362
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 22.724533081054688,
+            "p99": 34.50214767456055,
+            "max": 99.828369140625
+          },
+          "contact_distances": {
+            "max": 0.06091062652031032,
+            "mean": 0.00039451145423819925,
+            "over2mm": 530
+          },
+          "body_contact_distances": {
+            "max": 0.04147830689020737,
+            "mean": 0.00015264200904724,
+            "over2mm": 190
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.3697772026062012,
+            "p99": 2.180842161178589,
+            "max": 4.746088027954102
+          },
+          "distal_jerk": {
+            "p95": 1.7129030227661133,
+            "p99": 2.3637278079986572,
+            "max": 3.665372133255005
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 82.52901458740234,
+            "p99": 123.72640991210938,
+            "max": 148.6835479736328
+          },
+          "contact_distances": {
+            "max": 0.1557017837948249,
+            "mean": 0.0005962912959540734,
+            "over2mm": 419
+          },
+          "body_contact_distances": {
+            "max": 0.07885826507019486,
+            "mean": 6.953504253112794e-05,
+            "over2mm": 91
+          }
+        }
+      },
+      "tip_stiffness": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.35993659496307373,
+            "p99": 0.5860430598258972,
+            "max": 1.212948203086853
+          },
+          "distal_jerk": {
+            "p95": 0.45450636744499207,
+            "p99": 0.7002500891685486,
+            "max": 1.212948203086853
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 21.81151580810547,
+            "p99": 32.09074783325195,
+            "max": 52.27143096923828
+          },
+          "contact_distances": {
+            "max": 0.05818931209630451,
+            "mean": 0.00045349717605810193,
+            "over2mm": 587
+          },
+          "body_contact_distances": {
+            "max": 0.04216529302195571,
+            "mean": 0.00016987987723591225,
+            "over2mm": 198
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.3237435817718506,
+            "p99": 2.048247814178467,
+            "max": 4.746088027954102
+          },
+          "distal_jerk": {
+            "p95": 1.705377459526062,
+            "p99": 2.2877464294433594,
+            "max": 3.665372133255005
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 78.42953491210938,
+            "p99": 119.32695007324219,
+            "max": 172.93885803222656
+          },
+          "contact_distances": {
+            "max": 0.16665868134877448,
+            "mean": 0.0005598241316065142,
+            "over2mm": 395
+          },
+          "body_contact_distances": {
+            "max": 0.07885826507019486,
+            "mean": 6.892720964987194e-05,
+            "over2mm": 91
+          }
+        }
+      },
+      "tip_drag": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.34845420718193054,
+            "p99": 0.5535970330238342,
+            "max": 0.9625532627105713
+          },
+          "distal_jerk": {
+            "p95": 0.42950478196144104,
+            "p99": 0.6077368259429932,
+            "max": 0.9625532627105713
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 21.584972381591797,
+            "p99": 32.96198654174805,
+            "max": 57.861549377441406
+          },
+          "contact_distances": {
+            "max": 0.06312046571113739,
+            "mean": 0.0003702327944013622,
+            "over2mm": 505
+          },
+          "body_contact_distances": {
+            "max": 0.044303313782420264,
+            "mean": 0.00014629098446891772,
+            "over2mm": 181
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.3166717290878296,
+            "p99": 2.123663902282715,
+            "max": 4.745097637176514
+          },
+          "distal_jerk": {
+            "p95": 1.628327488899231,
+            "p99": 2.451655149459839,
+            "max": 3.6198554039001465
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 85.11177062988281,
+            "p99": 113.36943817138672,
+            "max": 179.3160858154297
+          },
+          "contact_distances": {
+            "max": 0.14311059632435286,
+            "mean": 0.0006733104060953344,
+            "over2mm": 458
+          },
+          "body_contact_distances": {
+            "max": 0.07909676024626035,
+            "mean": 7.316274698764436e-05,
+            "over2mm": 93
+          }
+        }
+      },
+      "tip_combined": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.3442378640174866,
+            "p99": 0.5617005228996277,
+            "max": 1.1578867435455322
+          },
+          "distal_jerk": {
+            "p95": 0.42950478196144104,
+            "p99": 0.6292202472686768,
+            "max": 1.1578867435455322
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 21.089780807495117,
+            "p99": 31.792020797729492,
+            "max": 70.08880615234375
+          },
+          "contact_distances": {
+            "max": 0.06893951112428887,
+            "mean": 0.0004395343319802796,
+            "over2mm": 562
+          },
+          "body_contact_distances": {
+            "max": 0.046039156450996876,
+            "mean": 0.00017722806673378067,
+            "over2mm": 197
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.302026629447937,
+            "p99": 2.1097018718719482,
+            "max": 4.745097637176514
+          },
+          "distal_jerk": {
+            "p95": 1.6330701112747192,
+            "p99": 2.4507672786712646,
+            "max": 3.6198554039001465
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 82.29194641113281,
+            "p99": 111.70085906982422,
+            "max": 183.41363525390625
+          },
+          "contact_distances": {
+            "max": 0.15593647255121212,
+            "mean": 0.000614083950610895,
+            "over2mm": 442
+          },
+          "body_contact_distances": {
+            "max": 0.07909676024626035,
+            "mean": 7.284163860546792e-05,
+            "over2mm": 93
+          }
+        }
+      }
+    },
+    "distal_bones": [
+      "Secondary_Skirt_00_00_06",
+      "Secondary_Skirt_00_00_07",
+      "Secondary_Skirt_00_00_08",
+      "Secondary_Skirt_00_01_06",
+      "Secondary_Skirt_00_01_07",
+      "Secondary_Skirt_00_01_08",
+      "Secondary_Skirt_00_02_06",
+      "Secondary_Skirt_00_02_07",
+      "Secondary_Skirt_00_02_08",
+      "Secondary_Skirt_00_03_07",
+      "Secondary_Skirt_00_03_08",
+      "Secondary_Skirt_00_03_09",
+      "Secondary_Skirt_00_04_07",
+      "Secondary_Skirt_00_04_08",
+      "Secondary_Skirt_00_04_09",
+      "Secondary_Skirt_00_05_07",
+      "Secondary_Skirt_00_05_08",
+      "Secondary_Skirt_00_05_09",
+      "Secondary_Skirt_00_06_05",
+      "Secondary_Skirt_00_06_06",
+      "Secondary_Skirt_00_06_07",
+      "Secondary_Skirt_00_07_01",
+      "Secondary_Skirt_00_07_02",
+      "Secondary_Skirt_00_07_03",
+      "Secondary_Skirt_00_08_01",
+      "Secondary_Skirt_00_08_02",
+      "Secondary_Skirt_00_08_03",
+      "Secondary_Skirt_00_09_06",
+      "Secondary_Skirt_00_09_07",
+      "Secondary_Skirt_00_09_08",
+      "Secondary_Skirt_00_10_06",
+      "Secondary_Skirt_00_10_07",
+      "Secondary_Skirt_00_10_08",
+      "Secondary_Skirt_00_11_06",
+      "Secondary_Skirt_00_11_07",
+      "Secondary_Skirt_00_11_08"
+    ],
+    "scope": "Last three deform joints per generated cloth chain; 24fps direction/bend third differences, not physical jerk units"
+  },
+  "anatomical": {
+    "Walk01": {
+      "accepted": {
+        "max": 0.01870785120674745,
+        "mean": 2.3741082365244635e-05,
+        "over2mm": 39,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 7,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.01870785120674745
+          },
+          {
+            "frame": 105,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.016732747212978648
+          },
+          {
+            "frame": 39,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.01673261496067687
+          },
+          {
+            "frame": 7,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.016366373799759942
+          },
+          {
+            "frame": 73,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.013036702309917977
+          }
+        ]
+      },
+      "reviewed_candidate": {
+        "max": 0.030075402047276482,
+        "mean": 1.163584145793689e-05,
+        "over2mm": 19,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.030075402047276482
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.02535977554132325
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.0187879890292197
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.010725432412368188
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.010249982164483876
+          }
+        ]
+      },
+      "tip_stiffness": {
+        "max": 0.03286440704424146,
+        "mean": 1.14363203574428e-05,
+        "over2mm": 20,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.03286440704424146
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.019259323362365154
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.0187879890292197
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.012320261509134331
+          },
+          {
+            "frame": 7,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.009295357839219809
+          }
+        ]
+      },
+      "tip_drag": {
+        "max": 0.0272271912763241,
+        "mean": 1.19002173492366e-05,
+        "over2mm": 19,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.0272271912763241
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.02546761536972198
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.01907517979832487
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.011071395214546642
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.009394951810882318
+          }
+        ]
+      },
+      "tip_combined": {
+        "max": 0.034159793474224424,
+        "mean": 1.2695156556378295e-05,
+        "over2mm": 20,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.034159793474224424
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.02472356128123171
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.01907517979832487
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.01230692497633823
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.01035296877028212
+          }
+        ]
+      }
+    },
+    "Run01": {
+      "accepted": {
+        "max": 0.06422352197647153,
+        "mean": 0.00010783417812251469,
+        "over2mm": 49,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 102,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.06422352197647153
+          },
+          {
+            "frame": 66,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0642232005865287
+          },
+          {
+            "frame": 120,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.06422319899336945
+          },
+          {
+            "frame": 138,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.06422311952983462
+          },
+          {
+            "frame": 48,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0642231166041732
+          }
+        ]
+      },
+      "reviewed_candidate": {
+        "max": 0.035667688577896324,
+        "mean": 6.675055030726991e-06,
+        "over2mm": 4,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.035667688577896324
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_07",
+            "penetration": 0.02896641567308779
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.023528800531177674
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_SkirtTip_Secondary_Skirt_00_03",
+            "penetration": 0.0059086298414299104
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0018231593269044388
+          }
+        ]
+      },
+      "tip_stiffness": {
+        "max": 0.03155728137565202,
+        "mean": 6.4633923538745254e-06,
+        "over2mm": 5,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.03155728137565202
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_07",
+            "penetration": 0.02896641567308779
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.023528800531177674
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_SkirtTip_Secondary_Skirt_00_03",
+            "penetration": 0.0059086298414299104
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0028856239824732455
+          }
+        ]
+      },
+      "tip_drag": {
+        "max": 0.03868789925672151,
+        "mean": 7.031262036838288e-06,
+        "over2mm": 4,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.03868789925672151
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_07",
+            "penetration": 0.028748600315882257
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.0276817924597065
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_SkirtTip_Secondary_Skirt_00_03",
+            "penetration": 0.0059086298414299104
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_04",
+            "penetration": 0.0001648692454552375
+          }
+        ]
+      },
+      "tip_combined": {
+        "max": 0.03596556446119738,
+        "mean": 6.842211009371335e-06,
+        "over2mm": 4,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.03596556446119738
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_07",
+            "penetration": 0.028748600315882257
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.0276817924597065
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_SkirtTip_Secondary_Skirt_00_03",
+            "penetration": 0.0059086298414299104
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_04",
+            "penetration": 0.0001648692454552375
+          }
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "tip_stiffness": {
+      "Walk01": {
+        "local_vertices": 797,
+        "min_gap": 0.0018788069719448686,
+        "negative_samples": 0,
+        "samples": 114768,
+        "far_frames": 0,
+        "far": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "Run01": {
+        "local_vertices": 797,
+        "min_gap": 0.001646354328840971,
+        "negative_samples": 0,
+        "samples": 114768,
+        "far_frames": 0,
+        "far": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "tip_drag": {
+      "Walk01": {
+        "local_vertices": 797,
+        "min_gap": -0.0021849866025149822,
+        "negative_samples": 70,
+        "samples": 114768,
+        "far_frames": 1,
+        "far": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          26,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "Run01": {
+        "local_vertices": 797,
+        "min_gap": -0.0023395640309900045,
+        "negative_samples": 88,
+        "samples": 114768,
+        "far_frames": 16,
+        "far": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          84,
+          84,
+          104,
+          15,
+          0,
+          65,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          32,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          13,
+          39,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          13,
+          39,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          13,
+          39,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          13,
+          39,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          13,
+          39,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "tip_combined": {
+      "Walk01": {
+        "local_vertices": 797,
+        "min_gap": 0.0018788069719448686,
+        "negative_samples": 0,
+        "samples": 114768,
+        "far_frames": 0,
+        "far": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "Run01": {
+        "local_vertices": 797,
+        "min_gap": 0.001646354328840971,
+        "negative_samples": 0,
+        "samples": 114768,
+        "far_frames": 2,
+        "far": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          30,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "next": "Resolve the early long-chain tip body-contact maximum without weakening strap protection; then qualify other generated characters before installing generalized defaults."
+}

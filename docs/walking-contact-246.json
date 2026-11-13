@@ -1,0 +1,820 @@
+{
+  "turn": 246,
+  "at": "2026-11-13T19:52:09.405692+00:00",
+  "physics_runtime_changed": false,
+  "physics_candidate_applied": false,
+  "solver_default_applied": true,
+  "selected": "hip_guards",
+  "scope": "Generated lower-leg directional support capsules only; rest-space shape/radius and original anatomical colliders retained. Full previous experimental setup retained.",
+  "findings": [
+    "Observation-only trace exactly matches previous candidate vertices and bones.",
+    "Worst walking event includes 22.3 mm initial contact penetration into the moving shin support guard and a 0.359-segment-length projection at frame 64.",
+    "Thigh anchoring reduces peak Walk direction spike modestly; pelvis anchoring reduces it 31.3 percent versus previous candidate.",
+    "Pelvis-supported candidate passes all local strap and distant-fold checks in Walk01 and Run01.",
+    "Peak anatomical-capsule overlap is below accepted baseline for both clips; the measurement is not a mesh-level penetration guarantee."
+  ],
+  "protected_sha256": {
+    "VRM_SpringSimulation.py": "8da91f9c0d26559ae60d97c395efc7c5aa509beb0162c37971fe31e57a085cf8",
+    "third_party/unimate/avatar_cloth_smoothing.py": "5174d79938c3459239f000d4da0988496e0d93a194b932229703a7115bdbed52",
+    "third_party/unimate/avatar_cloth_overlays.py": "8b432a3a78010c8caf5e985cada646cf325d1ad69495a95d8fc6667222d03b6d",
+    "third_party/unimate/avatar_cloth_contacts.py": "aa2ac1fcb28a8c9d942524605e249588c7cda8feefd94e028a8c8cd1722512b0",
+    "third_party/unimate/avatar_directional_contacts.py": "065b997d96481ee1c450707a1b9c9c589781738aab166442a9413733b624b015"
+  },
+  "motion": {
+    "metrics": {
+      "accepted": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.5572033524513245,
+            "p99": 0.89241623878479,
+            "max": 1.5708550214767456
+          },
+          "distal_jerk": {
+            "p95": 0.7496700286865234,
+            "p99": 1.0489161014556885,
+            "max": 1.5708550214767456
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 43.36929702758789,
+            "p99": 68.83935546875,
+            "max": 107.85845184326172
+          },
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 2.1577467918395996,
+            "p99": 3.3293240070343018,
+            "max": 4.810016632080078
+          },
+          "distal_jerk": {
+            "p95": 2.7620840072631836,
+            "p99": 4.0691237449646,
+            "max": 4.810016632080078
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 114.1736068725586,
+            "p99": 143.1123504638672,
+            "max": 318.61090087890625
+          },
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        }
+      },
+      "reviewed_candidate": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.3598971962928772,
+            "p99": 0.582715630531311,
+            "max": 1.3671540021896362
+          },
+          "distal_jerk": {
+            "p95": 0.45420023798942566,
+            "p99": 0.659705638885498,
+            "max": 1.3671540021896362
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 22.724533081054688,
+            "p99": 34.50214767456055,
+            "max": 99.828369140625
+          },
+          "contact_distances": {
+            "max": 0.06091062652031032,
+            "mean": 0.00039451145423819925,
+            "over2mm": 530
+          },
+          "body_contact_distances": {
+            "max": 0.04147830689020737,
+            "mean": 0.00015264200904724,
+            "over2mm": 190
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.3697772026062012,
+            "p99": 2.180842161178589,
+            "max": 4.746088027954102
+          },
+          "distal_jerk": {
+            "p95": 1.7129030227661133,
+            "p99": 2.3637278079986572,
+            "max": 3.665372133255005
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 82.52901458740234,
+            "p99": 123.72640991210938,
+            "max": 148.6835479736328
+          },
+          "contact_distances": {
+            "max": 0.1557017837948249,
+            "mean": 0.0005962912959540734,
+            "over2mm": 419
+          },
+          "body_contact_distances": {
+            "max": 0.07885826507019486,
+            "mean": 6.953504253112794e-05,
+            "over2mm": 91
+          }
+        }
+      },
+      "last_candidate": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.35993659496307373,
+            "p99": 0.5860430598258972,
+            "max": 1.212948203086853
+          },
+          "distal_jerk": {
+            "p95": 0.45450636744499207,
+            "p99": 0.7002500891685486,
+            "max": 1.212948203086853
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 21.81151580810547,
+            "p99": 32.09074783325195,
+            "max": 52.27143096923828
+          },
+          "contact_distances": {
+            "max": 0.05818931209630451,
+            "mean": 0.00045349717605810193,
+            "over2mm": 587
+          },
+          "body_contact_distances": {
+            "max": 0.04216529302195571,
+            "mean": 0.00016987987723591225,
+            "over2mm": 198
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.3237435817718506,
+            "p99": 2.048247814178467,
+            "max": 4.746088027954102
+          },
+          "distal_jerk": {
+            "p95": 1.705377459526062,
+            "p99": 2.2877464294433594,
+            "max": 3.665372133255005
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 78.42953491210938,
+            "p99": 119.32695007324219,
+            "max": 172.93885803222656
+          },
+          "contact_distances": {
+            "max": 0.16665868134877448,
+            "mean": 0.0005598241316065142,
+            "over2mm": 395
+          },
+          "body_contact_distances": {
+            "max": 0.07885826507019486,
+            "mean": 6.892720964987194e-05,
+            "over2mm": 91
+          }
+        }
+      },
+      "hip_guards": {
+        "Walk01": {
+          "all_jerk": {
+            "p95": 0.33855631947517395,
+            "p99": 0.5470629930496216,
+            "max": 0.8334388732910156
+          },
+          "distal_jerk": {
+            "p95": 0.4344627261161804,
+            "p99": 0.6168234348297119,
+            "max": 0.8334388732910156
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 21.895177841186523,
+            "p99": 31.525146484375,
+            "max": 52.211490631103516
+          },
+          "contact_distances": {
+            "max": 0.04449186861134691,
+            "mean": 0.00046500524799832896,
+            "over2mm": 663
+          },
+          "body_contact_distances": {
+            "max": 0.03696673051635224,
+            "mean": 0.00025223459146023344,
+            "over2mm": 338
+          }
+        },
+        "Run01": {
+          "all_jerk": {
+            "p95": 1.3374444246292114,
+            "p99": 2.1808817386627197,
+            "max": 3.6653971672058105
+          },
+          "distal_jerk": {
+            "p95": 1.6503113508224487,
+            "p99": 2.369886636734009,
+            "max": 3.6653971672058105
+          },
+          "distal_bend_jerk_degrees": {
+            "p95": 84.97164154052734,
+            "p99": 115.79834747314453,
+            "max": 156.4125213623047
+          },
+          "contact_distances": {
+            "max": 0.11203845698934534,
+            "mean": 0.00045951505734382584,
+            "over2mm": 407
+          },
+          "body_contact_distances": {
+            "max": 0.09799293157857739,
+            "mean": 0.0001467788356841386,
+            "over2mm": 169
+          }
+        }
+      }
+    },
+    "distal_bones": [
+      "Secondary_Skirt_00_00_06",
+      "Secondary_Skirt_00_00_07",
+      "Secondary_Skirt_00_00_08",
+      "Secondary_Skirt_00_01_06",
+      "Secondary_Skirt_00_01_07",
+      "Secondary_Skirt_00_01_08",
+      "Secondary_Skirt_00_02_06",
+      "Secondary_Skirt_00_02_07",
+      "Secondary_Skirt_00_02_08",
+      "Secondary_Skirt_00_03_07",
+      "Secondary_Skirt_00_03_08",
+      "Secondary_Skirt_00_03_09",
+      "Secondary_Skirt_00_04_07",
+      "Secondary_Skirt_00_04_08",
+      "Secondary_Skirt_00_04_09",
+      "Secondary_Skirt_00_05_07",
+      "Secondary_Skirt_00_05_08",
+      "Secondary_Skirt_00_05_09",
+      "Secondary_Skirt_00_06_05",
+      "Secondary_Skirt_00_06_06",
+      "Secondary_Skirt_00_06_07",
+      "Secondary_Skirt_00_07_01",
+      "Secondary_Skirt_00_07_02",
+      "Secondary_Skirt_00_07_03",
+      "Secondary_Skirt_00_08_01",
+      "Secondary_Skirt_00_08_02",
+      "Secondary_Skirt_00_08_03",
+      "Secondary_Skirt_00_09_06",
+      "Secondary_Skirt_00_09_07",
+      "Secondary_Skirt_00_09_08",
+      "Secondary_Skirt_00_10_06",
+      "Secondary_Skirt_00_10_07",
+      "Secondary_Skirt_00_10_08",
+      "Secondary_Skirt_00_11_06",
+      "Secondary_Skirt_00_11_07",
+      "Secondary_Skirt_00_11_08"
+    ],
+    "scope": "Last three deform joints per generated cloth chain; 24fps direction/bend third differences, not physical jerk units"
+  },
+  "geometry": {
+    "Walk01": {
+      "local_vertices": 797,
+      "min_gap": 0.0018788339802995324,
+      "negative_samples": 0,
+      "samples": 114768,
+      "far_frames": 0,
+      "far": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "Run01": {
+      "local_vertices": 797,
+      "min_gap": 0.0016461688792333007,
+      "negative_samples": 0,
+      "samples": 114768,
+      "far_frames": 0,
+      "far": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "anatomical": {
+    "Walk01": {
+      "accepted": {
+        "max": 0.01870785120674745,
+        "mean": 2.3741082365244635e-05,
+        "over2mm": 39,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 7,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.01870785120674745
+          },
+          {
+            "frame": 105,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.016732747212978648
+          },
+          {
+            "frame": 39,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.01673261496067687
+          },
+          {
+            "frame": 7,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.016366373799759942
+          },
+          {
+            "frame": 73,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.013036702309917977
+          }
+        ]
+      },
+      "tip_stiffness": {
+        "max": 0.03286440704424146,
+        "mean": 1.14363203574428e-05,
+        "over2mm": 20,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.03286440704424146
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.019259323362365154
+          },
+          {
+            "frame": 9,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.0187879890292197
+          },
+          {
+            "frame": 8,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.012320261509134331
+          },
+          {
+            "frame": 7,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.009295357839219809
+          }
+        ]
+      },
+      "hip_guards": {
+        "max": 0.0003500951762156618,
+        "mean": 2.1584735970549196e-07,
+        "over2mm": 0,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 5,
+            "tail": "Secondary_Skirt_00_09_05",
+            "penetration": 0.0003500951762156618
+          },
+          {
+            "frame": 4,
+            "tail": "Secondary_Skirt_00_09_05",
+            "penetration": 0.00030414335900127987
+          },
+          {
+            "frame": 103,
+            "tail": "Secondary_Skirt_00_09_05",
+            "penetration": 0.0002943620352966747
+          },
+          {
+            "frame": 37,
+            "tail": "Secondary_Skirt_00_09_05",
+            "penetration": 0.0002943483194998847
+          },
+          {
+            "frame": 0,
+            "tail": "Secondary_Skirt_00_09_05",
+            "penetration": 0.00020935557420014017
+          }
+        ]
+      }
+    },
+    "Run01": {
+      "accepted": {
+        "max": 0.06422352197647153,
+        "mean": 0.00010783417812251469,
+        "over2mm": 49,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 102,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.06422352197647153
+          },
+          {
+            "frame": 66,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0642232005865287
+          },
+          {
+            "frame": 120,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.06422319899336945
+          },
+          {
+            "frame": 138,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.06422311952983462
+          },
+          {
+            "frame": 48,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0642231166041732
+          }
+        ]
+      },
+      "tip_stiffness": {
+        "max": 0.03155728137565202,
+        "mean": 6.4633923538745254e-06,
+        "over2mm": 5,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.03155728137565202
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_07",
+            "penetration": 0.02896641567308779
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_08",
+            "penetration": 0.023528800531177674
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_SkirtTip_Secondary_Skirt_00_03",
+            "penetration": 0.0059086298414299104
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0028856239824732455
+          }
+        ]
+      },
+      "hip_guards": {
+        "max": 0.0199259362676521,
+        "mean": 6.220345262862383e-06,
+        "over2mm": 6,
+        "samples": 14400,
+        "worst": [
+          {
+            "frame": 13,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.0199259362676521
+          },
+          {
+            "frame": 2,
+            "tail": "Secondary_Skirt_00_03_09",
+            "penetration": 0.019432505234852106
+          },
+          {
+            "frame": 2,
+            "tail": "Secondary_Skirt_00_03_10",
+            "penetration": 0.015556168590057956
+          },
+          {
+            "frame": 6,
+            "tail": "Secondary_Skirt_00_01_09",
+            "penetration": 0.010421587701252899
+          },
+          {
+            "frame": 1,
+            "tail": "Secondary_SkirtTip_Secondary_Skirt_00_03",
+            "penetration": 0.005908694608144638
+          }
+        ]
+      }
+    }
+  },
+  "open_gates": [
+    "User review of new motion",
+    "Other generated characters and drag/release regression before production physics defaults"
+  ],
+  "gpu_default": {
+    "mode": "auto",
+    "actual_mac": "Metal",
+    "explicit_choices_preserved": true,
+    "native_binaries_unchanged": true,
+    "tests": [
+      "Blender 4.2 and 5.2 BVT/Hallway RNA registration and enum IDs",
+      "8 backend selection tests",
+      "Bounded actual Metal Auto versus forced GPU identical",
+      "Injected no-adapter CPU fallback versus forced CPU identical",
+      "Live complete registration-owner reload; prior preview/physics restored"
+    ],
+    "windows": "SSH unavailable: 192.168.4.54:2222 timed out; native Vulkan rerun remains open"
+  }
+}

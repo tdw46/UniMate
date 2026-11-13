@@ -4,10 +4,13 @@ import json,os,sys,time,traceback
 
 def main():
     import numpy as np
-    from beyond_skinning import public_api as api
     job=Path(sys.argv[1]);request=json.loads((job/'binding.json').read_text())
+    os.environ['BEYOND_SKINNING_BACKEND']=request.get('backend','auto')
+    from beyond_skinning import public_api as api
+    from beyond_skinning.loader import backend_info
+    selection=backend_info()
     settings=json.loads(Path(__file__).with_name('defaults.json').read_text())
-    settings['use_gpu']=request['backend']=='gpu'
+    settings['use_gpu']=selection['backend']=='gpu'
     settings['coarse_res']=request.get('resolution',92)
     if not 16<=settings['coarse_res']<=128:raise ValueError('Invalid binding resolution')
     with np.load(job/'binding-input.npz',allow_pickle=False) as data:
@@ -25,7 +28,7 @@ def main():
         raise RuntimeError('Solver returned invalid influence rows')
     if not np.allclose(w.sum(axis=1),1.,rtol=0,atol=1e-5):raise RuntimeError('Solver returned unweighted vertices')
     np.savez(job/'binding-output.npz',weights=w,bones=b)
-    report=dict(engine=request['brand'],backend=request['backend'],seconds=time.monotonic()-started,bone_names=[names[i] for i in ids],vertices=len(v),settings=settings,preserve_volume=False,source_weights_used=False)
+    report=dict(engine=request['brand'],backend=selection['backend'],backend_selection=selection,seconds=time.monotonic()-started,bone_names=[names[i] for i in ids],vertices=len(v),settings=settings,preserve_volume=False,source_weights_used=False)
     if settings['use_gpu']:report['adapter']=api.gpu_limits()[:2]
     (job/'binding-result.json').write_text(json.dumps(report,indent=2))
 

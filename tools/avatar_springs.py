@@ -414,6 +414,8 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
     from properties_hallway_rig import set_profile_defaults, apply_settings
     report['settings_profile'] = set_profile_defaults(rig)
     apply_settings(rig)
+    from avatar_cloth_response import stabilize_cloth_contacts
+    report['cloth_contact_response'] = stabilize_cloth_contacts(rig, rig.hallway_rig.spring_groups.get('Skirt'))
     for row in report['leg_follow']:
         row['influence'] = rig.pose.bones[row['bone']].constraints[0].influence
     report['bone_collections'] = organize_bones(rig)

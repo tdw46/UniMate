@@ -1,0 +1,1233 @@
+{
+  "turn": 243,
+  "recorded_at": "2026-11-13T19:09:09.330575+00:00",
+  "status": "Investigated; no runtime change admitted",
+  "accepted_runtime_changed": false,
+  "work_dir": "/Users/tylerwalker/Documents/Codex/2026-10-29/autoskin-rea-research/delivery/zzz-243",
+  "fixture": "/Users/tylerwalker/Documents/Codex/2026-10-29/autoskin-rea-research/delivery/zzz-241/qualified-attachment/Grace/Hallway/generated.blend",
+  "blender": "5.2.2 d13f752e3b9c",
+  "physics": "Existing VRM Physics at 60 Hz; no simulator arithmetic changes",
+  "protected_sha256": {
+    "VRM_SpringSimulation.py": "8da91f9c0d26559ae60d97c395efc7c5aa509beb0162c37971fe31e57a085cf8",
+    "third_party/unimate/avatar_cloth_smoothing.py": "5174d79938c3459239f000d4da0988496e0d93a194b932229703a7115bdbed52",
+    "third_party/unimate/avatar_cloth_overlays.py": "8b432a3a78010c8caf5e985cada646cf325d1ad69495a95d8fc6667222d03b6d",
+    "third_party/unimate/avatar_cloth_contacts.py": "aa2ac1fcb28a8c9d942524605e249588c7cda8feefd94e028a8c8cd1722512b0",
+    "third_party/unimate/avatar_directional_contacts.py": "065b997d96481ee1c450707a1b9c9c589781738aab166442a9413733b624b015"
+  },
+  "findings": [
+    "Observation-only contact instrumentation reproduced both accepted motion captures exactly.",
+    "Opposing sequential contact normals occur on the same joint, including a calf guard and a fold guard with dot product about -0.856. This supports contact conflict, not a complete causal diagnosis.",
+    "Some offset directional capsules do not intersect the anatomical capsule. Rest-clear enclosing capsules preserve old volume but did not alone improve both motion clips.",
+    "A no-contact diagnostic reduced Walk direction-jerk p95 by 28.6 percent but increased Run p95 by 4.3 percent. Run sharp motion is not explained solely by collision responses; do not present the diagnostic as a usable setup.",
+    "All-collider overlap mixes anatomical contact, directional support, and virtual fold/sector buffers. Keep those measurements distinct from actual mesh intersections.",
+    "Upper-only drag improved typical motion and anatomical-capsule overlap but increased peak Walk jerk; it is not accepted.",
+    "Enclosing guards plus drag 0.65 improved p95 direction jerk about 40 percent in both clips, but reintroduced strap crossings and increased the Walk anatomical-capsule maximum. Rejected."
+  ],
+  "metric_limits": [
+    "Direction jerk is the third sample difference of world bone directions at 24 fps after initial exclusion; it includes authored parent motion and is not a physical jerk unit.",
+    "Anatomical-capsule measurements exclude directional and overlay guards, use the same original capsule shapes for every candidate, and verify unchanged kinematic bone heads before comparison.",
+    "The broad non-secondary mesh partition includes body-attached clothing. Its triangle-intersection counts are diagnostic, not a clean skin-only penetration guarantee.",
+    "No-contact capture arrays contain zero contacts because references were cleared. Those zeros must never be treated as zero penetration; the shared-reference anatomical check correctly reports large overlap.",
+    "These are disposable Grace Walk/Run tests, not all-character, Windows, live UI, drag, or visual acceptance."
+  ],
+  "comparisons": {
+    "return50": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5854505300521851,
+          "jerk_p99": 0.9154176115989685,
+          "jerk_max": 1.8401117324829102,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006396862038180522,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03154255341399316,
+            "mean": 0.00011773596316589017,
+            "over2mm": 165
+          }
+        },
+        "jerk_reduction": -0.0015570574367591572
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.3229708671569824,
+          "jerk_p99": 3.347656488418579,
+          "jerk_max": 4.822963237762451,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.001408458540034932,
+            "over2mm": 789
+          },
+          "body_contact_distances": {
+            "max": 0.06427897900993357,
+            "mean": 0.00030967829228752787,
+            "over2mm": 218
+          }
+        },
+        "jerk_reduction": 0.0037785521994895266
+      }
+    },
+    "sector25": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5576380491256714,
+          "jerk_p99": 0.8822675347328186,
+          "jerk_max": 1.3488352298736572,
+          "contact_distances": {
+            "max": 0.05565677498905763,
+            "mean": 0.0002023801769228798,
+            "over2mm": 276
+          },
+          "body_contact_distances": {
+            "max": 0.05565677498905763,
+            "mean": 0.00011739562375536558,
+            "over2mm": 146
+          }
+        },
+        "jerk_reduction": 0.046023028542994004
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.3919689655303955,
+          "jerk_p99": 3.5224835872650146,
+          "jerk_max": 5.232954978942871,
+          "contact_distances": {
+            "max": 0.15876682225892919,
+            "mean": 0.0009213055440665555,
+            "over2mm": 500
+          },
+          "body_contact_distances": {
+            "max": 0.05030503778259304,
+            "mean": 0.00018874558218861693,
+            "over2mm": 178
+          }
+        },
+        "jerk_reduction": -0.025811739451980564
+      }
+    },
+    "contained": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "jerk_reduction": 0.0
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "jerk_reduction": 0.0
+      }
+    },
+    "sector_follow": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.6996240615844727,
+          "jerk_p99": 1.1600779294967651,
+          "jerk_max": 2.984311103820801,
+          "contact_distances": {
+            "max": 0.060151711954560795,
+            "mean": 0.0004808585424282499,
+            "over2mm": 513
+          },
+          "body_contact_distances": {
+            "max": 0.060151711954560795,
+            "mean": 0.0002217464459477685,
+            "over2mm": 178
+          }
+        },
+        "jerk_reduction": -0.19687895127542077
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.448056697845459,
+          "jerk_p99": 3.7976458072662354,
+          "jerk_max": 4.569448471069336,
+          "contact_distances": {
+            "max": 0.19191381142729658,
+            "mean": 0.0013927458927585276,
+            "over2mm": 668
+          },
+          "body_contact_distances": {
+            "max": 0.06378664318585668,
+            "mean": 0.00023715138011308294,
+            "over2mm": 204
+          }
+        },
+        "jerk_reduction": -0.04986533507849167
+      }
+    },
+    "return_follow": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5550704002380371,
+          "jerk_p99": 0.8793880939483643,
+          "jerk_max": 1.4094581604003906,
+          "contact_distances": {
+            "max": 0.049881725036789115,
+            "mean": 0.0006822532894023525,
+            "over2mm": 846
+          },
+          "body_contact_distances": {
+            "max": 0.033041615024364916,
+            "mean": 0.0001164381492637139,
+            "over2mm": 164
+          }
+        },
+        "jerk_reduction": 0.05041562319006099
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.0467257499694824,
+          "jerk_p99": 3.129168748855591,
+          "jerk_max": 4.872241020202637,
+          "contact_distances": {
+            "max": 0.2233138493959287,
+            "mean": 0.0042767861481768175,
+            "over2mm": 1528
+          },
+          "body_contact_distances": {
+            "max": 0.06355605728081914,
+            "mean": 0.0005559733445136335,
+            "over2mm": 394
+          }
+        },
+        "jerk_reduction": 0.12224810103596029
+      }
+    },
+    "lower_center": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.9158594608306885,
+          "jerk_p99": 1.7838568687438965,
+          "jerk_max": 5.824941635131836,
+          "contact_distances": {
+            "max": 0.07344119164121227,
+            "mean": 0.0011769467105077359,
+            "over2mm": 1029
+          },
+          "body_contact_distances": {
+            "max": 0.07344119164121227,
+            "mean": 0.0005336408228157918,
+            "over2mm": 384
+          }
+        },
+        "jerk_reduction": -0.5668027604884693
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.728144645690918,
+          "jerk_p99": 4.3384013175964355,
+          "jerk_max": 6.169905662536621,
+          "contact_distances": {
+            "max": 0.08682346720443312,
+            "mean": 0.0011877787556655297,
+            "over2mm": 706
+          },
+          "body_contact_distances": {
+            "max": 0.05218080356737681,
+            "mean": 0.00026301523520655135,
+            "over2mm": 225
+          }
+        },
+        "jerk_reduction": -0.1699829073042569
+      }
+    },
+    "merge": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.6031200289726257,
+          "jerk_p99": 0.9734150767326355,
+          "jerk_max": 1.827882170677185,
+          "contact_distances": {
+            "max": 0.049363384379993214,
+            "mean": 0.0006491751767187588,
+            "over2mm": 785
+          },
+          "body_contact_distances": {
+            "max": 0.04152897083473962,
+            "mean": 0.00016179149931737328,
+            "over2mm": 217
+          }
+        },
+        "jerk_reduction": -0.03178507916826412
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.3000104427337646,
+          "jerk_p99": 3.4176900386810303,
+          "jerk_max": 4.515934944152832,
+          "contact_distances": {
+            "max": 0.15896086848236324,
+            "mean": 0.0016038696864269437,
+            "over2mm": 819
+          },
+          "body_contact_distances": {
+            "max": 0.09153884719493297,
+            "mean": 0.0003591640451348823,
+            "over2mm": 196
+          }
+        },
+        "jerk_reduction": 0.01362528234337923
+      }
+    },
+    "body_last": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5795804858207703,
+          "jerk_p99": 0.9176449179649353,
+          "jerk_max": 1.5499504804611206,
+          "contact_distances": {
+            "max": 0.049322668470514364,
+            "mean": 0.0006507203493333593,
+            "over2mm": 812
+          },
+          "body_contact_distances": {
+            "max": 0.03174344016288648,
+            "mean": 0.0001168606464810526,
+            "over2mm": 165
+          }
+        },
+        "jerk_reduction": 0.008485096298954997
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.3167355060577393,
+          "jerk_p99": 3.4654877185821533,
+          "jerk_max": 4.583662509918213,
+          "contact_distances": {
+            "max": 0.15377696959058784,
+            "mean": 0.0013891603230888454,
+            "over2mm": 812
+          },
+          "body_contact_distances": {
+            "max": 0.06523665552004061,
+            "mean": 0.00022755410193191593,
+            "over2mm": 172
+          }
+        },
+        "jerk_reduction": 0.006452628120833137
+      }
+    },
+    "no_sector": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5676534175872803,
+          "jerk_p99": 0.8822675347328186,
+          "jerk_max": 1.425464391708374,
+          "contact_distances": {
+            "max": 0.0559567005660086,
+            "mean": 0.0001202068386797235,
+            "over2mm": 140
+          },
+          "body_contact_distances": {
+            "max": 0.0559567005660086,
+            "mean": 0.0001202068386797235,
+            "over2mm": 140
+          }
+        },
+        "jerk_reduction": 0.028889278634765536
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.4547483921051025,
+          "jerk_p99": 3.694075345993042,
+          "jerk_max": 5.425870418548584,
+          "contact_distances": {
+            "max": 0.05515631969850261,
+            "mean": 0.00025963200603809324,
+            "over2mm": 176
+          },
+          "body_contact_distances": {
+            "max": 0.05515631969850261,
+            "mean": 0.0002591739093948205,
+            "over2mm": 176
+          }
+        },
+        "jerk_reduction": -0.05273511249922169
+      }
+    },
+    "flat": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.5603011250495911,
+          "jerk_p99": 0.9498249888420105,
+          "jerk_max": 1.4560496807098389,
+          "contact_distances": {
+            "max": 0.05867154362756244,
+            "mean": 0.0008224074835373419,
+            "over2mm": 922
+          },
+          "body_contact_distances": {
+            "max": 0.05101263855280967,
+            "mean": 0.00013539871929492777,
+            "over2mm": 174
+          }
+        },
+        "jerk_reduction": 0.0414671824908025
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.2120063304901123,
+          "jerk_p99": 3.569094181060791,
+          "jerk_max": 4.770721435546875,
+          "contact_distances": {
+            "max": 0.10806316522050308,
+            "mean": 0.0014904714603514223,
+            "over2mm": 855
+          },
+          "body_contact_distances": {
+            "max": 0.06790024418063212,
+            "mean": 0.00028115977008822535,
+            "over2mm": 227
+          }
+        },
+        "jerk_reduction": 0.05136642897216526
+      }
+    },
+    "no_contacts": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.4174230694770813,
+          "jerk_p99": 0.6032194495201111,
+          "jerk_max": 1.0402297973632812,
+          "contact_distances": {
+            "max": 0.0,
+            "mean": 0.0,
+            "over2mm": 0
+          },
+          "body_contact_distances": {
+            "max": 0.0,
+            "mean": 0.0,
+            "over2mm": 0
+          }
+        },
+        "jerk_reduction": 0.2858952213529983
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 2.4316534996032715,
+          "jerk_p99": 3.611157178878784,
+          "jerk_max": 6.04464864730835,
+          "contact_distances": {
+            "max": 0.0,
+            "mean": 0.0,
+            "over2mm": 0
+          },
+          "body_contact_distances": {
+            "max": 0.0,
+            "mean": 0.0,
+            "over2mm": 0
+          }
+        },
+        "jerk_reduction": -0.04283071482886691
+      }
+    },
+    "merge_upper80": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.35362112522125244,
+          "jerk_p99": 0.5785415172576904,
+          "jerk_max": 2.1211795806884766,
+          "contact_distances": {
+            "max": 0.04307861897479781,
+            "mean": 0.00033788325788992787,
+            "over2mm": 550
+          },
+          "body_contact_distances": {
+            "max": 0.02960322685517526,
+            "mean": 9.550134232933512e-05,
+            "over2mm": 153
+          }
+        },
+        "jerk_reduction": 0.39504413192263454
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 1.350947618484497,
+          "jerk_p99": 2.18074107170105,
+          "jerk_max": 3.299377202987671,
+          "contact_distances": {
+            "max": 0.18000150283225258,
+            "mean": 0.0004482944626071165,
+            "over2mm": 321
+          },
+          "body_contact_distances": {
+            "max": 0.07246626376870885,
+            "mean": 7.784852676428813e-05,
+            "over2mm": 97
+          }
+        },
+        "jerk_reduction": 0.4206371627740575
+      }
+    },
+    "merge_damp65": {
+      "Walk01": {
+        "baseline": {
+          "jerk_p95": 0.5845403671264648,
+          "jerk_p99": 0.9277344942092896,
+          "jerk_max": 1.570858359336853,
+          "contact_distances": {
+            "max": 0.04986928067393093,
+            "mean": 0.0006416414988689191,
+            "over2mm": 802
+          },
+          "body_contact_distances": {
+            "max": 0.03174792163588053,
+            "mean": 0.00011789403704068507,
+            "over2mm": 165
+          }
+        },
+        "candidate": {
+          "jerk_p95": 0.3499489426612854,
+          "jerk_p99": 0.5759037137031555,
+          "jerk_max": 1.3671540021896362,
+          "contact_distances": {
+            "max": 0.06091062652031032,
+            "mean": 0.00039451145423819925,
+            "over2mm": 530
+          },
+          "body_contact_distances": {
+            "max": 0.04147830689020737,
+            "mean": 0.00015264200904724,
+            "over2mm": 190
+          }
+        },
+        "jerk_reduction": 0.4013263029521891
+      },
+      "Run01": {
+        "baseline": {
+          "jerk_p95": 2.3317816257476807,
+          "jerk_p99": 3.4121131896972656,
+          "jerk_max": 4.810016632080078,
+          "contact_distances": {
+            "max": 0.1462373490729949,
+            "mean": 0.0013794878415180332,
+            "over2mm": 779
+          },
+          "body_contact_distances": {
+            "max": 0.06422352197647153,
+            "mean": 0.0002578078309107804,
+            "over2mm": 186
+          }
+        },
+        "candidate": {
+          "jerk_p95": 1.3821487426757812,
+          "jerk_p99": 2.180842161178589,
+          "jerk_max": 3.665372133255005,
+          "contact_distances": {
+            "max": 0.1557017837948249,
+            "mean": 0.0005962912959540734,
+            "over2mm": 419
+          },
+          "body_contact_distances": {
+            "max": 0.07885826507019486,
+            "mean": 6.953504253112794e-05,
+            "over2mm": 91
+          }
+        },
+        "jerk_reduction": 0.4072563539338302
+      }
+    }
+  },
+  "anatomical_reference": {
+    "Walk01": {
+      "baseline": {
+        "max": 0.01870785120674745,
+        "mean": 2.3741082365244635e-05,
+        "over2mm": 39,
+        "samples": 14400
+      },
+      "return50": {
+        "max": 0.01870785120674745,
+        "mean": 2.359882992928981e-05,
+        "over2mm": 39,
+        "samples": 14400
+      },
+      "sector25": {
+        "max": 0.03682860385996009,
+        "mean": 1.8815926769461553e-05,
+        "over2mm": 24,
+        "samples": 14400
+      },
+      "sector_follow": {
+        "max": 0.043926750312890735,
+        "mean": 2.248928121197813e-05,
+        "over2mm": 22,
+        "samples": 14400
+      },
+      "return_follow": {
+        "max": 0.018707854594299612,
+        "mean": 2.311880143059045e-05,
+        "over2mm": 39,
+        "samples": 14400
+      },
+      "lower_center": {
+        "max": 0.06581033203961881,
+        "mean": 9.07416522916061e-05,
+        "over2mm": 74,
+        "samples": 14400
+      },
+      "merge": {
+        "max": 0.018036828883306953,
+        "mean": 2.4087879907768573e-05,
+        "over2mm": 40,
+        "samples": 14400
+      },
+      "body_last": {
+        "max": 0.018734585907736453,
+        "mean": 2.4309141853600552e-05,
+        "over2mm": 40,
+        "samples": 14400
+      },
+      "flat": {
+        "max": 0.011352317854806934,
+        "mean": 1.246579128912424e-05,
+        "over2mm": 28,
+        "samples": 14400
+      },
+      "no_sector": {
+        "max": 0.043926750312890735,
+        "mean": 2.2906164752549924e-05,
+        "over2mm": 22,
+        "samples": 14400
+      },
+      "no_contacts": {
+        "max": 0.07538037956641006,
+        "mean": 0.002591442081389914,
+        "over2mm": 1244,
+        "samples": 14400
+      },
+      "upper80": {
+        "max": 0.01805323622059831,
+        "mean": 4.304453361109876e-06,
+        "over2mm": 8,
+        "samples": 14400
+      }
+    },
+    "Run01": {
+      "baseline": {
+        "max": 0.06422352197647153,
+        "mean": 0.00010783417812251469,
+        "over2mm": 49,
+        "samples": 14400
+      },
+      "return50": {
+        "max": 0.06427897900993357,
+        "mean": 0.00010762601548815552,
+        "over2mm": 49,
+        "samples": 14400
+      },
+      "sector25": {
+        "max": 0.05030503778259304,
+        "mean": 7.144443511023924e-05,
+        "over2mm": 41,
+        "samples": 14400
+      },
+      "sector_follow": {
+        "max": 0.05030503778259304,
+        "mean": 2.8796463774682283e-05,
+        "over2mm": 12,
+        "samples": 14400
+      },
+      "return_follow": {
+        "max": 0.06110726276943334,
+        "mean": 0.00014737893142753187,
+        "over2mm": 91,
+        "samples": 14400
+      },
+      "lower_center": {
+        "max": 0.04500489028453588,
+        "mean": 0.00010621447311395651,
+        "over2mm": 54,
+        "samples": 14400
+      },
+      "merge": {
+        "max": 0.041152727733598966,
+        "mean": 8.489123171076375e-06,
+        "over2mm": 4,
+        "samples": 14400
+      },
+      "body_last": {
+        "max": 0.06523665552004061,
+        "mean": 8.960861066744244e-05,
+        "over2mm": 50,
+        "samples": 14400
+      },
+      "flat": {
+        "max": 0.06790024418063212,
+        "mean": 6.547261150517767e-05,
+        "over2mm": 49,
+        "samples": 14400
+      },
+      "no_sector": {
+        "max": 0.05030503778259304,
+        "mean": 8.951524282028901e-05,
+        "over2mm": 49,
+        "samples": 14400
+      },
+      "no_contacts": {
+        "max": 0.06982795376778456,
+        "mean": 0.00298894251496631,
+        "over2mm": 1741,
+        "samples": 14400
+      },
+      "upper80": {
+        "max": 0.04777353479957689,
+        "mean": 1.6114054095122796e-05,
+        "over2mm": 16,
+        "samples": 14400
+      }
+    }
+  },
+  "final_candidate_anatomical": {
+    "Walk01": {
+      "baseline": {
+        "max": 0.01870785120674745,
+        "mean": 2.3741082365244635e-05,
+        "over2mm": 39,
+        "samples": 14400
+      },
+      "merge_damp65": {
+        "max": 0.030075402047276482,
+        "mean": 1.163584145793689e-05,
+        "over2mm": 19,
+        "samples": 14400
+      }
+    },
+    "Run01": {
+      "baseline": {
+        "max": 0.06422352197647153,
+        "mean": 0.00010783417812251469,
+        "over2mm": 49,
+        "samples": 14400
+      },
+      "merge_damp65": {
+        "max": 0.035667688577896324,
+        "mean": 6.675055030726991e-06,
+        "over2mm": 4,
+        "samples": 14400
+      }
+    }
+  },
+  "final_candidate_geometry": {
+    "Walk01": {
+      "local_vertices": 797,
+      "min_gap": 0.0018788069719448686,
+      "negative_samples": 0,
+      "samples": 114768,
+      "far_frames": 1
+    },
+    "Run01": {
+      "local_vertices": 797,
+      "min_gap": -0.0025647515431046486,
+      "negative_samples": 66,
+      "samples": 114768,
+      "far_frames": 23
+    }
+  },
+  "trace_summary": {
+    "Run01-contacts.json.gz": {
+      "contact_count": 12215,
+      "opposing_count": 267,
+      "dominant": [
+        {
+          "kind": "overlay",
+          "bone": "Hips",
+          "count": 5985,
+          "distance": 40.73570209616082,
+          "movement": 40.74586934698466,
+          "worst": 0.04770912911953226
+        },
+        {
+          "kind": "directional",
+          "bone": "Hips",
+          "count": 1972,
+          "distance": 8.449944255609559,
+          "movement": 7.891394476922184,
+          "worst": 0.01855075343453415
+        },
+        {
+          "kind": "directional",
+          "bone": "Thigh.L",
+          "count": 742,
+          "distance": 5.398084515647752,
+          "movement": 5.369979764959982,
+          "worst": 0.029646291536980795
+        },
+        {
+          "kind": "directional",
+          "bone": "Thigh.R",
+          "count": 699,
+          "distance": 4.856336710752341,
+          "movement": 4.823289797004096,
+          "worst": 0.03738534218682872
+        },
+        {
+          "kind": "overlay",
+          "bone": "Secondary_Skirt_00_03_05",
+          "count": 108,
+          "distance": 2.49653163094385,
+          "movement": 2.5895786957056,
+          "worst": 0.07999300490589972
+        }
+      ]
+    },
+    "Walk01-contacts.json.gz": {
+      "contact_count": 10385,
+      "opposing_count": 84,
+      "dominant": [
+        {
+          "kind": "overlay",
+          "bone": "Hips",
+          "count": 4359,
+          "distance": 13.784515018109406,
+          "movement": 13.718071092765435,
+          "worst": 0.016025129386583577
+        },
+        {
+          "kind": "directional",
+          "bone": "Hips",
+          "count": 2276,
+          "distance": 5.314286474999928,
+          "movement": 4.976842044097454,
+          "worst": 0.008622771428510012
+        },
+        {
+          "kind": "directional",
+          "bone": "Thigh.R",
+          "count": 861,
+          "distance": 2.0796771624595434,
+          "movement": 2.069036108600151,
+          "worst": 0.01640486430981894
+        },
+        {
+          "kind": "directional",
+          "bone": "Thigh.L",
+          "count": 482,
+          "distance": 1.4530871666442684,
+          "movement": 1.4505222439961862,
+          "worst": 0.011511894419184389
+        },
+        {
+          "kind": "directional",
+          "bone": "Shin.R",
+          "count": 179,
+          "distance": 2.070521655763807,
+          "movement": 1.298955648220284,
+          "worst": 0.025229414217215893
+        }
+      ]
+    }
+  },
+  "rejected_variants": [
+    "return50",
+    "sector25",
+    "contained",
+    "sector_follow",
+    "return_follow",
+    "lower_center",
+    "merge",
+    "body_last",
+    "no_sector",
+    "flat",
+    "no_contacts",
+    "merge_upper80",
+    "merge_damp65"
+  ],
+  "next": "Measure joint-local motion and parent/constraint movement before and after each native step; isolate split-chain inherited motion and contact feasibility. Keep the original VRM update order, accepted skin weights and collision safeguards unchanged.",
+  "delivery": "No production fix or API contract closed; full recovery remains 58/59.",
+  "estimate": "Unavailable: no tested candidate satisfies both motion and penetration gates. Previous numerical completion ranges were not reliable.",
+  "review_video": {
+    "path": "/Users/tylerwalker/Documents/Codex/2026-10-29/autoskin-rea-research/delivery/zzz-243/candidate-video/Grace - Collision Candidate Comparison.mp4",
+    "sha256": "ea8cac06b24ed051a31e5ac33110281baaa9e1b6be07c2853342e018e20746d2",
+    "seconds": 24,
+    "candidate_applied": false
+  }
+}
