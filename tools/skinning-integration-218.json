@@ -1,0 +1,266 @@
+{
+  "passed": true,
+  "scope": "Authorized integration of qualified routes; not full public API or universal character/exports qualification",
+  "parent_checkpoint": "recovered/preparation-217-checkpoint.json",
+  "package_version": "0.1.0",
+  "original_binary_distributed": false,
+  "brands": [
+    "BVT Solver",
+    "Hallway Solver"
+  ],
+  "default_backend": "cpu",
+  "preserve_volume": false,
+  "source_weights_used": false,
+  "native_artifacts": {
+    "darwin-arm64": {
+      "cpu": {
+        "path": "native/darwin-arm64/cpu.so",
+        "sha256": "476bc349a9e262103f5bbc921f7857b689404f39fc300bfe3a20c6ee456f6720"
+      },
+      "gpu": {
+        "path": "native/darwin-arm64/gpu.so",
+        "sha256": "8c42ad172c01a50dbd0dbc097322791fc88d28e5f1832728a07c274c1e59dc9c"
+      }
+    },
+    "windows-amd64": {
+      "cpu": {
+        "path": "native/windows-amd64/cpu.pyd",
+        "sha256": "749ae6bd1ca057660304d3e9d2f1f50df6ec60f4e515e910c1280fd194b17c1f"
+      },
+      "gpu": {
+        "path": "native/windows-amd64/gpu.pyd",
+        "sha256": "840ba1281ae3a6fa14f68f8ccf6d0a04d0dc33721098566cdaef8d58c28b2327"
+      }
+    }
+  },
+  "full_api_contracts": "58/59",
+  "api_subsets": "59/59",
+  "delivery_gates": "1/7",
+  "remaining": [
+    "Native buffer/address/bone-sentinel error audit remains open",
+    "Artist review of generated deformation and VRM export round trip",
+    "Native Windows BVT public UI/Undo, older Windows Blender and additional adapters",
+    "Linux and Intel Mac bundled solvers are unavailable; explicit Blender Weighting retained"
+  ],
+  "accepted_speed_gap": true,
+  "recorded_platforms": [
+    "Mac arm64 CPU / Metal",
+    "Windows x64 CPU / RTX4090 Laptop Vulkan"
+  ],
+  "runtime_tests": [
+    "Mac Blender 5.2.2 real BVT and Hallway modal Generate/Undo/reload with fresh mesh-only prediction",
+    "Mac Blender 4.2.0 BVT geometry-only cached-prediction bind and rollback",
+    "Native Windows Blender 5.2.2 Hallway integration with cached mesh-only prediction"
+  ],
+  "performance_note": "Final worker timings are single execution checks, not paired optimization measurements. Windows Hallway full secondary setup remains slow (~262s); solver portion ~19.5s. No new performance or energy claim.",
+  "product": "hallway",
+  "product_source_hashes": {
+    "tools/ui_mesh_rig.py": "4a865f3aa327073bbd78512be1a4d409f1cf50774c0e8cf3bbc7704873a99e0a",
+    "tools/rebuild_mmd_character.py": "7d01c7b5fe6705cb68b6b6709d4b85db9dcb716e5df75c04c61cb3edae3666d9",
+    "tools/mesh_landmarks/jobs.py": "256b8c2ec3eea4c3d331c3c80c69fb4817bbbe2458291820a795c9503095e7a0",
+    "tools/mesh_landmarks/blender_bridge.py": "2313b0e2461fa629dc6921f5ee5085ef9d765c421d2cded0c4db933958381622",
+    "tools/mesh_landmarks/skin_binding.py": "aa63faf9d75bbf0338cc6be9e6877999e933f1770beab2e4deb17eead886eb02"
+  },
+  "evidence": {
+    "final-worker-mac.json": {
+      "passed": true,
+      "records": [
+        {
+          "passed": true,
+          "mode": "cpu",
+          "seconds": 2.9782203329959884,
+          "reference": "recovered/performance-199/Belle-original-cpu.json",
+          "adapter": null
+        },
+        {
+          "passed": true,
+          "mode": "gpu",
+          "seconds": 1.6306658340618014,
+          "reference": "recovered/performance-200/mac-original-gpu.json",
+          "adapter": [
+            "Apple M5 Pro",
+            "Metal"
+          ]
+        }
+      ]
+    },
+    "final-worker-windows.json": {
+      "passed": true,
+      "records": [
+        {
+          "passed": true,
+          "mode": "cpu",
+          "seconds": 20.344548200024292,
+          "reference": "recovered/preparation-213-final/original-cpu.json",
+          "adapter": null
+        },
+        {
+          "passed": true,
+          "mode": "gpu",
+          "seconds": 12.335482199967373,
+          "reference": "recovered/preparation-214-final/original-gpu.json",
+          "adapter": [
+            "NVIDIA GeForce RTX 4090 Laptop GPU",
+            "Vulkan"
+          ]
+        }
+      ]
+    },
+    "lifecycle.json": {
+      "passed": true,
+      "checks": [
+        "successful bind handoff and cleanup",
+        "worker failure does not create scene",
+        "scene change rejected",
+        "geometry change rejected",
+        "inference transitions without premature cleanup",
+        "cancel terminates owned worker"
+      ]
+    },
+    "package-inclusion.json": {
+      "passed": true,
+      "required_included": [
+        "third_party/beyond_skinning/native/windows-amd64/cpu.pyd",
+        "third_party/beyond_skinning/native/windows-amd64/gpu.pyd",
+        "third_party/beyond_skinning/native-source.zip",
+        "third_party/beyond_skinning/dependency-licenses.zip",
+        "third_party/beyond_skinning/NOTICE.md"
+      ],
+      "unrelated_archives_and_binaries_excluded": true
+    },
+    "public-operator/result-0.json": {
+      "passed": true,
+      "seconds": 15.966881208936684,
+      "operator": true,
+      "undo": true,
+      "reload": true,
+      "worker_backend": "cpu",
+      "solver": "BVT Solver",
+      "source_rig_used": false
+    },
+    "public-hallway-operator/result-0.json": {
+      "passed": true,
+      "seconds": 13.900659625069238,
+      "operator": true,
+      "undo": true,
+      "reload": true,
+      "worker_backend": "cpu",
+      "solver": "Hallway Solver",
+      "source_rig_used": false
+    }
+  },
+  "character_bindings": [
+    {
+      "passed": true,
+      "host": "bvt",
+      "character": "Belle",
+      "blender": "5.2.2 LTS",
+      "seconds": 28.030894291005097,
+      "meshes": 18,
+      "bones": 635,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "bvt",
+      "character": "Anby",
+      "blender": "5.2.2 LTS",
+      "seconds": 31.260152875096537,
+      "meshes": 16,
+      "bones": 761,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "bvt",
+      "character": "Grace",
+      "blender": "5.2.2 LTS",
+      "seconds": 15.319506124942563,
+      "meshes": 18,
+      "bones": 485,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "bvt",
+      "character": "Nicole",
+      "blender": "5.2.2 LTS",
+      "seconds": 19.68878574995324,
+      "meshes": 1,
+      "bones": 221,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "bvt",
+      "character": "Wise-regression",
+      "blender": "5.2.2 LTS",
+      "seconds": 19.122328875004314,
+      "meshes": 17,
+      "bones": 833,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "hallway",
+      "character": "Belle",
+      "blender": "5.2.2 LTS",
+      "seconds": 29.974063374917023,
+      "meshes": 18,
+      "bones": 635,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "hallway",
+      "character": "Belle",
+      "blender": "5.2.2 LTS",
+      "seconds": 261.6767686000094,
+      "meshes": 18,
+      "bones": 635,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    },
+    {
+      "passed": true,
+      "host": "bvt",
+      "character": "Belle",
+      "blender": "4.2.0",
+      "seconds": 3.1405772919533774,
+      "meshes": 18,
+      "bones": 53,
+      "source_preserved": true,
+      "rollback": true,
+      "linear_skinning": true,
+      "numeric_pose_finite": true,
+      "landmarks": "previously recorded mesh-only inference; not regenerated by this binding test"
+    }
+  ]
+}

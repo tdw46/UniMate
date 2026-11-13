@@ -1,0 +1,10 @@
+{
+  "version": "3.78.34",
+  "author": "Artell",
+  "source_file": "src/auto_rig.py",
+  "source_sha256": "b884f5ea3ee7845444b25868a37283f7057ddfb96aaafc1b2d6997abaa3805f3",
+  "start_line": 21038,
+  "end_line": 21153,
+  "body_sha256": "8482cc549160a5bdc66d299652fce428d76abeb205c10244b489fea443c2b2a1",
+  "normalized_body_sha256": "9f5186f14714b8f4a0603beab9c278ae8306ed7e15dbca97697f9ba704e59ef3"
+}

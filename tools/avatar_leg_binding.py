@@ -4,6 +4,8 @@ All solves use temporary surfaces and the new skeleton. Source weights and
 final vertex positions never participate. Footwear samples its own leg's
 fresh skin solution so coincident skin and shoe surfaces move together.
 """
+from avatar_material_roles import semantic_label
+
 import bpy
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
@@ -42,7 +44,7 @@ def bind_leg_domains(rig, meshes):
                                <=min(_bone_distance(v.co,b) for b in arms))}
                 for face in obj.data.polygons:
                     mat=obj.data.materials[face.material_index] if face.material_index<len(obj.data.materials) else None
-                    label=mat.name.lower() if mat else ''
+                    label=semantic_label(mat.name) if mat else ''
                     if not any(t in label for t in ('skin','body')) or any(t in label for t in ('cloth','hair','shoe')):continue
                     if not all(i in eligible for i in face.vertices):continue
                     indices=[]
@@ -62,8 +64,11 @@ def bind_leg_domains(rig, meshes):
             proxy=bpy.data.objects.new('Temporary anatomical leg heat',data)
             bpy.context.scene.collection.objects.link(proxy)
             try:
-                audit=repaired_heat([proxy],rig,allow_unweighted=False)
+                audit=repaired_heat([proxy],rig,allow_unweighted=True)
                 solved=[weights(proxy,v.index) for v in data.vertices]
+                from avatar_heat_fallback import complete_domain_weights
+                solved,recovery=complete_domain_weights(data,solved,[weights(obj,i) for obj,i in refs],allowed)
+                audit.append(recovery)
                 for (obj,i),v,value in zip(refs,data.vertices,solved):
                     t=max(0.,min(1.,(upper-v.co.z)/(upper-blend_start)));t=t*t*(3-2*t)
                     old=weights(obj,i)
@@ -74,7 +79,7 @@ def bind_leg_domains(rig, meshes):
                 tree=BVHTree.FromPolygons([v.co for v in data.vertices],triangles,all_triangles=True)
                 transferred=0;max_distance=0.
                 for obj in meshes:
-                    slots={i for i,m in enumerate(obj.data.materials) if m and any(t in m.name.lower() for t in ('shoe','boot','sock'))}
+                    slots={i for i,m in enumerate(obj.data.materials) if m and any(t in semantic_label(m.name) for t in ('shoe','boot','sock'))}
                     ids={i for f in obj.data.polygons if f.material_index in slots for i in f.vertices}
                     for i in ids:
                         p=obj.data.vertices[i].co

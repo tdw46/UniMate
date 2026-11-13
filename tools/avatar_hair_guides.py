@@ -77,3 +77,39 @@ def branch_line(branch, segments):
         center = np.median(np.unique(samples, axis=0), axis=0)
         result.append(Vector((center[0], center[1], z)))
     return result
+
+
+def split_hanging_branches(mesh, ids, points, free_top, root_length):
+    """Resolve nested forks, not just the first detached outer strand.
+
+    A scalp can join two bulky hanging locks after thin outer strips have already
+    separated. Revisit every broad descendant independently. Measurements use
+    only its own topology and geometry; no side labels or source rig enter.
+    """
+    def refine(branch, generation):
+        if generation >= 4:
+            return [branch]
+        p = branch['points']
+        span = np.ptp(p, axis=0)
+        top = float(branch['anchor'].z)
+        low = float(p[:, 2].min())
+        depth = top-low
+        if depth <= root_length*4 or max(span[:2]) < depth*.65:
+            return [branch]
+        minimum = max(8, len(branch['ids'])*.08)
+        for cut in np.linspace(top, low+depth*.55, 25)[1:]:
+            candidates = hanging_branches(mesh, branch['ids'], points,
+                                          float(cut), root_length)
+            substantial = [b for b in candidates if len(b['ids']) >= minimum
+                           and cut-b['points'][:, 2].min() >= depth*.4]
+            if len(substantial) < 2:
+                continue
+            anchors = [np.array(b['anchor'])[:2] for b in substantial]
+            if max(np.linalg.norm(a-b) for a in anchors for b in anchors) < root_length*2:
+                continue
+            return [child for candidate in candidates
+                    for child in refine(candidate, generation+1)]
+        return [branch]
+
+    return [child for branch in hanging_branches(mesh, ids, points, free_top, root_length)
+            for child in refine(branch, 0)]

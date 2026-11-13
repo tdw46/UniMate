@@ -2,3 +2,8 @@
 outputs/
 __pycache__/
 *.py[cod]
+
+# Qualified independent skinning runtime and corresponding source/notices.
+!/tools/beyond_skinning/native/*/*.pyd
+!/tools/beyond_skinning/native-source.zip
+!/tools/beyond_skinning/dependency-licenses.zip

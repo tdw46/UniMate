@@ -1,4 +1,6 @@
 """Fresh pelvis heat domain and matching garment attachment; no mesh edits."""
+from avatar_material_roles import semantic_label
+
 import bpy
 from mathutils import Vector
 from avatar_apparel_weights import weights,assign
@@ -41,8 +43,8 @@ def confine_pelvis_weights(rig,meshes):
     for obj in meshes:
         m=rig.matrix_world.inverted()@obj.matrix_world
         slots={i for i,mat in enumerate(obj.data.materials) if mat and
-               any(t in mat.name.lower() for t in ('skin','body')) and
-               not any(t in mat.name.lower() for t in ('cloth','hair','shoe'))}
+               any(t in semantic_label(mat.name) for t in ('skin','body')) and
+               not any(t in semantic_label(mat.name) for t in ('cloth','hair','shoe'))}
         ids={i for f in obj.data.polygons if f.material_index in slots for i in f.vertices}
         for i in ids:
             p=m@obj.data.vertices[i].co
@@ -83,6 +85,11 @@ def repair_pelvis_weights(rig,meshes,force=False):
     from avatar_skirt_fit_io import rest_edit
     hips,spine,chest,thighs,arms,low,core_low,high=landmarks(rig)
     allowed={b.name for b in (hips,spine,chest,*thighs)}
+    # Predictors and humanoid schemas may include more than two spine joints.
+    # Every ancestor between chest and hips belongs to this torso domain.
+    parent=chest.parent
+    while parent is not None and parent!=hips:
+        allowed.add(parent.name);parent=parent.parent
     refs=[];points=[];faces=[];lookup={}
     for obj in meshes:
         m=rig.matrix_world.inverted()@obj.matrix_world
@@ -91,7 +98,7 @@ def repair_pelvis_weights(rig,meshes,force=False):
             min(_bone_distance(p,b) for b in (hips,spine,chest,*thighs))<=min(_bone_distance(p,b) for b in arms)}
         for f in obj.data.polygons:
             mat=obj.data.materials[f.material_index] if f.material_index<len(obj.data.materials) else None
-            label=mat.name.lower() if mat else ''
+            label=semantic_label(mat.name) if mat else ''
             if not any(t in label for t in ('skin','body')) or any(t in label for t in ('cloth','hair','shoe')):continue
             if not all(i in eligible for i in f.vertices):continue
             ids=[]
@@ -115,8 +122,11 @@ def repair_pelvis_weights(rig,meshes,force=False):
             data=bpy.data.meshes.new('Temporary pelvis heat domain')
             data.from_pydata(points,[],faces);data.update()
             proxy=bpy.data.objects.new('Temporary pelvis heat domain',data);bpy.context.scene.collection.objects.link(proxy)
-            audit=repaired_heat([proxy],rig)
+            audit=repaired_heat([proxy],rig,allow_unweighted=True)
             solved=[weights(proxy,v.index) for v in data.vertices]
+            from avatar_heat_fallback import complete_domain_weights
+            solved,recovery=complete_domain_weights(data,solved,[weights(obj,i) for obj,i in refs],allowed)
+            audit.append(recovery)
             changed=0
             for (obj,i),p,new in zip(refs,points,solved):
                 # A shared pelvis solve must not reconnect the independent

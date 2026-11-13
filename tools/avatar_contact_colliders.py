@@ -44,8 +44,8 @@ def install_contact_colliders(rig, meshes):
                 deduplicated_references=sum(map(len,groups.values()))-len(specs))
 
 
-def owned_group(name):
-    return name=='Secondary_SkirtBody' or name.startswith(GROUP_PREFIX)
+def owned_group(name, role='skirt'):
+    return name=='Secondary_'+role.title()+'Body' or name.startswith('Secondary_'+role.title()+'Contact_')
 
 
 def snapshot_contact_colliders(rig):
@@ -67,20 +67,23 @@ def snapshot_contact_colliders(rig):
         springs=[s.vrm_name for s in sb.springs if any(r.collider_group_uuid==g.uuid for r in s.collider_groups)]) for g in groups])
 
 
-def replace_contact_colliders(rig,payload):
+def replace_contact_colliders(rig,payload, *, role='skirt'):
     """Caller owns pose/BVT state. Only replace our groups through VRM APIs."""
+    if role not in ('skirt', 'hair'):
+        raise ValueError('Unknown generated contact role')
     sb=rig.data.vrm_addon_extension.spring_bone1
     spring_names={s.vrm_name for s in sb.springs}
     for spec in payload['colliders']:
         if spec['bone'] not in rig.data.bones or spec['radius']<0:
             raise ValueError('Invalid capsule fit')
     for group in payload['groups']:
-        if not owned_group(group['name']) or set(group['springs'])-spring_names:
+        if not owned_group(group['name'],role) or set(group['springs'])-spring_names:
             raise ValueError('Invalid skirt group fit')
         if any(i<0 or i>=len(payload['colliders']) for i in group['colliders']):
             raise ValueError('Invalid collider reference')
-    owned={g.uuid for g in sb.collider_groups if g.vrm_name=='Secondary_SkirtBody' or g.vrm_name.startswith(GROUP_PREFIX)}
-    foreign={r.collider_group_uuid for s in sb.springs if not s.vrm_name.startswith(('Secondary_Skirt_','Secondary_HipSkirt_')) for r in s.collider_groups}
+    owned={g.uuid for g in sb.collider_groups if owned_group(g.vrm_name,role)}
+    prefixes=('Secondary_Skirt_','Secondary_HipSkirt_') if role=='skirt' else ('Secondary_Hair_',)
+    foreign={r.collider_group_uuid for s in sb.springs if not s.vrm_name.startswith(prefixes) for r in s.collider_groups}
     if owned & foreign:raise ValueError('Skirt contact groups are shared with artist springs')
     ids={r.collider_uuid for g in sb.collider_groups if g.uuid in owned for r in g.colliders}
     other={r.collider_uuid for g in sb.collider_groups if g.uuid not in owned for r in g.colliders}
@@ -102,4 +105,4 @@ def replace_contact_colliders(rig,payload):
             spring=next(s for s in sb.springs if s.vrm_name==name)
             spring.collider_groups.add().collider_group_uuid=group.uuid
     organize_colliders(rig);cleanup_orphan_displays(rig)
-    rig['hallway_contact_colliders']=int(any(s.get('contact',True) for s in payload['colliders']))
+    rig['hallway_contact_colliders' if role=='skirt' else 'hallway_hair_contact_colliders']=int(any(s.get('contact',True) for s in payload['colliders']))

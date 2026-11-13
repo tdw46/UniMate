@@ -595,3 +595,9 @@ over 180 motion steps. The review file includes an excluded original-reference
 collection with the source weights intact and 14 remapped expression binds.
 These are execution/data checks, not visual or clipping approval; see
 `docs/longerskirt-validation.json`.
+
+### Smooth front-pelvis attachment — turn 238
+
+The shared final-generation pass adds up to 25% of remaining non-Hips mass to Hips at the front-center of the pelvis. Generated thigh sockets, spine and their lengths define a compact smooth envelope, with zero effect behind the socket plane or below its lower fade. Admitted skirt domains and anatomically owned skin/bottomwear are eligible; fingers and unrelated attachments are excluded. Apply after waistband handoff, before transverse cloth smoothing and mounted fittings. Maximum four influences; original rigs and weights are never inputs.
+
+Blender 4.2/5.2 focused checks and four-character fixture checks pass. Fresh Grace public generation matches exactly in both hosts, including weights and bones. Grace's 755 affected vertices gain an average 7.21 percentage points of Hips mass. The final strap remains smoothly diffused (edge energy 0.03194). No new all-pose or native Windows acceptance is claimed. Updated generated Grace files and evidence are in research `delivery/zzz-238`; live code is loaded without saving or reweighting the dirty Nicole scene. See BVT `front-pelvis-238.json`.

@@ -4,6 +4,8 @@ Uses the official VRM collider API; no collider meshes or simulator code.
 All calculations use rig-local REST coordinates; shape metadata is written
 only after the complete plan passes its contact checks.
 """
+from avatar_material_roles import semantic_label
+
 import math
 import numpy as np
 import bpy
@@ -45,7 +47,7 @@ def plan_colliders(rig, meshes, material_roles=None):
     for obj in meshes:
         slots={i for i,m in enumerate(obj.data.materials) if m and
                (roles.get(m.name)=='skin' or (m.name not in roles and
-                (m.get('binding_surface')=='skin' or any(t in m.name.lower() for t in ('skin','face')))))}
+                (m.get('binding_surface')=='skin' or any(t in semantic_label(m.name) for t in ('skin','face')))))}
         ids={i for f in obj.data.polygons if f.material_index in slots for i in f.vertices}
         for i in ids:skin.append((points[obj.name][i],weights(obj,i)))
         # Exposed skin may be just one shoulder on a clothed avatar. Fitting
@@ -57,7 +59,9 @@ def plan_colliders(rig, meshes, material_roles=None):
             values=weights(obj,i)
             if values.get(chest_name,0)>.4 and not any(n.startswith(PREFIX) and w>1e-6 for n,w in values.items()):
                 torso.append((p,values))
-    role_nodes={'skirt':('left_upper_leg','right_upper_leg','left_lower_leg','right_lower_leg'),
+    role_nodes={'breast':('chest','upper_chest'),
+                'accessory':('hips','spine','chest','left_upper_leg','right_upper_leg','left_upper_arm','right_upper_arm'),
+                'skirt':('left_upper_leg','right_upper_leg','left_lower_leg','right_lower_leg'),
                 'hair':('head','neck','chest','left_upper_arm','right_upper_arm')}
     candidates=[];omitted=[]
     for role,nodes in role_nodes.items():
@@ -118,7 +122,7 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
         rig['hallway_pose_fit_settings_changed']=True
         return dict(result,colliders=result['unique_skirt_colliders'])
     plan=plan_colliders(rig,meshes,material_roles)
-    roles=set(collider_roles or ('skirt','hair'))
+    roles=set(collider_roles or ('skirt','hair','accessory','ornament'))
     plan['collider_details']=[s for s in plan['collider_details'] if s['role'] in roles]
     plan['omitted']=[s for s in plan['omitted'] if s['role'] in roles]
     names={PREFIX+role.title()+'Body' for role in roles}

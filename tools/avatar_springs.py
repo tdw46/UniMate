@@ -1,10 +1,12 @@
 """Geometry-derived secondary rigs and standard VRM 1 spring metadata.
 
-UniMate owns generation, skinning and collider setup. Only the official VRM
+Hallway owns generation, skinning and collider setup. Only the official VRM
 schema is required; no simulator or BVT generation code is imported. Meshes
 must be in the upright, aligned rest pose produced by our full-body pipeline.
 Material roles can be supplied for assets without semantic material names.
 """
+from avatar_material_roles import semantic_label
+
 import math
 import re
 
@@ -14,7 +16,7 @@ from mathutils import Vector
 
 from avatar_apparel_weights import assign, components, weights, head_cap_vertices, hair_root_length, hair_free_top
 
-from avatar_hair_guides import hanging_branches, branch_line
+from avatar_hair_guides import split_hanging_branches, branch_line
 from avatar_waist_attachment import WAIST_FRACTION
 from avatar_dress import dress_profile, install_lower_follow
 
@@ -54,11 +56,11 @@ def _points(rig, obj):
 
 
 def _material_region(obj, role, roles):
-    tokens = {'hair': ('hair',), 'skirt': ('skirt', 'bottoms'),
+    tokens = {'hair': ('hair',), 'skirt': ('skirt', 'bottoms', 'hem'),
               'skin': ('skin', 'body')}[role]
     slots = {i for i, mat in enumerate(obj.data.materials) if mat and
              (roles.get(mat.name) == role or
-              (mat.name not in roles and any(t in mat.name.lower() for t in tokens)))}
+              (mat.name not in roles and any(t in semantic_label(mat.name) for t in tokens)))}
     return {v for p in obj.data.polygons if p.material_index in slots for v in p.vertices}
 
 
@@ -113,6 +115,8 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     if segments < 2 or skirt_sectors < 6 or skirt_sectors % 2:
         raise ValueError('Need at least two segments and an even number of skirt sectors, at least six')
     roles = material_roles or {}
+    from avatar_hair_regions import hair_images, extend_hair_region
+    images = hair_images(meshes, roles) if include_hair else set()
     humanoid=rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
     def limb(side,part,legacy,mixamo):
         mapped=getattr(humanoid,side+'_'+part).node.bone_name
@@ -122,13 +126,21 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     if None in [*thighs.values(),*shins]:raise ValueError('Missing humanoid leg mapping')
     all_points = {o.name: _points(rig, o) for o in meshes}
     height = max(p[:, 2].max() for p in all_points.values()) - min(p[:, 2].min() for p in all_points.values())
-    chains, regions, rejected = [], [], []
+    from avatar_surface_attachments import plan_mounted, plan_jackets
+    chains, regions = plan_mounted(rig, meshes, all_points, height, PREFIX) if include_hair else ([], [])
+    rejected = []
     neck_z = rig.data.bones['Neck'].head_local.z
     center = np.array(tuple(rig.data.bones['Hips'].head_local))[:2]
     for obj in meshes:
         points = all_points[obj.name]
         hair = _material_region(obj, 'hair', roles) if include_hair else set()
-        for component in components(obj.data) if hair else ():
+        if include_hair:
+            hair = extend_hair_region(obj, rig, points, hair, roles, images)
+        from avatar_virtual_topology import connected_graph, protected_extremities
+        hair -= set(np.flatnonzero(protected_extremities(rig, points, height)))
+        hair -= {i for r in regions if r['obj']==obj for i in r['ids']}
+        hair_graph, hair_components, hair_links = connected_graph(obj.data, points, hair, height*.0001)
+        for component in hair_components:
             ids = sorted(set(component) & hair)
             if len(ids) < 8:
                 continue
@@ -136,7 +148,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             free_top = hair_free_top(p, height, neck_z, rig.data.bones['Head'].tail_local.z)
             if free_top is None:
                 continue
-            branches = hanging_branches(obj.data, ids, points, free_top,
+            branches = split_hanging_branches(hair_graph, ids, points, free_top,
                                          hair_root_length(height, np.ptp(p[:, 2])))
             for branch in branches:
                 label = f'{PREFIX}Hair_{sum(c["role"] == "hair" for c in chains):02d}'
@@ -148,15 +160,20 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
                 chains.append(dict(role='hair', names=names, line=line, parent='Head', physics_start=1))
                 regions.append(dict(obj=obj, ids=branch['ids'], role='hair', names=[names[1:]],
                                     lo=float(free[-1].z), hi=float(free[0].z)))
-        skirt = sorted(_material_region(obj, 'skirt', roles))
+        if include_hair:
+            from avatar_hair_satellites import attach_satellites
+            satellites=attach_satellites(obj,points,hair,regions,height)
+            if satellites:regions.append(satellites)
+        skirt = sorted(_material_region(obj, 'skirt', roles)-{i for r in regions if r['obj']==obj for i in r['ids']})
+        skirt = [i for i in skirt if points[i,2] < rig.data.bones['Hips'].tail_local.z+height*.04]
         if not skirt:
             # VRoid long dresses often label every layer as Tops, not Bottoms.
             # Restrict them anatomically before the circumferential tests below.
             waist = rig.data.bones['Hips'].tail_local.z
             knee = min(rig.data.bones[n].head_local.z for n in shins)
             slots = {i for i, mat in enumerate(obj.data.materials) if mat and
-                     mat.name not in roles and 'cloth' in mat.name.lower() and
-                     not any(t in mat.name.lower() for t in ('shoe', 'glove'))}
+                     mat.name not in roles and 'cloth' in semantic_label(mat.name) and
+                     not any(t in semantic_label(mat.name) for t in ('shoe', 'glove'))}
             # Validate each material independently. A dress must not lend its
             # circumferential coverage to an unrelated tail/belt accessory.
             accepted=set()
@@ -176,7 +193,9 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
         # A skirt must surround the pelvis at multiple heights. Require faces
         # crossing the sagittal plane below the waist; separated pants fail.
         valid,coverage=_skirt_coverage(obj,points,skirt,center,height)
-        if not valid:
+        open_hem = (not valid and len(skirt)>100 and min(coverage)>=4 and max(coverage)>=7
+                    and hi-lo>height*.2 and np.ptp(p[:,0])>height*.15)
+        if not valid and not open_hem:
             rejected.append(dict(object=obj.name, role='skirt', reason='Not a continuous circumferential skirt', coverage=coverage))
             continue
         skirt_resolution = skirt_segments if skirt_segments is not None else segments
@@ -191,7 +210,13 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             side = 'L' if math.cos(angle) >= 0 else 'R'
             lower_leg=limb('left' if side=='L' else 'right','lower_leg','Shin.'+side,'LeftLeg' if side=='L' else 'RightLeg')
             calf=rig.data.bones[lower_leg]
-            profile=dress_profile(hi-(hi-lo)*WAIST_FRACTION,lo,calf.head_local.z,calf.tail_local.z,skirt_resolution)
+            sector_lo=lo
+            if open_hem:
+                band=p[angular_distance<math.tau/skirt_sectors]
+                if len(band):sector_lo=float(np.quantile(band[:,2],.03))
+            from avatar_cloth_handoff import cloth_segments
+            resolution=cloth_segments(hi-(hi-lo)*WAIST_FRACTION-sector_lo,height,skirt_resolution)
+            profile=dress_profile(hi-(hi-lo)*WAIST_FRACTION,sector_lo,calf.head_local.z,calf.tail_local.z,resolution)
             for z in profile['heights']:
                 score = angular_distance/(math.tau/skirt_sectors) + np.abs(p[:, 2]-z)/((hi-lo)/skirt_resolution)
                 near = np.argsort(score)[:max(4, len(p)//(skirt_sectors*skirt_resolution))]
@@ -201,17 +226,40 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             chains.append(dict(role='skirt', names=names, line=line, parent='Hips',
                                follow=f'{PREFIX}SkirtFollow_{skirt_index:02d}_{sector:02d}',
                                leg=thighs[side], lower_leg=lower_leg, dress=profile,
-                               follow_influence=INFLUENCE, garment_top=float(hi), garment_bottom=float(lo)))
+                               follow_influence=INFLUENCE, garment_top=float(hi), garment_bottom=float(sector_lo)))
             names_by_sector.append(names)
         regions.append(dict(obj=obj, ids=skirt, role='skirt', names=names_by_sector,
                             lo=float(lo), hi=float(hi), center=center.tolist()))
-    cap = head_cap_vertices(meshes, rig) if include_hair else {}
-    regions.extend(dict(obj=obj, ids=cap[obj.name], role='head_cap')
+    if include_hair:
+        for obj in meshes:
+            excluded={i for r in regions if r['obj']==obj for i in r['ids']}
+            extra,bindings=plan_jackets(rig,obj,all_points[obj.name],excluded,height,PREFIX,
+                                       sum(c.get('garment',False) for c in chains))
+            chains.extend(extra);regions.extend(bindings)
+    accessory_reports=[]
+    if include_hair:
+        from avatar_accessories import plan_accessories
+        for obj in meshes:
+            excluded={i for r in regions if r['obj']==obj for i in r['ids']}
+            # Exclude the complete hair domain, including its fixed scalp.
+            named=_material_region(obj,'hair',roles)
+            excluded.update(extend_hair_region(obj,rig,all_points[obj.name],named,roles,images))
+            extra,bindings,audit=plan_accessories(rig,obj,all_points[obj.name],excluded,height,PREFIX,start_index=sum(a['components'] for a in accessory_reports))
+            chains.extend(extra);regions.extend(bindings);accessory_reports.append(audit)
+    if include_hair:
+        from avatar_head_accessories import plan_head_accessories
+        for obj in meshes:
+            excluded={i for region in regions if region['obj']==obj for i in region['ids']}
+            extra,bindings,_=plan_head_accessories(rig,obj,all_points[obj.name],excluded,height,PREFIX,
+                                                   sum(c['role']=='ornament' for c in chains))
+            chains.extend(extra);regions.extend(bindings)
+    cap = head_cap_vertices(meshes, rig, roles) if include_hair else {}
+    regions.extend(dict(obj=obj, ids=set(cap[obj.name])-{i for r in regions if r['obj']==obj for i in r['ids']}, role='head_cap')
                    for obj in meshes if obj.name in cap)
-    return dict(chains=chains, regions=regions, rejected=rejected, height=float(height), points=all_points)
+    return dict(chains=chains, regions=regions, rejected=rejected, height=float(height), points=all_points, accessories=accessory_reports)
 
 
-def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None, skirt_segments=None):
+def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None, skirt_segments=None, refine_cloth=True):
     """Add a secondary rig once, preserving all geometry and unrelated weights.
 
     Repeated calls reject before mutation rather than accumulating duplicate
@@ -222,7 +270,7 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
     if spring_center and spring_center not in rig.data.bones:
         raise ValueError('Unknown explicitly requested spring center: '+spring_center)
     if any(b.name.startswith(PREFIX) for b in rig.data.bones):
-        raise ValueError('This rig already has UniMate secondary chains')
+        raise ValueError('This rig already has Hallway secondary chains')
     if not hasattr(rig.data, 'vrm_addon_extension'):
         raise RuntimeError('Enable the official VRM schema add-on before generation')
     for name in ('Head', 'Neck', 'Hips'):
@@ -283,6 +331,9 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
             if region['role'] == 'head_cap':
                 assign(obj, region['ids'], {'Head': 1.})
                 continue
+            if 'values' in region:
+                for index, values in region['values'].items():assign(obj,[index],values)
+                continue
             for index in region['ids']:
                 p = plan['points'][obj.name][index]
                 t = (region['hi']-p[2])/(region['hi']-region['lo'])
@@ -298,10 +349,13 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                         for name, weight in _vertical_weights(region['names'][s], 'Hips', t).items():
                             values[name] = values.get(name, 0)+weight*factor
                 assign(obj, [index], values)
+        from avatar_secondary_smoothing import smooth_secondary_weights
+        smoothing=smooth_secondary_weights(rig,meshes,plan['regions'])
         rig.data.pose_position = 'POSE'
         bpy.context.view_layer.update()
         metadata = _write_vrm(rig, meshes, plan, material_roles or {}, spring_center)
         metadata['pelvis_binding']=pelvis_binding
+        metadata['secondary_smoothing']=smoothing
         if any(c['role']=='skirt' for c in plan['chains']):
             from avatar_contact_colliders import install_contact_colliders
             from avatar_skirt_binding import rebind_skirt_strips
@@ -313,7 +367,24 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
             metadata['contact_rig']=install_skirt_contact_rig(rig,meshes)
             from avatar_skirt_hip_physics import extend_hip_physics
             metadata['hip_physics']=extend_hip_physics(rig)
-            metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
+        from avatar_cloth_handoff import finish_waistbands, smooth_cross_waist
+        metadata['waistband_handoff']=finish_waistbands(rig,meshes,plan)
+        from avatar_pelvis_anchor import strengthen_front_pelvis
+        metadata['front_pelvis_attachment']=strengthen_front_pelvis(rig,meshes,plan)
+        metadata['cross_waist_smoothing']=smooth_cross_waist(rig,meshes,plan)
+        from avatar_garment_attachments import bind_garment_attachments
+        metadata['garment_attachments']=bind_garment_attachments(rig,meshes)
+        from avatar_cloth_overlays import bind_cloth_overlays, refine_bound_overlays
+        metadata['cloth_overlays']=bind_cloth_overlays(rig,meshes,refine=False)
+        from avatar_cloth_smoothing import smooth_skirt_distribution
+        metadata['skirt_distribution_smoothing']=smooth_skirt_distribution(
+            rig,meshes,plan,protected=metadata['cloth_overlays'])
+        # Re-sample only the cloth fraction; preserve the accepted body attachment.
+        metadata['garment_attachments']=bind_garment_attachments(rig,meshes,preserve_anatomical=True)
+        if refine_cloth:refine_bound_overlays(rig,meshes,metadata['cloth_overlays'])
+        from avatar_cloth_contacts import install_overlay_contacts
+        metadata['cloth_overlay_contacts']=install_overlay_contacts(rig,metadata['cloth_overlays'])
+        metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
     finally:
         if bpy.context.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
@@ -324,7 +395,7 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         bpy.context.view_layer.objects.active = active
     report = dict(height=plan['height'], chains=len(plan['chains']),
                   deform_bones=sum(len(c['names'])-1 for c in plan['chains']),
-                  terminal_bones=len(plan['chains']), rejected=plan['rejected'],
+                  terminal_bones=len(plan['chains']), rejected=plan['rejected'], accessories=plan['accessories'],
                   fixed_hair_roots=[c['names'][0] for c in plan['chains'] if c['role'] == 'hair'],
                   hair_attachments=[dict(root=c['names'][0], physics_start=c['names'][1],
                                          cap_position=list(c['line'][0]), fixed_end=list(c['line'][1]))
@@ -353,13 +424,17 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
     ext = rig.data.vrm_addon_extension
     ext.spec_version = '1.0'
     preserve_export_rest_frame(rig)
-    for role, name in humanoid_roles().items():
+    human_roles = humanoid_roles()
+    if 'UpperSpine' in rig.data.bones:
+        human_roles.update(chest='UpperSpine', upperChest='Chest')
+    for role, name in human_roles.items():
         if name in rig.data.bones:
             key = re.sub(r'(?<!^)(?=[A-Z])', '_', role).lower()
             getattr(ext.vrm1.humanoid.human_bones, key).node.bone_name = name
     sb = ext.spring_bone1
     height = plan['height']
-    for chain in plan['chains']:
+    from avatar_accessory_physics import physics_chains
+    for chain in physics_chains(plan['chains']):
         spring = sb.springs.add()
         spring.vrm_name = chain['names'][0].rsplit('_', 1)[0]
         # No implicit center: body/object translation should excite the springs.
@@ -370,15 +445,35 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
             joint = spring.joints.add()
             joint.node.bone_name = name
             from avatar_rig_defaults import SPRINGS
-            defaults = SPRINGS['Hair' if hair else 'Skirt']
-            joint.stiffness = defaults['stiffness'] * (1-.10*i)
+            defaults = SPRINGS['Head Accessories' if chain['role']=='ornament' else 'Hanging Straps' if chain['role']=='accessory' and '_Strand_' in chain['names'][0] else chain['role'].title()]
+            joint.stiffness = defaults['stiffness'] * (1. if chain['role']=='ornament' or chain.get('serial_accessory') else 1-.10*i)
             joint.drag_force = defaults['drag']
             joint.gravity_power = defaults['gravity']
             joint.gravity_dir = (0, 0, -1)
             # Bone-point collisions need a margin for the skinned cloth between
             # adjacent chains, which can lie inside their collision envelope.
-            joint.hit_radius = height*(.004 if hair else .012)
+            joint.hit_radius = 0. if chain['role']=='ornament' else height*(.012 if chain['role']=='skirt' else .004)
+        if chain.get('mounted_pack'):
+            # Geometry-generated pack behavior: fixed shoulder support, one
+            # coherent pouch, and a separate front strap where present.
+            for joint in spring.joints:
+                joint.stiffness=1.;joint.drag_force=.5;joint.gravity_power=0.;joint.hit_radius=0.
+                joint['hallway_stiffness_ratio']=1./SPRINGS['Accessory']['stiffness']
+                joint['hallway_generated_drag_ratio']=.5/SPRINGS['Accessory']['drag']
+                joint['hallway_generated_gravity_ratio']=0.
+        if hair:
+            from avatar_rig_defaults import configure_hair_spring
+            configure_hair_spring(spring, rig, height)
     from avatar_colliders import rebuild_colliders
     metadata = rebuild_colliders(rig, meshes, roles)
+    if any(c.get('garment') for c in plan['chains']):
+        from avatar_surface_attachments import install_garment_contacts
+        metadata['garment_contacts']=install_garment_contacts(rig,meshes,plan,PREFIX)
+    if any(c['role']=='hair' for c in plan['chains']):
+        from avatar_hair_contacts import install_hair_contacts, fit_generated_hair_radii
+        metadata['hair_contacts'] = install_hair_contacts(rig, meshes, roles)
+        metadata['hair_contact_radii'] = fit_generated_hair_radii(rig, height)
+        metadata['colliders'] = len(sb.colliders)
+        metadata['collider_groups'] = len(sb.collider_groups)
     metadata.pop('height', None)
     return dict(**metadata, spring_names=[s.vrm_name for s in sb.springs if s.vrm_name.startswith(PREFIX)])

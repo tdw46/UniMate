@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "version": "0.1.0",
+  "source_checkpoint": "preparation-217",
+  "binaries": {
+    "darwin-arm64": {
+      "cpu": {
+        "path": "native/darwin-arm64/cpu.so",
+        "sha256": "476bc349a9e262103f5bbc921f7857b689404f39fc300bfe3a20c6ee456f6720"
+      },
+      "gpu": {
+        "path": "native/darwin-arm64/gpu.so",
+        "sha256": "8c42ad172c01a50dbd0dbc097322791fc88d28e5f1832728a07c274c1e59dc9c"
+      }
+    },
+    "windows-amd64": {
+      "cpu": {
+        "path": "native/windows-amd64/cpu.pyd",
+        "sha256": "749ae6bd1ca057660304d3e9d2f1f50df6ec60f4e515e910c1280fd194b17c1f"
+      },
+      "gpu": {
+        "path": "native/windows-amd64/gpu.pyd",
+        "sha256": "840ba1281ae3a6fa14f68f8ccf6d0a04d0dc33721098566cdaef8d58c28b2327"
+      }
+    }
+  },
+  "full_api_parity": false
+}

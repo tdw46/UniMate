@@ -96,8 +96,9 @@ def active_rig(context):
 
 
 def springs(rig, prefix):
+    from avatar_rig_defaults import spring_matches
     ext = getattr(rig.data, 'vrm_addon_extension', None)
-    return [s for s in ext.spring_bone1.springs if (s.vrm_name.startswith(prefix) or (prefix=='Secondary_Skirt_' and s.vrm_name.startswith('Secondary_HipSkirt_')))] if ext else []
+    return [s for s in ext.spring_bone1.springs if spring_matches(s.vrm_name,prefix)] if ext else []
 
 
 def follow_entries(rig, group):
@@ -226,8 +227,9 @@ def _initialize(rig):
         if not rig.get('hallway_knee_profile_initialized'):
             apply_follow(rig,settings.follow_groups['Skirt Knee'])
             rig['hallway_knee_profile_initialized']=1
-    for name in ('Skirt', 'Hair'):
-        prefix = 'Secondary_' + name + '_'
+    for name in ('Skirt', 'Hair', 'Accessory', 'Hanging Straps', 'Breast', 'Head Accessories'):
+        prefix = 'Secondary_Ornament_' if name=='Head Accessories' else 'Secondary_' + name + '_'
+        if name=='Hanging Straps':prefix='Secondary_Strap_'
         chains = springs(rig, prefix)
         if chains and name not in settings.spring_groups:
             group = settings.spring_groups.add()
@@ -371,10 +373,14 @@ def apply_spring(rig, group, field=None):
                         value *= group.non_root_stiffness
                     if joint.stiffness != value:
                         joint.stiffness = value
-            if field in (None, 'drag') and joint.drag_force != group.drag:
-                joint.drag_force = group.drag
-            if field in (None, 'gravity') and joint.gravity_power != group.gravity:
-                joint.gravity_power = group.gravity
+            if field in (None, 'drag'):
+                value = min(1., max(0., group.drag * joint.get('hallway_generated_drag_ratio', joint.get('hallway_hair_drag_ratio', 1.))))
+                if joint.drag_force != value:
+                    joint.drag_force = value
+            if field in (None, 'gravity'):
+                value = group.gravity * joint.get('hallway_generated_gravity_ratio', joint.get('hallway_hair_gravity_ratio', 1.))
+                if joint.gravity_power != value:
+                    joint.gravity_power = value
 
 
 def apply_thickness(rig, context=None):

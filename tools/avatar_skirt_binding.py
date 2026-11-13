@@ -211,14 +211,9 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
             k=max((i for i,c in enumerate(angular) if c[0]<=angle),default=len(angular)-1)
             a,names_a,points_a=angular[k];b,names_b,points_b=angular[(k+1)%len(angular)]
             fraction=((angle-a)%math.tau)/((b-a)%math.tau)
-            if attachment.lateral:
-                side_a=attachment.lateral_coordinate(points_a[0])
-                side_b=attachment.lateral_coordinate(points_b[0])
-                if side_a*side_b<0:
-                    # Front/back bridge is physically narrow even on a flared
-                    # hem; angular interpolation otherwise widens with radius.
-                    lateral=attachment.lateral_coordinate(p)
-                    fraction=smooth(.5+.5*lateral/attachment.midline_width*(1 if side_b>0 else -1))
+            # Keep the continuous circumferential interpolation across the
+            # centerline too. Compressing it into a narrow pelvis band creates
+            # a visible left/right crease in cross-waist straps.
             values={}
             for names,points,angular_weight in ((names_a,points_a,1-fraction),(names_b,points_b,fraction)):
                 if not all(points[i].z>points[i+1].z for i in range(len(points)-1)):

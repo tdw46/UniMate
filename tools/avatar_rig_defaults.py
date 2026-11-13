@@ -1,5 +1,6 @@
 """Shared generation and panel-reset defaults; no Blender registration needed."""
 import json
+import math
 
 FOLLOW = {
     'Skirt': .55,
@@ -8,9 +9,14 @@ FOLLOW = {
     'Skirt Knee Back': .50,
     'Skirt Support': .75,
 }
+# Scale hair gravity with its restoring force to retain the downward rest bias.
+# Hanging accessories retain gravity; contact margins are fitted independently.
 SPRINGS = {
+    'Head Accessories': dict(drag=.5, stiffness=1., non_root_stiffness=1., gravity=0.),
+    'Accessory': dict(drag=.4, stiffness=1.2, non_root_stiffness=1., gravity=.035),
+    'Hanging Straps': dict(drag=.15, stiffness=.12, non_root_stiffness=1., gravity=.035),
     'Skirt': dict(drag=.4, stiffness=1.6, non_root_stiffness=1., gravity=.025),
-    'Hair': dict(drag=.4, stiffness=1., non_root_stiffness=1., gravity=.035),
+    'Hair': dict(drag=.3, stiffness=.3, non_root_stiffness=1., gravity=.0105),
 }
 SKIRT_THICKNESS = 1.
 DRESS_FIT_STRENGTH = 1.
@@ -38,3 +44,57 @@ def profile_defaults(rig):
         springs['Skirt']['drag'] = .55
         springs['Skirt']['stiffness'] = 4.
     return dict(name='tight_long_dress' if tight else 'legacy', follow=follow, springs=springs)
+
+
+def spring_matches(name, prefix):
+    """Split existing generated accessories without renaming saved bones."""
+    if prefix.endswith('Strap_'):
+        return name.startswith(prefix[:-6]+'Accessory_') and '_Strand' in name
+    if prefix.endswith('Accessory_'):
+        return name.startswith(prefix) and '_Strand' not in name
+    return name.startswith(prefix) or (prefix.endswith('Skirt_') and name.startswith(prefix[:-6]+'HipSkirt_'))
+
+
+def hair_length_defaults(relative_length):
+    """Scale-independent short-to-long strand tuning, evaluated at generation.
+
+    Short strands use the authored short-hair VRM restoring/damping values.
+    Long strands retain the reviewed soft profile. Keep the requested downward
+    bias proportional to stiffness, independently of the source gravity value.
+    Smoothstep avoids a discontinuity when a strand crosses an anchor.
+    """
+    if not math.isfinite(relative_length) or relative_length < 0:
+        raise ValueError('Hair length must be finite and nonnegative')
+    t = min(1., max(0., (relative_length - .075) / (.23 - .075)))
+    t = t * t * (3. - 2. * t)
+    stiffness = 1. + (.3 - 1.) * t
+    return dict(stiffness=stiffness, drag=.5 + (.3 - .5) * t,
+                gravity=.035 * stiffness)
+
+
+def configure_hair_spring(spring, rig, height):
+    """Install generated-only ratios so panel edits preserve strand differences.
+
+    Height and rest heads must share rig-local units. This is deliberately an
+    explicit generation/update operation, never an implicit saved-rig migration.
+    Neither source-rig data, names nor materials participate in tuning.
+    """
+    if not math.isfinite(height) or height <= 0:
+        raise ValueError('Character height must be finite and positive')
+    bones = [rig.data.bones.get(j.node.bone_name) for j in spring.joints]
+    if len(bones) < 2 or any(b is None for b in bones):
+        return None
+    relative_length = sum((b.head_local-a.head_local).length
+                          for a, b in zip(bones, bones[1:])) / height
+    values = hair_length_defaults(relative_length)
+    base = SPRINGS['Hair']
+    spring['hallway_hair_profile_version'] = 1
+    spring['hallway_hair_relative_length'] = relative_length
+    for i, joint in enumerate(spring.joints):
+        joint['hallway_stiffness_ratio'] = values['stiffness'] / base['stiffness'] * max(0., 1.-.1*i)
+        joint['hallway_hair_drag_ratio'] = values['drag'] / base['drag']
+        joint['hallway_hair_gravity_ratio'] = values['gravity'] / base['gravity']
+        joint.stiffness = base['stiffness'] * joint['hallway_stiffness_ratio']
+        joint.drag_force = values['drag']
+        joint.gravity_power = values['gravity']
+    return dict(relative_length=relative_length, **values)

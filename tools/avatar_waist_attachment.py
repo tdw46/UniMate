@@ -1,4 +1,6 @@
 """Body-surface attachment for the fixed waistband; never edits geometry."""
+from avatar_material_roles import semantic_label
+
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 from mathutils.geometry import barycentric_transform
@@ -41,7 +43,7 @@ class WaistAttachment:
                                for v in obj.data.vertices)
             for tri in obj.data.loop_triangles:
                 mat = obj.data.materials[tri.material_index] if tri.material_index < len(obj.data.materials) else None
-                label = mat.name.lower() if mat else ''
+                label = semantic_label(mat.name) if mat else ''
                 if not any(token in label for token in ('skin', 'body')) or any(
                         token in label for token in ('cloth', 'skirt', 'bottom', 'hair')):
                     continue
@@ -66,7 +68,7 @@ class WaistAttachment:
                 result[self.torso[0]]=result.get(self.torso[0],0.)+w*(1.-t)
         return {n:w for n,w in result.items() if w>1e-10}
 
-    def sample(self, point):
+    def sample(self, point, *, side_filter=True):
         if self.tree:
             # Prefer the surface immediately underneath, not a nearby sleeve or
             # the opposite leg. A bounded nearest hit covers open body surfaces.
@@ -97,7 +99,8 @@ class WaistAttachment:
                 total = sum(values.values())
                 if total > 1e-8:
                     self.sampled += 1
-                    return self.side_owned(point,{n: w/total for n, w in values.items() if w > 1e-8})
+                    row = {n: w/total for n, w in values.items() if w > 1e-8}
+                    return self.side_owned(point,row) if side_filter else row
         self.fallback += 1
         # With no underlying body, a waistband follows the mapped pelvis.
         # This stays independent of leg follow and does not invent leg weights.

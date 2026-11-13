@@ -321,3 +321,7 @@ If you find UniMate useful in your research, please consider citing our work:
 The code in this repository is released under the [MIT License](LICENSE).
 
 The datasets remain governed by the licenses of their original sources: the [Mixamo](https://www.mixamo.com/) assets by Adobe's Mixamo terms of use, the [Objaverse-XL](https://objaverse.allenai.org/) assets by the license attached to each original object, and the Truebones ZOO motions by [Truebones](https://truebones.com)' commercial license. Please review and comply with the respective source licenses before using the data.
+
+## Blender mesh-only automatic rigging
+
+The Blender add-on can now predict a humanoid from selected meshes without an existing rig. See [setup, input boundaries and validation limits](tools/mesh_landmarks/README.md). This uses a separate local Make-It-Animatable engine; it does not use existing bone landmarks as generation inputs.

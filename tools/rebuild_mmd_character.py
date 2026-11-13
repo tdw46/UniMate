@@ -4,6 +4,8 @@ Keeps mesh topology, UVs, materials and every shape-key coordinate unchanged.
 The source rig supplies joint landmarks only, never bones, weights or physics.
 Run on an isolated scene; live application is a separate, guarded operation.
 """
+from avatar_material_roles import semantic_label
+
 import hashlib
 import json
 import sys
@@ -119,14 +121,17 @@ def specs_from_mmd(source):
     return specs
 
 
-def rebuild(source, meshes, specs=None, skirt_segments=None):
-    assert all(pb.matrix_basis == Matrix.Identity(4) for pb in source.pose.bones), 'Source must be neutral'
-    assert source.matrix_world == Matrix.Identity(4), 'Apply rig transforms first'
+def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, binding=None):
+    if source is not None:
+        assert all(pb.matrix_basis == Matrix.Identity(4) for pb in source.pose.bones), 'Source must be neutral'
+        assert source.matrix_world == Matrix.Identity(4), 'Apply rig transforms first'
+    elif specs is None:
+        raise ValueError('Mesh-only generation requires predicted joints')
     assert all(o.matrix_world == Matrix.Identity(4) for o in meshes), 'Mesh transforms must match rig space'
     before = {o.name:fingerprint(o) for o in meshes}
     specs = specs_from_mmd(source) if specs is None else specs
-    data=bpy.data.armatures.new('UniMate fresh humanoid')
-    rig=bpy.data.objects.new(source.name+'_UniMate',data)
+    data=bpy.data.armatures.new('Hallway fresh humanoid')
+    rig=bpy.data.objects.new((source.name if source else 'Character')+'_Hallway',data)
     bpy.context.scene.collection.objects.link(rig)
     bpy.ops.object.select_all(action='DESELECT'); rig.select_set(True)
     bpy.context.view_layer.objects.active=rig
@@ -139,93 +144,29 @@ def rebuild(source, meshes, specs=None, skirt_segments=None):
     for obj in meshes:
         obj.vertex_groups.clear();obj.parent=None
         for mod in list(obj.modifiers):
-            if mod.type=='ARMATURE' and mod.object==source:obj.modifiers.remove(mod)
-    bpy.data.objects.remove(source,do_unlink=True)
-    # One joined temporary surface gives disconnected facial parts and the neck
-    # the same heat domain; original meshes and their shape keys are untouched.
-    vertices,faces,ranges=[],[],{}
-    heat_domains=[]
-    rigid = set()
-    for obj in meshes:
-        labels={obj.data.materials[p.material_index].name.lower() for p in obj.data.polygons}
-        facial=('face','eye','iris','mouth','teeth','double','hair','headaccessory')
-        if all(any(t in label for t in facial) for label in labels):
-            rigid.add(obj.name)
-            continue
-        ranges[obj.name]=(len(vertices),len(obj.data.vertices))
-        vertices.extend(tuple(v.co) for v in obj.data.vertices)
-        offset=ranges[obj.name][0]
-        faces.extend(tuple(offset+i for i in p.vertices) for p in obj.data.polygons)
-        material_faces={}
-        for polygon in obj.data.polygons:
-            face=tuple(offset+i for i in polygon.vertices)
-            material_faces.setdefault(polygon.material_index,[]).append(face)
-        for material_index, domain_faces in material_faces.items():
-            heat_domains.append((f'{obj.name}:material:{material_index}',domain_faces))
-    proxy_data=bpy.data.meshes.new('Fresh heat surface')
-    proxy_data.from_pydata(vertices,[],faces);proxy_data.update()
-    proxy=bpy.data.objects.new('Fresh heat surface',proxy_data)
-    bpy.context.scene.collection.objects.link(proxy)
-    heat=repaired_heat([proxy],rig,allow_unweighted=True)
-    solved={v.index:weights(proxy,v.index) for v in proxy.data.vertices}
-    proxy.data.calc_loop_triangles()
-    triangles=[tuple(t.vertices) for t in proxy.data.loop_triangles if all(solved[i] for i in t.vertices)]
-    fallback=None
-    if not triangles:
-        from avatar_heat_fallback import seed_material_heat
-        fallback=seed_material_heat(proxy,rig,heat_domains)
-        heat.append(fallback)
-        solved={v.index:weights(proxy,v.index) for v in proxy_data.vertices}
-        triangles=[tuple(t.vertices) for t in proxy_data.loop_triangles if all(solved[i] for i in t.vertices)]
-    assert triangles,'Heat produced no usable surface'
-    tree=BVHTree.FromPolygons([v.co for v in proxy.data.vertices],triangles,all_triangles=True)
-    transferred=0;max_distance=0.
-    heat_transfer_limit=rig.data.bones['UpperArm.L'].length*.75
-    for v in proxy.data.vertices:
-        if solved[v.index]:continue
-        hit,normal,index,distance=tree.find_nearest(v.co)
-        maximum=heat_transfer_limit
-        assert index is not None and distance<maximum, f'Unseeded surface too far from heat solution: vertex {v.index}, distance {distance}, limit {maximum}, position {tuple(v.co)}'
-        tri=triangles[index]
-        bary=barycentric_transform(hit,*(proxy.data.vertices[i].co for i in tri),Vector((1,0,0)),Vector((0,1,0)),Vector((0,0,1)))
-        values={}
-        for i,factor in zip(tri,bary):
-            for name,w in solved[i].items():values[name]=values.get(name,0)+max(0.,factor)*w
-        total=sum(values.values());assert total>0
-        assign(proxy,[v.index],{n:w/total for n,w in values.items()})
-        transferred+=1;max_distance=max(max_distance,distance)
-    heat.append(dict(unseeded_vertices_transferred=transferred,maximum_surface_distance=max_distance,source='new heat surface only'))
-    for obj in meshes:
-        count=len(obj.data.vertices)
-        if obj.name not in rigid:
-            start,_=ranges[obj.name]
-            for v in obj.data.vertices:
-                values=weights(proxy,start+v.index);total=sum(values.values())
-                assert total>0
-                assign(obj,[v.index],{n:w/total for n,w in values.items()})
-        labels={obj.data.materials[p.material_index].name.lower() for p in obj.data.polygons}
-        # Semantic facial surfaces and hair are anchored to Head before adding
-        # free hair chains. Mixed body objects retain their ordinary heat solve.
-        facial=('face','eye','iris','mouth','teeth','double','hair','headaccessory')
-        if all(any(t in label for t in facial) for label in labels):
-            assign(obj,list(range(count)),{'Head':1.});obj['binding_role']='head'
-        else:obj['binding_role']='body'
-        for label in obj.data.materials:
-            if label and any(t in label.name.lower() for t in ('skin','face')):label['binding_surface']='skin'
-        mod=obj.modifiers.new('UniMate deform','ARMATURE');mod.object=rig
-        obj.parent=rig
-    bpy.data.objects.remove(proxy,do_unlink=True);bpy.data.meshes.remove(proxy_data)
-    from avatar_leg_binding import bind_leg_domains
-    leg_binding=bind_leg_domains(rig,meshes)
-    enforce_head_cap(meshes,rig)
-    seams=correct_skin_seams(meshes,rig,max_rings=2)
-    springs=generate_secondary(rig,meshes,skirt_segments=skirt_segments)
+            if mod.type=='ARMATURE':obj.modifiers.remove(mod)
+    if source is not None: bpy.data.objects.remove(source,do_unlink=True)
+    if binding is None:
+        from avatar_arp_binding import bind_generated
+        binding=bind_generated(rig,meshes)
+    else:
+        from mesh_landmarks import skin_binding
+        from avatar_influence_domains import head_domains
+        binding=skin_binding.apply(rig,meshes,binding,head_domains(rig,meshes))
+        from avatar_hand_binding import refine_hand_weights
+        binding['hand_cleanup']=refine_hand_weights(rig,meshes)
+    from avatar_springs import plan_secondary
+    springs=generate_secondary(rig,meshes,skirt_segments=skirt_segments,refine_cloth=False) if secondary and plan_secondary(rig,meshes)['chains'] else dict(chains=0)
     after={o.name:fingerprint(o) for o in meshes}
     assert before==after,'Geometry or shape keys changed'
+    # Binding remains geometry preserving. Local attached-cloth tessellation
+    # is a separate stage with exact old-vertex and interpolated surface checks.
+    from avatar_cloth_overlays import refine_bound_overlays
+    refine_bound_overlays(rig,meshes,springs.get('cloth_overlays',{}))
     sums=[sum(weights(o,v.index).values()) for o in meshes for v in o.data.vertices]
     assert min(sums)>.9999 and max(sums)<1.0001, (min(sums),max(sums))
     assert all(g.name in rig.data.bones for o in meshes for g in o.vertex_groups)
-    return rig,dict(mesh_hashes=before,heat=heat,leg_binding=leg_binding,seams=seams,springs=springs,
+    return rig,dict(mesh_hashes=before,refined_mesh_hashes={o.name:fingerprint(o) for o in meshes},binding=binding,springs=springs,
                     bones=len(rig.data.bones),vertices=len(sums),weight_sum_range=[min(sums),max(sums)],
                     shape_keys={o.name:len(o.data.shape_keys.key_blocks) if o.data.shape_keys else 0 for o in meshes})
 

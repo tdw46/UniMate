@@ -262,6 +262,8 @@ CLASSES = (HALLWAY_OT_ResetRigSettings, HALLWAY_OT_ConfigureRig, HALLWAY_OT_Appl
 
 
 def register():
+    import ui_mesh_rig
+    ui_mesh_rig.register()
     from properties_hallway_rig import register as register_properties
     register_properties()
     import avatar_physics_preview
@@ -274,6 +276,8 @@ def register():
 
 
 def unregister():
+    import ui_mesh_rig
+    ui_mesh_rig.unregister()
     import avatar_collider_overlay
     avatar_collider_overlay.unregister()
     for cls in reversed(CLASSES):

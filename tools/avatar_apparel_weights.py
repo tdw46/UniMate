@@ -3,6 +3,8 @@
 No avatar identifiers, source vertex counts, or imported skin weights are used.
 Coordinates must be baked into the new rig local space, with Z up and X lateral.
 """
+from avatar_material_roles import semantic_label
+
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 from mathutils.geometry import barycentric_transform
@@ -65,13 +67,16 @@ def hair_free_top(points, height, neck_z, crown_z):
     return float(top) if top-lo >= height*.035 else None
 
 
-def head_cap_vertices(meshes, rig):
+def head_cap_vertices(meshes, rig, material_roles=None):
     """Find cranial skin and the fixed hair cap in the prepared rest pose.
 
     A head/face surface establishes the skull envelope. This also catches scalp
     islands in mixed body meshes without capturing nearby sleeves or hands.
     Hanging strands below the head attachment remain available for springs.
     """
+    from avatar_hair_regions import hair_images, extend_hair_region
+    roles = material_roles or {}
+    images = hair_images(meshes, roles)
     head_z = rig.data.bones['Head'].head_local.z
     head_xy = np.array(tuple(rig.data.bones['Head'].head_local))[:2]
     humanoid=getattr(getattr(rig.data,'vrm_addon_extension',None),'vrm1',None)
@@ -87,11 +92,12 @@ def head_cap_vertices(meshes, rig):
         skin[obj.name], hair[obj.name] = set(), set()
         for face in obj.data.polygons:
             mat = obj.data.materials[face.material_index] if face.material_index < len(obj.data.materials) else None
-            label = mat.name.lower() if mat else ''
+            label = roles.get(mat.name, semantic_label(mat.name)) if mat else ''
             if 'hair' in label:
                 hair[obj.name].update(face.vertices)
             elif any(token in label for token in ('skin', 'face')):
                 skin[obj.name].update(face.vertices)
+        hair[obj.name] = extend_hair_region(obj, rig, points[obj.name], hair[obj.name], roles, images)
         if obj.get('binding_role') == 'head':
             reference.extend(points[obj.name][i] for i in skin[obj.name]
                              if points[obj.name][i, 2] >= head_z)

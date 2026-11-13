@@ -1,5 +1,6 @@
 """Surface-fitted upper-skirt pivots and locally blended spring weights."""
 import bpy
+import math
 from mathutils import Vector
 
 PREFIX = 'Secondary_SkirtSupport_'
@@ -28,7 +29,8 @@ def _surface(rig, meshes, family):
         offset = len(points)
         points.extend(matrix @ v.co for v in obj.data.vertices)
         triangles.extend(tuple(offset + i for i in t.vertices) for t in obj.data.loop_triangles if t.material_index in slots)
-    return BVHTree.FromPolygons(points, triangles, all_triangles=True) if triangles else None
+    return (BVHTree.FromPolygons(points, triangles, all_triangles=True),
+            [points[i] for i in sorted({i for tri in triangles for i in tri})]) if triangles else (None, [])
 
 
 def ensure_support(rig, meshes, families):
@@ -42,7 +44,7 @@ def ensure_support(rig, meshes, families):
     mid = (thighs[0].head_local + thighs[1].head_local) * .5
     targets = {}
     for family, chains in families.items():
-        surface = _surface(rig, meshes, family)
+        surface, surface_points = _surface(rig, meshes, family)
         center = sum((points[0] for _, points in chains), Vector()) / len(chains)
         for names, points in chains:
             root = rig.data.bones[names[0]]
@@ -53,6 +55,15 @@ def ensure_support(rig, meshes, families):
             # Keep the pivot just below the garment attachment. A lower pivot
             # leaves too little room for the upper spring to clear a raised thigh.
             z = min(top-height*.003, max(top-height*.005, leg.head_local.z+leg.length*.08))
+            # Sloped/asymmetric waistbands have a different upper edge in
+            # each angular sector. Fit to that local geometry, never the tallest
+            # point elsewhere on the garment or an original rig landmark.
+            radial = Vector((points[0].x-center.x, points[0].y-center.y, 0.)).normalized()
+            cosine = math.cos(math.tau / max(6, len(chains)) * .75)
+            local = [p for p in surface_points
+                     if Vector((p.x-center.x, p.y-center.y, 0.)).normalized().dot(radial) >= cosine]
+            if local:
+                z = min(z, max(p.z for p in local)-height*.003)
             guide = points[0] + (points[0]-points[1]) * ((z-points[0].z)/(points[0].z-points[1].z))
             origin = Vector((center.x, center.y, z))
             direction = guide-origin
@@ -73,7 +84,12 @@ def ensure_support(rig, meshes, families):
             elif surface:
                 pivot, _, _, _ = surface.find_nearest(guide)
                 if pivot is None or abs(pivot.z-z) > height*.04:
-                    raise ValueError('No upper garment surface for ' + names[0])
+                    # An unconstrained nearest query may choose a lower pleat
+                    # even though the upper edge exists. Search the same local
+                    # height band explicitly; keep the original height bound.
+                    upper = [p for p in local if abs(p.z-z) <= height*.04]
+                    if not upper:raise ValueError('No upper garment surface for ' + names[0])
+                    pivot = min(upper, key=lambda p:(p-guide).length_squared).copy()
             else:
                 raise ValueError('No garment surface for ' + names[0])
             if pivot.z <= leg.head_local.z:
