@@ -30,7 +30,7 @@ def _barycentric(p, a, b, c):
     return out/out.sum()
 
 
-def bind_garment_attachments(rig, meshes, *, preserve_anatomical=False):
+def bind_garment_attachments(rig, meshes, *, preserve_anatomical=False, rigid_mounts=None):
     """Transfer soft patches per vertex and solid assemblies at one anchor.
 
     Generic semantic hints disambiguate cloth from hardware. Spatial admission
@@ -114,7 +114,17 @@ def bind_garment_attachments(rig, meshes, *, preserve_anatomical=False):
         else:assemblies.append(assembly(r))
     report=[]
     for assembly in assemblies:
-        q=assembly['seed']['q'];samples=[sample(p) for p in q]
+        seed = assembly['seed']
+        mount = (rigid_mounts or {}).get((seed['obj'].name, seed['ids'][0]))
+        if mount is not None:
+            # All caps, pins and handles belonging to this shell inherit
+            # the same rest attachment, including parts proud of the strap.
+            for part in assembly['parts']:
+                assign(part['obj'], part['ids'], mount)
+                report.append(dict(object=part['obj'].name, ids=part['ids'], mode='solid',
+                                   anchor=seed['ids'][0], weights=mount))
+            continue
+        q=seed['q'];samples=[sample(p) for p in q]
         # Closest cloth-facing patch is the attachment, not the object's tip.
         order=np.argsort([s[1] for s in samples])[:max(3,len(q)//8)]
         if np.median([samples[i][1] for i in order])>height*.035:continue

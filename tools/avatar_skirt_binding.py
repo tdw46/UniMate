@@ -120,6 +120,22 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
         first_segment=min(points[0].z-points[1].z for _,points in family)
         lift=min((top-old_start)*.65,first_segment*.25)
         bounds[label]=(top,bottom,old_start,first_segment,lift)
+    # The opening may widen or curve below the waist. Use strip positions
+    # at the vertex height so the slit edge remains owned by its own guide.
+    # Existing generated rigs keep their original root-based interpolation.
+    from bisect import bisect_left
+    surface_rows = {}
+    segment_centers = {}
+    for label, family in families.items():
+        center = rig.data.bones[family[0][0][0]].get('hallway_skirt_surface_center')
+        if center is not None:
+            surface_rows[label] = (center, [(names, pts, [-p.z for p in pts]) for names, pts in family])
+            for names, pts in family:
+                # Opening banks can need several short segments to trace a
+                # curved edge. Blend continuously along that irregular rail.
+                # Keep the established joint bands on ordinary garment strips.
+                if rig.data.bones[names[0]].get("hallway_opening_guide"):
+                    segment_centers[names[0]] = [-(a.z+b.z)*.5 for a,b in zip(pts, pts[1:])]
     explicit = {(r['obj'].name, i): r['names'][0][0].rsplit('_', 2)[0]
                 for r in (regions or []) for i in r['ids']}
     changed = 0
@@ -204,10 +220,23 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
                 changed += 1
                 attached += 1
                 continue
-            center=sum((points[0] for _,points in family),Vector())/len(family)
-            angular=sorted((math.atan2(points[0].y-center.y,points[0].x-center.x)%math.tau,names,points)
-                           for names,points in family)
-            angle=math.atan2(p.y-center.y,p.x-center.x)%math.tau
+            if label in surface_rows:
+                center, strips = surface_rows[label]
+                cx, cy = center
+                angular = []
+                for names, points, depths in strips:
+                    j = max(1, min(len(points)-1, bisect_left(depths, -p.z)))
+                    v, w = points[j-1], points[j]
+                    t = max(0., min(1., (p.z-v.z)/(w.z-v.z)))
+                    x, y = v.x+t*(w.x-v.x), v.y+t*(w.y-v.y)
+                    angular.append((math.atan2(y-cy, x-cx) % math.tau, names, points))
+                angular.sort(key=lambda entry: entry[0])
+            else:
+                center=sum((points[0] for _,points in family),Vector())/len(family)
+                cx, cy = center.x, center.y
+                angular=sorted((math.atan2(points[0].y-cy,points[0].x-cx)%math.tau,names,points)
+                               for names,points in family)
+            angle=math.atan2(p.y-cy,p.x-cx)%math.tau
             k=max((i for i,c in enumerate(angular) if c[0]<=angle),default=len(angular)-1)
             a,names_a,points_a=angular[k];b,names_b,points_b=angular[(k+1)%len(angular)]
             fraction=((angle-a)%math.tau)/((b-a)%math.tau)
@@ -218,17 +247,26 @@ def rebind_skirt_strips(rig, meshes, joint_blend=0.2, waist_fraction=WAIST_FRACT
             for names,points,angular_weight in ((names_a,points_a,1-fraction),(names_b,points_b,fraction)):
                 if not all(points[i].z>points[i+1].z for i in range(len(points)-1)):
                     raise ValueError('Strip binding requires descending generated skirt guides')
-                index=next((i for i in range(len(points)-1) if p.z>=points[i+1].z),len(points)-2)
-                local={names[index]:1.}
-                for j in range(1,len(points)-1):
-                    # Broaden only the thigh/calf spring junction. Keep the
-                    # cloth spring-weighted and the fixed waist band intact.
-                    blend=knee_joint_blend if j==knee_joints[names[0]] else joint_blend
-                    band=min(points[j-1].z-points[j].z,points[j].z-points[j+1].z)*blend
-                    if abs(p.z-points[j].z)<band:
-                        t=smooth((points[j].z+band-p.z)/(2*band))
-                        local={names[j-1]:1-t,names[j]:t}
-                        break
+                centers = segment_centers.get(names[0])
+                if centers is not None:
+                    j = bisect_left(centers, -p.z)
+                    if j == 0 or j == len(centers):
+                        local = {names[min(j, len(centers)-1)]: 1.}
+                    else:
+                        t = smooth((-p.z-centers[j-1])/(centers[j]-centers[j-1]))
+                        local = {names[j-1]: 1-t, names[j]: t}
+                else:
+                    index=next((i for i in range(len(points)-1) if p.z>=points[i+1].z),len(points)-2)
+                    local={names[index]:1.}
+                    for j in range(1,len(points)-1):
+                        # Broaden only the thigh/calf spring junction. Keep the
+                        # cloth spring-weighted and the fixed waist band intact.
+                        blend=knee_joint_blend if j==knee_joints[names[0]] else joint_blend
+                        band=min(points[j-1].z-points[j].z,points[j].z-points[j+1].z)*blend
+                        if abs(p.z-points[j].z)<band:
+                            t=smooth((points[j].z+band-p.z)/(2*band))
+                            local={names[j-1]:1-t,names[j]:t}
+                            break
                 local={n:w*free for n,w in local.items()}
                 for n,w in body.items():local[n]=local.get(n,0.)+w*(1-free)
                 for n,w in local.items():values[n]=values.get(n,0.)+w*angular_weight

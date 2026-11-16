@@ -129,6 +129,7 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
     sb=rig.data.vrm_addon_extension.spring_bone1
     from avatar_contact_colliders import owned_group
     owned_groups={g.uuid for g in sb.collider_groups if g.vrm_name in names
+                  or ('accessory' in roles and g.vrm_name.startswith(PREFIX+'StrapLeg_'))
                   or ('skirt' in roles and owned_group(g.vrm_name))}
     # A group shared by artist springs is not ours to replace.
     shared={ref.collider_group_uuid for spring in sb.springs
@@ -167,6 +168,10 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
                 for role,group in groups.items():
                     if spring.vrm_name.startswith(PREFIX+role.title()+'_'):
                         ref=spring.collider_groups.add();ref.collider_group_uuid=group.uuid
+            if 'accessory' in roles:
+                from avatar_strap_contacts import install_strap_contacts
+                install_strap_contacts(rig, meshes, PREFIX, plan['height'])
+                organize_colliders(rig)
             cleanup_orphan_displays(rig)
             rig.data.pose_position=previous;bpy.context.view_layer.update()
         finally:

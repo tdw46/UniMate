@@ -188,48 +188,77 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             continue
         p = points[skirt]
         lo, hi = p[:, 2].min(), p[:, 2].max()
-        delta = p[:, :2]-center
-        angles = np.arctan2(delta[:, 1], delta[:, 0]) % math.tau
-        # A skirt must surround the pelvis at multiple heights. Require faces
-        # crossing the sagittal plane below the waist; separated pants fail.
-        valid,coverage=_skirt_coverage(obj,points,skirt,center,height)
-        open_hem = (not valid and len(skirt)>100 and min(coverage)>=4 and max(coverage)>=7
-                    and hi-lo>height*.2 and np.ptp(p[:,0])>height*.15)
-        if not valid and not open_hem:
+        from avatar_skirt_surface import SkirtSurface
+        obj.data.calc_loop_triangles()
+        owned = set(skirt)
+        triangles = [tuple(t.vertices) for t in obj.data.loop_triangles if owned.issuperset(t.vertices)]
+        if not triangles or hi-lo <= height * 1e-6:
+            continue
+        surface = SkirtSurface(points[triangles], center, hi-(hi-lo)*WAIST_FRACTION, skirt_sectors)
+        # Test the occupied cloth surface, including low-poly skirts whose
+        # vertices all lie on the waistband and hem. Pants have no front or
+        # back bridge between the legs in the lower skirt.
+        span = surface.top - surface.bottom
+        if span <= surface.eps:
+            continue
+        slices = [surface.section(surface.top - span*t) for t in (.2, .5, .75)]
+        coverage = [sum(section.hit(j*math.tau/8) is not None for j in range(8))
+                    for section in slices]
+        bridge = any(hit is not None and np.linalg.norm(hit) > .12*np.ptp(p[:, 0])
+                     for angle in (math.pi/2, -math.pi/2) for hit in [slices[-1].hit(angle)])
+        slots = {f.material_index for f in obj.data.polygons if owned.issuperset(f.vertices)}
+        materials = [obj.data.materials[i] for i in slots if i < len(obj.data.materials)]
+        named_skirt = any(mat and (roles.get(mat.name) == 'skirt' or
+                                   any(t in semantic_label(mat.name) for t in ('skirt', 'hem')))
+                          for mat in materials)
+        open_panel = named_skirt and surface.opening and any(
+            slices[0].hit(angle) is not None for angle in (math.pi/2, -math.pi/2))
+        if not (bridge or open_panel) or min(coverage) < 3 or max(coverage) < 5:
             rejected.append(dict(object=obj.name, role='skirt', reason='Not a continuous circumferential skirt', coverage=coverage))
             continue
         skirt_resolution = skirt_segments if skirt_segments is not None else segments
         names_by_sector = []
-        radii = np.linalg.norm(delta, axis=1)
+        guide_angles = []
         skirt_index = sum(r['role'] == 'skirt' for r in regions)
-        for sector in range(skirt_sectors):
-            from avatar_dress import skirt_sector_angle
-            angle = skirt_sector_angle(sector,skirt_sectors)
-            angular_distance = np.abs((angles-angle+math.pi) % math.tau-math.pi)
-            line = []
+        skirt_chains = []
+        for sector, angle in enumerate(surface.angles):
+            interval = surface.interval(sector)
+            if interval is None:
+                continue
+            top, sector_lo = interval
             side = 'L' if math.cos(angle) >= 0 else 'R'
-            lower_leg=limb('left' if side=='L' else 'right','lower_leg','Shin.'+side,'LeftLeg' if side=='L' else 'RightLeg')
-            calf=rig.data.bones[lower_leg]
-            sector_lo=lo
-            if open_hem:
-                band=p[angular_distance<math.tau/skirt_sectors]
-                if len(band):sector_lo=float(np.quantile(band[:,2],.03))
+            lower_leg = shins[0 if side == 'L' else 1]
+            calf = rig.data.bones[lower_leg]
             from avatar_cloth_handoff import cloth_segments
-            resolution=cloth_segments(hi-(hi-lo)*WAIST_FRACTION-sector_lo,height,skirt_resolution)
-            profile=dress_profile(hi-(hi-lo)*WAIST_FRACTION,sector_lo,calf.head_local.z,calf.tail_local.z,resolution)
-            for z in profile['heights']:
-                score = angular_distance/(math.tau/skirt_sectors) + np.abs(p[:, 2]-z)/((hi-lo)/skirt_resolution)
-                near = np.argsort(score)[:max(4, len(p)//(skirt_sectors*skirt_resolution))]
-                radius = float(np.median(radii[near]))
-                line.append(Vector((* (center+radius*np.array((math.cos(angle), math.sin(angle)))), z)))
+            resolution = cloth_segments(top-sector_lo, height, skirt_resolution)
+            profile = dress_profile(top, sector_lo, calf.head_local.z, calf.tail_local.z, resolution)
+            coordinates = surface.guide(sector, profile)
+            if coordinates is None:
+                continue
+            line = [Vector(point) for point in coordinates]
+            guide_angles.append(angle)
             names = [f'{PREFIX}Skirt_{skirt_index:02d}_{sector:02d}_{i:02d}' for i in range(len(line))]
-            chains.append(dict(role='skirt', names=names, line=line, parent='Hips',
+            skirt_chains.append(dict(role='skirt', names=names, line=line, parent='Hips',
                                follow=f'{PREFIX}SkirtFollow_{skirt_index:02d}_{sector:02d}',
                                leg=thighs[side], lower_leg=lower_leg, dress=profile,
-                               follow_influence=INFLUENCE, garment_top=float(hi), garment_bottom=float(sector_lo)))
+                               follow_influence=INFLUENCE, opening_guide=bool(surface.opening and sector in surface.front),
+                               garment_top=float(hi), garment_bottom=float(sector_lo)))
             names_by_sector.append(names)
+        if len(names_by_sector) < 2:
+            continue
+        chains.extend(skirt_chains)
+        if include_hair:
+            from avatar_garment_straps import plan_straps
+            excluded = {i for r in regions if r['obj'] == obj for i in r['ids']}
+            straps, bindings = plan_straps(obj, points, skirt, triangles, surface, height,
+                                          PREFIX, skirt_index, excluded, skirt_chains)
+            chains.extend(straps)
+            regions.extend(bindings)
+            if bindings:
+                mounted = set().union(*(r['ids'] for r in bindings))
+                skirt = [i for i in skirt if i not in mounted]
         regions.append(dict(obj=obj, ids=skirt, role='skirt', names=names_by_sector,
-                            lo=float(lo), hi=float(hi), center=center.tolist()))
+                            lo=float(lo), hi=float(hi), center=center.tolist(), angles=guide_angles))
     if include_hair:
         for obj in meshes:
             excluded={i for r in regions if r['obj']==obj for i in r['ids']}
@@ -256,7 +285,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     cap = head_cap_vertices(meshes, rig, roles) if include_hair else {}
     regions.extend(dict(obj=obj, ids=set(cap[obj.name])-{i for r in regions if r['obj']==obj for i in r['ids']}, role='head_cap')
                    for obj in meshes if obj.name in cap)
-    return dict(chains=chains, regions=regions, rejected=rejected, height=float(height), points=all_points, accessories=accessory_reports)
+    return dict(chains=chains, regions=regions, rejected=rejected, skirt_center=center.tolist(), height=float(height), points=all_points, accessories=accessory_reports)
 
 
 def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None, skirt_segments=None, refine_cloth=True):
@@ -303,18 +332,35 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                 # Keep the control exportable, but give it no vertex weights.
                 follow.use_deform = True
                 chain['parent'] = follow.name
+            if 'panel_follow' in chain:
+                mount = rig.data.edit_bones.new(chain['load_parent'])
+                driver = rig.data.edit_bones[chain['panel_follow']]
+                set_rest_frame(mount, driver)
+                shift = (chain['line'][chain['load_index']]-driver.head)*chain['mount_fraction']
+                mount.head = driver.head+shift
+                mount.tail = driver.tail+shift
+                mount.roll = driver.roll
             for i, (name, point) in enumerate(zip(chain['names'], chain['line'])):
                 bone = rig.data.edit_bones.new(name)
                 bone.head = point
                 bone.tail = chain['line'][i+1] if i < len(chain['line'])-1 else point+(point-chain['line'][i-1])*.1
-                bone.parent = rig.data.edit_bones[chain['parent'] if i == 0 else chain['names'][i-1]]
-                bone.use_connect = i > 0
+                parent = chain['parent'] if i == 0 else chain['names'][i-1]
+                starts_at_load = i == chain.get('load_index')
+                if starts_at_load:
+                    parent = chain['load_parent']
+                elif 'mount_parents' in chain:
+                    parent = chain['mount_parents'][i]
+                bone.parent = rig.data.edit_bones[parent]
+                bone.use_connect = i > 0 and not starts_at_load and 'mount_parents' not in chain
                 if chain['role'] == 'skirt' and i == 0:
                     # Binding runs before the upper/lower spring split. Mark
                     # its knee now so fresh generation gets the same smoothing.
                     if chain['dress']['lower_follow']:
                         bone['hallway_dress_knee_index'] = chain['dress']['knee_index']
                     bone['hallway_bilateral_chain'] = True
+                    if chain['opening_guide']:
+                        bone['hallway_opening_guide'] = True
+                    bone['hallway_skirt_surface_center'] = plan['skirt_center']
                     bone['hallway_garment_top'] = chain['garment_top']
                     bone['hallway_garment_bottom'] = chain['garment_bottom']
                 bone.use_deform = i < len(chain['line'])-1
@@ -322,6 +368,9 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                     bone['unimate_fixed_hair_root'] = True
         bpy.ops.object.mode_set(mode='OBJECT')
         for chain in plan['chains']:
+            if 'panel_follow' in chain:
+                constraint = rig.pose.bones[chain['load_parent']].constraints.new('COPY_ROTATION')
+                set_constraint(constraint, rig, chain['panel_follow'], 1.)
             if chain['role'] != 'skirt':
                 continue
             constraint = rig.pose.bones[chain['follow']].constraints.new('COPY_ROTATION')
@@ -341,11 +390,9 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                     values = _vertical_weights(region['names'][0], 'Head', t, smooth_transition=True)
                 else:
                     angle = math.atan2(p[1]-region['center'][1], p[0]-region['center'][0]) % math.tau
-                    from avatar_dress import skirt_sector_angle
-                    sector = ((angle-skirt_sector_angle(0,skirt_sectors)) % math.tau)/math.tau*skirt_sectors
-                    a = int(sector)
+                    from avatar_skirt_surface import angle_weights
                     values = {}
-                    for s, factor in ((a, 1-(sector-a)), ((a+1) % skirt_sectors, sector-a)):
+                    for s, factor in angle_weights(region['angles'], angle):
                         for name, weight in _vertical_weights(region['names'][s], 'Hips', t).items():
                             values[name] = values.get(name, 0)+weight*factor
                 assign(obj, [index], values)
@@ -373,14 +420,26 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         metadata['front_pelvis_attachment']=strengthen_front_pelvis(rig,meshes,plan)
         metadata['cross_waist_smoothing']=smooth_cross_waist(rig,meshes,plan)
         from avatar_garment_attachments import bind_garment_attachments
-        metadata['garment_attachments']=bind_garment_attachments(rig,meshes)
+        rigid_mounts = {(r['obj'].name, i): row for r in plan['regions'] if r.get('garment_strap')
+                       for i, row in r['values'].items() if i in r['hardware']}
+        metadata['garment_attachments']=bind_garment_attachments(rig,meshes,rigid_mounts=rigid_mounts)
         from avatar_cloth_overlays import bind_cloth_overlays, refine_bound_overlays
         metadata['cloth_overlays']=bind_cloth_overlays(rig,meshes,refine=False)
         from avatar_cloth_smoothing import smooth_skirt_distribution
         metadata['skirt_distribution_smoothing']=smooth_skirt_distribution(
             rig,meshes,plan,protected=metadata['cloth_overlays'])
+        # Generic nearby-cloth transfers can also reach a mounted fitting.
+        # Its independent carrier has final ownership over that small domain.
+        for region in plan['regions']:
+            if region.get('garment_strap'):
+                for index, row in region['values'].items():
+                    assign(region['obj'], [index], row)
         # Re-sample only the cloth fraction; preserve the accepted body attachment.
-        metadata['garment_attachments']=bind_garment_attachments(rig,meshes,preserve_anatomical=True)
+        metadata['garment_attachments']=bind_garment_attachments(rig,meshes,preserve_anatomical=True,rigid_mounts=rigid_mounts)
+        from avatar_garment_straps import bind_panel_mount
+        for region in plan['regions']:
+            if region.get('panel_mount'):
+                bind_panel_mount(region)
         if refine_cloth:refine_bound_overlays(rig,meshes,metadata['cloth_overlays'])
         from avatar_cloth_contacts import install_overlay_contacts
         metadata['cloth_overlay_contacts']=install_overlay_contacts(rig,metadata['cloth_overlays'])
@@ -418,6 +477,21 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
     report['cloth_contact_response'] = stabilize_cloth_contacts(rig, rig.hallway_rig.spring_groups.get('Skirt'))
     for row in report['leg_follow']:
         row['influence'] = rig.pose.bones[row['bone']].constraints[0].influence
+    # Fit the limb surfaces after the mesh has its final skin weights.
+    suspended_roots = {c['names'][c['physics_start']] for c in plan['chains']
+                       if c.get('articulated_fittings')}
+    if suspended_roots:
+        for spring in rig.data.vrm_addon_extension.spring_bone1.springs:
+            if spring.joints and spring.joints[0].node.bone_name in suspended_roots:
+                spring['hallway_suspended_strap'] = True
+        from avatar_strap_contacts import install_strap_contacts
+        from avatar_vrm_colliders import organize_colliders
+        from avatar_skirt_fit_io import rest_edit
+        with rest_edit(rig):
+            install_strap_contacts(rig, meshes, PREFIX, plan['height'])
+            organize_colliders(rig)
+        spring_data = rig.data.vrm_addon_extension.spring_bone1
+        report.update(colliders=len(spring_data.colliders), collider_groups=len(spring_data.collider_groups))
     report['bone_collections'] = organize_bones(rig)
     return report
 
@@ -436,12 +510,12 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
     sb = ext.spring_bone1
     height = plan['height']
     from avatar_accessory_physics import physics_chains
-    for chain in physics_chains(plan['chains']):
+    for chain in physics_chains([c for c in plan['chains'] if 'mount_parents' not in c]):
         spring = sb.springs.add()
         spring.vrm_name = chain['names'][0].rsplit('_', 1)[0]
-        # No implicit center: body/object translation should excite the springs.
-        # Assign one only when the caller deliberately requests compensation.
-        spring.center.bone_name = spring_center or ''
+        # Honor an explicit rig-wide center. Floating loads otherwise swing
+        # in world space while their attachment tracks the supporting garment.
+        spring.center.bone_name = spring_center or chain.get('strap_center', '')
         hair = chain['role'] == 'hair'
         for i, name in enumerate(chain['names'][chain.get('physics_start', 0):]):
             joint = spring.joints.add()
@@ -451,6 +525,16 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
             joint.stiffness = defaults['stiffness'] * (1. if chain['role']=='ornament' or chain.get('serial_accessory') else 1-.10*i)
             joint.drag_force = defaults['drag']
             joint.gravity_power = defaults['gravity']
+            if chain.get('articulated_fittings'):
+                # Short links between fittings flex more easily. Let gravity
+                # carry the loaded web below its attachment as the leg recedes.
+                segment = rig.data.bones[name].length
+                joint.stiffness = .65 * min(1., segment / (.055 * height))
+                joint.drag_force = .46
+                joint.gravity_power = .23
+                joint['hallway_stiffness_ratio'] = joint.stiffness / defaults['stiffness']
+                joint['hallway_generated_drag_ratio'] = joint.drag_force / defaults['drag']
+                joint['hallway_generated_gravity_ratio'] = joint.gravity_power / defaults['gravity']
             joint.gravity_dir = (0, 0, -1)
             # Bone-point collisions need a margin for the skinned cloth between
             # adjacent chains, which can lie inside their collision envelope.
