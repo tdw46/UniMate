@@ -163,6 +163,8 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
     # is a separate stage with exact old-vertex and interpolated surface checks.
     from avatar_cloth_overlays import refine_bound_overlays
     refine_bound_overlays(rig,meshes,springs.get('cloth_overlays',{}))
+    from avatar_hinge_weights import refine_hinge_weights
+    binding['hinge_cleanup'] = refine_hinge_weights(rig, meshes)
     sums=[sum(weights(o,v.index).values()) for o in meshes for v in o.data.vertices]
     assert min(sums)>.9999 and max(sums)<1.0001, (min(sums),max(sums))
     assert all(g.name in rig.data.bones for o in meshes for g in o.vertex_groups)
