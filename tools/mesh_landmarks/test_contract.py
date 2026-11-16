@@ -16,6 +16,29 @@ class ContractTests(unittest.TestCase):
             if isinstance(node,ast.Import):self.assertNotIn('bpy',[x.name for x in node.names])
             if isinstance(node,ast.ImportFrom):self.assertNotEqual(node.module,'bpy')
         self.assertNotIn('validation-only',source)
+    def test_folded_leg_retries_with_central_triangles(self):
+        from unittest.mock import patch
+        from . import inference
+        vertices = np.zeros((360, 3))
+        vertices[:, 0] = np.tile([-.1, .1, 0], 120)
+        vertices[:, 2] = np.repeat(np.linspace(0, 2, 120), 3)
+        vertices[180:195, 1] = .8
+        faces = np.arange(len(vertices)).reshape(-1, 3)
+        upright = {side + part: {'head': [x, 0, z]}
+                   for side, x in [('Left', .1), ('Right', -.1)]
+                   for part, z in [('UpLeg', 1), ('Leg', .5), ('Foot', .1)]}
+        folded = dict(upright, LeftFoot={'head': [.1, .8, .9]})
+        original = {'joints': folded}
+        for alternate, should_use in ((upright, True), (folded, False)):
+            with patch.object(inference, '_predict_surface', side_effect=[original, {'joints': alternate}]) as run:
+                result = inference.predict(vertices, faces, None)
+                self.assertEqual(result.get('landmark_surface') == 'standing_body', should_use)
+                cut, triangles = run.call_args.args[:2]
+                self.assertTrue(np.all(cut[:, 1] == 0))
+                self.assertLess(triangles.max(), len(cut))
+        with patch.object(inference, '_predict_surface', return_value={'joints': upright}) as run:
+            inference.predict(vertices, faces, None)
+            self.assertEqual(run.call_count, 1)
     def test_fixed_topology_without_positions(self):
         root=tree();self.assertEqual(len(root),52);self.assertEqual(len(set(NAMES)),52)
         self.assertEqual(set(root.joints_list[0].__dataclass_fields__),{'name','index','parent','children','template_joints'})

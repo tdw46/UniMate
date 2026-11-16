@@ -32,6 +32,59 @@ def spring_samples(rig, role):
     return result
 
 
+def _panel_contacts(bone, role, leg, samples, garment, height, margin, close_panel=False, fitted_top=False):
+    """One-sided thigh, knee and calf supports for a midline sheet.
+
+    A cylindrical leg capsule rolls the middle rail into the crotch. Three
+    flatter capsules follow the leg profile, but present a broad surface
+    across adjacent cloth rails. Each guard belongs only to the facing sheet.
+    """
+    inv = bone.matrix_local.inverted()
+    # Angle each leg's contact face slightly outward on a narrow front sheet.
+    # This limits forward kick where the two broad knee guards overlap.
+    outward = .15 * np.sign(bone.head_local.x) if close_panel else 0.
+    normal = inv.to_3x3() @ Vector((outward, -1. if role=='frontpanel' else 1., 0.))
+    normal.y = 0.
+    if normal.length < 1e-5 or bone.length < 1e-6:
+        return []
+    normal.normalize()
+    n = np.asarray(normal)
+    refs = samples + garment
+    points = np.asarray([tuple(inv@point) for point,_,_ in refs])
+    hit = np.asarray([radius for _,radius,_ in refs])
+    leg = np.asarray([tuple(p) for p in leg]).reshape(-1,3)
+    radius_factor, allowance = (8., .014) if close_panel else (14., .026)
+    if fitted_top:
+        radius_factor, allowance = 3.5, .008
+    sections = []
+    for i in range(3):
+        lo,hi = i*bone.length/3.,(i+1)*bone.length/3.
+        band = leg[(leg[:,1]>=lo)&(leg[:,1]<=hi)]
+        depth = np.quantile(band@n,.96) if len(band)>=4 else .16*bone.length
+        depth = float(np.clip(depth,.035*bone.length,.4*bone.length))
+        # A tight front sheet needs a rounder contact face so the shin on
+        # backswing can pass its center. Broad panels retain the flatter face.
+        radius = min(2.4*bone.length, radius_factor * depth)
+        radial = points.copy()
+        radial[:,1] -= np.clip(radial[:,1],lo,hi)
+        def clearance(bound):
+            return np.linalg.norm(radial-(bound-radius)*n,axis=1)-radius-hit
+        # Move the curved face outwards only until its measured skin limit
+        # plus clearance allowance, stopping before any rest contact.
+        low,high = -2.*radius,depth+allowance*height
+        if clearance(low).min() < margin:
+            return []  # Fall back to the ordinary limb fit for this bone.
+        for _ in range(18):
+            mid = (low+high)*.5
+            if clearance(mid).min()>=margin:low=mid
+            else:high=mid
+        off = normal*(low-radius)
+        sections.append(dict(role=role,bone=bone.name,offset=list(off+Vector((0.,lo,0.))),
+            tail=list(off+Vector((0.,hi,0.))),radius=radius,body_radius=depth,
+            minimum_rest_clearance=float(clearance(low)[:len(samples)].min()),section=i))
+    return sections
+
+
 def plan_colliders(rig, meshes, material_roles=None):
     ext=rig.data.vrm_addon_extension
     humanoid=ext.vrm1.humanoid.human_bones
@@ -63,9 +116,21 @@ def plan_colliders(rig, meshes, material_roles=None):
                 'accessory':('hips','spine','chest','left_upper_leg','right_upper_leg','left_upper_arm','right_upper_arm'),
                 'skirt':('left_upper_leg','right_upper_leg','left_lower_leg','right_lower_leg'),
                 'hair':('head','neck','chest','left_upper_arm','right_upper_arm')}
+    for role in ('frontpanel', 'backpanel'):
+        role_nodes[role] = ('left_upper_leg','right_upper_leg','left_lower_leg','right_lower_leg')
+    for role in ('flowinghair', 'bowribbon', 'bowloop'):
+        role_nodes[role] = role_nodes['hair']
+    role_nodes['tail'] = ('hips',)
+    for side in ('left', 'right'):
+        role_nodes['armstrap_' + side[0]] = ('spine', 'chest', 'upper_chest',
+                                              side + '_shoulder', side + '_upper_arm')
     candidates=[];omitted=[]
     for role,nodes in role_nodes.items():
         samples=spring_samples(rig,role)
+        top_samples = []
+        if role == 'frontpanel':
+            top_samples = spring_samples(rig, 'fittedfront')
+            samples = samples + top_samples
         if not samples:continue
         # Mesh surface clearance supplements the actual simulated endpoint
         # tests, preventing a capsule from starting outside its garment.
@@ -74,12 +139,24 @@ def plan_colliders(rig, meshes, material_roles=None):
             for i,p in enumerate(points[obj.name]):
                 if any(n.startswith(PREFIX+role.title()+'_') and w>.05 for n,w in weights(obj,i).items()):
                     garment.append((p,0.,'surface'))
+        close_panel = role == 'frontpanel' and all(
+            name in rig.data.bones and rig.data.bones[name].get('close_front_panel')
+            for _, _, name in samples)
         for semantic in nodes:
             name=bone_name(semantic)
             bone=rig.data.bones.get(name)
             if not bone:continue
             reference=torso if role=='hair' and semantic=='chest' and torso else skin
             local=[bone.matrix_local.inverted()@p for p,w in reference if w.get(name,0)>.4]
+            if role in ('frontpanel', 'backpanel') and garment:
+                sections = _panel_contacts(bone,role,local,samples,garment,height,margin,close_panel)
+                if sections:
+                    if top_samples:
+                        fitted = _panel_contacts(bone, role, local, samples, garment,
+                                                 height, margin, True, fitted_top=True)
+                        candidates.extend(dict(spec, role='fittedfront') for spec in fitted or sections)
+                    candidates.extend(sections)
+                    continue
             # Leg contact needs a continuous, straight surface. Independent
             # offset sections create changes in the contact normal that let a
             # low-follow spring slide between volumes after length projection.
@@ -104,6 +181,10 @@ def plan_colliders(rig, meshes, material_roles=None):
                 assert clearance>=margin-1e-7
                 candidates.append(dict(role=role,bone=name,offset=list(a),tail=list(b),radius=fitted,
                                        body_radius=radius,minimum_rest_clearance=clearance,section=section))
+    if any(s.vrm_name.startswith(PREFIX + 'Fittedfront_') for s in rig.data.vrm_addon_extension.spring_bone1.springs):
+        fitted_bones = {spec['bone'] for spec in candidates if spec['role'] == 'fittedfront'}
+        candidates.extend(dict(spec, role='fittedfront') for spec in list(candidates)
+                          if spec['role'] == 'frontpanel' and spec['bone'] not in fitted_bones)
     return dict(height=height,margin=margin,collider_details=candidates,omitted=omitted)
 
 
@@ -122,7 +203,10 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
         rig['hallway_pose_fit_settings_changed']=True
         return dict(result,colliders=result['unique_skirt_colliders'])
     plan=plan_colliders(rig,meshes,material_roles)
-    roles=set(collider_roles or ('skirt','hair','accessory','ornament'))
+    roles=set(collider_roles or ('skirt','hair','accessory','ornament','tail','armstrap_l','armstrap_r',
+                                'frontpanel','backpanel','flowinghair','bowribbon','bowloop'))
+    if 'frontpanel' in roles:
+        roles.add('fittedfront')
     plan['collider_details']=[s for s in plan['collider_details'] if s['role'] in roles]
     plan['omitted']=[s for s in plan['omitted'] if s['role'] in roles]
     names={PREFIX+role.title()+'Body' for role in roles}
@@ -161,13 +245,25 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
                     call_operator('remove_spring_bone1_collider',rig,collider_index=i)
             for spec in plan['collider_details']:
                 role=spec['role']
-                if role not in groups:groups[role]=add_group(rig,PREFIX+role.title()+'Body')
-                c=add_capsule(rig,spec)
-                ref=groups[role].colliders.add();ref.collider_uuid=c.uuid
+                if role not in groups:
+                    add_group(rig, PREFIX + role.title() + 'Body')
+                    # Adding another group may relocate the RNA collection.
+                    # Keep a stable index during this append-only build.
+                    groups[role] = len(sb.collider_groups) - 1
+                c = add_capsule(rig, spec)
+                group = sb.collider_groups[groups[role]]
+                group.colliders.add().collider_uuid = c.uuid
             for spring in sb.springs:
-                for role,group in groups.items():
-                    if spring.vrm_name.startswith(PREFIX+role.title()+'_'):
-                        ref=spring.collider_groups.add();ref.collider_group_uuid=group.uuid
+                for role, index in groups.items():
+                    # The transition shares the fitted leg contacts. Its
+                    # endpoints sit inside the already fitted garment surface.
+                    transition = role == 'fittedfront' and spring.vrm_name.startswith(PREFIX + 'Paneltransition_')
+                    if transition or spring.vrm_name.startswith(PREFIX + role.title() + '_'):
+                        group_uuid = sb.collider_groups[index].uuid
+                        ref = spring.collider_groups.add()
+                        ref.collider_group_uuid = group_uuid
+                        if not group_uuid or ref.collider_group_uuid != group_uuid:
+                            raise RuntimeError('Could not attach fitted VRM collider group to ' + spring.vrm_name)
             if 'accessory' in roles:
                 from avatar_strap_contacts import install_strap_contacts
                 install_strap_contacts(rig, meshes, PREFIX, plan['height'])

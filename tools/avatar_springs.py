@@ -133,6 +133,12 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     center = np.array(tuple(rig.data.bones['Hips'].head_local))[:2]
     for obj in meshes:
         points = all_points[obj.name]
+        if include_hair:
+            from avatar_appendage_strands import plan_strands
+            occupied = {i for r in regions if r['obj'] == obj for i in r['ids']}
+            strands, bindings = plan_strands(rig, obj, points, height, PREFIX, len(chains), occupied)
+            chains.extend(strands)
+            regions.extend(bindings)
         hair = _material_region(obj, 'hair', roles) if include_hair else set()
         if include_hair:
             hair = extend_hair_region(obj, rig, points, hair, roles, images)
@@ -340,18 +346,35 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                 mount.head = driver.head+shift
                 mount.tail = driver.tail+shift
                 mount.roll = driver.roll
+            if 'panel_mount' in chain:
+                mount = rig.data.edit_bones.new(chain['panel_mount'])
+                mount.head = chain['panel_mount_head']
+                mount.tail = chain['line'][chain['panel_free_start']]
+                mount.parent = rig.data.edit_bones[chain['parent']]
+                mount.use_deform = True  # Export the spring node without skin weights.
+                tip = rig.data.edit_bones.new(chain['panel_mount'] + 'Tip')
+                tip.head = mount.tail
+                tip.tail = tip.head + (chain['line'][chain['panel_free_start']+1] - tip.head) * .1
+                tip.parent = mount
+                tip.use_connect = True
+                tip.use_deform = True
             for i, (name, point) in enumerate(zip(chain['names'], chain['line'])):
                 bone = rig.data.edit_bones.new(name)
                 bone.head = point
                 bone.tail = chain['line'][i+1] if i < len(chain['line'])-1 else point+(point-chain['line'][i-1])*.1
                 parent = chain['parent'] if i == 0 else chain['names'][i-1]
                 starts_at_load = i == chain.get('load_index')
-                if starts_at_load:
+                if 'panel_mount' in chain and i in (0, chain['panel_free_start']):
+                    # The fitted skin bones inherit the support rotation. The
+                    # free spring starts at its tip on a direct child branch.
+                    parent = chain['panel_mount'] if i == 0 else chain['panel_mount'] + 'Tip'
+                elif starts_at_load:
                     parent = chain['load_parent']
                 elif 'mount_parents' in chain:
                     parent = chain['mount_parents'][i]
                 bone.parent = rig.data.edit_bones[parent]
-                bone.use_connect = i > 0 and not starts_at_load and 'mount_parents' not in chain
+                bone.use_connect = (i > 0 and not starts_at_load and 'mount_parents' not in chain
+                                    and i != chain.get('panel_free_start'))
                 if chain['role'] == 'skirt' and i == 0:
                     # Binding runs before the upper/lower spring split. Mark
                     # its knee now so fresh generation gets the same smoothing.
@@ -363,6 +386,15 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                     bone['hallway_skirt_surface_center'] = plan['skirt_center']
                     bone['hallway_garment_top'] = chain['garment_top']
                     bone['hallway_garment_bottom'] = chain['garment_bottom']
+                if 'panel_transition' in chain and name == chain['panel_transition'][-1]:
+                    # Terminate the transition on its own node. The loose
+                    # panel still starts at the same point under its support.
+                    terminal = rig.data.edit_bones.new(name + '_TransitionTip')
+                    terminal.head = chain['line'][chain['panel_free_start']]
+                    terminal.tail = terminal.head + (bone.tail - bone.head) * .1
+                    terminal.parent = bone
+                    terminal.use_connect = False
+                    terminal.use_deform = True
                 bone.use_deform = i < len(chain['line'])-1
                 if chain['role'] == 'hair' and i == 0:
                     bone['unimate_fixed_hair_root'] = True
@@ -496,6 +528,59 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
     return report
 
 
+def _fit_free_panel_radii(rig, details, height, spring_names):
+    """Keep contact on the swinging hem without displacing it at rest."""
+    from avatar_colliders import segment_distance
+    capsules = []
+    for spec in details:
+        if spec['role'] == 'frontpanel':
+            rest = rig.data.bones[spec['bone']].matrix_local
+            capsules.append((rest @ Vector(spec['offset']), rest @ Vector(spec['tail']), spec['radius']))
+    if not capsules:
+        return
+    for spring in rig.data.vrm_addon_extension.spring_bone1.springs:
+        if spring.vrm_name not in spring_names:
+            continue
+        for head, tail in zip(spring.joints, spring.joints[1:]):
+            point = rig.data.bones[tail.node.bone_name].head_local
+            space = min(segment_distance(point, a, b) - r for a, b, r in capsules)
+            head.hit_radius = max(0., min(.0025 * height, space - .0015 * height))
+
+
+_FITTED_PANEL_SETTINGS = (1.2, .7, 1.6)  # stiffness, drag and gravity
+
+
+def _write_panel_transition(sb, chain, center, free_spring):
+    names = chain['panel_transition']
+    first = free_spring.joints[0]
+    target = (first.stiffness, first.drag_force, first.gravity_power)
+    spring = sb.springs.add()
+    spring.vrm_name = chain['names'][0].rsplit('_', 1)[0].replace('Frontpanel_', 'Paneltransition_')
+    spring.center.bone_name = center
+    for index, name in enumerate([*names, names[-1] + '_TransitionTip']):
+        fraction = (index + 1) / (len(names) + 1)
+        joint = spring.joints.add()
+        joint.node.bone_name = name
+        joint.stiffness, joint.drag_force, joint.gravity_power = (
+            fitted + fraction * (loose - fitted)
+            for fitted, loose in zip(_FITTED_PANEL_SETTINGS, target))
+        joint.gravity_dir = (0, 0, -1)
+        joint.hit_radius = 0.
+
+
+def _write_fitted_panel_support(sb, mount, tip, center):
+    """Give just the waistband support the narrow leg contacts."""
+    spring = sb.springs.add()
+    spring.vrm_name = mount.rsplit('_', 2)[0].replace('Frontpanel_', 'Fittedfront_')
+    spring.center.bone_name = center
+    for name in (mount, tip):
+        joint = spring.joints.add()
+        joint.node.bone_name = name
+        joint.stiffness, joint.drag_force, joint.gravity_power = _FITTED_PANEL_SETTINGS
+        joint.gravity_dir = (0, 0, -1)
+        joint.hit_radius = 0.
+
+
 def _write_vrm(rig, meshes, plan, roles, spring_center=None):
     ext = rig.data.vrm_addon_extension
     ext.spec_version = '1.0'
@@ -511,15 +596,42 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
     height = plan['height']
     from avatar_accessory_physics import physics_chains
     for chain in physics_chains([c for c in plan['chains'] if 'mount_parents' not in c]):
-        spring = sb.springs.add()
-        spring.vrm_name = chain['names'][0].rsplit('_', 1)[0]
         # Honor an explicit rig-wide center. Floating loads otherwise swing
         # in world space while their attachment tracks the supporting garment.
-        spring.center.bone_name = spring_center or chain.get('strap_center', '')
+        close_panel = chain.get('close_panel', False)
+        center = spring_center or chain.get('strap_center') or (chain['parent'] if close_panel else '')
+        start = chain.get('physics_start', 0)
+        if 'panel_mount' in chain:
+            tip = chain['panel_free_start']
+            _write_fitted_panel_support(sb, chain['panel_mount'], chain['panel_mount'] + 'Tip', center)
+            # Distinct terminal and free-root nodes share the same location.
+            # Each spring owns its own joints and its own leg contacts.
+            rig.data.bones[chain['panel_mount'] + 'Tip']['close_front_panel'] = True
+            start = tip
+        spring = sb.springs.add()
+        spring.vrm_name = chain['names'][0].rsplit('_', 1)[0]
+        spring.center.bone_name = center
         hair = chain['role'] == 'hair'
-        for i, name in enumerate(chain['names'][chain.get('physics_start', 0):]):
+        for i, name in enumerate(chain['names'][start:]):
             joint = spring.joints.add()
             joint.node.bone_name = name
+            if chain.get('free_appendage'):
+                joint.stiffness = 1.
+                joint.drag_force = .5
+                joint.gravity_power = 0.
+                joint.hit_radius = 0.
+                if close_panel:
+                    # Support the upper fabric against the leg. Ease the pull
+                    # down the free length so the shorter hem links can curl.
+                    along = (start + i) / max(1, len(chain['names']) - 1)
+                    bend = min(1., max(0., (along - .26) / .42))
+                    bend = bend * bend * (3. - 2. * bend)
+                    joint.stiffness = height * (.266 + .325 * bend)
+                    joint.drag_force = .58 - .08 * bend
+                    joint.gravity_power = height * (1.655 - 1.39 * bend)
+                    rig.data.bones[name]['close_front_panel'] = True
+                joint.gravity_dir = (0, 0, -1)
+                continue
             from avatar_rig_defaults import SPRINGS
             defaults = SPRINGS['Head Accessories' if chain['role']=='ornament' else 'Hanging Straps' if chain['role']=='accessory' and '_Strand_' in chain['names'][0] else chain['role'].title()]
             joint.stiffness = defaults['stiffness'] * (1. if chain['role']=='ornament' or chain.get('serial_accessory') else 1-.10*i)
@@ -550,8 +662,13 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         if hair:
             from avatar_rig_defaults import configure_hair_spring
             configure_hair_spring(spring, rig, height)
+        elif 'panel_mount' in chain:
+            _write_panel_transition(sb, chain, center, spring)
     from avatar_colliders import rebuild_colliders
     metadata = rebuild_colliders(rig, meshes, roles)
+    free_panels = {c['names'][0].rsplit('_', 1)[0] for c in plan['chains'] if 'panel_mount' in c}
+    if free_panels:
+        _fit_free_panel_radii(rig, metadata['collider_details'], height, free_panels)
     if any(c.get('garment') for c in plan['chains']):
         from avatar_surface_attachments import install_garment_contacts
         metadata['garment_contacts']=install_garment_contacts(rig,meshes,plan,PREFIX)

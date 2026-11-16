@@ -26,14 +26,14 @@ def validate_geometry(vertices, faces):
     return v,f.astype(np.int64,copy=False)
 
 
-def predict(vertices, faces, weights, device='cpu', progress=print):
+def _predict_surface(vertices, faces, weights, device='cpu', progress=print):
     from pathlib import Path
     started=time.monotonic();torch.set_num_threads(4);torch.manual_seed(42)
     if device=='mps' and not torch.backends.mps.is_available():
         raise RuntimeError('Metal is not available; select CPU')
     if device=='cuda' and not torch.cuda.is_available():
         raise RuntimeError('CUDA is not available; select CPU')
-    v,f=validate_geometry(vertices,faces)
+    v,f=vertices,faces
     # Canonicalize before sampling to avoid scale-dependent triangle-area and
     # floating-point cancellation errors. This frame comes from geometry only.
     input_center=(v.min(0)+v.max(0))*.5
@@ -83,3 +83,50 @@ def predict(vertices, faces, weights, device='cpu', progress=print):
     if not np.isfinite(joints).all():raise ValueError('Joint prediction failed')
     return dict(schema=1,device=device,seconds=time.monotonic()-started,
         source='mesh_geometry_only',joints={n.split(':')[-1]:dict(head=a.tolist(),tail=b.tolist()) for n,(a,b) in zip(NAMES,joints)})
+
+
+def _upright_leg_error(joints, height):
+    """Measure folded or strongly asymmetric legs in a standing rest mesh."""
+    ankles = []
+    error = 0.
+    for side in ('Left', 'Right'):
+        hip, knee, ankle = (np.asarray(joints[side + part]['head']) for part in ('UpLeg', 'Leg', 'Foot'))
+        # Each major leg segment should descend in an upright neutral pose.
+        for top, bottom in ((hip, knee), (knee, ankle)):
+            error += max(0., .10 - (top[2] - bottom[2]) / height)
+        ankles.append(ankle)
+    error += max(0., abs(ankles[0][2] - ankles[1][2]) / height - .12)
+    return error
+
+
+def predict(vertices, faces, weights, device='cpu', progress=print):
+    started = time.monotonic()
+    vertices, faces = validate_geometry(vertices, faces)
+    result = _predict_surface(vertices, faces, weights, device, progress)
+    height = float(np.ptp(vertices[:, 2]))
+    if height < 1e-8 or _upright_leg_error(result['joints'], height) < .10:
+        return result
+
+    # A trailing tail or large detached ornament can be mistaken for a limb.
+    # Infer a second skeleton using triangles near the standing footprint.
+    # Original indexing and all geometry remain authoritative for skinning.
+    feet = vertices[vertices[:, 2] <= vertices[:, 2].min() + .12 * height]
+    depth = np.median(feet[:, 1])
+    central = np.abs(vertices[:, 1] - depth) < .10 * height
+    inside = faces[central[faces].all(axis=1)]
+    if len(inside) < 100 or len(inside) == len(faces):
+        return result
+    ids, remap = np.unique(inside, return_inverse=True)
+    body = vertices[ids]
+    if len(body) < 100 or np.ptp(body[:, 2]) < .85 * height:
+        return result
+    try:
+        candidate = _predict_surface(body, remap.reshape(-1, 3), weights, device, progress)
+    except ValueError:
+        # A clipped surface can lack the orientation landmarks of the full mesh.
+        return result
+    if _upright_leg_error(candidate['joints'], height) < .05:
+        candidate['landmark_surface'] = 'standing_body'
+        candidate['seconds'] = time.monotonic() - started
+        return candidate
+    return result
