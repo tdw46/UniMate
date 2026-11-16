@@ -97,6 +97,14 @@ def plan_colliders(rig, meshes, material_roles=None):
     torso=[]
     chest_name=bone_name('chest')
     roles=material_roles or {}
+    pendant_samples = spring_samples(rig, 'pendant')
+    arm_points = {}
+    if pendant_samples:
+        for side in ('left', 'right'):
+            for limb in ('upper_arm', 'lower_arm', 'hand'):
+                name = bone_name(side + '_' + limb)
+                if name in rig.data.bones:
+                    arm_points[name] = []
     for obj in meshes:
         slots={i for i,m in enumerate(obj.data.materials) if m and
                (roles.get(m.name)=='skin' or (m.name not in roles and
@@ -110,6 +118,13 @@ def plan_colliders(rig, meshes, material_roles=None):
         # their existing skin-only references.
         for i,p in enumerate(points[obj.name]):
             values=weights(obj,i)
+            if arm_points:
+                if any(n.startswith(PREFIX + 'Pendant_') and w > .05 for n, w in values.items()):
+                    pendant_samples.append((p, 0., 'surface'))
+                elif not any(n.startswith(PREFIX) and w > .05 for n, w in values.items()):
+                    for name, weight in values.items():
+                        if name in arm_points and weight > .4:
+                            arm_points[name].append(p)
             if values.get(chest_name,0)>.4 and not any(n.startswith(PREFIX) and w>1e-6 for n,w in values.items()):
                 torso.append((p,values))
     role_nodes={'breast':('chest','upper_chest'),
@@ -185,6 +200,9 @@ def plan_colliders(rig, meshes, material_roles=None):
         fitted_bones = {spec['bone'] for spec in candidates if spec['role'] == 'fittedfront'}
         candidates.extend(dict(spec, role='fittedfront') for spec in list(candidates)
                           if spec['role'] == 'frontpanel' and spec['bone'] not in fitted_bones)
+    from avatar_hip_pendants import arm_contacts, waist_contacts
+    candidates.extend(waist_contacts(rig, PREFIX, height))
+    candidates.extend(arm_contacts(rig, arm_points, pendant_samples, height))
     return dict(height=height,margin=margin,collider_details=candidates,omitted=omitted)
 
 
@@ -205,6 +223,9 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
     plan=plan_colliders(rig,meshes,material_roles)
     roles=set(collider_roles or ('skirt','hair','accessory','ornament','tail','armstrap_l','armstrap_r',
                                 'frontpanel','backpanel','flowinghair','bowribbon','bowloop'))
+    if collider_roles is None or 'pendant' in roles:
+        roles.add('pendant_arms')
+        roles.update(s['role'] for s in plan['collider_details'] if s['role'].startswith('pendant_'))
     if 'frontpanel' in roles:
         roles.add('fittedfront')
     plan['collider_details']=[s for s in plan['collider_details'] if s['role'] in roles]
@@ -258,7 +279,9 @@ def rebuild_colliders(rig, meshes, material_roles=None, collider_roles=None):
                     # The transition shares the fitted leg contacts. Its
                     # endpoints sit inside the already fitted garment surface.
                     transition = role == 'fittedfront' and spring.vrm_name.startswith(PREFIX + 'Paneltransition_')
-                    if transition or spring.vrm_name.startswith(PREFIX + role.title() + '_'):
+                    pendant = role.startswith('pendant_') and spring.vrm_name == PREFIX + role.title()
+                    pendant_arms = role == 'pendant_arms' and spring.vrm_name.startswith(PREFIX + 'Pendant_')
+                    if transition or pendant or pendant_arms or spring.vrm_name.startswith(PREFIX + role.title() + '_'):
                         group_uuid = sb.collider_groups[index].uuid
                         ref = spring.collider_groups.add()
                         ref.collider_group_uuid = group_uuid

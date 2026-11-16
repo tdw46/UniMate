@@ -128,6 +128,25 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     height = max(p[:, 2].max() for p in all_points.values()) - min(p[:, 2].min() for p in all_points.values())
     from avatar_surface_attachments import plan_mounted, plan_jackets
     chains, regions = plan_mounted(rig, meshes, all_points, height, PREFIX) if include_hair else ([], [])
+    islands_by_mesh = {}
+    pendants = []
+    if include_hair:
+        from avatar_hip_pendants import plan_pendants
+        from avatar_virtual_topology import connected_graph
+        hips = np.asarray(rig.data.bones['Hips'].head_local)
+        surfaces = []
+        for obj in meshes:
+            points = all_points[obj.name]
+            if not len(points) or points[:, 2].min() > hips[2] + .13 * height or points[:, 2].max() < hips[2] - .24 * height:
+                continue
+            _, islands, _ = connected_graph(obj.data, points, range(len(points)), height * .0001)
+            islands_by_mesh[obj] = islands
+            occupied = {i for region in regions if region['obj'] == obj for i in region['ids']}
+            surfaces.append((obj, points, islands, occupied))
+        spine = rig.data.bones.get('Spine')
+        pendants, bindings = plan_pendants(surfaces, hips, height, PREFIX,
+                                          spine.head_local if spine else None)
+        regions.extend(bindings)
     rejected = []
     neck_z = rig.data.bones['Neck'].head_local.z
     center = np.array(tuple(rig.data.bones['Hips'].head_local))[:2]
@@ -136,7 +155,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
         if include_hair:
             from avatar_appendage_strands import plan_strands
             occupied = {i for r in regions if r['obj'] == obj for i in r['ids']}
-            strands, bindings = plan_strands(rig, obj, points, height, PREFIX, len(chains), occupied)
+            strands, bindings = plan_strands(rig, obj, points, height, PREFIX, len(chains), occupied, islands_by_mesh.get(obj))
             chains.extend(strands)
             regions.extend(bindings)
         hair = _material_region(obj, 'hair', roles) if include_hair else set()
@@ -291,6 +310,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     cap = head_cap_vertices(meshes, rig, roles) if include_hair else {}
     regions.extend(dict(obj=obj, ids=set(cap[obj.name])-{i for r in regions if r['obj']==obj for i in r['ids']}, role='head_cap')
                    for obj in meshes if obj.name in cap)
+    chains.extend(pendants)
     return dict(chains=chains, regions=regions, rejected=rejected, skirt_center=center.tolist(), height=float(height), points=all_points, accessories=accessory_reports)
 
 
@@ -612,7 +632,10 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         spring.vrm_name = chain['names'][0].rsplit('_', 1)[0]
         spring.center.bone_name = center
         hair = chain['role'] == 'hair'
-        for i, name in enumerate(chain['names'][start:]):
+        # A terminal tassel inherits the last integrated link. Including the
+        # mesh tip would integrate another spring and flick the tassel twice.
+        stop = -1 if chain['role'] == 'pendant' else None
+        for i, name in enumerate(chain['names'][start:stop]):
             joint = spring.joints.add()
             joint.node.bone_name = name
             if chain.get('free_appendage'):

@@ -50,7 +50,7 @@ def _mount(points, hips, arms, height):
     return None
 
 
-def plan_strands(rig, obj, points, height, prefix, start, excluded=frozenset()):
+def plan_strands(rig, obj, points, height, prefix, start, excluded=frozenset(), islands=None):
     if len(points) < 8 or np.max(np.ptp(points, axis=0)) < .17 * height:
         return [], []
     bones = rig.data.bones
@@ -65,7 +65,8 @@ def plan_strands(rig, obj, points, height, prefix, start, excluded=frozenset()):
                          np.array(bone.tail_local)))
     # Use the same seam connectivity as hanging hair. Only accept whole
     # islands, so a ribbon touching a sleeve cannot cut through the sleeve.
-    _, islands, _ = connected_graph(obj.data, points, range(len(points)), height * .0001)
+    if islands is None:
+        _, islands, _ = connected_graph(obj.data, points, range(len(points)), height * .0001)
     chains, regions = [], []
     triangles = None
     for ids in islands:
