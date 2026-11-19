@@ -72,6 +72,40 @@ def hair_length_defaults(relative_length):
                 gravity=.035 * stiffness)
 
 
+def short_head_lock(rig, bones):
+    head = rig.data.bones.get('Head')
+    if head is None or len(bones) < 2 or any(b is None for b in bones):
+        return False
+    length = sum((b.head_local-a.head_local).length for a,b in zip(bones,bones[1:]))
+    return (head.length > 1e-6 and length <= head.length*1.55 and
+            min(b.head_local.z for b in bones) >= head.head_local.z-head.length*.42)
+
+
+def scalp_support_count(rig, bones):
+    """Keep the back of a short cap glued through the occiput using ordinary FK."""
+    if not short_head_lock(rig, bones):
+        return 0
+    head = rig.data.bones['Head']
+    feet = [rig.data.bones.get('Foot.'+s) for s in ('L','R')]
+    forward = sum(((b.tail_local-b.head_local) for b in feet if b), head.head_local*0.)
+    forward.z = 0.
+    if forward.length < 1e-6:
+        return 0
+    forward.normalize()
+    radial = bones[0].head_local - head.head_local
+    lateral = abs(radial.x*forward.y - radial.y*forward.x)
+    ahead = radial.dot(forward)
+    # Side locks can begin just forward of the ear. Keep their scalp section
+    # anchored to temple height while leaving the central fringe free.
+    temple = lateral > .19*head.length and lateral > .65*ahead
+    if ahead > .18*head.length and not temple:
+        return 0
+    target = head.head_local.z + .40*(head.tail_local.z-head.head_local.z)
+    if bones[0].head_local.z <= target or bones[-1].head_local.z > target:
+        return 0
+    return min(range(len(bones)-1), key=lambda i: abs(bones[i].head_local.z-target))
+
+
 def configure_hair_spring(spring, rig, height):
     """Install generated-only ratios so panel edits preserve strand differences.
 
@@ -84,6 +118,10 @@ def configure_hair_spring(spring, rig, height):
     bones = [rig.data.bones.get(j.node.bone_name) for j in spring.joints]
     if len(bones) < 2 or any(b is None for b in bones):
         return None
+    count = scalp_support_count(rig, bones)
+    for _ in range(count):
+        spring.joints.remove(0)
+    bones = bones[count:]
     relative_length = sum((b.head_local-a.head_local).length
                           for a, b in zip(bones, bones[1:])) / height
     values = hair_length_defaults(relative_length)

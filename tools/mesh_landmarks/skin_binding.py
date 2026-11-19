@@ -36,6 +36,9 @@ def prepare(meshes,prediction,job,options):
     import copy
     if not available():raise RuntimeError('Solver unavailable on this platform. Choose Blender weighting.')
     prediction=blender_bridge.refine_prediction(meshes,prediction)
+    if options.get('symmetrize', True):
+        from .rig_frames import symmetric_prediction
+        prediction = symmetric_prediction(prediction)
     local=copy.deepcopy(prediction);world,_=blender_bridge.geometry(meshes)
     origin=Vector(prediction['joints']['Hips']['head']);origin.z=float(world[:,2].min())
     for joint in local['joints'].values():

@@ -151,32 +151,66 @@ def plan_jackets(rig,obj,points,excluded,height,prefix,start_index=0):
     low=float(q[:,2].min())
     bins=set((angles[q[:,2]<top]/math.tau*8).astype(int))
     if len(bins)<6 or top-low<height*.025 or low>hips.tail_local.z+height*.025:return [],[]
-    count=12;chains=[];sector_names=[];bottoms=[]
     from avatar_springs import _vertical_weights
+    from avatar_skirt_surface import SkirtSurface, angle_weights
+    from avatar_cloth_handoff import cloth_segments
+    obj.data.calc_loop_triangles()
+    torso_ids = set(torso)
+    triangles = [tri.vertices[:] for tri in obj.data.loop_triangles
+                 if tri.material_index in slots and all(i in torso_ids for i in tri.vertices)]
+    if not triangles:
+        return [], []
+    count = 12
+    surface = SkirtSurface(points[np.asarray(triangles)], center, top, count)
+    chains, sector_names, bottoms, directions = [], [], [], []
     for s in range(count):
-        angle=s*math.tau/count
-        dist=np.abs((angles-angle+math.pi)%math.tau-math.pi)
-        band=q[dist<math.tau/count]
-        bottom=float(np.quantile(band[:,2],.03)) if len(band) else low
-        bottom=min(bottom,top-height*.01);bottoms.append(bottom)
-        line=[]
-        from avatar_cloth_handoff import cloth_segments
-        joints=cloth_segments(top-bottom,height,3,short_jacket=True)+1
-        for z in np.linspace(top,bottom,joints):
-            score=dist/(math.tau/count)+np.abs(q[:,2]-z)/max(top-bottom,height*.01)
-            near=q[np.argsort(score)[:max(4,len(q)//80)]]
-            xy=np.median(near[:,:2],axis=0)
-            line.append(Vector((*xy,z)))
-        names=[f'{prefix}Accessory_Jacket_{start_index:02d}_{s:02d}_{j:02d}' for j in range(joints)]
-        chains.append(dict(role='accessory',names=names,line=line,parent='Chest',physics_start=0,garment=True))
+        angle = s * math.tau / count
+        # A jacket opening has no material to carry a spring. Require a
+        # continuous strip from the attachment; never bridge it using the
+        # median of vertices on opposite lapels.
+        previous = None
+        samples = []
+        for z in surface.levels:
+            hit = surface.section(z).hit(angle, previous)
+            if hit is None:
+                break
+            samples.append((float(z), hit))
+            previous = hit
+        if len(samples) < 3 or top - samples[-1][0] < height * .02:
+            continue
+        bottom = samples[-1][0]
+        joints = cloth_segments(top-bottom, height, 3, short_jacket=True) + 1
+        line = []
+        for z in np.linspace(top, bottom, joints):
+            guess = min(samples, key=lambda sample: abs(sample[0]-z))[1]
+            hit = surface.section(z).hit(angle, guess)
+            if hit is None:
+                break
+            line.append(Vector((*tuple(center + hit), z)))
+        if len(line) != joints:
+            continue
+        names = [f'{prefix}Accessory_Jacket_{start_index:02d}_{s:02d}_{j:02d}' for j in range(joints)]
+        rear = max(0., math.sin(angle))
+        chains.append(dict(role='accessory', names=names, line=line, parent='Chest',
+                           garment=True, physics_start=1 if rear > .2 and joints >= 4 else 0,
+                           rear_share=rear))
+        directions.append(angle)
+        bottoms.append(bottom)
         sector_names.append(names)
+    if len(chains) < 3:
+        return [], []
     values={}
     for i in sorted(candidates):
         base=normalized({n:w for n,w in weights(obj,i).items() if 'Secondary_' not in n}) or {'Chest':1.}
         if i in limb or points[i,2]>=top:values[i]=base;continue
-        a=(math.atan2(points[i,1]-center[1],points[i,0]-center[0])%math.tau)/math.tau*count
-        sector=int(a);row={}
-        for s,f in ((sector,1-(a-sector)),((sector+1)%count,a-sector)):
+        a = math.atan2(points[i,1]-center[1],points[i,0]-center[0]) % math.tau
+        adjacent = angle_weights(directions, a)
+        left, right = (s for s, _ in adjacent)
+        if (directions[right] - directions[left]) % math.tau > math.tau / count * 1.5:
+            # A missing sector is a physical gap. Bind to this bank only.
+            adjacent = [(max(adjacent, key=lambda item: item[1])[0], 1.)]
+        row = {}
+        for s, f in adjacent:
             t=(top-points[i,2])/(top-bottoms[s]);t=float(np.clip(t,0,1))
             for n,w in _vertical_weights(sector_names[s],'Chest',t,True).items():row[n]=row.get(n,0)+f*w
         values[i]=normalized(row)
@@ -208,6 +242,15 @@ def install_garment_contacts(rig,meshes,plan,prefix):
         existing=next((spec for spec in body if spec['bone']==name),None)
         if existing:existing['body_radius']=max(existing['body_radius'],radius)
         else:body.append(dict(bone=name,body_radius=radius))
+    # An upper thigh can swing into a short hem even when its entire rest
+    # segment sits below the cloth. Use the fitted radius, with an anatomical
+    # fallback for covered skin, and test the swept reach from the hip socket.
+    humanoid = rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
+    thighs = {leg.node.bone_name for leg in (humanoid.left_upper_leg, humanoid.right_upper_leg)}
+    for name in thighs:
+        bone = rig.data.bones.get(name)
+        if bone and not any(entry['bone'] == name for entry in body):
+            body.append(dict(bone=name, body_radius=.16 * bone.length))
     sb=rig.data.vrm_addon_extension.spring_bone1;count=0;clearances=[];shared={}
     from avatar_vrm_colliders import call_operator,cleanup_orphan_displays
     owned={g.uuid for g in sb.collider_groups if g.vrm_name.startswith(prefix+'JacketContact_')}
@@ -230,19 +273,30 @@ def install_garment_contacts(rig,meshes,plan,prefix):
                  for j,t in zip(spring.joints,spring.joints[1:])]
         for spec in body:
             b=rig.data.bones[spec['bone']]
-            if max(b.head_local.z,b.tail_local.z)<min(p.z for p,_ in samples)-fit['height']*.03:continue
-            if min(b.head_local.z,b.tail_local.z)>max(p.z for p,_ in samples)+fit['height']*.05:continue
-            for section in range(2):
-                offset=Vector((0,b.length*(section+.5)/2,0))
-                limit=min(distance(p,b.matrix_local@offset,b.matrix_local@offset)-r-fit['margin'] for p,r in samples)
-                radius=min(spec['body_radius'],limit)
-                if radius<=fit['height']*.001:continue
-                key=(b.name,*offset,float(radius))
+            if not samples:
+                continue
+            if b.name in thighs:
+                radius = spec['body_radius']
+                if all((p - b.head_local).length > b.length + radius + r for p, r in samples):
+                    continue
+                segments = [(Vector((0., 0., 0.)), Vector((0., b.length * .85, 0.)))]
+            else:
+                if max(b.head_local.z,b.tail_local.z)<min(p.z for p,_ in samples)-fit['height']*.03:continue
+                if min(b.head_local.z,b.tail_local.z)>max(p.z for p,_ in samples)+fit['height']*.05:continue
+                offsets = [Vector((0., b.length * t, 0.)) for t in (.25, .75)]
+                segments = [(offset, offset) for offset in offsets]
+            for offset, tail in segments:
+                a, end = b.matrix_local @ offset, b.matrix_local @ tail
+                surface_distance = min(distance(p, a, end) - r for p, r in samples)
+                radius = min(spec['body_radius'], surface_distance - fit['margin'])
+                if radius <= fit['height']*.001:
+                    continue
+                key = (b.name, tuple(offset), tuple(tail), float(radius))
                 if key not in shared:
-                    shared[key]=add_capsule(rig,dict(bone=b.name,offset=list(offset),tail=list(offset),radius=radius)).uuid
-                    count+=1
-                group.colliders.add().collider_uuid=shared[key]
-                clearances.append(min(distance(p,b.matrix_local@offset,b.matrix_local@offset)-r-radius for p,r in samples))
+                    shared[key] = add_capsule(rig, dict(bone=b.name, offset=list(offset), tail=list(tail), radius=radius)).uuid
+                    count += 1
+                group.colliders.add().collider_uuid = shared[key]
+                clearances.append(surface_distance - radius)
         spring.collider_groups.add().collider_group_uuid=group.uuid
     organize_colliders(rig)
     return dict(colliders=count,minimum_rest_clearance=min(clearances) if clearances else None)

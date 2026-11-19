@@ -33,11 +33,16 @@ def install(directory):
     unrelated={o.name:o.as_pointer() for o in bpy.context.scene.objects if o not in meshes and o!=source}
     set_simulation(False)
     existing_ids={o.as_pointer() for o in bpy.data.objects}
+    existing_materials = set(bpy.data.materials)
     with bpy.data.libraries.load(str(directory/'validated.blend'),link=False) as (available,loaded):
         loaded.objects=[name for name in available.objects if name not in inventory['affected_meshes']]
     imported=[o for o in loaded.objects if o]
+    from avatar_mtoon_groups import restore_groups
     rig=next(o for o in imported if o.type=='ARMATURE')
     assert len([o for o in imported if o.type=='ARMATURE'])==1
+    rig_meshes = [o for o in imported if o.type == 'MESH' and (o.find_armature() == rig or o.parent == rig)]
+    new_materials = {s.material for o in rig_meshes for s in o.material_slots if s.material}
+    restore_groups(new_materials - existing_materials, rig_meshes)
     assert all(n in rig.data.bones for values in new_weights.values() for weights in values for n in weights)
     # RNA references can pull mesh dependencies into a rig-only library load.
     # Redirect those references to the preserved live objects, then discard

@@ -125,7 +125,7 @@ def paired_influences(points, specs):
     return result*(1-seam[:,None])+.375*(seam*support)[:,None]
 
 
-def generate_breasts(context,rig,meshes,prefix='UniMate_'):
+def generate_breasts(context,rig,meshes,prefix='UniMate_', symmetric=False):
     chest=rig.data.bones.get('Chest')
     if chest is None:return []
     shoulders=[rig.data.bones.get('UpperArm.'+s) for s in ('L','R')]
@@ -137,6 +137,13 @@ def generate_breasts(context,rig,meshes,prefix='UniMate_'):
     points=np.concatenate(list(local.values()));height=float(np.ptp(points[:,2]))
     width=max(abs(b.head_local.x-chest.head_local.x) for b in shoulders)
     specs=fit_lobes(points,chest.head_local,chest.tail_local,width,height)
+    if symmetric and len(specs) == 2:
+        from mesh_landmarks.rig_frames import symmetrize_guides
+        guides = [dict(role='breast', line=[s['head'],s['tail']]) for s in specs]
+        symmetrize_guides(guides, rig, height)
+        for spec, guide in zip(specs, guides):
+            spec['head'], spec['tail'] = map(list, guide['line'])
+
     if not specs:return []
     selected=list(context.selected_objects);active=context.view_layer.objects.active
     try:

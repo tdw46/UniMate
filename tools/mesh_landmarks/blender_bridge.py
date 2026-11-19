@@ -35,9 +35,15 @@ def refine_prediction(meshes, prediction):
     vertices, faces = geometry(meshes)
     signature = geometry_digest(vertices, faces)
     if (prediction.get('hand_refinement_geometry_sha256') == signature
-            and prediction.get('hand_refinement',{}).get('revision') == 2):
+            and prediction.get('hand_refinement',{}).get('revision') == 4):
         return prediction
     result = refine(vertices, prediction)
+    from .finger_surface import fit_digits
+    audit = result['hand_refinement']
+    audit['surface_fit'] = fit_digits(vertices, faces, result['joints'])
+    from .arm_surface import fit_arm_pivots
+    audit['arm_pivots'] = fit_arm_pivots(vertices, faces, result['joints'])
+    audit['revision'] = 4
     result['hand_refinement_geometry_sha256'] = signature
     return result
 
@@ -69,9 +75,13 @@ def specifications(prediction):
     return specs
 
 
-def build(context,meshes,prediction,builder,*,prefix='Character',secondary=True,finalize=None,binding=None):
+def build(context,meshes,prediction,builder,*,prefix='Character',secondary=True,finalize=None,binding=None,symmetrize=True,humanoid_only=True):
     import copy
+    from avatar_mtoon_groups import rig_material
     prediction=refine_prediction(meshes,prediction)
+    if symmetrize:
+        from .rig_frames import symmetric_prediction
+        prediction = symmetric_prediction(prediction)
     local_prediction=copy.deepcopy(prediction)
     v,_=geometry(meshes)
     origin=Vector(prediction['joints']['Hips']['head']);origin.z=float(v[:,2].min())
@@ -106,10 +116,13 @@ def build(context,meshes,prediction,builder,*,prefix='Character',secondary=True,
             for slot in dup.material_slots:
                 if slot.material:
                     mat=slot.material
-                    if mat not in materials:materials[mat]=mat.copy()
-                    slot.material=materials[mat]
+                    if mat not in materials:
+                        materials[mat] = rig_material(mat, prefix)
+                    if materials[mat] != mat:
+                        slot.material = materials[mat]
             scene.collection.objects.link(dup);copies.append(dup)
-        rig,report=builder.rebuild(None,copies,specs=specs,secondary=secondary,binding=binding)
+        rig,report=builder.rebuild(None,copies,specs=specs,symmetric_hands=symmetrize,correct_finger_geometry=True,symmetric_secondary=symmetrize and not humanoid_only,secondary=secondary,binding=binding)
+        report['symmetry'] = dict(enabled=symmetrize, humanoid_only=humanoid_only)
         rig.matrix_world=Matrix.Translation(origin)
         rig.name=prefix+' Auto Rig';report['landmarks']=prediction
         if finalize is not None:finalize(rig,copies,report)

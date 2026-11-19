@@ -121,7 +121,7 @@ def specs_from_mmd(source):
     return specs
 
 
-def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, binding=None):
+def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, binding=None, symmetric_secondary=False, symmetric_hands=False, correct_finger_geometry=False):
     if source is not None:
         assert all(pb.matrix_basis == Matrix.Identity(4) for pb in source.pose.bones), 'Source must be neutral'
         assert source.matrix_world == Matrix.Identity(4), 'Apply rig transforms first'
@@ -139,7 +139,14 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
     for name,a,b,parent in specs:
         bone=data.edit_bones.new(name);bone.head=a;bone.tail=b
         bone.parent=data.edit_bones.get(parent) if parent else None
+        if bone.parent and name.startswith(('Thumb','Index','Middle','Ring','Little')) and parent[:-3] == name[:-3]:
+            bone.use_connect = (bone.parent.tail-bone.head).length < 1e-6
+        if source is None and bone.parent and name.startswith(('Forearm.', 'Hand.')):
+            bone.use_connect = (bone.parent.tail-bone.head).length < 1e-6
         bone.use_deform=name!='Root'
+    if source is None:
+        from mesh_landmarks.rig_frames import humanoid_rolls
+        humanoid_rolls(data.edit_bones)
     bpy.ops.object.mode_set(mode='OBJECT')
     for obj in meshes:
         obj.vertex_groups.clear();obj.parent=None
@@ -156,7 +163,7 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
         from avatar_hand_binding import refine_hand_weights
         binding['hand_cleanup']=refine_hand_weights(rig,meshes)
     from avatar_springs import plan_secondary
-    springs=generate_secondary(rig,meshes,skirt_segments=skirt_segments,refine_cloth=False) if secondary and plan_secondary(rig,meshes)['chains'] else dict(chains=0)
+    springs=generate_secondary(rig,meshes,symmetric_guides=symmetric_secondary,skirt_segments=skirt_segments,refine_cloth=False) if secondary and plan_secondary(rig,meshes)['chains'] else dict(chains=0)
     after={o.name:fingerprint(o) for o in meshes}
     assert before==after,'Geometry or shape keys changed'
     # Binding remains geometry preserving. Local attached-cloth tessellation
@@ -164,7 +171,18 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
     from avatar_cloth_overlays import refine_bound_overlays
     refine_bound_overlays(rig,meshes,springs.get('cloth_overlays',{}))
     from avatar_hinge_weights import refine_hinge_weights
+    from avatar_limb_domains import refine_limb_domains
+    binding['limb_domains'] = refine_limb_domains(rig, meshes)
+    from avatar_fist_axes import fit_fist_axes
+    binding['finger_flexion_axes'] = fit_fist_axes(rig, meshes, symmetric=symmetric_hands, correct_geometry=correct_finger_geometry)
     binding['hinge_cleanup'] = refine_hinge_weights(rig, meshes)
+    from avatar_fitted_clothing import transfer_fitted_clothing
+    binding['fitted_clothing'] = transfer_fitted_clothing(rig, meshes)
+    # The mesh-only path owns generated copies. Semantic rebuilds can be
+    # operating on original geometry that is required to remain unchanged.
+    if source is None:
+        from avatar_clothing_clearance import fit_clearance
+        binding['clothing_clearance'] = fit_clearance(rig, meshes)
     sums=[sum(weights(o,v.index).values()) for o in meshes for v in o.data.vertices]
     assert min(sums)>.9999 and max(sums)<1.0001, (min(sums),max(sums))
     assert all(g.name in rig.data.bones for o in meshes for g in o.vertex_groups)

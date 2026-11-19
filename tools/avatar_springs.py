@@ -129,6 +129,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     from avatar_surface_attachments import plan_mounted, plan_jackets
     chains, regions = plan_mounted(rig, meshes, all_points, height, PREFIX) if include_hair else ([], [])
     islands_by_mesh = {}
+    hair_domains = {}
     pendants = []
     if include_hair:
         from avatar_hip_pendants import plan_pendants
@@ -163,12 +164,22 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             hair = extend_hair_region(obj, rig, points, hair, roles, images)
         from avatar_virtual_topology import connected_graph, protected_extremities
         hair -= set(np.flatnonzero(protected_extremities(rig, points, height)))
+        hair_domains[obj] = hair.copy()
         hair -= {i for r in regions if r['obj']==obj for i in r['ids']}
         hair_graph, hair_components, hair_links = connected_graph(obj.data, points, hair, height*.0001)
         for component in hair_components:
             ids = sorted(set(component) & hair)
             if len(ids) < 8:
                 continue
+            from avatar_crown_strands import crown_strands
+            for guide, fractions in crown_strands(hair_graph, ids, points, height, rig.data.bones['Head'].tail_local.z):
+                label = f'{PREFIX}Hair_Crown_{len(chains):02d}'
+                root = guide[0] - (guide[1]-guide[0]).normalized() * height * .002
+                line = [root, *guide]
+                names = [f'{label}_{i:02d}' for i in range(len(line))]
+                chains.append(dict(role='hair', names=names, line=line, parent='Head', physics_start=1))
+                values = {i: _vertical_weights(names[1:], 'Head', t, True) for i,t in fractions.items()}
+                regions.append(dict(obj=obj, role='hair', ids=set(fractions), values=values))
             p = points[ids]
             free_top = hair_free_top(p, height, neck_z, rig.data.bones['Head'].tail_local.z)
             if free_top is None:
@@ -305,7 +316,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
         for obj in meshes:
             excluded={i for region in regions if region['obj']==obj for i in region['ids']}
             extra,bindings,_=plan_head_accessories(rig,obj,all_points[obj.name],excluded,height,PREFIX,
-                                                   sum(c['role']=='ornament' for c in chains))
+                                                   sum(c['role']=='ornament' for c in chains), hair_domain=hair_domains[obj])
             chains.extend(extra);regions.extend(bindings)
     cap = head_cap_vertices(meshes, rig, roles) if include_hair else {}
     regions.extend(dict(obj=obj, ids=set(cap[obj.name])-{i for r in regions if r['obj']==obj for i in r['ids']}, role='head_cap')
@@ -314,7 +325,7 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
     return dict(chains=chains, regions=regions, rejected=rejected, skirt_center=center.tolist(), height=float(height), points=all_points, accessories=accessory_reports)
 
 
-def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None, skirt_segments=None, refine_cloth=True):
+def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=12, spring_center=None, skirt_segments=None, refine_cloth=True, symmetric_guides=False):
     """Add a secondary rig once, preserving all geometry and unrelated weights.
 
     Repeated calls reject before mutation rather than accumulating duplicate
@@ -332,6 +343,9 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         if name not in rig.data.bones:
             raise ValueError('Missing humanoid attachment bone: '+name)
     plan = plan_secondary(rig, meshes, material_roles, segments, skirt_sectors, skirt_segments)
+    if symmetric_guides:
+        from mesh_landmarks.rig_frames import symmetrize_guides
+        symmetrize_guides(plan['chains'], rig, plan['height'])
     if not plan['chains']:
         raise ValueError('No supported long-hair or skirt regions detected')
     selected = list(bpy.context.selected_objects)
@@ -358,6 +372,25 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                 # Keep the control exportable, but give it no vertex weights.
                 follow.use_deform = True
                 chain['parent'] = follow.name
+            if chain.get('garment') and chain['parent'] in ('Spine', 'UpperSpine', 'Chest'):
+                parent = rig.data.edit_bones[chain['parent']]
+                source = parent
+                rear = chain.get('rear_share', 0.)
+                if rear > .2:
+                    hem = chain['line'][-1].z
+                    while source.parent and source.parent.name in ('Spine', 'UpperSpine', 'Chest'):
+                        if abs(source.parent.head.z - hem) >= abs(source.head.z - hem):
+                            break
+                        source = source.parent
+                mount = rig.data.edit_bones.new(chain['names'][0] + '_Mount')
+                mount.head = chain['line'][0]
+                mount.tail = mount.head + (source.tail - source.head)
+                # Roll the mount half a turn about Y to reverse the two bend
+                # axes using a single VRM local rotation constraint.
+                mount.roll = source.roll + math.pi
+                mount.parent = parent
+                chain['jacket_follow'] = (mount.name, source.name, .18 + .17 * rear)
+                chain['parent'] = mount.name
             if 'panel_follow' in chain:
                 mount = rig.data.edit_bones.new(chain['load_parent'])
                 driver = rig.data.edit_bones[chain['panel_follow']]
@@ -420,6 +453,11 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
                     bone['unimate_fixed_hair_root'] = True
         bpy.ops.object.mode_set(mode='OBJECT')
         for chain in plan['chains']:
+            if 'jacket_follow' in chain:
+                mount, source, share = chain['jacket_follow']
+                constraint = rig.pose.bones[mount].constraints.new('COPY_ROTATION')
+                set_constraint(constraint, rig, source, share)
+                constraint.name = 'Jacket spine follow'
             if 'panel_follow' in chain:
                 constraint = rig.pose.bones[chain['load_parent']].constraints.new('COPY_ROTATION')
                 set_constraint(constraint, rig, chain['panel_follow'], 1.)

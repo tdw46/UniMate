@@ -235,7 +235,9 @@ def _initialize(rig):
             group = settings.spring_groups.add()
             group.name, group.prefix = name, prefix
             first = chains[0].joints[0]
-            group.drag, group.stiffness, group.gravity = first.drag_force, first.stiffness, first.gravity_power
+            ratio = first.get('hallway_generated_gravity_ratio', 1.) if name == 'Accessory' else 1.
+            gravity = first.gravity_power / ratio if ratio > 0. else first.gravity_power
+            group.drag, group.stiffness, group.gravity = first.drag_force, first.stiffness, gravity
     capture_collider_baselines(rig)
     settings.initialized = True
     return settings

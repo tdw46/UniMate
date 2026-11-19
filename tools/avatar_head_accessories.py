@@ -5,7 +5,7 @@ from mathutils import Vector
 from avatar_virtual_topology import connected_graph, protected_extremities
 
 
-def plan_head_accessories(rig, obj, points, excluded, height, prefix, start_index=0):
+def plan_head_accessories(rig, obj, points, excluded, height, prefix, start_index=0, hair_domain=()):
     head = rig.data.bones.get('Head')
     if head is None or height <= 0:
         return [], [], dict(components=0)
@@ -21,7 +21,16 @@ def plan_head_accessories(rig, obj, points, excluded, height, prefix, start_inde
         i,j = edge.vertices; distance = float(np.linalg.norm(points[i]-points[j]))
         neighbors[i].append((j,distance)); neighbors[j].append((i,distance))
     chains, regions = [], []
+    # A cut through a continuous hair cap is not a separate ornament.
+    # Keep true, disconnected bow hardware eligible even on the same mesh.
+    cut_boundary = set()
+    for edge in obj.data.edges:
+        i, j = edge.vertices
+        if i in hair_domain and j in hair_domain and (i in allowed) != (j in allowed):
+            cut_boundary.add(i if i in allowed else j)
     for ids in groups:
+        if not cut_boundary.isdisjoint(ids):
+            continue
         p = points[ids]; span = np.ptp(p,axis=0)
         if len(ids)<8 or not height*.025<max(span)<height*.10:
             continue

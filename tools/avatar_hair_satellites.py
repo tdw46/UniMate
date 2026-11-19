@@ -36,7 +36,7 @@ def attach_satellites(obj,points,allowed,regions,height):
         result={}
         for j,factor in zip(tri,factors):
             region=owners.get(j)
-            donor=(_vertical_weights(region['names'][0],'Head',(region['hi']-points[j,2])/(region['hi']-region['lo']),True)
+            donor=(region['values'][j] if region and 'values' in region else _vertical_weights(region['names'][0],'Head',(region['hi']-points[j,2])/(region['hi']-region['lo']),True)
                    if region else {'Head':1.})
             for name,weight in donor.items():result[name]=result.get(name,0.)+float(factor)*weight
         if sum(w for n,w in result.items() if n!='Head')>1e-8:values[i]=result
@@ -48,7 +48,7 @@ def attach_satellites(obj,points,allowed,regions,height):
             if i in values:donors.append(values[i])
             elif i in owners:
                 r=owners[i]
-                donors.append(_vertical_weights(r['names'][0],'Head',(r['hi']-points[i,2])/(r['hi']-r['lo']),True))
+                donors.append(r['values'][i] if 'values' in r else _vertical_weights(r['names'][0],'Head',(r['hi']-points[i,2])/(r['hi']-r['lo']),True))
         if len(donors)<len(component)*.8:continue
         blended={}
         for donor in donors:

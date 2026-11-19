@@ -273,9 +273,13 @@ def register():
             bpy.utils.register_class(cls)
     import avatar_collider_overlay
     avatar_collider_overlay.register()
+    import avatar_mtoon_groups
+    avatar_mtoon_groups.install()
 
 
 def unregister():
+    import avatar_mtoon_groups
+    avatar_mtoon_groups.uninstall()
     import ui_mesh_rig
     ui_mesh_rig.unregister()
     import avatar_collider_overlay

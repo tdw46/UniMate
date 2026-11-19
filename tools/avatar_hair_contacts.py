@@ -74,8 +74,15 @@ def plan_hair_contacts(rig, meshes, material_roles=None):
         # a collider even when its center guide is clear.
         samples += [(p,0.) for p,w in records if any(n in joint_names and v>.05 for n,v in w.items())]
         points=np.array([tuple(p) for p,r in samples]);hits=np.array([r for p,r in samples])
+        from avatar_rig_defaults import short_head_lock
+        sections = body
+        bones = [rig.data.bones.get(j.node.bone_name) for j in spring.joints]
+        if short_head_lock(rig, bones):
+            allowed = {getattr(hum, role).node.bone_name for role in
+                       ('head','left_hand','right_hand','left_lower_arm','right_lower_arm')}
+            sections = [section for section in body if section['bone'] in allowed]
         refs=[]
-        for spec in body:
+        for spec in sections:
             bone=rig.data.bones[spec['bone']]
             a=np.array(bone.matrix_local@Vector(spec['offset']));b=np.array(bone.matrix_local@Vector(spec['tail']))
             delta=b-a;denom=float(delta@delta)
@@ -94,7 +101,7 @@ def plan_hair_contacts(rig, meshes, material_roles=None):
         # sections, as for skirt/leg guards. Its back stays inside the body;
         # fit the front against this chain only so it cannot push hair at rest.
         nearest={}
-        for spec in body:
+        for spec in sections:
             bone=rig.data.bones[spec['bone']]
             a=np.array(bone.matrix_local@Vector(spec['offset']));b=np.array(bone.matrix_local@Vector(spec['tail']))
             axis=b-a;denom=float(axis@axis)
