@@ -22,15 +22,16 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(p['springs']['Skirt']['stiffness'], 1.6)
 
     def test_tight_screenshot_profile(self):
+        original_hair = SPRINGS['Hair'].copy()
         p = profile_defaults(rig(1.))
         self.assertEqual(p['name'], 'tight_long_dress')
         self.assertEqual(p['follow']['Skirt'], .89)
         self.assertEqual(p['springs']['Skirt']['drag'], .55)
         self.assertEqual(p['springs']['Skirt']['stiffness'], 4.)
         self.assertEqual([p['follow'][n] for n in ('Skirt Knee', 'Skirt Knee Side', 'Skirt Knee Back')], [.6, .55, .5])
-        self.assertEqual(p['springs']['Hair'], SPRINGS['Hair'])
+        self.assertEqual(p['springs']['Hair'], original_hair)
         p['springs']['Hair']['drag'] = 0
-        self.assertEqual(SPRINGS['Hair']['drag'], .4)
+        self.assertEqual(SPRINGS['Hair'], original_hair)
 
     def test_invalid_measurement_keeps_legacy(self):
         for value in ('bad', 'null', '{"families": [{"sections": {}}]}'):
