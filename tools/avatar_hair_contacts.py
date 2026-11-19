@@ -171,31 +171,45 @@ def fit_generated_hair_radii(rig, height):
                     if x.collider_uuid in colliders] for g in sb.collider_groups}
     updated=0;minimum=float('inf')
     with rest_edit(rig):
+        # The VRM RNA enum value is a string. Its class constant can be an
+        # enum descriptor. Read each assigned capsule's full axis once.
+        segments = {}
         for spring in sb.springs:
-            if not spring.vrm_name.startswith(PREFIX):continue
-            contacts=[c for ref in spring.collider_groups for c in groups.get(ref.collider_group_uuid,())]
-            for head,tail in zip(spring.joints,spring.joints[1:]):
-                bone=rig.data.bones.get(tail.node.bone_name)
-                if bone is None or not contacts:continue
-                clearances=[]
-                for collider in contacts:
-                    owner=rig.data.bones.get(collider.node.bone_name)
-                    extended=getattr(getattr(collider,'extensions',None),'vrmc_spring_bone_extended_collider',None)
-                    if owner is None or (extended and extended.enabled):
-                        clearances=[];break
-                    if collider.shape_type==collider.SHAPE_TYPE_CAPSULE:
-                        shape=collider.shape.capsule
-                        end=owner.matrix_local@Vector(shape.tail)
-                    else:
-                        shape=collider.shape.sphere
-                        end=owner.matrix_local@Vector(shape.offset)
-                    start=owner.matrix_local@Vector(shape.offset)
-                    clearances.append(segment_distance(bone.head_local,start,end)-shape.radius)
-                if not clearances:continue
-                base=float(head.get('generated_hair_base_radius',head.hit_radius))
-                head['generated_hair_base_radius']=base
-                radius=max(base,min(base+height*.02,min(clearances)-height*.0015))
-                if abs(head.hit_radius-radius)>1e-7:updated+=1
-                head.hit_radius=radius
-                minimum=min(minimum,min(clearances)-radius)
+            if not spring.vrm_name.startswith(PREFIX):
+                continue
+            contacts = []
+            for ref in spring.collider_groups:
+                for collider in groups.get(ref.collider_group_uuid, ()):
+                    key = collider.uuid
+                    if key not in segments:
+                        owner = rig.data.bones.get(collider.node.bone_name)
+                        extended = getattr(getattr(collider, 'extensions', None),
+                                           'vrmc_spring_bone_extended_collider', None)
+                        segment = None
+                        if owner is not None and not (extended and extended.enabled):
+                            if collider.shape_type == 'Capsule':
+                                shape = collider.shape.capsule
+                                segment = (owner.matrix_local @ Vector(shape.offset),
+                                           owner.matrix_local @ Vector(shape.tail), shape.radius)
+                            elif collider.shape_type == 'Sphere':
+                                shape = collider.shape.sphere
+                                point = owner.matrix_local @ Vector(shape.offset)
+                                segment = (point, point, shape.radius)
+                        segments[key] = segment
+                    contacts.append(segments[key])
+            if not contacts or None in contacts:
+                continue
+            for head, tail in zip(spring.joints, spring.joints[1:]):
+                bone = rig.data.bones.get(tail.node.bone_name)
+                if bone is None:
+                    continue
+                clearance = min(segment_distance(bone.head_local, a, b) - radius
+                                for a, b, radius in contacts)
+                base = float(head.get('generated_hair_base_radius', head.hit_radius))
+                head['generated_hair_base_radius'] = base
+                radius = max(0., min(base + height*.02, clearance - height*.0015))
+                if abs(head.hit_radius - radius) > 1e-7:
+                    head.hit_radius = radius
+                    updated += 1
+                minimum = min(minimum, clearance - head.hit_radius)
     return dict(updated=updated,minimum_rest_clearance=minimum if np.isfinite(minimum) else None)
