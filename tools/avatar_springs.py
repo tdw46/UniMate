@@ -739,5 +739,10 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         metadata['hair_contact_radii'] = fit_generated_hair_radii(rig, height)
         metadata['colliders'] = len(sb.colliders)
         metadata['collider_groups'] = len(sb.collider_groups)
+    if any(c.get('garment') or c['role']=='hair' for c in plan['chains']):
+        from avatar_surface_guards import fit_surface_guards
+        metadata['surface_guards'] = fit_surface_guards(rig, meshes, height)
+        metadata['colliders'] = len(sb.colliders)
+        metadata['collider_groups'] = len(sb.collider_groups)
     metadata.pop('height', None)
     return dict(**metadata, spring_names=[s.vrm_name for s in sb.springs if s.vrm_name.startswith(PREFIX)])
