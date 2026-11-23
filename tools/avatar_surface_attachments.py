@@ -247,7 +247,12 @@ def install_garment_contacts(rig,meshes,plan,prefix):
     # fallback for covered skin, and test the swept reach from the hip socket.
     humanoid = rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
     thighs = {leg.node.bone_name for leg in (humanoid.left_upper_leg, humanoid.right_upper_leg)}
-    for name in thighs:
+    legs=set(thighs)
+    hem=min((c['line'][-1].z for c in plan['chains'] if c.get('garment')),default=float('inf'))
+    for node in (humanoid.left_lower_leg,humanoid.right_lower_leg):
+        bone=rig.data.bones.get(node.node.bone_name)
+        if bone and hem<bone.head_local.z:legs.add(bone.name)
+    for name in legs:
         bone = rig.data.bones.get(name)
         if bone and not any(entry['bone'] == name for entry in body):
             body.append(dict(bone=name, body_radius=.16 * bone.length))
@@ -275,7 +280,7 @@ def install_garment_contacts(rig,meshes,plan,prefix):
             b=rig.data.bones[spec['bone']]
             if not samples:
                 continue
-            if b.name in thighs:
+            if b.name in legs:
                 radius = spec['body_radius']
                 if all((p - b.head_local).length > b.length + radius + r for p, r in samples):
                     continue

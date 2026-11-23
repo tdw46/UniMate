@@ -67,7 +67,7 @@ class WorkerOperator:
             self.report({'ERROR'},'Enable online access to download the rigging engine');return {'CANCELLED'}
         self._root=Path(root);self._root.mkdir(parents=True,exist_ok=True)
         self._job=Path(tempfile.mkdtemp(prefix='character-rig-'));self._action=action
-        self._scene=context.scene;self._meshes=list(meshes);self._cancel_requested=False;self._binding=None
+        self._scene=context.scene;self._meshes=list(meshes);self._cancel_requested=False;self._binding=None;self._prepared=None
         self._log=(self._job/'worker.log').open('w');self._began=time.monotonic()
         python=runtime_python(root) if action in {'infer','verify','prepare'} else Path(sys.executable)
         cmd=[str(python),str(Path(__file__).with_name('worker.py')),action,'--root',str(root)]
@@ -104,6 +104,8 @@ class WorkerOperator:
                 with log.open('rb') as f:
                     f.seek(max(0,log.stat().st_size-24000));(self._root/'last-job.log').write_bytes(f.read())
             shutil.rmtree(self._job,ignore_errors=True)
+        if getattr(self,'_prepared',None):
+            self._prepared.close();self._prepared=None
         self._binding=None
         self._prediction=None
         ACTIVE.discard(self)
@@ -128,10 +130,13 @@ class WorkerOperator:
                 if blender_bridge.geometry_digest(v,f)!=self._digest:raise RuntimeError('Character geometry changed; generate the rig again')
             if self._action=='infer':
                 result=blender_bridge.refine_prediction(self._meshes,json.loads((self._job/'joints.json').read_text()))
+                from .arm_separation import PreparedMeshes
+                self._prepared=PreparedMeshes(self._meshes,result,getattr(self,'_separate_arms',False),runtime_root=self._root)
+                result['arm_separation']=self._prepared.report
                 options=getattr(self,'_skin_options',None)
                 if options:
                     from . import skin_binding
-                    command=skin_binding.prepare(self._meshes,result,self._job,options)
+                    command=skin_binding.prepare(self._prepared.meshes,result,self._job,options)
                     self._prediction=result
                     env=dict(os.environ,PYTHONNOUSERSITE='1',PYTHONUNBUFFERED='1',RAYON_NUM_THREADS='4',BEYOND_SKINNING_BACKEND=options['backend'])
                     env.pop('PYTHONPATH',None);env.pop('PYTHONHOME',None)
@@ -139,11 +144,11 @@ class WorkerOperator:
                         start_new_session=os.name!='nt',creationflags=(subprocess.CREATE_NEW_PROCESS_GROUP|subprocess.CREATE_NO_WINDOW) if os.name=='nt' else 0)
                     self._action='bind'
                     return {'RUNNING_MODAL'}
-                self.finish_generation(context,self._meshes,result)
+                self.finish_generation(context,self._prepared.meshes,result)
             elif self._action=='bind':
                 from . import skin_binding
                 self._binding=skin_binding.load(self._job)
-                self.finish_generation(context,self._meshes,self._prediction)
+                self.finish_generation(context,self._prepared.meshes,self._prediction)
         except Exception as error:
             traceback.print_exc()
             if getattr(self, '_log', None) and not self._log.closed:

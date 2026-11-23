@@ -30,6 +30,7 @@ class HALLWAY_OT_GenerateMeshRig(jobs.WorkerOperator,bpy.types.Operator):
         self._skin_options=dict(symmetrize=self._symmetrize,backend=context.scene.hallway_skinning_device,brand='Hallway Solver') if context.scene.hallway_skinning=='SOLVER' else None
         if self._skin_options and not skin_binding.available():
             self.report({'ERROR'},'Solver unavailable on this platform. Choose Blender Weighting.');return {'CANCELLED'}
+        self._separate_arms=context.scene.hallway_separate_arms
         self._secondary=context.scene.hallway_rig_secondary
         self._breasts=context.scene.hallway_rig_breasts
         return self.start(context,runtime_root(),'infer',[o for o in context.selected_objects if o.type=='MESH'],context.scene.hallway_rig_device)
@@ -51,7 +52,7 @@ class HALLWAY_OT_GenerateMeshRig(jobs.WorkerOperator,bpy.types.Operator):
             text=bpy.data.texts.new('Automatic Rigging Report');text.write(json.dumps(report,indent=2,default=str))
             rig['mesh_only_rig_report']=text.name
             bpy.ops.object.select_all(action='DESELECT');rig.select_set(True);context.view_layer.objects.active=rig
-        blender_bridge.build(context,meshes,prediction,builder,prefix='Hallway',secondary=self._secondary,finalize=finish,binding=self._binding,symmetrize=self._symmetrize,humanoid_only=self._humanoid_only)
+        blender_bridge.build(context,meshes,prediction,builder,prefix='Hallway',secondary=self._secondary,finalize=finish,binding=self._binding,symmetrize=self._symmetrize,humanoid_only=self._humanoid_only,reference_meshes=self._meshes)
 
 
 
@@ -86,6 +87,7 @@ class HALLWAY_PT_MeshRig(bpy.types.Panel):
         layout.prop(context.scene,'hallway_symmetrize')
         if context.scene.hallway_symmetrize:
             layout.prop(context.scene,'hallway_symmetrize_humanoid')
+        layout.prop(context.scene,'hallway_separate_arms')
         layout.prop(context.scene,'hallway_rig_secondary')
         layout.prop(context.scene,'hallway_rig_breasts')
         row=layout.row();row.scale_y=1.8;row.operator('hallway.generate_mesh_rig',icon='ARMATURE_DATA')
@@ -100,10 +102,11 @@ def register():
     bpy.types.Scene.hallway_symmetrize=bpy.props.BoolProperty(name='Symmetrize Armature',default=True)
     bpy.types.Scene.hallway_symmetrize_humanoid=bpy.props.BoolProperty(name='Symmetrize Humanoid Bones Only',default=True)
     bpy.types.Scene.hallway_rig_secondary=bpy.props.BoolProperty(name='Generate Hair and Skirt Bones',default=True)
+    bpy.types.Scene.hallway_separate_arms=bpy.props.BoolProperty(name='Separate Fused Arms',description='Cut and cap detected arm-to-torso bridges on generated copies; changes topology, preserves source meshes',default=False)
     bpy.types.Scene.hallway_rig_breasts=bpy.props.BoolProperty(name='Generate Breast Bones',default=False)
 def unregister():
     jobs.cancel_all()
     for cls in reversed(CLASSES):
         if getattr(cls,'is_registered',False):bpy.utils.unregister_class(cls)
-    for name in ('hallway_symmetrize','hallway_symmetrize_humanoid','hallway_rig_device','hallway_rig_secondary','hallway_skinning','hallway_skinning_device','hallway_rig_breasts'):
+    for name in ('hallway_separate_arms','hallway_symmetrize','hallway_symmetrize_humanoid','hallway_rig_device','hallway_rig_secondary','hallway_skinning','hallway_skinning_device','hallway_rig_breasts'):
         if hasattr(bpy.types.Scene,name):delattr(bpy.types.Scene,name)

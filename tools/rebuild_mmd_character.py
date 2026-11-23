@@ -121,7 +121,7 @@ def specs_from_mmd(source):
     return specs
 
 
-def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, binding=None, symmetric_secondary=False, symmetric_hands=False, correct_finger_geometry=False):
+def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, binding=None, symmetric_secondary=False, symmetric_hands=False, correct_finger_geometry=False,shoulder_sources=None,shoulder_source_transform=None):
     if source is not None:
         assert all(pb.matrix_basis == Matrix.Identity(4) for pb in source.pose.bones), 'Source must be neutral'
         assert source.matrix_world == Matrix.Identity(4), 'Apply rig transforms first'
@@ -153,6 +153,7 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
         for mod in list(obj.modifiers):
             if mod.type=='ARMATURE':obj.modifiers.remove(mod)
     if source is not None: bpy.data.objects.remove(source,do_unlink=True)
+    using_solver=binding is not None
     if binding is None:
         from avatar_arp_binding import bind_generated
         binding=bind_generated(rig,meshes)
@@ -160,6 +161,9 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
         from mesh_landmarks import skin_binding
         from avatar_influence_domains import head_domains
         binding=skin_binding.apply(rig,meshes,binding,head_domains(rig,meshes))
+    from mesh_landmarks.arm_separation import enforce_banks
+    binding['arm_partition']=enforce_banks(rig,meshes)
+    if using_solver:
         from avatar_hand_binding import refine_hand_weights
         binding['hand_cleanup']=refine_hand_weights(rig,meshes)
     from avatar_springs import plan_secondary
@@ -183,6 +187,20 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
     if source is None:
         from avatar_clothing_clearance import fit_clearance
         binding['clothing_clearance'] = fit_clearance(rig, meshes)
+    from avatar_accessory_ownership import confine_pelvis_accessories
+    binding['pelvis_accessory_ownership']=confine_pelvis_accessories(rig,meshes)
+    from mesh_landmarks.arm_separation import close_shoulder_weights
+    binding['arm_shoulder_join']=close_shoulder_weights(rig,meshes)
+    from avatar_shoulder_binding import smooth_repaired_shoulders
+    binding['shoulder_smoothing']=smooth_repaired_shoulders(rig,meshes)
+    if source is None:
+        from avatar_shoulder_transition import refine_shoulder_heat
+        binding['shoulder_heat']=refine_shoulder_heat(
+            rig,meshes,shoulder_sources,world_to_rig=shoulder_source_transform)
+        from avatar_armpit_attachment import blend_repaired_armpits
+        binding['armpit_attachment']=blend_repaired_armpits(rig,meshes)
+    from mesh_landmarks.arm_separation import limit_generated_fill_weights
+    binding['generated_fill_limits']=limit_generated_fill_weights(meshes)
     sums=[sum(weights(o,v.index).values()) for o in meshes for v in o.data.vertices]
     assert min(sums)>.9999 and max(sums)<1.0001, (min(sums),max(sums))
     assert all(g.name in rig.data.bones for o in meshes for g in o.vertex_groups)

@@ -301,6 +301,10 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             extra,bindings=plan_jackets(rig,obj,all_points[obj.name],excluded,height,PREFIX,
                                        sum(c.get('garment',False) for c in chains))
             chains.extend(extra);regions.extend(bindings)
+            if not extra:
+                from avatar_anonymous_cloth import plan_panels
+                extra,bindings=plan_panels(rig,obj,all_points[obj.name],excluded,height,PREFIX,start_index=len(chains))
+                chains.extend(extra);regions.extend(bindings)
     accessory_reports=[]
     if include_hair:
         from avatar_accessories import plan_accessories
@@ -533,6 +537,8 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         if refine_cloth:refine_bound_overlays(rig,meshes,metadata['cloth_overlays'])
         from avatar_cloth_contacts import install_overlay_contacts
         metadata['cloth_overlay_contacts']=install_overlay_contacts(rig,metadata['cloth_overlays'])
+        from avatar_pelvis_cloth import bind_short_pelvis_cloth
+        metadata['short_pelvis_cloth']=bind_short_pelvis_cloth(rig,meshes,plan)
         metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
     finally:
         if bpy.context.mode != 'OBJECT':
