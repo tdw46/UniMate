@@ -35,7 +35,7 @@ def refine_prediction(meshes, prediction):
     vertices, faces = geometry(meshes)
     signature = geometry_digest(vertices, faces)
     if (prediction.get('hand_refinement_geometry_sha256') == signature
-            and prediction.get('hand_refinement',{}).get('revision') == 4):
+            and prediction.get('hand_refinement',{}).get('revision') == 5):
         return prediction
     result = refine(vertices, prediction)
     from .finger_surface import fit_digits
@@ -43,7 +43,9 @@ def refine_prediction(meshes, prediction):
     audit['surface_fit'] = fit_digits(vertices, faces, result['joints'])
     from .arm_surface import fit_arm_pivots
     audit['arm_pivots'] = fit_arm_pivots(vertices, faces, result['joints'])
-    audit['revision'] = 4
+    from .shoulder_surface import fit_fused_shoulders
+    result['shoulder_socket_refinement'] = fit_fused_shoulders(vertices, faces, result)
+    audit['revision'] = 5
     result['hand_refinement_geometry_sha256'] = signature
     return result
 
@@ -75,7 +77,7 @@ def specifications(prediction):
     return specs
 
 
-def build(context,meshes,prediction,builder,*,prefix='Character',secondary=True,finalize=None,binding=None,symmetrize=True,humanoid_only=True):
+def build(context,meshes,prediction,builder,*,prefix='Character',secondary=True,finalize=None,binding=None,symmetrize=True,humanoid_only=True,reference_meshes=None):
     import copy
     from avatar_mtoon_groups import rig_material
     prediction=refine_prediction(meshes,prediction)
@@ -121,7 +123,7 @@ def build(context,meshes,prediction,builder,*,prefix='Character',secondary=True,
                     if materials[mat] != mat:
                         slot.material = materials[mat]
             scene.collection.objects.link(dup);copies.append(dup)
-        rig,report=builder.rebuild(None,copies,specs=specs,symmetric_hands=symmetrize,correct_finger_geometry=True,symmetric_secondary=symmetrize and not humanoid_only,secondary=secondary,binding=binding)
+        rig,report=builder.rebuild(None,copies,specs=specs,symmetric_hands=symmetrize,correct_finger_geometry=True,symmetric_secondary=symmetrize and not humanoid_only,secondary=secondary,binding=binding,shoulder_sources=reference_meshes if reference_meshes is not None else meshes,shoulder_source_transform=Matrix.Translation(-origin))
         report['symmetry'] = dict(enabled=symmetrize, humanoid_only=humanoid_only)
         rig.matrix_world=Matrix.Translation(origin)
         rig.name=prefix+' Auto Rig';report['landmarks']=prediction

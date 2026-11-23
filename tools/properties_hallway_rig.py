@@ -36,6 +36,9 @@ def _update(property_group, context, field):
         elif field == 'dress_fit_strength':
             for group in rig.hallway_rig.follow_groups:
                 apply_follow(rig, group)
+        elif field in ('hair_thickness','jacket_thickness'):
+            from avatar_surface_guards import scale_contacts
+            scale_contacts(rig, field.split('_')[0], getattr(rig.hallway_rig,field))
         elif field == 'skirt_thickness':
             apply_thickness(rig, context)
         else:
@@ -186,6 +189,10 @@ class HALLWAY_PG_Rig(bpy.types.PropertyGroup):
     spring_groups: bpy.props.CollectionProperty(type=HALLWAY_PG_Spring)
     dress_fit_strength: bpy.props.FloatProperty(name='Tight Dress Follow', default=DRESS_FIT_STRENGTH, min=0., max=1.,
         subtype='FACTOR', description='Boost upper and lower follow according to measured rest clearance. Zero uses the original follow sliders; no extra constraints or leg weights', update=update_dress_fit)
+    hair_thickness: bpy.props.FloatProperty(name='Hair Collider Thickness', default=1., min=.05, max=3.,
+        update=lambda self, context: _update(self, context, 'hair_thickness'))
+    jacket_thickness: bpy.props.FloatProperty(name='Jacket Collider Thickness', default=1., min=.05, max=3.,
+        update=lambda self, context: _update(self, context, 'jacket_thickness'))
     skirt_thickness: bpy.props.FloatProperty(name='Skirt Collider Thickness', default=SKIRT_THICKNESS, min=.05, max=3.,
         description='Multiplier of fitted skirt collider radii, capped at rest clearance; hair colliders are unchanged', update=update_thickness)
 
@@ -287,6 +294,7 @@ def set_profile_defaults(rig):
         for group in settings.follow_groups:
             group.influence = profile['follow'].get(group.name, group.get(
                 'hallway_default_influence', group.bl_rna.properties['influence'].default))
+        settings.hair_thickness = settings.jacket_thickness = 1.
         settings.skirt_thickness = SKIRT_THICKNESS
         settings.dress_fit_strength = DRESS_FIT_STRENGTH
         for group in settings.spring_groups:
@@ -309,6 +317,9 @@ def _apply_settings(rig):
         apply_follow(rig, group)
     for group in settings.spring_groups:
         apply_spring(rig, group)
+    from avatar_surface_guards import scale_contacts
+    for family in ('hair','jacket'):
+        scale_contacts(rig, family, getattr(settings, family+'_thickness'))
     count = apply_thickness(rig, bpy.context)
     bpy.context.view_layer.update()
     return count

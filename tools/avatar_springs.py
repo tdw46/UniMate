@@ -301,6 +301,10 @@ def plan_secondary(rig, meshes, material_roles=None, segments=4, skirt_sectors=1
             extra,bindings=plan_jackets(rig,obj,all_points[obj.name],excluded,height,PREFIX,
                                        sum(c.get('garment',False) for c in chains))
             chains.extend(extra);regions.extend(bindings)
+            if not extra:
+                from avatar_anonymous_cloth import plan_panels
+                extra,bindings=plan_panels(rig,obj,all_points[obj.name],excluded,height,PREFIX,start_index=len(chains))
+                chains.extend(extra);regions.extend(bindings)
     accessory_reports=[]
     if include_hair:
         from avatar_accessories import plan_accessories
@@ -533,6 +537,8 @@ def generate_secondary(rig, meshes, material_roles=None, segments=4, skirt_secto
         if refine_cloth:refine_bound_overlays(rig,meshes,metadata['cloth_overlays'])
         from avatar_cloth_contacts import install_overlay_contacts
         metadata['cloth_overlay_contacts']=install_overlay_contacts(rig,metadata['cloth_overlays'])
+        from avatar_pelvis_cloth import bind_short_pelvis_cloth
+        metadata['short_pelvis_cloth']=bind_short_pelvis_cloth(rig,meshes,plan)
         metadata['spring_names']=[s.vrm_name for s in rig.data.vrm_addon_extension.spring_bone1.springs if s.vrm_name.startswith(PREFIX)]
     finally:
         if bpy.context.mode != 'OBJECT':
@@ -737,6 +743,11 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         from avatar_hair_contacts import install_hair_contacts, fit_generated_hair_radii
         metadata['hair_contacts'] = install_hair_contacts(rig, meshes, roles)
         metadata['hair_contact_radii'] = fit_generated_hair_radii(rig, height)
+        metadata['colliders'] = len(sb.colliders)
+        metadata['collider_groups'] = len(sb.collider_groups)
+    if any(c.get('garment') or c['role']=='hair' for c in plan['chains']):
+        from avatar_surface_guards import fit_surface_guards
+        metadata['surface_guards'] = fit_surface_guards(rig, meshes, height)
         metadata['colliders'] = len(sb.colliders)
         metadata['collider_groups'] = len(sb.collider_groups)
     metadata.pop('height', None)

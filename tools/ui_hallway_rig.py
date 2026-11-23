@@ -220,6 +220,9 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
             for name,label in (('Skirt','Upper'),('Skirt Knee','Lower')):
                 values=[c.influence for pb,c in follow_entries(rig,name) if 'hallway_dress_tightness' in pb.bone]
                 if values:col.label(text=f'{label} effective follow: {min(values):.0%}–{max(values):.0%}')
+        for family in ('hair','jacket'):
+            if any(g.vrm_name.startswith('Secondary_'+family.title()+'Contact_') for g in rig.data.vrm_addon_extension.spring_bone1.collider_groups):
+                col.prop(settings, family+'_thickness')
         if 'Skirt' in settings.spring_groups:
             col.prop(settings, 'skirt_thickness', text='Skirt Thickness')
             col.label(text='Limited by rest clearance', icon='INFO')
