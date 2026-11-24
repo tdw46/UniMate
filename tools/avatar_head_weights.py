@@ -113,9 +113,11 @@ def projecting_chin_ownership(points, head, neck, front_depth):
         distance = np.abs(columns[outside]-columns[edge])/length
         blend = smoothstep(0., .22, distance)
         chin_levels[outside] = ((1.-blend)*chin_levels[edge]+blend*(root[2]+.07*length))
+    # Avoid a step at quantized silhouette samples, especially at the lower jaw.
+    chin_levels[1:-1] = .25*chin_levels[:-2] + .5*chin_levels[1:-1] + .25*chin_levels[2:]
     x, y, z = points.T
     inside = ((x >= columns[0]) & (x <= columns[-1]) &
-              (z >= levels[strongest[first:last+1]].min()-.02*length) & (z <= levels[-1]))
+              (z >= chin_levels.min()-.14*length) & (z <= levels[-1]))
     indices = np.flatnonzero(inside)
     xi = np.clip(np.searchsorted(columns, x[indices])-1, 0, len(columns)-2)
     xt = (x[indices]-columns[xi])/(columns[xi+1]-columns[xi])
@@ -127,7 +129,7 @@ def projecting_chin_ownership(points, head, neck, front_depth):
              + xt*((1-zt)*profile[xi+1,zi]+zt*profile[xi+1,zi+1]))
     margin = .125+.14*smoothstep(-.40,.05,(z[indices]-root[2])/length)
     side = np.minimum(x[indices]-columns[0], columns[-1]-x[indices])/length
-    amount = (smoothstep(-.043,-.012,(z[indices]-chin)/length)
+    amount = (smoothstep(-.14,-.028,(z[indices]-chin)/length)
               *(1.-smoothstep(margin,margin+.065,(y[indices]-depth)/length))
               *smoothstep(0.,.10,side)
               *smoothstep(.22,.37,(neck.head_local.y-y[indices])/length)
@@ -157,11 +159,12 @@ def cranial_ownership(points, head, radial_depth):
     depth = radial_depth(z, angle)
     surface_amount = 1. - smoothstep(.038, .105, (radius - depth) / length)
     near_axis = 1. - smoothstep(.78, .98, radius / length)
-    # At the crown a ray can miss a vertex tangent to the scan plane.
-    # Only fall back to the central cap well above the neck.
-    cap = smoothstep(.52, .67, height[indices])
+    # Anchor the whole cap above the ears. Folded rims can hide themselves
+    # from a radial ray, producing isolated lower weights on a rigid surface.
+    cap = smoothstep(.58, .72, height[indices])
     result = np.zeros(len(points))
-    result[indices] = height_amount * np.where(np.isfinite(depth), surface_amount, cap) * near_axis
+    amount = height_amount * np.where(np.isfinite(depth), surface_amount, 0.)
+    result[indices] = np.maximum(amount, cap) * near_axis
     return result
 
 
