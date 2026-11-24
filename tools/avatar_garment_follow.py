@@ -3,7 +3,7 @@ import bpy
 from mathutils import Vector
 
 from avatar_dress import dress_profile, knee_profile_weights
-from avatar_rig_defaults import FOLLOW
+from avatar_rig_defaults import FOLLOW, SPRINGS
 from avatar_skirt_fit_io import rest_edit
 from avatar_skirt_follow import set_constraint, set_rest_frame
 
@@ -79,11 +79,16 @@ def install_garment_follow(rig, chains):
             continue
         # A high coat attachment stays on the torso. Start thigh follow at
         # the first available joint near the socket that still has a free link.
+        lower = chain.get('coat_lower_root')
+        first_lower = names.index(lower) if lower in names else 0
         start = next((i for i, bone in enumerate(bones[:-1])
-                      if bone.head_local.z <= hip + .18 * (hip - knee)), None)
+                      if i >= first_lower and bone.head_local.z <= hip + .18 * (hip - knee)), None)
         if start is None:
             continue
         starts = [(start, thigh.name, 'Skirt', None)]
+        spine = chain.get('coat_spine')
+        if start and spine in rig.data.bones:
+            starts.insert(0, (0, spine, None, None))
         top, bottom = bones[start].head_local.z, bones[-1].head_local.z
         if top > knee > bottom and dress_profile(top, bottom, knee, ankle, len(bones)-start)['lower_follow']:
             candidates = range(start + 1, len(bones) - 1)
@@ -119,7 +124,10 @@ def install_garment_follow(rig, chains):
                         tips[spring_name, index] = tip.name
                         joint.use_connect = False
                         joint.parent = tip
-                    name = _attach(edit, joint, target, joint.name + '_' + label + 'Follow', group, profile)
+                    # Omit the torso suffix from the helper stem to fit the
+                    # armature's name limit in both host packages.
+                    stem = joint.name.replace('_Accessory_SurfacePanel_', '_Coat_') if group is None else joint.name
+                    name = _attach(edit, joint, target, stem + '_' + label + 'Follow', group, profile)
                     edit[name][TAG + 'coat_follow'] = True
                     attachments.append((name, target, group, profile))
         finally:
@@ -143,6 +151,7 @@ def install_garment_follow(rig, chains):
     sections = {}
     for chain, spring_name, names, starts in plans:
         upper = springs[spring_name]
+        torso_boundary = next((index for index, _, group, _ in starts if group == 'Skirt'), 0)
         bounds = [0] + [index for index, *_ in starts if index] + [len(names)]
         records = []
         for joint in upper.joints:
@@ -176,7 +185,35 @@ def install_garment_follow(rig, chains):
                         joint[key] = value
             # Include original root skin weights if the first joint was fixed.
             skin_names = list(chain['names'][:chain['names'].index(names[0])]) if a == 0 else []
+            torso = bool(chain.get('coat_torso') or (chain.get('coat_spine') and 0 < torso_boundary == b))
+            if chain.get('coat_lower_root') and (torso or 0 < torso_boundary <= a):
+                defaults = SPRINGS['Accessory']
+                # Front panels inherit motion over the knees from these
+                # torso roots. Keep that side firmer so fast leg lifts don't
+                # catch the hem as the side and rear fabric move more freely.
+                if torso:
+                    hips = rig.data.bones.get('Hips')
+                    radial = rig.data.bones[names[a]].head_local - (hips.head_local if hips else midpoint)
+                    radial.z = 0.
+                    front = radial.normalized().dot(forward)
+                    firmness = max(0., min(1., (front+.15)/.72))
+                    firmness = firmness*firmness*(3.-2.*firmness)
+                for j, joint in enumerate(spring.joints):
+                    if torso:
+                        joint.stiffness *= 1.15+1.05*firmness
+                        joint.drag_force = max(joint.drag_force, .42+.14*firmness)
+                        joint.gravity_power *= .28
+                    else:
+                        # Continue the taper across an optional knee split.
+                        t = min(1., (a + j - torso_boundary) / max(1, len(names)-torso_boundary-2))
+                        drape = t*t*(3.-2.*t)
+                        joint.stiffness *= .90-.28*drape
+                        joint.drag_force = min(1., joint.drag_force+.04*drape)
+                        joint.gravity_power *= 1.+.75*drape
+                    joint[TAG + 'stiffness_ratio'] = joint.stiffness / defaults['stiffness']
+                    joint[TAG + 'generated_drag_ratio'] = joint.drag_force / defaults['drag']
+                    joint[TAG + 'generated_gravity_ratio'] = joint.gravity_power / defaults['gravity']
             parts.append(dict(chain, names=skin_names + names[a:b], spring_name=spring.vrm_name,
-                              coat_hem=rig.data.bones[names[-1]].head_local.z))
+                              coat_torso=torso, coat_hem=rig.data.bones[names[-1]].head_local.z))
         sections[id(chain)] = parts
     return [part for chain in chains for part in sections.get(id(chain), [chain])], report

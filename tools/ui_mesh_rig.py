@@ -1,4 +1,6 @@
 """Mesh-only automatic rigging UI; original rigs are never inference inputs."""
+# Built on the base auto-rigger provided by Tyler Walker's BVT and expanded
+# and improved for Hallway.
 import json,re
 from pathlib import Path
 import bpy

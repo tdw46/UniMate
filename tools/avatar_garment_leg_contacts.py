@@ -108,6 +108,7 @@ def plan_leg_contacts(rig, meshes, chains, height, prefix):
         hem = chain.get('coat_hem', min(p.z for p, _ in samples))
         calf = rig.data.bones.get(calf_names[legs[owner]['side']]) if owner else None
         reaches_calf = calf and hem < (calf.head_local.z + calf.tail_local.z)*.5
+        knee_length_coat = chain.get('coat_lower_root') and not reaches_calf
         taper = 0. if reaches_calf else min(1., max(0., (front-.30)/.45))
         directional = 1. - .65*taper*taper*(3.-2.*taper)
         specs = []
@@ -125,6 +126,10 @@ def plan_leg_contacts(rig, meshes, chains, height, prefix):
                 specs.append(dict(bone=bone_name,offset=a.tolist(),tail=b.tolist(),radius=radius,
                                   minimum_rest_clearance=_clearance(local,hits,a,b)-radius,kind='round'))
             if owner is None or data['side']!=legs[owner]['side']:
+                continue
+            # A broad shin capsule reaches back over the knee as it bends.
+            # A coat that ends above mid-calf needs the rounded fallback there.
+            if knee_length_coat and bone_name in calf_names.values():
                 continue
             mid=inv@Vector(center);normal=np.array((mid.x,0.,mid.z));norm=float(np.linalg.norm(normal))
             if norm<height*.001:

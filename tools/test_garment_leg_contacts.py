@@ -55,6 +55,13 @@ assert all(s['bone'].endswith('.L') for s in guards),'Opposite side directional 
 assert all(abs(Vector(s['tail']).y-Vector(s['offset']).y-.4)<1e-5 for s in specs)
 assert all(s['minimum_rest_clearance']>=.0015-1e-7 for s in specs)
 assert min(s['radius'] for s in rounds)>.07,'Legs fell back to undersized material-based fit'
+near_knee = dict(chain, coat_lower_root=names[0], coat_hem=.44)
+long_coat = dict(near_knee, coat_hem=.19)
+knee_specs = plan_leg_contacts(rig,[obj],[near_knee],1.,'Secondary_')[0][spring.vrm_name]
+long_specs = plan_leg_contacts(rig,[obj],[long_coat],1.,'Secondary_')[0][spring.vrm_name]
+assert [s for s in knee_specs if s['kind']=='round'] == rounds
+assert [s['bone'] for s in knee_specs if s['kind']=='directional'] == ['Thigh.L']
+assert any(s['bone']=='Shin.L' and s['kind']=='directional' for s in long_specs)
 assert plan_leg_contacts(rig,[obj],[dict(names=names,garment=False)],1.,'Secondary_')[0]=={},'Non-garment spring captured'
 # A below-mid-calf panel splits at its knee while a short hem keeps its attachment.
 short = ext.spring_bone1.springs.add()

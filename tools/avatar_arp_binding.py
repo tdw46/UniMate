@@ -77,7 +77,7 @@ def bind_generated(rig, meshes):
                 total=sum(row.values())
                 if total<=1e-8:raise ValueError('Automatic binding produced an empty influence row')
                 assign(obj,[i],{name:value/total for name,value in row.items()})
-            mod=obj.modifiers.new('BVT deform','ARMATURE');mod.object=rig
+            mod=obj.modifiers.new('HW Deform','ARMATURE');mod.object=rig
             if hasattr(mod,'use_deform_preserve_volume'):mod.use_deform_preserve_volume=False
             mod.show_in_editmode=True;mod.show_on_cage=True
             obj.parent=rig

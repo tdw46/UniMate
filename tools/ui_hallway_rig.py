@@ -52,7 +52,7 @@ class HALLWAY_OT_ResetRigSettings(bpy.types.Operator):
         from properties_hallway_rig import reset_settings
         report = reset_settings(active_rig(context), context)
         self.report({'INFO'}, 'Rig defaults restored' if report['physics_available'] else
-                    'Rig defaults restored; enable BVT for physics preview')
+                    'Rig defaults restored. Enable the spring solver for preview.')
         return {'FINISHED'}
 
 
@@ -204,11 +204,11 @@ class HALLWAY_PT_Rig(bpy.types.Panel):
         row = layout.row(align=True)
         physics_row = row.row(align=True)
         physics_row.enabled = available(context)
-        op = physics_row.operator('hallway.set_physics', text='BVT Physics On' if enabled else 'BVT Physics Off', depress=enabled)
+        op = physics_row.operator('hallway.set_physics', text='Physics On' if enabled else 'Physics Off', depress=enabled)
         op.enabled = not enabled
         row.operator('hallway.reset_rig_settings', text='Reset')
         if not available(context):
-            layout.label(text='Enable BVT for physics preview', icon='INFO')
+            layout.label(text='Enable the spring solver for physics preview', icon='INFO')
         col = layout.column()
         col.enabled = rig.mode != 'EDIT'
         for group in settings.follow_groups:

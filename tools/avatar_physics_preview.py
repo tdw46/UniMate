@@ -21,12 +21,12 @@ def enabled(context=None):
 def set_simulation(value, context=None):
     context = context or bpy.context
     if not available(context):
-        raise RuntimeError('Enable Beyond VTuber Tools to use physics preview')
+        raise RuntimeError('Enable the supported spring solver to use physics preview')
     if enabled(context) != bool(value):
         with bpy.context.temp_override(scene=context.scene):
             result = bpy.ops.bvt.set_spring_simulation(enabled=bool(value))
         if result != {'FINISHED'}:
-            raise RuntimeError('BVT could not change spring simulation')
+            raise RuntimeError('The spring solver could not change simulation')
     return enabled(context)
 
 
@@ -51,15 +51,15 @@ def reset(context=None):
 def bvt_runtime(*required):
     """Resolve the enabled BVT runtime without copying any of its solver code."""
     if not available():
-        raise RuntimeError('Enable Beyond VTuber Tools before running physics')
+        raise RuntimeError('Enable the supported spring solver before running physics')
     modules = [module for name, module in sys.modules.items()
                if name.endswith('.VRM_SpringSimulation') and 'beyond_vrm_extension_suite' in name]
     if len(modules) != 1:
-        raise RuntimeError('Could not resolve a single enabled BVT spring runtime')
+        raise RuntimeError('Could not resolve a single enabled spring runtime')
     module = modules[0]
     missing = [name for name in required if not callable(getattr(module, name, None))]
     if missing:
-        raise RuntimeError('Installed BVT lacks the required simulation API: ' + ', '.join(missing))
+        raise RuntimeError('The installed spring solver lacks the required simulation API: ' + ', '.join(missing))
     return module
 
 
@@ -69,7 +69,7 @@ def background_step(seconds, scene=None):
         raise RuntimeError('Explicit stepping is only allowed in background Blender')
     scene = scene or bpy.context.scene
     if not enabled():
-        raise RuntimeError('Enable BVT simulation before stepping')
+        raise RuntimeError('Enable spring simulation before stepping')
     module = bvt_runtime('_simulate_scene_duration')
     return module._simulate_scene_duration(scene, seconds, update_dependencies=True)
 
@@ -84,7 +84,7 @@ def cached_animation(scene):
                          'finish_true_preview_animation_render')
     try:
         if not module.prepare_true_preview_animation_render(scene):
-            raise RuntimeError('BVT could not prepare the spring animation cache')
+            raise RuntimeError('The spring solver could not prepare the animation cache')
         def apply(frame):
             scene.frame_set(frame)
             module.apply_true_preview_render_spring_frame(scene)
@@ -96,8 +96,8 @@ def cached_animation(scene):
 
 class HALLWAY_OT_SetPhysics(bpy.types.Operator):
     bl_idname = 'hallway.set_physics'
-    bl_label = 'Toggle BVT Physics'
-    bl_description = 'Enable or disable Beyond VTuber Tools spring simulation'
+    bl_label = 'Toggle Physics'
+    bl_description = 'Enable or disable spring simulation'
     enabled: bpy.props.BoolProperty(default=True)
 
     @classmethod
@@ -111,7 +111,7 @@ class HALLWAY_OT_SetPhysics(bpy.types.Operator):
 
 class HALLWAY_OT_ResetPhysics(bpy.types.Operator):
     bl_idname = 'hallway.reset_physics'
-    bl_label = 'Reset BVT Physics'
+    bl_label = 'Reset Physics'
 
     @classmethod
     def poll(cls, context):
