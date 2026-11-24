@@ -33,6 +33,11 @@ report=close_attachment(rig,obj);assert report['pairs']>0,report
 # Fully shared core: body and arm at z~.80, below the preserved cap.
 a=20*columns+4;b=a+rows*columns
 assert before[a]!=before[b] and weights(obj,a)==weights(obj,b), (weights(obj,a),weights(obj,b))
+# Near the bottom of the shared attachment, the sleeve leads both banks.
+# A constant half/half mean fails this case and creates a backward-swing notch.
+posterior=15*columns+4
+assert weights(obj,posterior)==weights(obj,posterior+rows*columns)
+assert weights(obj,posterior).get('UpperArm.L',0)>.80, 'Distal shared rim lost sleeve support'
 assert weights(obj,finger)=={'Index1.L':1.}
 assert all(weights(obj,v.index).get('Index1.L',0)==0 for v in data.vertices if v.index!=finger), 'Finger weights leaked into attachment smoothing'
 for v in data.vertices:

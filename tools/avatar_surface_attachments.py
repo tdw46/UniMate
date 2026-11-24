@@ -242,21 +242,14 @@ def install_garment_contacts(rig,meshes,plan,prefix):
         existing=next((spec for spec in body if spec['bone']==name),None)
         if existing:existing['body_radius']=max(existing['body_radius'],radius)
         else:body.append(dict(bone=name,body_radius=radius))
-    # An upper thigh can swing into a short hem even when its entire rest
-    # segment sits below the cloth. Use the fitted radius, with an anatomical
-    # fallback for covered skin, and test the swept reach from the hip socket.
-    humanoid = rig.data.vrm_addon_extension.vrm1.humanoid.human_bones
-    thighs = {leg.node.bone_name for leg in (humanoid.left_upper_leg, humanoid.right_upper_leg)}
-    legs=set(thighs)
-    hem=min((c['line'][-1].z for c in plan['chains'] if c.get('garment')),default=float('inf'))
-    for node in (humanoid.left_lower_leg,humanoid.right_lower_leg):
-        bone=rig.data.bones.get(node.node.bone_name)
-        if bone and hem<bone.head_local.z:legs.add(bone.name)
-    for name in legs:
-        bone = rig.data.bones.get(name)
-        if bone and not any(entry['bone'] == name for entry in body):
-            body.append(dict(bone=name, body_radius=.16 * bone.length))
+    from avatar_garment_leg_contacts import plan_leg_contacts, fit_directional_capsule
+    leg_contacts, leg_fits = plan_leg_contacts(rig, meshes, plan['chains'], fit['height'], prefix)
+    # Leg coverage is independently fitted per garment chain. Keep the existing
+    # torso contacts, but do not retain the undersized generic accessory legs.
+    legs = set(leg_fits)
+    body = [spec for spec in body if spec['bone'] not in legs]
     sb=rig.data.vrm_addon_extension.spring_bone1;count=0;clearances=[];shared={}
+    torso_faces = 0
     from avatar_vrm_colliders import call_operator,cleanup_orphan_displays
     owned={g.uuid for g in sb.collider_groups if g.vrm_name.startswith(prefix+'JacketContact_')}
     used={r.collider_uuid for g in sb.collider_groups if g.uuid in owned for r in g.colliders}
@@ -268,7 +261,7 @@ def install_garment_contacts(rig,meshes,plan,prefix):
     cleanup_orphan_displays(rig)
     for chain in plan['chains']:
         if not chain.get('garment'):continue
-        name=chain['names'][0].rsplit('_',1)[0]
+        name=chain.get('spring_name', chain['names'][0].rsplit('_',1)[0])
         spring=next(s for s in sb.springs if s.vrm_name==name)
         # Generic accessory capsules were fitted to all chains together. Own
         # this generated jacket chain's tighter, individually clear envelope.
@@ -278,18 +271,30 @@ def install_garment_contacts(rig,meshes,plan,prefix):
                  for j,t in zip(spring.joints,spring.joints[1:])]
         for spec in body:
             b=rig.data.bones[spec['bone']]
+            if chain.get('coat_torso') and b.name not in ('Hips', 'Spine', 'UpperSpine', 'Chest'):
+                continue
             if not samples:
                 continue
-            if b.name in legs:
-                radius = spec['body_radius']
-                if all((p - b.head_local).length > b.length + radius + r for p, r in samples):
-                    continue
-                segments = [(Vector((0., 0., 0.)), Vector((0., b.length * .85, 0.)))]
-            else:
-                if max(b.head_local.z,b.tail_local.z)<min(p.z for p,_ in samples)-fit['height']*.03:continue
-                if min(b.head_local.z,b.tail_local.z)>max(p.z for p,_ in samples)+fit['height']*.05:continue
-                offsets = [Vector((0., b.length * t, 0.)) for t in (.25, .75)]
-                segments = [(offset, offset) for offset in offsets]
+            if max(b.head_local.z,b.tail_local.z)<min(p.z for p,_ in samples)-fit['height']*.03:continue
+            if min(b.head_local.z,b.tail_local.z)>max(p.z for p,_ in samples)+fit['height']*.05:continue
+            if chain.get('coat_torso') and b.name in ('Hips', 'Spine', 'UpperSpine'):
+                inv = b.matrix_local.inverted_safe()
+                local = np.asarray([tuple(inv @ point) for point, _ in samples])
+                normal = local.mean(axis=0)
+                normal[1] = 0.
+                length = np.linalg.norm(normal)
+                if length > fit['height']*.001:
+                    contact = fit_directional_capsule(
+                        b, local, np.asarray([hit for _, hit in samples]),
+                        normal/length, spec['body_radius'], fit['margin'], .35)
+                    if contact:
+                        group.colliders.add().collider_uuid = add_capsule(rig, contact).uuid
+                        count += 1
+                        torso_faces += 1
+                        clearances.append(contact['minimum_rest_clearance'])
+                        continue
+            offsets = [Vector((0., b.length * t, 0.)) for t in (.25, .75)]
+            segments = [(offset, offset) for offset in offsets]
             for offset, tail in segments:
                 a, end = b.matrix_local @ offset, b.matrix_local @ tail
                 surface_distance = min(distance(p, a, end) - r for p, r in samples)
@@ -302,6 +307,28 @@ def install_garment_contacts(rig,meshes,plan,prefix):
                     count += 1
                 group.colliders.add().collider_uuid = shared[key]
                 clearances.append(surface_distance - radius)
+        for spec in leg_contacts.get(name, []):
+            key = (spec['bone'], tuple(spec['offset']), tuple(spec['tail']), float(spec['radius']))
+            if key not in shared:
+                shared[key] = add_capsule(rig, spec).uuid
+                count += 1
+            group.colliders.add().collider_uuid = shared[key]
+            clearances.append(spec['minimum_rest_clearance'])
         spring.collider_groups.add().collider_group_uuid=group.uuid
+    # Retire the generated generic accessory group only once all its springs
+    # have their own contacts. Preserve groups still used by any other spring.
+    referenced = {r.collider_group_uuid for s in sb.springs for r in s.collider_groups}
+    retired = {g.uuid for g in sb.collider_groups
+               if g.vrm_name == prefix+'AccessoryBody' and g.uuid not in referenced}
+    obsolete = {r.collider_uuid for g in sb.collider_groups if g.uuid in retired for r in g.colliders}
+    retained = {r.collider_uuid for g in sb.collider_groups if g.uuid not in retired for r in g.colliders}
+    for i in reversed(range(len(sb.collider_groups))):
+        if sb.collider_groups[i].uuid in retired:
+            call_operator('remove_spring_bone1_collider_group',rig,collider_group_index=i)
+    for i in reversed(range(len(sb.colliders))):
+        if sb.colliders[i].uuid in obsolete-retained:
+            call_operator('remove_spring_bone1_collider',rig,collider_index=i)
+    cleanup_orphan_displays(rig)
     organize_colliders(rig)
-    return dict(colliders=count,minimum_rest_clearance=min(clearances) if clearances else None)
+    return dict(colliders=count,minimum_rest_clearance=min(clearances) if clearances else None,
+                leg_fits=leg_fits,leg_contacts=leg_contacts,torso_faces=torso_faces)

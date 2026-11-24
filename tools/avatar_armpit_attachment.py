@@ -31,7 +31,13 @@ def close_attachment(rig,obj):
    _,b,dist=tree.find(p[a])
    if dist>L*.025:continue
    if _protected(weights(obj,a)) or _protected(weights(obj,b)):continue
-   f=float(1-smooth((max(t[a],t[b])-.45)/.17));ra=weights(obj,a);rb=weights(obj,b);mean=normalized({n:(ra.get(n,0)+rb.get(n,0))*.5 for n in ra.keys()|rb.keys()})
+   f=float(1-smooth((max(t[a],t[b])-.45)/.17));ra=weights(obj,a);rb=weights(obj,b)
+   # A fixed 50/50 mean creates an arm-weight valley below the heat-bound
+   # shoulder: arm -> torso -> arm folds the sleeve during backward swing.
+   # Keep the proximal shared blend, then let the sleeve lead the attachment
+   # progressively. Apply the same rule around the entire cut rim.
+   arm_share=.5+.35*float(smooth((max(t[a],t[b])-.2)/.25))
+   mean=normalized({n:ra.get(n,0)*arm_share+rb.get(n,0)*(1-arm_share) for n in ra.keys()|rb.keys()})
    for i,r in ((a,ra),(b,rb)):anchor[i]=normalized({n:(1-f)*r.get(n,0)+f*mean.get(n,0) for n in r.keys()|mean.keys()})
    pairs.append((a,b))
  if not anchor:return {}

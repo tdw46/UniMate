@@ -10,7 +10,7 @@ def organize_bones(rig):
     physics = {j.node.bone_name for s in ext.spring_bone1.springs
                if s.vrm_name.startswith('Secondary_') for j in s.joints} if ext else set()
     for bone in rig.data.bones:
-        if bone.get('hallway_constraint_group') or bone.name.startswith('Secondary_SkirtFollow_'):
+        if bone.get('hallway_constraint_group') or bone.get('hallway_coat_follow') or bone.name.startswith('Secondary_SkirtFollow_'):
             role = 'Constraints'
         elif bone.name in physics or bone.name.startswith(('Secondary_Hair_', 'Secondary_Skirt_')):
             role = 'Physics'  # Includes attachment roots and terminal joints.

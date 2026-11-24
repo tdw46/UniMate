@@ -731,6 +731,8 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
             configure_hair_spring(spring, rig, height)
         elif 'panel_mount' in chain:
             _write_panel_transition(sb, chain, center, spring)
+    from avatar_garment_follow import install_garment_follow
+    contact_chains, coat_follow = install_garment_follow(rig, plan['chains'])
     from avatar_colliders import rebuild_colliders
     metadata = rebuild_colliders(rig, meshes, roles)
     free_panels = {c['names'][0].rsplit('_', 1)[0] for c in plan['chains'] if 'panel_mount' in c}
@@ -738,7 +740,9 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         _fit_free_panel_radii(rig, metadata['collider_details'], height, free_panels)
     if any(c.get('garment') for c in plan['chains']):
         from avatar_surface_attachments import install_garment_contacts
-        metadata['garment_contacts']=install_garment_contacts(rig,meshes,plan,PREFIX)
+        metadata['garment_contacts']=install_garment_contacts(
+            rig, meshes, dict(plan, chains=contact_chains), PREFIX)
+        metadata['coat_follow'] = coat_follow
     if any(c['role']=='hair' for c in plan['chains']):
         from avatar_hair_contacts import install_hair_contacts, fit_generated_hair_radii
         metadata['hair_contacts'] = install_hair_contacts(rig, meshes, roles)
