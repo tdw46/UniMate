@@ -1,4 +1,6 @@
 """The installed Hallway addon must not load or schedule its old solver."""
+import json
+import os
 import sys
 from pathlib import Path
 import bpy
@@ -12,10 +14,14 @@ import avatar_physics_preview as preview
 assert not preview.available()
 assert not bpy.ops.hallway.set_physics.poll()
 assert bpy.types.HALLWAY_PT_Rig.bl_category=='Hallway'
+assert bpy.ops.hallway.set_physics.get_rna_type().name == 'Toggle Physics'
+assert bpy.ops.hallway.reset_physics.get_rna_type().name == 'Reset Physics'
 assert not any(getattr(fn,'__module__','').startswith('avatar_') for fn in bpy.app.handlers.frame_change_post)
 for _ in range(2):
     addon_utils.disable('hallway_rig',default_set=True)
     assert not hasattr(bpy.types,'HALLWAY_PT_Rig')
     addon_utils.enable('hallway_rig',default_set=True)
 assert 'avatar_spring_runtime' not in sys.modules
-print('HALLWAY_BVT_DELEGATION_OK: no internal solver, missing-BVT controls disabled, reload passed',flush=True)
+if result := os.environ.get('BEYOND_UI_TEST_RESULT'):
+    Path(result).write_text(json.dumps(dict(passed=True, hw_physics_labels=True, addon_reload=True)))
+print('HW_PHYSICS_PREVIEW_OK',flush=True)

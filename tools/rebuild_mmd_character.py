@@ -201,6 +201,9 @@ def rebuild(source, meshes, specs=None, skirt_segments=None, *, secondary=True, 
         binding['armpit_attachment']=blend_repaired_armpits(rig,meshes)
     from mesh_landmarks.arm_separation import limit_generated_fill_weights
     binding['generated_fill_limits']=limit_generated_fill_weights(meshes)
+    if source is None:
+        from avatar_head_weights import correct_generated_faces
+        binding['fused_facial_ownership'] = correct_generated_faces(rig, meshes)
     sums=[sum(weights(o,v.index).values()) for o in meshes for v in o.data.vertices]
     assert min(sums)>.9999 and max(sums)<1.0001, (min(sums),max(sums))
     assert all(g.name in rig.data.bones for o in meshes for g in o.vertex_groups)

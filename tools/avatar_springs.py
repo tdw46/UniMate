@@ -679,6 +679,7 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
         # A terminal tassel inherits the last integrated link. Including the
         # mesh tip would integrate another spring and flick the tassel twice.
         stop = -1 if chain['role'] == 'pendant' else None
+        lower = chain['names'].index(chain['coat_lower_root']) if chain.get('coat_lower_root') else 0
         for i, name in enumerate(chain['names'][start:stop]):
             joint = spring.joints.add()
             joint.node.bone_name = name
@@ -701,7 +702,9 @@ def _write_vrm(rig, meshes, plan, roles, spring_center=None):
                 continue
             from avatar_rig_defaults import SPRINGS
             defaults = SPRINGS['Head Accessories' if chain['role']=='ornament' else 'Hanging Straps' if chain['role']=='accessory' and '_Strand_' in chain['names'][0] else chain['role'].title()]
-            joint.stiffness = defaults['stiffness'] * (1. if chain['role']=='ornament' or chain.get('serial_accessory') else 1-.10*i)
+            # Extending the torso must not consume the lower links' stiffness falloff.
+            link = start + i - lower if lower and start + i >= lower else i
+            joint.stiffness = defaults['stiffness'] * (1. if chain['role']=='ornament' or chain.get('serial_accessory') else 1-.10*link)
             joint.drag_force = defaults['drag']
             joint.gravity_power = defaults['gravity']
             if chain.get('articulated_fittings'):

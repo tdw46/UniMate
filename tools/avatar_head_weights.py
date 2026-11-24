@@ -1,9 +1,10 @@
-"""Head ownership for an upright bare-skin bust in rig-local coordinates.
+"""Head ownership for upright characters in rig-local coordinates.
 
 Heat supplies the neck transition. A measured neck-shaft envelope distinguishes
 projecting jaw/skull surfaces from the shaft; the cranial region is rigid Head.
 This semantic correction does not change geometry or expand the voxel patch.
 """
+import re
 import numpy as np
 from avatar_apparel_weights import weights, assign
 
@@ -73,3 +74,156 @@ def correct_head_weights(meshes,rig,surface_samples=None):
             if new!=old:assign(obj,[v.index],new);changed+=1
     audit['changed_vertices']=changed
     return audit
+
+
+def projecting_chin_ownership(points, head, neck, front_depth):
+    """Find a projecting jaw above an anonymous neck or collar surface."""
+    root = np.asarray(head.head_local)
+    length = head.length
+    columns = root[0] + np.linspace(-.62, .62, 39)*length
+    levels = np.linspace(neck.head_local.z-.12*length, root[2]+.96*length, 121)
+    profile = np.array([[front_depth(x, z) for z in levels] for x in columns])
+    # A jaw projects forward suddenly as the scan passes its lower rim.
+    # Search below the mouth and require a coherent ledge across the face.
+    search = np.flatnonzero(levels[2:] < root[2]-.11*length)
+    if not len(search):
+        return np.zeros(len(points))
+    delta = profile[:, :-2]-profile[:, 2:]
+    delta = np.where(np.isfinite(delta), delta, 0.)
+    strongest = search[np.argmax(delta[:, search], axis=1)]
+    accepted = (delta[np.arange(len(columns)), strongest] > .055*length
+                ) & np.isfinite(profile[:, -1])
+    middle = len(columns)//2
+    center = strongest[middle-2:middle+3][accepted[middle-2:middle+3]]
+    if len(center) < 3 or not accepted[middle]:
+        return np.zeros(len(points))
+    anchor = np.median(center)
+    accepted &= abs(levels[strongest]-levels[int(anchor)]) < .26*length
+    first = last = middle
+    while first > 0 and accepted[first-1]:
+        first -= 1
+    while last+1 < len(columns) and accepted[last+1]:
+        last += 1
+    if last-first < 8:
+        return np.zeros(len(points))
+    chin_levels = levels[np.minimum(strongest+2, len(levels)-1)]
+    # If the lip is hidden at an outer cheek, raise the lower boundary
+    # toward the atlas as it approaches the lateral edge of the face.
+    for outside, edge in ((slice(0,first), first), (slice(last+1,None), last)):
+        distance = np.abs(columns[outside]-columns[edge])/length
+        blend = smoothstep(0., .22, distance)
+        chin_levels[outside] = ((1.-blend)*chin_levels[edge]+blend*(root[2]+.07*length))
+    x, y, z = points.T
+    inside = ((x >= columns[0]) & (x <= columns[-1]) &
+              (z >= levels[strongest[first:last+1]].min()-.02*length) & (z <= levels[-1]))
+    indices = np.flatnonzero(inside)
+    xi = np.clip(np.searchsorted(columns, x[indices])-1, 0, len(columns)-2)
+    xt = (x[indices]-columns[xi])/(columns[xi+1]-columns[xi])
+    chin = (1-xt)*chin_levels[xi]+xt*chin_levels[xi+1]
+    probe = np.maximum(z[indices], chin)
+    zi = np.clip(np.searchsorted(levels, probe)-1, 0, len(levels)-2)
+    zt = (probe-levels[zi])/(levels[zi+1]-levels[zi])
+    depth = ((1-xt)*((1-zt)*profile[xi,zi]+zt*profile[xi,zi+1])
+             + xt*((1-zt)*profile[xi+1,zi]+zt*profile[xi+1,zi+1]))
+    margin = .125+.14*smoothstep(-.40,.05,(z[indices]-root[2])/length)
+    side = np.minimum(x[indices]-columns[0], columns[-1]-x[indices])/length
+    amount = (smoothstep(-.043,-.012,(z[indices]-chin)/length)
+              *(1.-smoothstep(margin,margin+.065,(y[indices]-depth)/length))
+              *smoothstep(0.,.10,side)
+              *smoothstep(.22,.37,(neck.head_local.y-y[indices])/length)
+              *(1.-smoothstep(.83,.96,(z[indices]-root[2])/length)))
+    result = np.zeros(len(points))
+    result[indices] = np.where(np.isfinite(amount), amount, 0.)
+    return result
+
+
+def cranial_ownership(points, head, radial_depth):
+    """Trace the skull from inside so an outer collar cannot seed ownership."""
+    root = np.asarray(head.head_local)
+    axis = np.asarray(head.tail_local) - root
+    length = head.length
+    height = (points[:, 2] - root[2]) / length
+    indices = np.flatnonzero(height > -.16)
+    z = points[indices, 2]
+    center_xy = root[:2] + np.maximum(0., (z - root[2]) / axis[2])[:, None] * axis[:2]
+    radial = points[indices, :2] - center_xy
+    radius = np.linalg.norm(radial, axis=1)
+    angle = np.arctan2(radial[:, 0], -radial[:, 1])
+    # The jaw sits lower in front while the back of the neck needs a longer
+    # blend. The ear sits beside the atlas and is already on the skull.
+    front = smoothstep(-.46, .62, np.cos(angle))
+    rigid_height = .26 - .34 * front
+    height_amount = smoothstep(rigid_height - .16, rigid_height, height[indices])
+    depth = radial_depth(z, angle)
+    surface_amount = 1. - smoothstep(.038, .105, (radius - depth) / length)
+    near_axis = 1. - smoothstep(.78, .98, radius / length)
+    # At the crown a ray can miss a vertex tangent to the scan plane.
+    # Only fall back to the central cap well above the neck.
+    cap = smoothstep(.52, .67, height[indices])
+    result = np.zeros(len(points))
+    result[indices] = height_amount * np.where(np.isfinite(depth), surface_amount, cap) * near_axis
+    return result
+
+
+def correct_generated_faces(rig, meshes):
+    """Anchor fused facial hair on generated copies with a measured chin ledge."""
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+
+    head, neck = (rig.data.bones.get(n) for n in ('Head', 'Neck'))
+    if head is None or neck is None or head.length < 1e-6:
+        return {}
+    report = {}
+    for obj in meshes:
+        if any(m and not re.fullmatch(r'(?:material|default)(?:[ ._\d]*)',m.name,re.I)
+               for m in obj.data.materials):
+            continue
+        transform = rig.matrix_world.inverted_safe() @ obj.matrix_world
+        points = np.asarray([transform @ v.co for v in obj.data.vertices])
+        if not len(points):
+            continue
+        obj.data.calc_loop_triangles()
+        triangles = [t.vertices[:] for t in obj.data.loop_triangles]
+        if not triangles:
+            continue
+        tree = BVHTree.FromPolygons(points.tolist(), triangles, all_triangles=True)
+        front = float(points[:,1].min()-head.length)
+        reach = float(points[:,1].max()-front+head.length)
+
+        def depth(x, z):
+            p, *_ = tree.ray_cast(Vector((x,front,z)), Vector((0,1,0)), reach)
+            return p.y if p is not None else np.nan
+
+        amount = projecting_chin_ownership(points, head, neck, depth)
+        # Only use the anonymous fused head pass when a forward chin ledge
+        # corroborates the landmarks. It can coexist with explicit skin binding.
+        if not np.any(amount):
+            continue
+        axis = head.tail_local - head.head_local
+        if axis.z > head.length * .5:
+            def radial_depth(z, angle):
+                result = np.empty(len(z))
+                for i, (height, phi) in enumerate(zip(z, angle)):
+                    offset = max(0., (height - head.head_local.z) / axis.z)
+                    center = head.head_local + axis * offset
+                    center.z = height
+                    direction = Vector((np.sin(phi), -np.cos(phi), 0.))
+                    _, _, _, distance = tree.ray_cast(center, direction, head.length)
+                    result[i] = np.nan if distance is None else distance
+                return result
+
+            amount = np.maximum(amount, cranial_ownership(points, head, radial_depth))
+        fixed = np.flatnonzero(amount >= 1.-1e-7).tolist()
+        if fixed:
+            assign(obj, fixed, {'Head':1.})
+        blend = np.flatnonzero((amount > 1e-7) & (amount < 1.-1e-7)).tolist()
+        for i in blend:
+            t = amount[i]
+            row = {n: w*(1.-t) for n,w in weights(obj,i).items()}
+            row['Head'] = row.get('Head',0.)+t
+            row = dict(sorted(row.items(),key=lambda item: (-item[1],item[0]))[:4])
+            total = sum(row.values())
+            assign(obj,[i],{n:w/total for n,w in row.items()})
+        if fixed:
+            report[obj.name] = dict(rigid=len(fixed), blended=len(blend))
+    return report

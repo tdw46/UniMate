@@ -136,7 +136,7 @@ def bind_short_pelvis_cloth(rig,meshes,plan):
     excluded={obj:{i for r in plan['regions'] if r['obj']==obj for i in r['ids']} for obj in meshes}
     supports=[];components=[]
     for obj in meshes:
-        ids={i for r in regions if r['obj']==obj for i in r['ids']}
+        ids={i for r in regions if r['obj']==obj for i in r['ids'] if i not in r.get('coat_owned_ids', ())}
         if not ids:continue
         points=plan['points'][obj.name]
         support,parts=short_support(obj.data,points,ids,hip,knee,height,rig.data.bones['Hips'].head_local[:2])
