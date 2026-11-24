@@ -157,7 +157,12 @@ def cranial_ownership(points, head, radial_depth):
     rigid_height = .26 - .34 * front
     height_amount = smoothstep(rigid_height - .16, rigid_height, height[indices])
     depth = radial_depth(z, angle)
-    surface_amount = 1. - smoothstep(.038, .105, (radius - depth) / length)
+    # An inward fold at an ear can be the first hit even when the outer ear
+    # belongs to the same surface. Allow its radial thickness beside the
+    # head, while keeping the tighter envelope toward a raised rear collar.
+    ear_side = smoothstep(.72, .96, np.abs(np.sin(angle)))
+    inner = .038 + .065 * ear_side
+    surface_amount = 1. - smoothstep(inner, inner + .067, (radius - depth) / length)
     near_axis = 1. - smoothstep(.78, .98, radius / length)
     # Anchor the whole cap above the ears. Folded rims can hide themselves
     # from a radial ray, producing isolated lower weights on a rigid surface.

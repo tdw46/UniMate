@@ -34,7 +34,7 @@ values,audit=head_ownership(np.empty((0,3)),(0,0,0),(0,0,1));assert not audit['a
 # The coat collar extends above the atlas too, farther from the head axis.
 Point = namedtuple('Point', 'x y z')
 probes = np.array([
-    (0., -.8, -.29), (.58, -.1, .14), (-.58, -.1, .14),
+    (0., -.8, -.29), (.69, -.025, .14), (-.69, -.025, .14),
     (0., .58, .80), (0., 0., 1.11), (.76, .28, .14),
     (.22, .75, .44), (0., .25, -.35),
 ])
